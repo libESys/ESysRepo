@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest>
+    <remote name="origin" fetch="ssh://git@gitlab.com/libesys" />
+    <remote name="gerrit" fetch="ssh://git@gitlab.com/libesys/gerrit" />
+    <remote name="extlib" fetch="ssh://git@gitlab.com/libesys/extlib" />
+
+    <default revision="refs/heads/master" remote="origin" sync-j="4" />
+
+    <project name="esys" path="src/esys" remote="gerrit"/>
+	<project name="esysos" path="src/esysos"/>
+    <project name="esysdoc" path="src/esysdoc" remote="gerrit"/>
+    <project name="esyssdk" path="src/esyssdk" remote="gerrit"/>
+    <project name="esysboard" path="src/esysboard" remote="gerrit"/>
+    <project name="esysboot" path="src/esysboot" remote="gerrit"/>
+    <project name="esysbuild" path="src/esysbuild" remote="gerrit"/>
+    <project name="esyscontrib" path="src/esyscontrib" remote="gerrit"/> 
+	<project name="esysc" path="src/esysc" remote="extlib"/>
+    <project name="esyscore" path="src/esyscore" remote="gerrit"/>
+    <project name="esysdep" path="src/esysdep"/>
+    <project name="esysdev" path="." remote="gerrit"/>
+    <project name="esysfile" path="src/esysfile"/>
+    <project name="esysio" path="src/esysio" remote="gerrit"/>
+    <project name="esyslog" path="src/esyslog" remote="gerrit"/> 
+    <project name="esysprog" path="src/esysprog" remote="gerrit"/>
+    <project name="esysproj" path="src/esysproj" remote="gerrit"/>
+    <project name="esysrpc" path="src/esysrpc" remote="gerrit"/>    
+    <project name="esystest" path="src/esystest" remote="gerrit"/>
+    <project name="esystools" path="src/esystools" remote="gerrit"/>  
+    <project name="esysui" path="src/esysui" remote="gerrit"/>
+    <project name="esysiss" path="src/esysiss" remote="gerrit"/>
+    <project name="esyspytools" path="src/esyspytools" remote="gerrit"/>
+    <project name="esysnet" path="src/esysnet" remote="gerrit"/>
+    <project name="esyscrypto" path="src/esyscrypto" remote="gerrit"/>
+    <project name="esysbuildsdk" path="src/esysbuildsdk" remote="gerrit"/>
+    <project name="esysmanifest" path="src/esysmanifest" remote="gerrit"/>
+	<project name="esysres" path="src/esysres"/>
+  
+    <project name="dfuprog" path="src/dfuprog" remote="gerrit"/>
+
+    <project name="arduino1710" remote="extlib" path="extlib/arduino1710"/>
+    <project name="asf" remote="extlib" path="extlib/asf"/>
+    <project name="boost_process" remote="extlib" path="extlib/boost_process"/>
+    <project name="cleware" remote="extlib" path="extlib/cleware"/>
+    <project name="ctb" remote="extlib" path="extlib/ctb"/>
+    <project name="dbg_log" remote="extlib" path="extlib/dbg_log"/>   
+    <project name="freertosv812" remote="extlib" path="extlib/freertosv812"/>
+    <project name="freertosv1000" remote="extlib" path="extlib/freertos"/>
+    <project name="git_hooks" remote="extlib" path="extlib/git_hooks"/>    
+    <project name="mysystemc-231" remote="extlib" path="extlib/mysystemc-231"/>
+    <project name="mysystemc-232" remote="extlib" path="extlib/mysystemc-232"/>
+    <project name="stm32" remote="extlib" path="extlib/stm32"/>    
+    <project name="stm32l4" remote="extlib" path="extlib/stm32l4"/>
+    <project name="stm32f7" remote="extlib" path="extlib/stm32f7"/>
+    <project name="stm32f4" remote="extlib" path="extlib/stm32f4"/>
+    <project name="stm32f1" remote="extlib" path="extlib/stm32f1"/>
+    <project name="stm32f0" remote="extlib" path="extlib/stm32f0"/>
+    <project name="stm32h7" remote="extlib" path="extlib/stm32h7"/>
+    <project name="pyswig" remote="extlib" path="extlib/pyswig"/>
+  
+    <project name="segger_rtt" remote="extlib" path="extlib/segger_rtt"/>
+  
+    <project name="cryptoauthlib" remote="extlib" path="extlib/cryptoauthlib"/>
+
+</manifest>

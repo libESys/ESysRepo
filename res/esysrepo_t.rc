@@ -1,0 +1,83 @@
+/*!
+ * \file esysrepo/esysrepo_t.rc
+ * \brief WIN32 resource file
+ *
+ * \cond
+ * __legal_b__
+ *
+ * __legal_e__
+ * \endcond
+ *
+ */
+
+#include "../include/esys/repo/test/version.h"
+
+esysrepo_t ICON "esysrepo_t.ico"
+
+#ifdef WIN32
+#include <windows.h>
+#endif
+
+#ifdef _MSC_VER
+#define PRIVATEBUILD_T "Visual C++\000"
+#elif __GNUC__
+#define PRIVATEBUILD_T "GNU compiler\000"
+#else
+#define PRIVATEBUILD_T "\000"
+#endif
+
+1 VERSIONINFO
+ FILEVERSION ESYSREPO_T_MAJOR_VERSION,ESYSREPO_T_MINOR_VERSION,ESYSREPO_T_RELEASE_NUMBER,ESYSREPO_T_BETA_NUMBER
+ PRODUCTVERSION ESYSREPO_T_MAJOR_VERSION,ESYSREPO_T_MINOR_VERSION,ESYSREPO_T_RELEASE_NUMBER,ESYSREPO_T_BETA_NUMBER
+ FILEFLAGSMASK 0x3fL
+ FILEFLAGS VS_FF_PRERELEASE
+ FILEOS VOS__WINDOWS32
+ FILETYPE VFT_APP
+ FILESUBTYPE VFT2_UNKNOWN
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        // US English Ascii; see http://msdn.microsoft.com/library/psdk/winui/rc_3rxn.htm for codes
+        //BLOCK "04090000"
+	  /* Language type = U.S English(0x0409) and Character Set = Windows, Multilingual(0x04E4) */
+	  BLOCK "040904E4"
+        BEGIN
+            VALUE "Comments", "esysrepo_t Library\000"
+            VALUE "CompanyName", "HamletG\000"
+            VALUE "FileDescription", "esysrepo_t for Windows\000"
+            VALUE "FileVersion", "esysrepo_t " ESYSREPO_T_VERSION_NUM_DOT_STRING "\000"
+            VALUE "InternalName", "esysrepo_t\000"
+            VALUE "LegalCopyright", "Copyright ￜ 2006 HamletG\000"
+            VALUE "LegalTrademarks", "\000"
+            VALUE "OriginalFilename", "esysrepo_t.exe\000"
+            VALUE "PrivateBuild", PRIVATEBUILD_T
+            VALUE "ProductName", "esysrepo_t\000"
+            VALUE "ProductVersion", ESYSREPO_T_VERSION_NUM_DOT_STRING "\000"
+            VALUE "SpecialBuild", "\000"
+        END
+#ifdef _MSC_VER
+        //US English Unicode; see http://msdn.microsoft.com/library/psdk/winui/rc_3rxn.htm for codes
+        BLOCK "040904b0"
+        BEGIN
+            VALUE "Comments", "esysrepo_t Library\000"
+            VALUE "CompanyName", "HamletG\000"
+            VALUE "FileDescription", "esysrepo_t for Windows\000"
+            VALUE "FileVersion", "esysrepo_t " ESYSREPO_T_VERSION_NUM_DOT_STRING "\000"
+            VALUE "InternalName", "esysrepo_t\000"
+            VALUE "LegalCopyright", "Copyright ￜ 2006 HamletG\000"
+            VALUE "LegalTrademarks", "\000"
+            VALUE "OriginalFilename", "esysrepo_t.exe\000"
+            VALUE "PrivateBuild", PRIVATEBUILD_T
+            VALUE "ProductName", "esysrepo_t\000"
+            VALUE "ProductVersion", ESYSREPO_T_VERSION_NUM_DOT_STRING "\000"
+            VALUE "SpecialBuild", "\000"
+        END
+#endif
+    END
+  BLOCK "VarFileInfo"
+  BEGIN
+    VALUE "Translation", 0x0409, 0x04E4
+  END
+
+END
+

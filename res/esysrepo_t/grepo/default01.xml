@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest>
+    <remote name="origin" fetch="ssh://git@gitlab.com/libesys/" />
+
+    <default revision="refs/heads/master" remote="origin" sync-j="4" />
+
+    <project name="esysbuild/dev" path="."/>
+
+    <project name="esysbuild/esysbuild" path="src/esysbuild"/>
+    <project name="esysrepo/esysrepo" path="src/esysrepo"/>
+
+    <project name="extlib/pyswig" path="extlib/pyswig"/>
+    <project name="esysfile" path="src/esysfile"/>
+    <project name="esystest"  path="src/esystest"/>
+    <project name="esys_cmake_scripts" path="src/esys_cmake_scripts"/>
+    <project name="esysmsvc" path="src/esysmsvc"/>
+</manifest>

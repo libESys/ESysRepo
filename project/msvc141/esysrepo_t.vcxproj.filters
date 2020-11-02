@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{f481cfc3-e23d-4fb8-9d30-05678f2c18ef}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{d2d1e1bb-42fe-4d6a-9753-79d648a39127}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{1b5c50fc-2e58-41eb-8635-7a094d9fcf15}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx</Extensions>
+    </Filter>
+    <Filter Include="Source Files\libgit2">
+      <UniqueIdentifier>{88efb31f-3d40-4d2f-80ad-46d9e822ff7b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\grepo">
+      <UniqueIdentifier>{844fd3d3-3312-461a-ba3f-8b5816683655}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\src\esys\repo\test\esysrepo_t_prec.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\test\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\test\testcasectrl.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\libgit2\test\opengitrepo01_libgit2.cpp">
+      <Filter>Source Files\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\grepo\test\writemanifest01_grepo.cpp">
+      <Filter>Source Files\grepo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\grepo\test\readmanifest01_grepo.cpp">
+      <Filter>Source Files\grepo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\grepo\test\readmanifest02_grepo.cpp">
+      <Filter>Source Files\grepo</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\include\esys\repo\test\esysrepo_t_prec.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\test\version.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\test\testcasectrl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\..\res\esysrepo_t.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>

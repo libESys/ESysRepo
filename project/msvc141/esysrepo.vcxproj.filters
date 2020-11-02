@@ -1,0 +1,161 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx</Extensions>
+    </Filter>
+    <Filter Include="Header Files\git">
+      <UniqueIdentifier>{76447048-800b-40b8-af05-3e97e5bd07a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\gitcmdline">
+      <UniqueIdentifier>{f4f21b68-7013-4650-834f-171aba5112fb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\grepo">
+      <UniqueIdentifier>{516f3acb-9f30-4400-89c2-6129d5b08bc1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\libgit2">
+      <UniqueIdentifier>{c03d20d7-c8b8-46a7-8242-27636f61a881}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\git">
+      <UniqueIdentifier>{0dacf37c-0d01-4017-ad41-a11b4cb73aeb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\gitcmdline">
+      <UniqueIdentifier>{b7879816-5155-4ae2-9074-601485bc25e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\grepo">
+      <UniqueIdentifier>{0c86e9da-de91-4fac-a9af-d7e6ba22a2d6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\libgit2">
+      <UniqueIdentifier>{356ef6db-8bcf-4710-a55b-220a3ec8d47f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\manifest">
+      <UniqueIdentifier>{a992b1cc-43a4-4c91-99a6-c42e62b32061}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\manifest">
+      <UniqueIdentifier>{b81cd0a9-8b7d-42dc-a26b-ea88a630fcac}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\src\esys\repo\esysrepo_dll.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\esysrepo_prec.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\git\remote_git.cpp">
+      <Filter>Source Files\git</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\gitcmdline\git_cmdline.cpp">
+      <Filter>Source Files\gitcmdline</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\libgit2\git_libgit2.cpp">
+      <Filter>Source Files\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\libgit2\gitimpl_libgit2.cpp">
+      <Filter>Source Files\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\gitbase.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\git\branch_git.cpp">
+      <Filter>Source Files\git</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\libgit2\libgit2.cpp">
+      <Filter>Source Files\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\libgit2\guardrelease_libgit2.cpp">
+      <Filter>Source Files\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\grepo\manifest_grepo.cpp">
+      <Filter>Source Files\grepo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\manifest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\manifest\location_manifest.cpp">
+      <Filter>Source Files\manifest</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\manifest\repository_manifest.cpp">
+      <Filter>Source Files\manifest</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\grepo\manifestimpl_grepo.cpp">
+      <Filter>Source Files\grepo</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\include\esys\repo\esysrepo_defs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\esysrepo_prec.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\version.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\autolink.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\git.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\gitbase.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\git\remote.h">
+      <Filter>Header Files\git</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\gitcmdline\git.h">
+      <Filter>Header Files\gitcmdline</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\grepo\manifest.h">
+      <Filter>Header Files\grepo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\libgit2\git.h">
+      <Filter>Header Files\libgit2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\esys\repo\libgit2\gitimpl.h">
+      <Filter>Source Files\libgit2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\git\branch.h">
+      <Filter>Header Files\git</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\git\branchtype.h">
+      <Filter>Header Files\git</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\esys\repo\libgit2\libgit2.h">
+      <Filter>Source Files\libgit2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\esys\repo\libgit2\guardrelease.h">
+      <Filter>Source Files\libgit2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\esys\repo\libgit2\guard.h">
+      <Filter>Source Files\libgit2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\manifest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\manifest\location.h">
+      <Filter>Header Files\manifest</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\manifest\repository.h">
+      <Filter>Header Files\manifest</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\esys\repo\grepo\manifestimpl.h">
+      <Filter>Source Files\grepo</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\..\res\esysrepo.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>
