@@ -211,6 +211,7 @@
     <ClCompile Include="..\..\src\esys\repo\grepo\test\readmanifest01_grepo.cpp" />
     <ClCompile Include="..\..\src\esys\repo\grepo\test\readmanifest02_grepo.cpp" />
     <ClCompile Include="..\..\src\esys\repo\grepo\test\writemanifest01_grepo.cpp" />
+    <ClCompile Include="..\..\src\esys\repo\libgit2\test\clonerepo01_libgit2.cpp" />
     <ClCompile Include="..\..\src\esys\repo\libgit2\test\opengitrepo01_libgit2.cpp" />
     <ClCompile Include="..\..\src\esys\repo\test\esysrepo_t_prec.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugDLL|Win32'">Create</PrecompiledHeader>

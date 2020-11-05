@@ -45,6 +45,8 @@ public:
     int get_remotes(std::vector<git::Remote> &remotes);
     int get_branches(std::vector<git::Branch> &branches, git::BranchType branch_type = git::BranchType::LOCAL);
 
+    int clone(const std::string &url, const std::string &path);
+
     int check_error(int result, const std::string &action = "");
 
     Git *self() const;

@@ -21,6 +21,7 @@
 
 #include <git2.h>
 
+#include <cstring>
 #include <iostream>
 
 namespace esys
@@ -165,6 +166,13 @@ int GitImpl::get_branches(std::vector<git::Branch> &branches, git::BranchType br
     }
 
     return 0;
+}
+
+int GitImpl::clone(const std::string &url, const std::string &path)
+{
+    int result = git_clone(&m_repo, url.c_str(), path.c_str(), nullptr);
+
+    return result;
 }
 
 int GitImpl::check_error(int result, const std::string &action)

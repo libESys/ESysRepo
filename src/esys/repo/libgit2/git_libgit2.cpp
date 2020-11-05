@@ -56,6 +56,11 @@ int Git::get_branches(std::vector<git::Branch> &branches, git::BranchType branch
     return get_impl()->get_branches(branches, branch_type);
 }
 
+int Git::clone(const std::string &url, const std::string &path)
+{
+    return get_impl()->clone(url, path);
+}
+
 GitImpl *Git::get_impl() const
 {
     return m_impl.get();

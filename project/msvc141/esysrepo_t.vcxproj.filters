@@ -42,6 +42,9 @@
     <ClCompile Include="..\..\src\esys\repo\grepo\test\readmanifest02_grepo.cpp">
       <Filter>Source Files\grepo</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\libgit2\test\clonerepo01_libgit2.cpp">
+      <Filter>Source Files\libgit2</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\esys\repo\test\esysrepo_t_prec.h">
