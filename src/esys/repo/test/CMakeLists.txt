@@ -17,12 +17,21 @@ include_directories(
 
 add_definitions(-DESYSTEST_USE_ESYSTEST)
 
+find_package(libssh2 1.9.0 REQUIRED)
+
 set(ESYSREPO_T_CXX_SOURCES
+    configfilewrite01.cpp
+    configfoldercreate01.cpp
     esysrepo_t_prec.cpp
     main.cpp
     testcasectrl.cpp
 )
     
+set(ESYSREPO_T_EXE_CXX_SOURCES
+    ../exe/test/cmdinit01.cpp
+    ../exe/test/cmdsync01.cpp
+)
+
 set(ESYSREPO_T_GREPO_CXX_SOURCES
     ../grepo/test/readmanifest01_grepo.cpp
     ../grepo/test/readmanifest02_grepo.cpp
@@ -31,13 +40,21 @@ set(ESYSREPO_T_GREPO_CXX_SOURCES
 
 set(ESYSREPO_T_LIBGIT2_CXX_SOURCES
     ../libgit2/test/clonerepo01_libgit2.cpp
+    ../libgit2/test/clonerepo02_libgit2.cpp
     ../libgit2/test/opengitrepo01_libgit2.cpp
+    ../libgit2/test/sshagent01.cpp
+)
+
+set(ESYSREPO_T_MANIFEST_CXX_SOURCES
+    ../manifest/test/xmlfileread01_manifest.cpp
+    ../manifest/test/xmlfilewrite01_manifest.cpp
 )
 
 add_executable(esysrepo_t 
     ${ESYSREPO_T_CXX_SOURCES}
     ${ESYSREPO_T_GREPO_CXX_SOURCES}
     ${ESYSREPO_T_LIBGIT2_CXX_SOURCES}
+    ${ESYSREPO_T_MANIFEST_CXX_SOURCES}
     )    
 	
 find_package(Boost 1.66 REQUIRED QUIET COMPONENTS
@@ -50,6 +67,7 @@ target_link_libraries(esysrepo_t PUBLIC
     Boost::iostreams
     Boost::program_options
     Boost::thread
+    Libssh2::libssh2
 )
 
 target_link_libraries(esysrepo_t PUBLIC esystest)

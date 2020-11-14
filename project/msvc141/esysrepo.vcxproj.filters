@@ -43,6 +43,18 @@
     <Filter Include="Source Files\manifest">
       <UniqueIdentifier>{b81cd0a9-8b7d-42dc-a26b-ea88a630fcac}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\exe">
+      <UniqueIdentifier>{8bd6a88f-a8fe-49b2-96b9-6bf94a43e2f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\exe">
+      <UniqueIdentifier>{479137d9-ce29-44e1-84fb-62f70801aac2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\msvc">
+      <UniqueIdentifier>{8ac7e3b6-126e-412e-a731-04f1a5f3bae6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\cmake">
+      <UniqueIdentifier>{ab9b59f0-d67c-4a1b-95d1-fcf4d36aabd3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\esys\repo\esysrepo_dll.cpp">
@@ -89,6 +101,57 @@
     </ClCompile>
     <ClCompile Include="..\..\src\esys\repo\grepo\manifestimpl_grepo.cpp">
       <Filter>Source Files\grepo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\exe\cmdinit.cpp">
+      <Filter>Source Files\exe</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\manifest\fetchbase_manifest.cpp">
+      <Filter>Source Files\manifest</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\manifest\fetch_manifest.cpp">
+      <Filter>Source Files\manifest</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\manifest\fetchgrepo_manifest.cpp">
+      <Filter>Source Files\manifest</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\manifest\fetchesysrepo_manifest.cpp">
+      <Filter>Source Files\manifest</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\manifest\fetchgitsuper_manifest.cpp">
+      <Filter>Source Files\manifest</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\configfolder.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\exe\cmdsync.cpp">
+      <Filter>Source Files\exe</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\configfile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\configfileimpl.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\config.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\manifest\type_manifest.cpp">
+      <Filter>Source Files\manifest</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\manifest\clonerepos_manifest.cpp">
+      <Filter>Source Files\manifest</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\manifest\file_manifest.cpp">
+      <Filter>Source Files\manifest</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\manifest\xmlfile.cpp">
+      <Filter>Source Files\manifest</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\manifest\xmlfileimpl_manifest.cpp">
+      <Filter>Source Files\manifest</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\filesystem.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -151,6 +214,69 @@
     </ClInclude>
     <ClInclude Include="..\..\src\esys\repo\grepo\manifestimpl.h">
       <Filter>Source Files\grepo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\exe\cmdinit.h">
+      <Filter>Header Files\exe</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\manifest\type.h">
+      <Filter>Header Files\manifest</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\manifest\fetchbase.h">
+      <Filter>Header Files\manifest</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\manifest\fetch.h">
+      <Filter>Header Files\manifest</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\manifest\fetchgrepo.h">
+      <Filter>Header Files\manifest</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\manifest\fetchesysrepo.h">
+      <Filter>Header Files\manifest</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\manifest\fetchgitsuper.h">
+      <Filter>Header Files\manifest</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\configfolder.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\exe\cmdsync.h">
+      <Filter>Header Files\exe</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\configfile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\esys\repo\configfileimpl.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\config.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\manifest\clonerepos.h">
+      <Filter>Header Files\manifest</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\manifest\xmlfile.h">
+      <Filter>Header Files\manifest</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\manifest\file.h">
+      <Filter>Header Files\manifest</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\manifest\jsonfile.h">
+      <Filter>Header Files\manifest</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\esys\repo\manifest\xmlfileimpl.h">
+      <Filter>Source Files\manifest</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\filesystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\config_defs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\msvc\config_defs.h">
+      <Filter>Header Files\msvc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\cmake\config_defs.h">
+      <Filter>Header Files\cmake</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

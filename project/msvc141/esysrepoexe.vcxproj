@@ -19,8 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{E9132BE7-6ADC-426A-BEF9-0E9018C01B81}</ProjectGuid>
-    <RootNamespace>esysrepo_t</RootNamespace>
+    <ProjectGuid>{54B99701-96BE-4F02-AB5D-5B2FF5139F7A}</ProjectGuid>
+    <RootNamespace>esysrepoexe</RootNamespace>
     <SccProjectName />
     <SccLocalPath />
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
@@ -74,32 +74,36 @@
     <OutDir>$(ESYSREPO_DEV)\$(esysdevExeOutDir)</OutDir>
     <IntDir>$(ESYSREPO_DEV)\$(esysdevIntRootDir)\</IntDir>
     <LinkIncremental>false</LinkIncremental>
-    <TargetName>$(ProjectName)d</TargetName>
+    <TargetName>esysrepod</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugDLL|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <TargetName>$(ProjectName)d</TargetName>
+    <TargetName>esysrepod</TargetName>
     <OutDir>$(ESYSREPO_DEV)\$(esysdevExeOutDir)</OutDir>
     <IntDir>$(ESYSREPO_DEV)\$(esysdevIntRootDir)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseDLL|Win32'">
     <OutDir>$(ESYSREPO_DEV)\$(esysdevExeOutDir)</OutDir>
-    <IntDir>$(ESYSREPO_DEV)\$(esysdevIntRootDir)</IntDir>
+    <IntDir>$(ESYSREPO_DEV)\$(esysdevIntRootDir)\</IntDir>
     <LinkIncremental>false</LinkIncremental>
+    <TargetName>esysrepo</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseDLL|x64'">
     <LinkIncremental>false</LinkIncremental>
+    <TargetName>esysrepo</TargetName>
+    <OutDir>$(ESYSREPO_DEV)\$(esysdevExeOutDir)</OutDir>
+    <IntDir>$(ESYSREPO_DEV)\$(esysdevIntRootDir)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DebugDLL|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\include;$(ESYSMSVC)\include;$(ESYSTEST)\include;$(ESYS_BOOST);$(ESYS_LIBSSH2)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;BOOST_ALL_DYN_LINK;_WINDLL;LIBSSH2_WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\include;$(ESYSMSVC)\include;$(ESYS_BOOST);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;BOOST_ALL_DYN_LINK;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile>esys/repo/test/$(ProjectName)_prec.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile>$(ProjectName)/$(ProjectName)_prec.h</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>$(IntDir)$(ProjectName).pch</PrecompiledHeaderOutputFile>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
@@ -112,8 +116,8 @@
       <ProgramDatabaseFile>$(OutDir)$(TargetName).pdb</ProgramDatabaseFile>
       <SubSystem>Console</SubSystem>
       <TargetMachine>MachineX86</TargetMachine>
-      <AdditionalLibraryDirectories>$(esysdevLibOutDir);$(ESYSTEST)\$(esysdevLibDir);$(ESYS_BOOST)\$(boostLibDir);$(ESYS_LIBSSH2)\$(esysdevLibDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>libssh2.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(esysdevLibOutDir);$(ESYS_BOOST)\$(boostLibDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>$(ESYSSDK_INST_DIR)\bin\esysdep.exe --copy --x32 $(OutDir)</Command>
@@ -125,13 +129,13 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DebugDLL|x64'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\include;$(ESYSMSVC)\include;$(ESYSTEST)\include;$(ESYS_BOOST);$(ESYS_LIBSSH2)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;BOOST_ALL_DYN_LINK;_WINDLL;LIBSSH2_WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\include;$(ESYSMSVC)\include;$(ESYS_BOOST);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;BOOST_ALL_DYN_LINK;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile>esys/repo/test/$(ProjectName)_prec.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile>$(ProjectName)/$(ProjectName)_prec.h</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>$(IntDir)$(ProjectName).pch</PrecompiledHeaderOutputFile>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
@@ -143,8 +147,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ProgramDatabaseFile>$(OutDir)$(TargetName).pdb</ProgramDatabaseFile>
       <SubSystem>Console</SubSystem>
-      <AdditionalLibraryDirectories>$(esysdevLibOutDir);$(ESYSTEST)\$(esysdevLibDir);$(ESYS_BOOST)\$(boostLibDir);$(ESYS_LIBSSH2)\$(esysdevLibDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>libssh2.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(esysdevLibOutDir);$(ESYS_BOOST)\$(boostLibDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>$(ESYSSDK_INST_DIR)\bin\esysdep.exe --copy --x64 $(OutDir)</Command>
@@ -155,11 +159,11 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseDLL|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\..\include;$(ESYSMSVC)\include;$(ESYSTEST)\include;$(ESYS_BOOST);$(ESYS_LIBSSH2)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;BOOST_ALL_DYN_LINK;_WINDLL;LIBSSH2_WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\include;$(ESYS_BOOST);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;BOOST_ALL_DYN_LINK;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile>esys/repo/test/$(ProjectName)_prec.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile>$(ProjectName)/$(ProjectName)_prec.h</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>$(IntDir)$(ProjectName).pch</PrecompiledHeaderOutputFile>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat />
@@ -173,8 +177,8 @@
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <TargetMachine>MachineX86</TargetMachine>
-      <AdditionalLibraryDirectories>$(esysdevLibOutDir);$(ESYSTEST)\$(esysdevLibDir);$(ESYS_BOOST)\$(boostLibDir);$(ESYS_LIBSSH2)\$(esysdevLibDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>libssh2.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(esysdevLibOutDir);$(ESYS_BOOST)\$(boostLibDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>$(ESYSSDK_INST_DIR)\bin\esysdep.exe --copy --x32 $(OutDir)</Command>
@@ -185,11 +189,11 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseDLL|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\..\include;$(ESYSMSVC)\include;$(ESYSTEST)\include;$(ESYS_BOOST);$(ESYS_LIBSSH2)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;BOOST_ALL_DYN_LINK;_WINDLL;LIBSSH2_WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\include;$(ESYS_BOOST);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;BOOST_ALL_DYN_LINK;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile>esys/repo/test/$(ProjectName)_prec.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile>$(ProjectName)/$(ProjectName)_prec.h</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>$(IntDir)$(ProjectName).pch</PrecompiledHeaderOutputFile>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>
@@ -203,52 +207,33 @@
       <SubSystem>Console</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <AdditionalLibraryDirectories>$(esysdevLibOutDir);$(ESYSTEST)\$(esysdevLibDir);$(ESYS_BOOST)\$(boostLibDir);$(ESYS_LIBSSH2)\$(esysdevLibDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>libssh2.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(esysdevLibOutDir);$(ESYS_BOOST)\$(boostLibDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>$(ESYSSDK_INST_DIR)\bin\esysdep.exe --copy --x32 $(OutDir)</Command>
+      <Command>$(ESYSSDK_INST_DIR)\bin\esysdep.exe --copy --x64 $(OutDir)</Command>
     </PostBuildEvent>
     <ResourceCompile>
       <PreprocessorDefinitions>WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\src\esys\repo\exe\test\cmdinit01.cpp" />
-    <ClCompile Include="..\..\src\esys\repo\exe\test\cmdsync01.cpp" />
-    <ClCompile Include="..\..\src\esys\repo\grepo\test\readmanifest01_grepo.cpp" />
-    <ClCompile Include="..\..\src\esys\repo\grepo\test\readmanifest02_grepo.cpp" />
-    <ClCompile Include="..\..\src\esys\repo\grepo\test\writemanifest01_grepo.cpp" />
-    <ClCompile Include="..\..\src\esys\repo\libgit2\test\clonerepo01_libgit2.cpp" />
-    <ClCompile Include="..\..\src\esys\repo\libgit2\test\clonerepo02_libgit2.cpp" />
-    <ClCompile Include="..\..\src\esys\repo\libgit2\test\opengitrepo01_libgit2.cpp" />
-    <ClCompile Include="..\..\src\esys\repo\libgit2\test\sshagent01.cpp" />
-    <ClCompile Include="..\..\src\esys\repo\manifest\test\xmlfileread01_manifest.cpp" />
-    <ClCompile Include="..\..\src\esys\repo\manifest\test\xmlfilewrite01_manifest.cpp" />
-    <ClCompile Include="..\..\src\esys\repo\test\configfilewrite01.cpp" />
-    <ClCompile Include="..\..\src\esys\repo\test\configfoldercreate01.cpp" />
-    <ClCompile Include="..\..\src\esys\repo\test\esysrepo_t_prec.cpp">
+    <ClCompile Include="..\..\src\esysrepoexe\esysrepoexe.cpp" />
+    <ClCompile Include="..\..\src\esysrepoexe\esysrepoexe_prec.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugDLL|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugDLL|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseDLL|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseDLL|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="..\..\src\esys\repo\test\fscopynorecur01.cpp" />
-    <ClCompile Include="..\..\src\esys\repo\test\main.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseDLL|Win32'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseDLL|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugDLL|Win32'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugDLL|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="..\..\src\esys\repo\test\testcasectrl.cpp" />
+    <ClCompile Include="..\..\src\esysrepoexe\main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\include\esys\repo\test\esysrepo_t_prec.h" />
-    <ClInclude Include="..\..\include\esys\repo\test\testcasectrl.h" />
-    <ClInclude Include="..\..\include\esys\repo\test\version.h" />
+    <ClInclude Include="..\..\include\esysrepoexe\esysrepoexe.h" />
+    <ClInclude Include="..\..\include\esysrepoexe\esysrepoexe_prec.h" />
+    <ClInclude Include="..\..\include\esysrepoexe\version.h" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="..\..\res\esysrepo_t.rc" />
+    <ResourceCompile Include="..\..\res\esysrepoexe.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

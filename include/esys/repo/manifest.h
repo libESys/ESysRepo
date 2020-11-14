@@ -18,6 +18,7 @@
 #pragma once
 
 #include "esys/repo/esysrepo_defs.h"
+#include "esys/repo/manifest/type.h"
 #include "esys/repo/manifest/location.h"
 
 #include <string>
@@ -36,6 +37,9 @@ class ESYSREPO_API Manifest
 public:
     Manifest();
     virtual ~Manifest();
+
+    void set_type(manifest::Type type);
+    manifest::Type get_type() const;
 
     int add_location(std::shared_ptr<manifest::Location> location, bool is_default = false);
     std::vector<std::shared_ptr<manifest::Location>> &get_locations();
@@ -60,6 +64,7 @@ public:
     int get_default_job_count() const;
 
 protected:
+    manifest::Type m_type = manifest::Type::NOT_SET;
     std::vector<std::shared_ptr<manifest::Location>> m_locations;
     std::map<std::string, std::shared_ptr<manifest::Location>> m_map_locations;
     std::shared_ptr<manifest::Location> m_default_location;

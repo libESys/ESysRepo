@@ -19,3 +19,5 @@
 #endif
 
 // TODO: reference additional headers your program requires here
+
+#include "esys/repo/config_defs.h"

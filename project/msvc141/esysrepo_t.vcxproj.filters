@@ -19,6 +19,12 @@
     <Filter Include="Source Files\grepo">
       <UniqueIdentifier>{844fd3d3-3312-461a-ba3f-8b5816683655}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\exe">
+      <UniqueIdentifier>{13efb2e8-3bc0-4b5c-9bea-7e74237cf314}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\manifest">
+      <UniqueIdentifier>{1b64d61a-0039-4e1c-addb-ce8ae248b142}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\esys\repo\test\esysrepo_t_prec.cpp">
@@ -43,6 +49,33 @@
       <Filter>Source Files\grepo</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\esys\repo\libgit2\test\clonerepo01_libgit2.cpp">
+      <Filter>Source Files\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\test\configfoldercreate01.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\test\configfilewrite01.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\exe\test\cmdinit01.cpp">
+      <Filter>Source Files\exe</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\exe\test\cmdsync01.cpp">
+      <Filter>Source Files\exe</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\libgit2\test\sshagent01.cpp">
+      <Filter>Source Files\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\manifest\test\xmlfilewrite01_manifest.cpp">
+      <Filter>Source Files\manifest</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\manifest\test\xmlfileread01_manifest.cpp">
+      <Filter>Source Files\manifest</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\test\fscopynorecur01.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\libgit2\test\clonerepo02_libgit2.cpp">
       <Filter>Source Files\libgit2</Filter>
     </ClCompile>
   </ItemGroup>

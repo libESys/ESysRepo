@@ -10,7 +10,4 @@
 #
 
 add_subdirectory(esys/repo)
-# add_subdirectory(esysrepoexe)
-
-
-
+add_subdirectory(esysrepoexe)

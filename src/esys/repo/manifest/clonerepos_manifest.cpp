@@ -114,6 +114,12 @@ int CloneRepos::clone(std::shared_ptr<manifest::Repository> repository)
 
     boost::filesystem::path path = get_config_folder()->get_parent_path();
     if (repository->get_path() != ".") path /= repository->get_path();
+    else
+    {
+        int i = 0;
+
+        ++i;
+    }
 
     int result = get_git()->clone(url, path.string());
     if (result < 0) return result;

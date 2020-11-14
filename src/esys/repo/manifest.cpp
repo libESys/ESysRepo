@@ -34,6 +34,16 @@ Manifest::~Manifest()
 {
 }
 
+void Manifest::set_type(manifest::Type type)
+{
+    m_type = type;
+}
+
+manifest::Type Manifest::get_type() const
+{
+    return m_type;
+}
+
 int Manifest::add_location(std::shared_ptr<manifest::Location> location, bool is_default)
 {
     assert(location != nullptr);

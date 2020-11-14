@@ -53,6 +53,8 @@ int ManifestImpl::read(const std::string &filename)
     int result = m_file->read(filename);
     if (result < 0) return result;
 
+    self()->get_data()->set_type(manifest::Type::GOOGLE_MANIFEST);
+
     return read(m_file->get_data());
 }
 
@@ -269,6 +271,8 @@ int ManifestImpl::read_project(std::shared_ptr<esysfile::xml::Element> el)
         }
         else if (attr->get_name() == "path")
             project->set_path(attr->get_value());
+        else if (attr->get_name() == "revision")
+            project->set_revision(attr->get_value());
         else
         {
             return -1;
