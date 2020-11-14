@@ -48,6 +48,20 @@ ESYSREPO_API void guard_release<git_reference>(git_reference *reference)
     git_reference_free(reference);
 }
 
+template<>
+ESYSREPO_API void guard_release<git_object>(git_object *object)
+{
+    if (object == nullptr) return;
+    git_object_free(object);
+}
+
+template<>
+ESYSREPO_API void guard_release<git_credential>(git_credential *credential)
+{
+    if (credential == nullptr) return;
+    git_credential_free(credential);
+}
+
 } // namespace libgit2
 
 } // namespace repo

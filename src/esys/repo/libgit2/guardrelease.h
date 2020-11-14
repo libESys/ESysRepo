@@ -46,6 +46,11 @@ ESYSREPO_API void guard_release<git_branch_iterator>(git_branch_iterator *branch
 template<>
 ESYSREPO_API void guard_release<git_reference>(git_reference *reference);
 
+template<>
+ESYSREPO_API void guard_release<git_object>(git_object *object);
+
+template<>
+ESYSREPO_API void guard_release<git_credential>(git_credential *credential);
 
 } // namespace libgit2
 

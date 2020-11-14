@@ -39,9 +39,8 @@ ESYSTEST_AUTO_TEST_CASE(OpenGitRepo01LibGit2)
     boost::filesystem::path file_path;
 
     file_path = repo::test::TestCaseCtrl::get().GetTestFilesFolder();
-    file_path /= ("../../.git");
+    file_path /= ("../..");
 
-    file_path = "C:\\project\\libesys\\esysbuild_manifest";
     Git git;
 
     int result = git.open(file_path.normalize().make_preferred().string());

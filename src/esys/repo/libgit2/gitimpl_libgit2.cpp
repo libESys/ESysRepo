@@ -20,6 +20,7 @@
 #include "esys/repo/libgit2/guard.h"
 
 #include <git2.h>
+#include <libssh2.h>
 
 #include <cstring>
 #include <iostream>
@@ -33,7 +34,7 @@ namespace repo
 namespace libgit2
 {
 
-std::unique_ptr<LibGit2> GitImpl::s_libgt2;
+std::unique_ptr<LibGit2> GitImpl::s_libgt2 = nullptr;
 
 GitImpl::GitImpl(Git *self)
     : m_self(self)
@@ -159,8 +160,7 @@ int GitImpl::get_branches(std::vector<git::Branch> &branches, git::BranchType br
         branch.set_type(branch_type);
 
         result = git_branch_is_head(ref.get());
-        if (result == 1)
-            branch.set_is_head(true);
+        if (result == 1) branch.set_is_head(true);
 
         branches.push_back(branch);
     }
@@ -170,8 +170,47 @@ int GitImpl::get_branches(std::vector<git::Branch> &branches, git::BranchType br
 
 int GitImpl::clone(const std::string &url, const std::string &path)
 {
-    int result = git_clone(&m_repo, url.c_str(), path.c_str(), nullptr);
+    int result = 0;
 
+    if (url.find("https:") == 0)
+        result = git_clone(&m_repo, url.c_str(), path.c_str(), nullptr);
+    else if ((url.find("ssh:") == 0))
+    {
+        git_clone_options opts = GIT_CLONE_OPTIONS_INIT;
+        // opts.fetch_opts.callbacks.connect = &Remote::Callbacks::connect;
+        // opts.fetch_opts.callbacks.disconnect = &Remote::Callbacks::disconnect;
+        // opts.fetch_opts.callbacks.sideband_progress = &Remote::Callbacks::sideband;
+        opts.fetch_opts.callbacks.credentials = &GitImpl::libgit2_credentials;
+        // opts.fetch_opts.callbacks.certificate_check = &Remote::Callbacks::certificate;
+        // opts.fetch_opts.callbacks.transfer_progress = &Remote::Callbacks::transfer;
+        // opts.fetch_opts.callbacks.update_tips = &Remote::Callbacks::update;
+        // opts.fetch_opts.callbacks.resolve_url = &Remote::Callbacks::url;
+        opts.fetch_opts.callbacks.payload = this;
+        // opts.bare = bare;
+        // git_credential_ssh_key_from_agent(m_credential.get_p(), name);
+
+        result = git_clone(&m_repo, url.c_str(), path.c_str(), &opts);
+    }
+    else
+        result = -1;
+
+    return result;
+}
+
+int GitImpl::checkout(const std::string &branch, bool force)
+{
+    Guard<git_object> treeish;
+
+    int result = git_revparse_single(treeish.get_p(), m_repo, branch.c_str());
+    if (result < 0) return result;
+
+    git_checkout_options opts = GIT_CHECKOUT_OPTIONS_INIT;
+    if (force)
+        opts.checkout_strategy = GIT_CHECKOUT_FORCE;
+    else
+        opts.checkout_strategy = GIT_CHECKOUT_SAFE;
+
+    result = git_checkout_tree(m_repo, treeish.get(), &opts);
     return result;
 }
 
@@ -190,6 +229,39 @@ int GitImpl::check_error(int result, const std::string &action)
 Git *GitImpl::self() const
 {
     return m_self;
+}
+
+int GitImpl::libgit2_credentials(git_credential **out, const char *url, const char *name, unsigned int types,
+                                 void *payload)
+{
+    const git_error *error = git_error_last();
+    if (error && error->klass == GIT_ERROR_SSH) return -1;
+
+    GitImpl *self = reinterpret_cast<GitImpl *>(payload);
+
+    if (is_ssh_agent_running()) return git_credential_ssh_key_from_agent(out, name);
+
+    return -1;
+}
+
+bool GitImpl::is_ssh_agent_running()
+{
+    LIBSSH2_SESSION *session = libssh2_session_init();
+    LIBSSH2_AGENT *agent = libssh2_agent_init(session);
+
+    int error = libssh2_agent_connect(agent);
+    if (error != LIBSSH2_ERROR_NONE)
+    {
+        char *msg;
+        libssh2_session_last_error(session, &msg, nullptr, 0);
+        std::cout << "agent error (" << error << ") : " << msg << std::endl;
+    }
+
+    libssh2_agent_disconnect(agent);
+    libssh2_agent_free(agent);
+    libssh2_session_free(session);
+
+    return (error == LIBSSH2_ERROR_NONE);
 }
 
 } // namespace libgit2

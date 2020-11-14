@@ -46,6 +46,7 @@ public:
     int get_branches(std::vector<git::Branch> &branches, git::BranchType branch_type = git::BranchType::LOCAL) override;
 
     int clone(const std::string &url, const std::string &path) override;
+    int checkout(const std::string &branch, bool force = false) override;
 
     GitImpl *get_impl() const;
 

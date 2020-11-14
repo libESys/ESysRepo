@@ -1,5 +1,5 @@
 /*!
- * \file esys/repo/libgit2/test/clonerepo01_libgit2.cpp
+ * \file esys/repo/libgit2/test/clonerepo02_libgit2.cpp
  * \brief For precompiled headers
  *
  * \cond
@@ -30,21 +30,22 @@ namespace libgit2
 namespace test
 {
 
-/*! \class CloneRepo01LibGit2 esys/build/libgit2/test/clonerepo01_libgit2.cpp
- * "esys/build/libgit2/test/clonerepo01_libgit2.cpp"
+/*! \class CloneRepo02LibGit2 esys/build/libgit2/test/clonerepo02_libgit2.cpp
+ * "esys/build/libgit2/test/clonerepo02_libgit2.cpp"
+ *
  *  \brief
  *
  */
 
-ESYSTEST_AUTO_TEST_CASE(CloneRepo01LibGit2)
+ESYSTEST_AUTO_TEST_CASE(CloneRepo02LibGit2)
 {
     boost::filesystem::path file_path;
 
     file_path = repo::test::TestCaseCtrl::get().GetTempFilesFolder();
-    file_path /= ("clonerepo01libgit2");
+    file_path /= ("clonerepo02libgit2");
 
     std::cout << "Temp folder = " << file_path << std::endl;
- 
+
     bool remove_all = true;
 
     try
@@ -64,7 +65,7 @@ ESYSTEST_AUTO_TEST_CASE(CloneRepo01LibGit2)
 
     Git git;
 
-    int result = git.clone("https://gitlab.com/libesys/esystest.git", file_path.normalize().make_preferred().string());
+    int result = git.clone("ssh://git@gitlab.com/libesys/metacpp_manifest.git", file_path.normalize().make_preferred().string());
     if (result != 0) std::cout << "ERROR " << result << std::endl;
     ESYSTEST_REQUIRE_EQUAL(result, 0);
 

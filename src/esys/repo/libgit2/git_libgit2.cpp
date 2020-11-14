@@ -61,6 +61,11 @@ int Git::clone(const std::string &url, const std::string &path)
     return get_impl()->clone(url, path);
 }
 
+int Git::checkout(const std::string &branch, bool force)
+{
+    return get_impl()->checkout(branch, force);
+}
+
 GitImpl *Git::get_impl() const
 {
     return m_impl.get();

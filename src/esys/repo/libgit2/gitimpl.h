@@ -20,6 +20,7 @@
 #include "esys/repo/esysrepo_defs.h"
 #include "esys/repo/libgit2/git.h"
 #include "esys/repo/libgit2/libgit2.h"
+#include "esys/repo/libgit2/guard.h"
 
 #include <git2.h>
 
@@ -46,16 +47,22 @@ public:
     int get_branches(std::vector<git::Branch> &branches, git::BranchType branch_type = git::BranchType::LOCAL);
 
     int clone(const std::string &url, const std::string &path);
+    int checkout(const std::string &branch, bool force = false);
 
     int check_error(int result, const std::string &action = "");
 
     Git *self() const;
+
+    static int libgit2_credentials(git_credential **out, const char *url, const char *name, unsigned int types,
+                                   void *payload);
+    static bool is_ssh_agent_running();
 
 protected:
     static std::unique_ptr<LibGit2> s_libgt2;
 
     Git *m_self = nullptr;
     git_repository *m_repo = nullptr;
+    Guard<git_credential> m_credential;
 };
 
 } // namespace libgit2

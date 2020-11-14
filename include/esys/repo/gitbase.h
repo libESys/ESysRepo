@@ -43,6 +43,7 @@ public:
     virtual int get_branches(std::vector<git::Branch> &branches, git::BranchType branch_type = git::BranchType::LOCAL) = 0;
 
     virtual int clone(const std::string &url, const std::string &path) = 0;
+    virtual int checkout(const std::string &branch, bool force = false) = 0;
 };
 
 } // namespace build

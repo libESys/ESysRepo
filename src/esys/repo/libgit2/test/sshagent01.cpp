@@ -1,5 +1,5 @@
 /*!
- * \file esys/repo/libgit2/test/clonerepo01_libgit2.cpp
+ * \file esys/repo/libgit2/test/sshagent01_libgit2.cpp
  * \brief For precompiled headers
  *
  * \cond
@@ -13,6 +13,8 @@
 #include "esys/repo/test/esysrepo_t_prec.h"
 
 #include <esys/repo/libgit2/git.h>
+
+#include <libssh2.h>
 
 #include <boost/filesystem.hpp>
 
@@ -30,21 +32,20 @@ namespace libgit2
 namespace test
 {
 
-/*! \class CloneRepo01LibGit2 esys/build/libgit2/test/clonerepo01_libgit2.cpp
- * "esys/build/libgit2/test/clonerepo01_libgit2.cpp"
+/*! \class SSHAgent01LibGit2 esys/build/libgit2/test/sshagent01_libgit2.cpp
+ * "esys/build/libgit2/test/sshagent01_libgit2.cpp"
+ *
  *  \brief
  *
  */
 
-ESYSTEST_AUTO_TEST_CASE(CloneRepo01LibGit2)
+ESYSTEST_AUTO_TEST_CASE(SSHAgent01LibGit2)
 {
     boost::filesystem::path file_path;
 
     file_path = repo::test::TestCaseCtrl::get().GetTempFilesFolder();
-    file_path /= ("clonerepo01libgit2");
+    file_path /= ("sshagent01libgit2");
 
-    std::cout << "Temp folder = " << file_path << std::endl;
- 
     bool remove_all = true;
 
     try
@@ -59,17 +60,28 @@ ESYSTEST_AUTO_TEST_CASE(CloneRepo01LibGit2)
 
     ESYSTEST_REQUIRE_EQUAL(remove_all, true);
 
-    bool created = boost::filesystem::create_directory(file_path);
-    ESYSTEST_REQUIRE_EQUAL(created, true);
+    LIBSSH2_SESSION *session = libssh2_session_init();
+    LIBSSH2_AGENT *agent = libssh2_agent_init(session);
 
-    Git git;
+    int error = libssh2_agent_connect(agent);
+    if (error != LIBSSH2_ERROR_NONE)
+    {
+        char *msg;
+        libssh2_session_last_error(session, &msg, nullptr, 0);
+        std::cout << "agent error (" << error << ") : " << msg << std::endl;
+    }
+
+    libssh2_agent_disconnect(agent);
+    libssh2_agent_free(agent);
+    libssh2_session_free(session);
+
+    /*Git git;
 
     int result = git.clone("https://gitlab.com/libesys/esystest.git", file_path.normalize().make_preferred().string());
-    if (result != 0) std::cout << "ERROR " << result << std::endl;
     ESYSTEST_REQUIRE_EQUAL(result, 0);
 
     result = git.close();
-    ESYSTEST_REQUIRE_EQUAL(result, 0);
+    ESYSTEST_REQUIRE_EQUAL(result, 0); */
 }
 
 } // namespace test
