@@ -23,7 +23,7 @@
 #include <libssh2.h>
 
 #include <cstring>
-#include <iostream>
+#include <sstream>
 
 namespace esys
 {
@@ -53,6 +53,11 @@ int GitImpl::open(const std::string &folder)
     if (result < 0) return check_error(result, "open git repo " + folder);
 
     return 0;
+}
+
+bool GitImpl::is_open()
+{
+    return (m_repo != nullptr);
 }
 
 int GitImpl::close()
@@ -214,15 +219,57 @@ int GitImpl::checkout(const std::string &branch, bool force)
     return result;
 }
 
+int GitImpl::get_last_commit(git::Commit &commit)
+{
+    if (m_repo == nullptr) return -1;
+
+    int result;
+    Guard<git_commit> g_commit;
+    git_oid oid_last_commit;
+
+    // resolve HEAD into a SHA1
+    result = git_reference_name_to_id(&oid_last_commit, m_repo, "HEAD");
+    if (result < 0) return result;
+
+    // get the actual commit structure
+    result = git_commit_lookup(g_commit.get_p(), m_repo, &oid_last_commit);
+    if (result < 0) return result;
+
+    std::string hash;
+    result = convert_bin_hex(oid_last_commit, hash);
+    if (result == 0) commit.set_hash(hash);
+
+    return 0;
+}
+
+int GitImpl::is_dirty(bool &dirty)
+{
+    if (m_repo == nullptr) return -1;
+
+    Guard<git_status_list> status;
+    git_status_options statusopt = GIT_STATUS_OPTIONS_INIT;
+
+    statusopt.show = GIT_STATUS_SHOW_INDEX_AND_WORKDIR;
+    statusopt.flags = GIT_STATUS_OPT_RENAMES_HEAD_TO_INDEX | GIT_STATUS_OPT_SORT_CASE_SENSITIVELY;
+
+    int result = git_status_list_new(status.get_p(), m_repo, &statusopt);
+    if (result < 0) return result;
+
+    std::size_t count = git_status_list_entrycount(status.get());
+    dirty = (count != 0);
+    return 0;
+}
+
 int GitImpl::check_error(int result, const std::string &action)
 {
     const git_error *error = git_error_last();
     if (!result) return 0;
 
-    std::cerr << "ERROR " << result << " : " << action << " - ";
+    std::ostringstream oss;
+    oss << "ERROR " << result << " : " << action << " - ";
+    oss << ((error && error->message) ? error->message : "???") << std::endl;
 
-    std::cerr << ((error && error->message) ? error->message : "???") << std::endl;
-
+    self()->error(oss.str());
     return result;
 }
 
@@ -239,7 +286,7 @@ int GitImpl::libgit2_credentials(git_credential **out, const char *url, const ch
 
     GitImpl *self = reinterpret_cast<GitImpl *>(payload);
 
-    if (is_ssh_agent_running()) return git_credential_ssh_key_from_agent(out, name);
+    if (self->is_ssh_agent_running()) return git_credential_ssh_key_from_agent(out, name);
 
     return -1;
 }
@@ -254,14 +301,64 @@ bool GitImpl::is_ssh_agent_running()
     {
         char *msg;
         libssh2_session_last_error(session, &msg, nullptr, 0);
-        std::cout << "agent error (" << error << ") : " << msg << std::endl;
+
+        std::ostringstream oss;
+        oss << "agent error (" << error << ") : " << msg << std::endl;
+        self()->error(oss.str());
     }
+    else
+        self()->info("SSH agent detected");
 
     libssh2_agent_disconnect(agent);
     libssh2_agent_free(agent);
     libssh2_session_free(session);
 
     return (error == LIBSSH2_ERROR_NONE);
+}
+
+int GitImpl::convert_bin_hex(const git_oid &oid, std::string &hex_str)
+{
+    char temp[GIT_OID_HEXSZ + 1];
+
+    int result = git_oid_fmt(temp, &oid);
+    if (result < 0) return result;
+    temp[GIT_OID_HEXSZ] = 0;
+    hex_str = std::string(temp);
+    return 0;
+}
+
+const std::string &GitImpl::get_version()
+{
+    return s_get_version();
+}
+
+const std::string &GitImpl::get_lib_name()
+{
+    return s_get_lib_name();
+}
+
+const std::string &GitImpl::s_get_version()
+{
+    static std::string s_version = LIBGIT2_VERSION;
+    return s_version;
+}
+
+const std::string &GitImpl::s_get_lib_name()
+{
+    static std::string s_lib_name = "libgit2";
+    return s_lib_name;
+}
+
+const std::string &GitImpl::s_get_ssh_version()
+{
+    static std::string s_version = LIBSSH2_VERSION;
+    return s_version;
+}
+
+const std::string &GitImpl::s_get_ssh_lib_name()
+{
+    static std::string s_lib_name = "libssh2";
+    return s_lib_name;
 }
 
 } // namespace libgit2

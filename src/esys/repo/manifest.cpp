@@ -17,6 +17,7 @@
 
 #include "esys/repo/esysrepo_prec.h"
 #include "esys/repo/manifest.h"
+#include "esys/repo/manifest/repository.h"
 
 #include <cassert>
 
@@ -135,6 +136,12 @@ void Manifest::set_default_job_count(int default_job_count)
 int Manifest::get_default_job_count() const
 {
     return m_default_job_count;
+}
+
+std::string Manifest::get_repo_revision(std::shared_ptr<manifest::Repository> repo)
+{
+    if (!repo->get_revision().empty()) return repo->get_revision();
+    return get_default_revision();
 }
 
 } // namespace repo

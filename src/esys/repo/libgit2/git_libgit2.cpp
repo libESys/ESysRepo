@@ -41,6 +41,11 @@ int Git::open(const std::string &folder)
     return get_impl()->open(folder);
 }
 
+bool Git::is_open()
+{
+    return get_impl()->is_open();
+}
+
 int Git::close()
 {
     return get_impl()->close();
@@ -64,6 +69,46 @@ int Git::clone(const std::string &url, const std::string &path)
 int Git::checkout(const std::string &branch, bool force)
 {
     return get_impl()->checkout(branch, force);
+}
+
+int Git::get_last_commit(git::Commit &commit)
+{
+    return get_impl()->get_last_commit(commit);
+}
+
+int Git::is_dirty(bool &dirty)
+{
+    return get_impl()->is_dirty(dirty);
+}
+
+const std::string &Git::get_version()
+{
+    return m_impl->get_version();
+}
+
+const std::string &Git::get_lib_name()
+{
+    return m_impl->get_lib_name();
+}
+
+const std::string &Git::s_get_version()
+{
+    return GitImpl::s_get_version();
+}
+
+const std::string &Git::s_get_lib_name()
+{
+    return GitImpl::s_get_lib_name();
+}
+
+const std::string &Git::s_get_ssh_version()
+{
+    return GitImpl::s_get_ssh_version();
+}
+
+const std::string &Git::s_get_ssh_lib_name()
+{
+    return GitImpl::s_get_ssh_lib_name();
 }
 
 GitImpl *Git::get_impl() const

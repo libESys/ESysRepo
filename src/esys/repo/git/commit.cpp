@@ -1,5 +1,5 @@
 /*!
- * \file esys/repo/git/branchtype.h
+ * \file esys/repo/git/commit.cpp
  * \brief
  *
  * \cond
@@ -15,11 +15,8 @@
  *
  */
 
-#pragma once
-
-#include "esys/repo/esysrepo_defs.h"
-
-//<swig_inc/>
+#include "esys/repo/esysrepo_prec.h"
+#include "esys/repo/git/commit.h"
 
 namespace esys
 {
@@ -30,13 +27,22 @@ namespace repo
 namespace git
 {
 
-enum BranchType
+Commit::Commit()
 {
-    NOT_SET,
-    LOCAL,
-    REMOTE,
-    ALL
-};
+}
+
+Commit::~Commit()
+{
+}
+
+void Commit::set_hash(const std::string &hash)
+{
+    m_hash = hash;
+}
+const std::string &Commit::get_hash() const
+{
+    return m_hash;
+}
 
 } // namespace git
 

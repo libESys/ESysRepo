@@ -93,8 +93,8 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DebugDLL|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\include;$(ESYSMSVC)\include;$(ESYSTEST)\include;$(ESYS_BOOST);$(ESYS_LIBSSH2)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;BOOST_ALL_DYN_LINK;_WINDLL;LIBSSH2_WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\include;$(ESYSMSVC)\include;$(ESYSTEST)\include;$(ESYSLOG)\include;$(ESYS_BOOST);$(ESYS_LIBSSH2)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;ESYSREPO_USE;ESYSLOG_USE;BOOST_ALL_DYN_LINK;_WINDLL;LIBSSH2_WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -105,6 +105,7 @@
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <CompileAs>Default</CompileAs>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <OutputFile>$(OutDir)$(TargetFileName)</OutputFile>
@@ -112,7 +113,7 @@
       <ProgramDatabaseFile>$(OutDir)$(TargetName).pdb</ProgramDatabaseFile>
       <SubSystem>Console</SubSystem>
       <TargetMachine>MachineX86</TargetMachine>
-      <AdditionalLibraryDirectories>$(esysdevLibOutDir);$(ESYSTEST)\$(esysdevLibDir);$(ESYS_BOOST)\$(boostLibDir);$(ESYS_LIBSSH2)\$(esysdevLibDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(esysdevLibOutDir);$(ESYSTEST)\$(esysdevLibDir);$(ESYSLOG)\$(esysdevLibDir);$(ESYS_BOOST)\$(boostLibDir);$(ESYS_LIBSSH2)\$(esysdevLibDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>libssh2.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
@@ -125,8 +126,8 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DebugDLL|x64'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\include;$(ESYSMSVC)\include;$(ESYSTEST)\include;$(ESYS_BOOST);$(ESYS_LIBSSH2)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;BOOST_ALL_DYN_LINK;_WINDLL;LIBSSH2_WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\include;$(ESYSMSVC)\include;$(ESYSTEST)\include;$(ESYSLOG)\include;$(ESYS_BOOST);$(ESYS_LIBSSH2)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;ESYSREPO_USE;ESYSLOG_USE;BOOST_ALL_DYN_LINK;_WINDLL;LIBSSH2_WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -137,13 +138,14 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <CompileAs>Default</CompileAs>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <OutputFile>$(OutDir)$(TargetFileName)</OutputFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ProgramDatabaseFile>$(OutDir)$(TargetName).pdb</ProgramDatabaseFile>
       <SubSystem>Console</SubSystem>
-      <AdditionalLibraryDirectories>$(esysdevLibOutDir);$(ESYSTEST)\$(esysdevLibDir);$(ESYS_BOOST)\$(boostLibDir);$(ESYS_LIBSSH2)\$(esysdevLibDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(esysdevLibOutDir);$(ESYSTEST)\$(esysdevLibDir);$(ESYSLOG)\$(esysdevLibDir);$(ESYS_BOOST)\$(boostLibDir);$(ESYS_LIBSSH2)\$(esysdevLibDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>libssh2.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
@@ -155,8 +157,8 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseDLL|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\..\include;$(ESYSMSVC)\include;$(ESYSTEST)\include;$(ESYS_BOOST);$(ESYS_LIBSSH2)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;BOOST_ALL_DYN_LINK;_WINDLL;LIBSSH2_WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\include;$(ESYSMSVC)\include;$(ESYSTEST)\include;$(ESYSLOG)\include;$(ESYS_BOOST);$(ESYS_LIBSSH2)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;ESYSREPO_USE;ESYSLOG_USE;BOOST_ALL_DYN_LINK;_WINDLL;LIBSSH2_WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>esys/repo/test/$(ProjectName)_prec.h</PrecompiledHeaderFile>
@@ -164,6 +166,8 @@
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat />
       <CompileAs>Default</CompileAs>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <OutputFile>$(OutDir)$(TargetFileName)</OutputFile>
@@ -173,7 +177,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <TargetMachine>MachineX86</TargetMachine>
-      <AdditionalLibraryDirectories>$(esysdevLibOutDir);$(ESYSTEST)\$(esysdevLibDir);$(ESYS_BOOST)\$(boostLibDir);$(ESYS_LIBSSH2)\$(esysdevLibDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(esysdevLibOutDir);$(ESYSTEST)\$(esysdevLibDir);$(ESYSLOG)\$(esysdevLibDir);$(ESYS_BOOST)\$(boostLibDir);$(ESYS_LIBSSH2)\$(esysdevLibDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>libssh2.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
@@ -185,8 +189,8 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseDLL|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\..\include;$(ESYSMSVC)\include;$(ESYSTEST)\include;$(ESYS_BOOST);$(ESYS_LIBSSH2)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;BOOST_ALL_DYN_LINK;_WINDLL;LIBSSH2_WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\include;$(ESYSMSVC)\include;$(ESYSTEST)\include;$(ESYSLOG)\include;$(ESYS_BOOST);$(ESYS_LIBSSH2)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;ESYSREPO_USE;ESYSLOG_USE;BOOST_ALL_DYN_LINK;_WINDLL;LIBSSH2_WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>esys/repo/test/$(ProjectName)_prec.h</PrecompiledHeaderFile>
@@ -195,6 +199,8 @@
       <DebugInformationFormat>
       </DebugInformationFormat>
       <CompileAs>Default</CompileAs>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <OutputFile>$(OutDir)$(TargetFileName)</OutputFile>
@@ -203,7 +209,7 @@
       <SubSystem>Console</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <AdditionalLibraryDirectories>$(esysdevLibOutDir);$(ESYSTEST)\$(esysdevLibDir);$(ESYS_BOOST)\$(boostLibDir);$(ESYS_LIBSSH2)\$(esysdevLibDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(esysdevLibOutDir);$(ESYSTEST)\$(esysdevLibDir);$(ESYSLOG)\$(esysdevLibDir);$(ESYS_BOOST)\$(boostLibDir);$(ESYS_LIBSSH2)\$(esysdevLibDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>libssh2.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
@@ -221,6 +227,7 @@
     <ClCompile Include="..\..\src\esys\repo\grepo\test\writemanifest01_grepo.cpp" />
     <ClCompile Include="..\..\src\esys\repo\libgit2\test\clonerepo01_libgit2.cpp" />
     <ClCompile Include="..\..\src\esys\repo\libgit2\test\clonerepo02_libgit2.cpp" />
+    <ClCompile Include="..\..\src\esys\repo\libgit2\test\isdirty01_libgit2.cpp" />
     <ClCompile Include="..\..\src\esys\repo\libgit2\test\opengitrepo01_libgit2.cpp" />
     <ClCompile Include="..\..\src\esys\repo\libgit2\test\sshagent01.cpp" />
     <ClCompile Include="..\..\src\esys\repo\manifest\test\xmlfileread01_manifest.cpp" />
@@ -240,6 +247,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugDLL|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugDLL|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\test\sortbranches01.cpp" />
     <ClCompile Include="..\..\src\esys\repo\test\testcasectrl.cpp" />
   </ItemGroup>
   <ItemGroup>

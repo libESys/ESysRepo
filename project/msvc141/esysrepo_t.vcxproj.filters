@@ -78,6 +78,12 @@
     <ClCompile Include="..\..\src\esys\repo\libgit2\test\clonerepo02_libgit2.cpp">
       <Filter>Source Files\libgit2</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\libgit2\test\isdirty01_libgit2.cpp">
+      <Filter>Source Files\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\test\sortbranches01.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\esys\repo\test\esysrepo_t_prec.h">

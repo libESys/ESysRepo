@@ -52,6 +52,12 @@ ESYSREPO_API void guard_release<git_object>(git_object *object);
 template<>
 ESYSREPO_API void guard_release<git_credential>(git_credential *credential);
 
+template<>
+ESYSREPO_API void guard_release<git_commit>(git_commit *commit);
+
+template<>
+ESYSREPO_API void guard_release<git_status_list>(git_status_list *status_list);
+
 } // namespace libgit2
 
 } // namespace repo

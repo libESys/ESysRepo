@@ -62,6 +62,20 @@ ESYSREPO_API void guard_release<git_credential>(git_credential *credential)
     git_credential_free(credential);
 }
 
+template<>
+ESYSREPO_API void guard_release<git_commit>(git_commit *commit)
+{
+    if (commit == nullptr) return;
+    git_commit_free(commit);
+}
+
+template<>
+ESYSREPO_API void guard_release<git_status_list>(git_status_list *status_list)
+{
+    if (status_list == nullptr) return;
+    git_status_list_free(status_list);
+}
+
 } // namespace libgit2
 
 } // namespace repo

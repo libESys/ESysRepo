@@ -25,8 +25,12 @@ int main(int argc, char *argv[])
 {
     std::cout << ESYSREPOEXE_VERSION_STRING << std::endl << std::endl;
 
+    // auto logger_mngr = esys::log::Mngr::get();
+
     ESysRepoExe exe;
     int result = 0;
+
+    // exe.set_logger_mngr(logger_mngr);
 
     exe.set_os(std::cout);
     exe.set_args(argc, argv);
@@ -38,5 +42,6 @@ int main(int argc, char *argv[])
         return -result;
     }
 
-    return -exe.run();
+    result = exe.run();
+    return -result;
 }

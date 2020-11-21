@@ -105,21 +105,6 @@
     <ClCompile Include="..\..\src\esys\repo\exe\cmdinit.cpp">
       <Filter>Source Files\exe</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\esys\repo\manifest\fetchbase_manifest.cpp">
-      <Filter>Source Files\manifest</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\esys\repo\manifest\fetch_manifest.cpp">
-      <Filter>Source Files\manifest</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\esys\repo\manifest\fetchgrepo_manifest.cpp">
-      <Filter>Source Files\manifest</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\esys\repo\manifest\fetchesysrepo_manifest.cpp">
-      <Filter>Source Files\manifest</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\esys\repo\manifest\fetchgitsuper_manifest.cpp">
-      <Filter>Source Files\manifest</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\esys\repo\configfolder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -138,9 +123,6 @@
     <ClCompile Include="..\..\src\esys\repo\manifest\type_manifest.cpp">
       <Filter>Source Files\manifest</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\esys\repo\manifest\clonerepos_manifest.cpp">
-      <Filter>Source Files\manifest</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\esys\repo\manifest\file_manifest.cpp">
       <Filter>Source Files\manifest</Filter>
     </ClCompile>
@@ -152,6 +134,39 @@
     </ClCompile>
     <ClCompile Include="..\..\src\esys\repo\filesystem.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\exe\cmd.cpp">
+      <Filter>Source Files\exe</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\githelper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\exe\cmdlist.cpp">
+      <Filter>Source Files\exe</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\exe\cmdinfo.cpp">
+      <Filter>Source Files\exe</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\git\commit.cpp">
+      <Filter>Source Files\git</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\manifest\loaderbase_manifest.cpp">
+      <Filter>Source Files\manifest</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\manifest\loader_manifest.cpp">
+      <Filter>Source Files\manifest</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\manifest\loadergrepo_manifest.cpp">
+      <Filter>Source Files\manifest</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\manifest\loadergitsuper_manifest.cpp">
+      <Filter>Source Files\manifest</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\manifest\loaderesysrepo_manifest.cpp">
+      <Filter>Source Files\manifest</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\manifest\syncrepos_manifest.cpp">
+      <Filter>Source Files\manifest</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -221,21 +236,6 @@
     <ClInclude Include="..\..\include\esys\repo\manifest\type.h">
       <Filter>Header Files\manifest</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\esys\repo\manifest\fetchbase.h">
-      <Filter>Header Files\manifest</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\esys\repo\manifest\fetch.h">
-      <Filter>Header Files\manifest</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\esys\repo\manifest\fetchgrepo.h">
-      <Filter>Header Files\manifest</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\esys\repo\manifest\fetchesysrepo.h">
-      <Filter>Header Files\manifest</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\esys\repo\manifest\fetchgitsuper.h">
-      <Filter>Header Files\manifest</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\include\esys\repo\configfolder.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -250,9 +250,6 @@
     </ClInclude>
     <ClInclude Include="..\..\include\esys\repo\config.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\esys\repo\manifest\clonerepos.h">
-      <Filter>Header Files\manifest</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\esys\repo\manifest\xmlfile.h">
       <Filter>Header Files\manifest</Filter>
@@ -277,6 +274,39 @@
     </ClInclude>
     <ClInclude Include="..\..\include\esys\repo\cmake\config_defs.h">
       <Filter>Header Files\cmake</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\exe\cmd.h">
+      <Filter>Header Files\exe</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\githelper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\exe\cmdlist.h">
+      <Filter>Header Files\exe</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\exe\cmdinfo.h">
+      <Filter>Header Files\exe</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\git\commit.h">
+      <Filter>Header Files\git</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\manifest\loaderbase.h">
+      <Filter>Header Files\manifest</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\manifest\loader.h">
+      <Filter>Header Files\manifest</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\manifest\loadergrepo.h">
+      <Filter>Header Files\manifest</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\manifest\loadergitsuper.h">
+      <Filter>Header Files\manifest</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\manifest\loaderesysrepo.h">
+      <Filter>Header Files\manifest</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\manifest\syncrepos.h">
+      <Filter>Header Files\manifest</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

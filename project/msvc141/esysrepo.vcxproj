@@ -71,7 +71,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugDLL|Win32'">
     <OutDir>$(esysdevLibOutDir)</OutDir>
-    <IntDir>$(ESYSREPO_DEV)\$(esysdevIntRootDir)</IntDir>
+    <IntDir>$(ESYSREPO_DEV)\$(esysdevIntRootDir)\</IntDir>
     <LinkIncremental>false</LinkIncremental>
     <TargetName>$(ProjectName)$(esysdevDllNameSuffix)-$(esysrepo_ver)</TargetName>
   </PropertyGroup>
@@ -79,11 +79,11 @@
     <LinkIncremental>false</LinkIncremental>
     <TargetName>$(ProjectName)$(esysdevDllNameSuffix)-$(esysrepo_ver)</TargetName>
     <OutDir>$(esysdevLibOutDir)</OutDir>
-    <IntDir>$(ESYSREPO_DEV)\$(esysdevIntRootDir)</IntDir>
+    <IntDir>$(ESYSREPO_DEV)\$(esysdevIntRootDir)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseDLL|Win32'">
     <OutDir>$(esysdevLibOutDir)</OutDir>
-    <IntDir>$(ESYSREPO_DEV)\$(esysdevIntRootDir)</IntDir>
+    <IntDir>$(ESYSREPO_DEV)\$(esysdevIntRootDir)\</IntDir>
     <LinkIncremental>false</LinkIncremental>
     <TargetName>$(ProjectName)$(esysdevDllNameSuffix)-$(esysrepo_ver)</TargetName>
   </PropertyGroup>
@@ -91,13 +91,13 @@
     <LinkIncremental>false</LinkIncremental>
     <TargetName>$(ProjectName)$(esysdevDllNameSuffix)-$(esysrepo_ver)</TargetName>
     <OutDir>$(esysdevLibOutDir)</OutDir>
-    <IntDir>$(ESYSREPO_DEV)\$(esysdevIntRootDir)</IntDir>
+    <IntDir>$(ESYSREPO_DEV)\$(esysdevIntRootDir)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DebugDLL|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\include;..\..\src;$(ESYSMSVC)\include;$(ESYSFILE)\include;$(ESYS_LIBGIT2)\include;$(ESYS_LIBSSH2)\include;$(ESYS_BOOST);$(NLOHMANN_JSON)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;_USRDLL;ESYSREPO_EXPORTS;BOOST_ALL_DYN_LINK;_WINDLL;LIBSSH2_WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\include;..\..\src;$(ESYSMSVC)\include;$(ESYSFILE)\include;$(ESYSLOG)\include;$(ESYS_LIBGIT2)\include;$(ESYS_LIBSSH2)\include;$(ESYS_BOOST);$(NLOHMANN_JSON)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_USRDLL;ESYSREPO_EXPORTS;ESYSLOG_USE;BOOST_ALL_DYN_LINK;_WINDLL;LIBSSH2_WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -108,6 +108,7 @@
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <DisableSpecificWarnings>4251</DisableSpecificWarnings>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <OutputFile>$(OutDir)$(TargetFileName)</OutputFile>
@@ -116,7 +117,7 @@
       <SubSystem>Windows</SubSystem>
       <ImportLibrary>$(OutDir)$(TargetName).lib</ImportLibrary>
       <TargetMachine>MachineX86</TargetMachine>
-      <AdditionalLibraryDirectories>$(ESYSFILE)\$(esysdevLibDir);$(ESYS_BOOST)\$(boostLibDir);$(ESYS_LIBGIT2)\$(esysdevLibDir);$(ESYS_LIBSSH2)\$(esysdevLibDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ESYSFILE)\$(esysdevLibDir);$(ESYSLOG)\$(esysdevLibDir);$(ESYS_BOOST)\$(boostLibDir);$(ESYS_LIBGIT2)\$(esysdevLibDir);$(ESYS_LIBSSH2)\$(esysdevLibDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>git2.lib;libssh2.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
@@ -129,8 +130,8 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DebugDLL|x64'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\include;..\..\src;$(ESYSMSVC)\include;$(ESYSFILE)\include;$(ESYS_LIBGIT2)\include;$(ESYS_LIBSSH2)\include;$(ESYS_BOOST);$(NLOHMANN_JSON)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;_USRDLL;ESYSREPO_EXPORTS;BOOST_ALL_DYN_LINK;_WINDLL;LIBSSH2_WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\include;..\..\src;$(ESYSMSVC)\include;$(ESYSFILE)\include;$(ESYSLOG)\include;$(ESYS_LIBGIT2)\include;$(ESYS_LIBSSH2)\include;$(ESYS_BOOST);$(NLOHMANN_JSON)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_USRDLL;ESYSREPO_EXPORTS;ESYSLOG_USE;BOOST_ALL_DYN_LINK;_WINDLL;LIBSSH2_WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -141,6 +142,7 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <DisableSpecificWarnings>4251</DisableSpecificWarnings>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <OutputFile>$(OutDir)$(TargetFileName)</OutputFile>
@@ -148,7 +150,7 @@
       <ProgramDatabaseFile>$(OutDir)$(TargetName).pdb</ProgramDatabaseFile>
       <SubSystem>Windows</SubSystem>
       <ImportLibrary>$(OutDir)$(TargetName).lib</ImportLibrary>
-      <AdditionalLibraryDirectories>$(ESYSFILE)\$(esysdevLibDir);$(ESYS_BOOST)\$(boostLibDir);$(ESYS_LIBGIT2)\$(esysdevLibDir);$(ESYS_LIBSSH2)\$(esysdevLibDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ESYSFILE)\$(esysdevLibDir);$(ESYSLOG)\$(esysdevLibDir);$(ESYS_BOOST)\$(boostLibDir);$(ESYS_LIBGIT2)\$(esysdevLibDir);$(ESYS_LIBSSH2)\$(esysdevLibDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>git2.lib;libssh2.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
@@ -160,8 +162,8 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseDLL|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\..\include;..\..\src;$(ESYSMSVC)\include;$(ESYSFILE)\include;$(ESYS_LIBGIT2)\include;$(ESYS_LIBSSH2)\include;$(ESYS_BOOST);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;_USRDLL;ESYSREPO_EXPORTS;BOOST_ALL_DYN_LINK;_WINDLL;LIBSSH2_WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\include;..\..\src;$(ESYSMSVC)\include;$(ESYSFILE)\include;$(ESYSLOG)\include;$(ESYS_LIBGIT2)\include;$(ESYS_LIBSSH2)\include;$(ESYS_BOOST);$(NLOHMANN_JSON)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_USRDLL;ESYSREPO_EXPORTS;ESYSLOG_USE;BOOST_ALL_DYN_LINK;_WINDLL;LIBSSH2_WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>esys/repo/$(ProjectName)_prec.h</PrecompiledHeaderFile>
@@ -169,6 +171,8 @@
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat />
       <DisableSpecificWarnings>4251</DisableSpecificWarnings>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <OutputFile>$(OutDir)$(TargetFileName)</OutputFile>
@@ -179,7 +183,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <ImportLibrary>$(OutDir)$(TargetName).lib</ImportLibrary>
       <TargetMachine>MachineX86</TargetMachine>
-      <AdditionalLibraryDirectories>$(ESYSFILE)\$(esysdevLibDir);$(ESYS_BOOST)\$(boostLibDir);$(ESYS_LIBGIT2)\$(esysdevLibDir);$(ESYS_LIBSSH2)\$(esysdevLibDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ESYSFILE)\$(esysdevLibDir);$(ESYSLOG)\$(esysdevLibDir);$(ESYS_BOOST)\$(boostLibDir);$(ESYS_LIBGIT2)\$(esysdevLibDir);$(ESYS_LIBSSH2)\$(esysdevLibDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>git2.lib;libssh2.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
@@ -191,8 +195,8 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseDLL|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\..\include;..\..\src;$(ESYSMSVC)\include;$(ESYSFILE)\include;$(ESYS_LIBGIT2)\include;$(ESYS_LIBSSH2)\include;$(ESYS_BOOST);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;_USRDLL;ESYSREPO_EXPORTS;BOOST_ALL_DYN_LINK;_WINDLL;LIBSSH2_WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\include;..\..\src;$(ESYSMSVC)\include;$(ESYSFILE)\include;$(ESYSLOG)\include;$(ESYS_LIBGIT2)\include;$(ESYS_LIBSSH2)\include;$(ESYS_BOOST);$(NLOHMANN_JSON)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_USRDLL;ESYSREPO_EXPORTS;ESYSLOG_USE;BOOST_ALL_DYN_LINK;_WINDLL;LIBSSH2_WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>esys/repo/$(ProjectName)_prec.h</PrecompiledHeaderFile>
@@ -201,6 +205,8 @@
       <DebugInformationFormat>
       </DebugInformationFormat>
       <DisableSpecificWarnings>4251</DisableSpecificWarnings>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <OutputFile>$(OutDir)$(TargetFileName)</OutputFile>
@@ -210,7 +216,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <ImportLibrary>$(OutDir)$(TargetName).lib</ImportLibrary>
-      <AdditionalLibraryDirectories>$(ESYSFILE)\$(esysdevLibDir);$(ESYS_BOOST)\$(boostLibDir);$(ESYS_LIBGIT2)\$(esysdevLibDir);$(ESYS_LIBSSH2)\$(esysdevLibDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ESYSFILE)\$(esysdevLibDir);$(ESYSLOG)\$(esysdevLibDir);$(ESYS_BOOST)\$(boostLibDir);$(ESYS_LIBGIT2)\$(esysdevLibDir);$(ESYS_LIBSSH2)\$(esysdevLibDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>git2.lib;libssh2.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
@@ -232,12 +238,17 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseDLL|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseDLL|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\exe\cmd.cpp" />
+    <ClCompile Include="..\..\src\esys\repo\exe\cmdinfo.cpp" />
     <ClCompile Include="..\..\src\esys\repo\exe\cmdinit.cpp" />
+    <ClCompile Include="..\..\src\esys\repo\exe\cmdlist.cpp" />
     <ClCompile Include="..\..\src\esys\repo\exe\cmdsync.cpp" />
     <ClCompile Include="..\..\src\esys\repo\filesystem.cpp" />
     <ClCompile Include="..\..\src\esys\repo\gitbase.cpp" />
     <ClCompile Include="..\..\src\esys\repo\gitcmdline\git_cmdline.cpp" />
+    <ClCompile Include="..\..\src\esys\repo\githelper.cpp" />
     <ClCompile Include="..\..\src\esys\repo\git\branch_git.cpp" />
+    <ClCompile Include="..\..\src\esys\repo\git\commit.cpp" />
     <ClCompile Include="..\..\src\esys\repo\git\remote_git.cpp" />
     <ClCompile Include="..\..\src\esys\repo\grepo\manifestimpl_grepo.cpp" />
     <ClCompile Include="..\..\src\esys\repo\grepo\manifest_grepo.cpp" />
@@ -246,12 +257,12 @@
     <ClCompile Include="..\..\src\esys\repo\libgit2\guardrelease_libgit2.cpp" />
     <ClCompile Include="..\..\src\esys\repo\libgit2\libgit2.cpp" />
     <ClCompile Include="..\..\src\esys\repo\manifest.cpp" />
-    <ClCompile Include="..\..\src\esys\repo\manifest\clonerepos_manifest.cpp" />
-    <ClCompile Include="..\..\src\esys\repo\manifest\fetchbase_manifest.cpp" />
-    <ClCompile Include="..\..\src\esys\repo\manifest\fetchesysrepo_manifest.cpp" />
-    <ClCompile Include="..\..\src\esys\repo\manifest\fetchgitsuper_manifest.cpp" />
-    <ClCompile Include="..\..\src\esys\repo\manifest\fetchgrepo_manifest.cpp" />
-    <ClCompile Include="..\..\src\esys\repo\manifest\fetch_manifest.cpp" />
+    <ClCompile Include="..\..\src\esys\repo\manifest\syncrepos_manifest.cpp" />
+    <ClCompile Include="..\..\src\esys\repo\manifest\loaderbase_manifest.cpp" />
+    <ClCompile Include="..\..\src\esys\repo\manifest\loaderesysrepo_manifest.cpp" />
+    <ClCompile Include="..\..\src\esys\repo\manifest\loadergitsuper_manifest.cpp" />
+    <ClCompile Include="..\..\src\esys\repo\manifest\loadergrepo_manifest.cpp" />
+    <ClCompile Include="..\..\src\esys\repo\manifest\loader_manifest.cpp" />
     <ClCompile Include="..\..\src\esys\repo\manifest\file_manifest.cpp" />
     <ClCompile Include="..\..\src\esys\repo\manifest\location_manifest.cpp" />
     <ClCompile Include="..\..\src\esys\repo\manifest\repository_manifest.cpp" />
@@ -268,26 +279,31 @@
     <ClInclude Include="..\..\include\esys\repo\config_defs.h" />
     <ClInclude Include="..\..\include\esys\repo\esysrepo_defs.h" />
     <ClInclude Include="..\..\include\esys\repo\esysrepo_prec.h" />
+    <ClInclude Include="..\..\include\esys\repo\exe\cmd.h" />
+    <ClInclude Include="..\..\include\esys\repo\exe\cmdinfo.h" />
     <ClInclude Include="..\..\include\esys\repo\exe\cmdinit.h" />
+    <ClInclude Include="..\..\include\esys\repo\exe\cmdlist.h" />
     <ClInclude Include="..\..\include\esys\repo\exe\cmdsync.h" />
     <ClInclude Include="..\..\include\esys\repo\filesystem.h" />
     <ClInclude Include="..\..\include\esys\repo\git.h" />
     <ClInclude Include="..\..\include\esys\repo\gitbase.h" />
     <ClInclude Include="..\..\include\esys\repo\gitcmdline\git.h" />
+    <ClInclude Include="..\..\include\esys\repo\githelper.h" />
     <ClInclude Include="..\..\include\esys\repo\git\branch.h" />
     <ClInclude Include="..\..\include\esys\repo\git\branchtype.h" />
+    <ClInclude Include="..\..\include\esys\repo\git\commit.h" />
     <ClInclude Include="..\..\include\esys\repo\git\remote.h" />
     <ClInclude Include="..\..\include\esys\repo\grepo\manifest.h" />
     <ClInclude Include="..\..\include\esys\repo\libgit2\git.h" />
     <ClInclude Include="..\..\include\esys\repo\manifest.h" />
-    <ClInclude Include="..\..\include\esys\repo\manifest\clonerepos.h" />
-    <ClInclude Include="..\..\include\esys\repo\manifest\fetch.h" />
-    <ClInclude Include="..\..\include\esys\repo\manifest\fetchbase.h" />
-    <ClInclude Include="..\..\include\esys\repo\manifest\fetchesysrepo.h" />
-    <ClInclude Include="..\..\include\esys\repo\manifest\fetchgitsuper.h" />
-    <ClInclude Include="..\..\include\esys\repo\manifest\fetchgrepo.h" />
+    <ClInclude Include="..\..\include\esys\repo\manifest\syncrepos.h" />
+    <ClInclude Include="..\..\include\esys\repo\manifest\loader.h" />
+    <ClInclude Include="..\..\include\esys\repo\manifest\loaderesysrepo.h" />
+    <ClInclude Include="..\..\include\esys\repo\manifest\loadergitsuper.h" />
+    <ClInclude Include="..\..\include\esys\repo\manifest\loadergrepo.h" />
     <ClInclude Include="..\..\include\esys\repo\manifest\file.h" />
     <ClInclude Include="..\..\include\esys\repo\manifest\jsonfile.h" />
+    <ClInclude Include="..\..\include\esys\repo\manifest\loaderbase.h" />
     <ClInclude Include="..\..\include\esys\repo\manifest\location.h" />
     <ClInclude Include="..\..\include\esys\repo\manifest\repository.h" />
     <ClInclude Include="..\..\include\esys\repo\manifest\type.h" />

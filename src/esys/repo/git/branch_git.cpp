@@ -31,6 +31,19 @@ Branch::Branch()
 {
 }
 
+Branch::Branch(const std::string &name, bool is_head)
+    : m_name(name)
+    , m_is_head(is_head)
+{
+}
+
+Branch::Branch(const std::string &name, BranchType type, bool is_head)
+    : m_name(name)
+    , m_type(type)
+    , m_is_head(is_head)
+{
+}
+
 Branch::~Branch()
 {
 }

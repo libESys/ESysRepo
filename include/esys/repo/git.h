@@ -1,5 +1,5 @@
 /*!
- * \file esys/repo/git/branchtype.h
+ * \file esys/repo/gitbase.h
  * \brief
  *
  * \cond
@@ -19,27 +19,11 @@
 
 #include "esys/repo/esysrepo_defs.h"
 
+#ifndef ESYSREPO_USE_LIBGIT2
+#define ESYSREPO_USE_LIBGIT2 1
+#endif
+
+#include "esys/repo/libgit2/git.h"
+
 //<swig_inc/>
 
-namespace esys
-{
-
-namespace repo
-{
-
-namespace git
-{
-
-enum BranchType
-{
-    NOT_SET,
-    LOCAL,
-    REMOTE,
-    ALL
-};
-
-} // namespace git
-
-} // namespace repo
-
-} // namespace esys
