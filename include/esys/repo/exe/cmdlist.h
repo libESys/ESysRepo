@@ -49,11 +49,11 @@ public:
     void set_path_only(bool name_only);
     bool get_path_only() const;
 
-    int run() override;
-
     void print_info(std::ostream &os, std::shared_ptr<manifest::Repository> repo);
 
 protected:
+    int impl_run() override;
+
     bool m_fullpath = false;
     bool m_name_only = false;
     bool m_path_only = false;

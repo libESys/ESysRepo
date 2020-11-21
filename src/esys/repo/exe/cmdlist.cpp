@@ -31,7 +31,7 @@ namespace exe
 {
 
 CmdList::CmdList()
-    : Cmd()
+    : Cmd("List")
 {
 }
 
@@ -69,11 +69,9 @@ bool CmdList::get_path_only() const
     return m_path_only;
 }
 
-int CmdList::run()
+int CmdList::impl_run()
 {
     int result;
-
-    info("List ...");
 
     if (get_fullpath()) warn("Option --fullpath is not implemented yet.");
     if (get_name_only()) warn("Option --name-only is not implemented yet.");
@@ -95,7 +93,6 @@ int CmdList::run()
 
     info(oss.str());
 
-    info("List done.");
     return result;
 }
 

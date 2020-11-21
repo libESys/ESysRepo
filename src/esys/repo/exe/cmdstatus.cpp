@@ -35,7 +35,7 @@ namespace exe
 {
 
 CmdStatus::CmdStatus()
-    : Cmd()
+    : Cmd("Status")
 {
 }
 
@@ -53,11 +53,9 @@ bool CmdStatus::get_quiet() const
     return m_quiet;
 }
 
-int CmdStatus::run()
+int CmdStatus::impl_run()
 {
     int result;
-
-    info("Status ...");
 
     if (get_quiet()) warn("The option --quiet is not implemented yet");
 
@@ -74,7 +72,6 @@ int CmdStatus::run()
         }
     }
 
-    info("Status done.");
     return result;
 }
 
@@ -116,14 +113,28 @@ void CmdStatus::print_repo(std::shared_ptr<manifest::Repository> repo)
 {
     std::ostringstream oss;
     std::string first_part;
+    std::string cur_branch;
+
+    if (m_branches.size() != 0)
+    {
+        if (m_branches[0].get_is_head()) cur_branch = m_branches[0].get_name();
+    }
+
+    if (m_repo_status->get_file_status().size() == 0)
+    {
+        std::string rev = get_manifest()->get_repo_revision(repo);
+
+        auto index = rev.find("refs/heads/");
+        if (index != rev.npos) rev = rev.substr(index + std::strlen("refs/heads/"));
+
+        if (rev == cur_branch) return;
+    }
 
     first_part = "Repository : " + repo->get_path();
     oss << std::setw(get_start_print_branch()) << std::setfill(' ') << std::left << first_part;
 
-    if (m_branches.size() != 0)
-    {
-        if (m_branches[0].get_is_head()) oss << m_branches[0].get_name();
-    }
+    if (!cur_branch.empty())
+        oss << cur_branch;
 
     for (auto file_status : m_repo_status->get_file_status())
     {

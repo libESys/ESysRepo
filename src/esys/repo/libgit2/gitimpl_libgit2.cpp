@@ -49,6 +49,8 @@ GitImpl::~GitImpl()
 
 int GitImpl::open(const std::string &folder)
 {
+    self()->open_time();
+
     int result = git_repository_open(&m_repo, folder.c_str());
     if (result < 0) return check_error(result, "open git repo " + folder);
 
@@ -68,6 +70,8 @@ int GitImpl::close()
 
     m_repo = nullptr;
 
+    self()->close_time();
+
     return 0;
 }
 
@@ -75,20 +79,22 @@ int GitImpl::get_remotes(std::vector<git::Remote> &remotes)
 {
     if (m_repo == nullptr) return -1;
 
+    self()->cmd_start();
+
     git_strarray data;
 
     int result = git_remote_list(&data, m_repo);
-    if (result < 0) return -1;
+    if (result < 0) return check_error(result);
 
     char **p = data.strings;
 
-    if (data.count == 0) return 0;
-    if (p == nullptr) return -1;
+    if (data.count == 0) return check_error(0);
+    if (p == nullptr) return check_error(-1, "Not data");
 
     for (auto idx = 0; idx < data.count; ++idx)
     {
         char *name = *p;
-        if (name == nullptr) return -1;
+        if (name == nullptr) return check_error(-1, "Not name");
 
         git::Remote remote;
 
@@ -117,12 +123,14 @@ int GitImpl::get_remotes(std::vector<git::Remote> &remotes)
         if (result < 0) return check_error(result, ""); */
     }
 
-    return 0;
+    return check_error(0);
 }
 
 int GitImpl::get_branches(std::vector<git::Branch> &branches, git::BranchType branch_type)
 {
     if (m_repo == nullptr) return -1;
+
+    self()->cmd_start();
 
     Guard<git_branch_iterator> branch_it;
     git_branch_t list_flags;
@@ -144,7 +152,7 @@ int GitImpl::get_branches(std::vector<git::Branch> &branches, git::BranchType br
         git_branch_t git_branch_type;
 
         result = git_branch_next(ref.get_p(), &git_branch_type, branch_it.get());
-        if (result == GIT_ITEROVER) return 0;
+        if (result == GIT_ITEROVER) return check_error(0);
         if (result < 0) return check_error(result);
 
         git::Branch branch;
@@ -169,12 +177,14 @@ int GitImpl::get_branches(std::vector<git::Branch> &branches, git::BranchType br
 
         branches.push_back(branch);
     }
-
-    return 0;
+    return check_error(0);
 }
 
 int GitImpl::clone(const std::string &url, const std::string &path)
 {
+    self()->cmd_start();
+    self()->open_time();
+
     int result = 0;
 
     if (url.find("https:") == 0)
@@ -199,15 +209,16 @@ int GitImpl::clone(const std::string &url, const std::string &path)
     else
         result = -1;
 
-    return result;
+    return check_error(result);
 }
 
 int GitImpl::checkout(const std::string &branch, bool force)
 {
     Guard<git_object> treeish;
+    self()->cmd_start();
 
     int result = git_revparse_single(treeish.get_p(), m_repo, branch.c_str());
-    if (result < 0) return result;
+    if (result < 0) return check_error(result);
 
     git_checkout_options opts = GIT_CHECKOUT_OPTIONS_INIT;
     if (force)
@@ -216,7 +227,7 @@ int GitImpl::checkout(const std::string &branch, bool force)
         opts.checkout_strategy = GIT_CHECKOUT_SAFE;
 
     result = git_checkout_tree(m_repo, treeish.get(), &opts);
-    return result;
+    return check_error(result);
 }
 
 int GitImpl::get_last_commit(git::Commit &commit)
@@ -227,19 +238,21 @@ int GitImpl::get_last_commit(git::Commit &commit)
     Guard<git_commit> g_commit;
     git_oid oid_last_commit;
 
+    self()->cmd_start();
+
     // resolve HEAD into a SHA1
     result = git_reference_name_to_id(&oid_last_commit, m_repo, "HEAD");
-    if (result < 0) return result;
+    if (result < 0) return check_error(result);
 
     // get the actual commit structure
     result = git_commit_lookup(g_commit.get_p(), m_repo, &oid_last_commit);
-    if (result < 0) return result;
+    if (result < 0) return check_error(result);
 
     std::string hash;
     result = convert_bin_hex(oid_last_commit, hash);
     if (result == 0) commit.set_hash(hash);
 
-    return 0;
+    return check_error(result);
 }
 
 int GitImpl::is_dirty(bool &dirty)
@@ -249,15 +262,17 @@ int GitImpl::is_dirty(bool &dirty)
     Guard<git_status_list> status;
     git_status_options statusopt = GIT_STATUS_OPTIONS_INIT;
 
+    self()->cmd_start();
+
     statusopt.show = GIT_STATUS_SHOW_INDEX_AND_WORKDIR;
     statusopt.flags = GIT_STATUS_OPT_RENAMES_HEAD_TO_INDEX | GIT_STATUS_OPT_SORT_CASE_SENSITIVELY;
 
     int result = git_status_list_new(status.get_p(), m_repo, &statusopt);
-    if (result < 0) return result;
+    if (result < 0) return check_error(result);
 
     std::size_t count = git_status_list_entrycount(status.get());
     dirty = (count != 0);
-    return 0;
+    return check_error(0);
 }
 
 int GitImpl::get_status(git::RepoStatus &repo_status)
@@ -268,12 +283,14 @@ int GitImpl::get_status(git::RepoStatus &repo_status)
     Guard<git_status_list> status_list;
     git_status_options statusopt = GIT_STATUS_OPTIONS_INIT;
 
+    self()->cmd_start();
+
     statusopt.show = GIT_STATUS_SHOW_INDEX_AND_WORKDIR;
     statusopt.flags =
         GIT_STATUS_OPT_INCLUDE_UNTRACKED | GIT_STATUS_OPT_RENAMES_HEAD_TO_INDEX | GIT_STATUS_OPT_SORT_CASE_SENSITIVELY;
 
     int result = git_status_list_new(status_list.get_p(), m_repo, &statusopt);
-    if (result < 0) return result;
+    if (result < 0) return check_error(result);
 
     std::size_t count = git_status_list_entrycount(status_list.get());
 
@@ -283,7 +300,7 @@ int GitImpl::get_status(git::RepoStatus &repo_status)
 
         handle_status_entry(repo_status, status_entry);
     }
-    return 0;
+    return check_error(0);
 }
 
 int GitImpl::handle_status_entry(git::RepoStatus &repo_status, const git_status_entry *status_entry)
@@ -412,14 +429,18 @@ int GitImpl::from_to(const git_diff_file &file, git::DiffFile &diff_file)
 
 int GitImpl::check_error(int result, const std::string &action)
 {
+    self()->cmd_end();
+
+    if (result == 0) return 0;
+
     const git_error *error = git_error_last();
-    if (!result) return 0;
 
     std::ostringstream oss;
     oss << "ERROR " << result << " : " << action << " - ";
     oss << ((error && error->message) ? error->message : "???") << std::endl;
 
     self()->error(oss.str());
+
     return result;
 }
 

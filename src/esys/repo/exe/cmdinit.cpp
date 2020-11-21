@@ -34,6 +34,7 @@ namespace exe
 {
 
 CmdInit::CmdInit()
+    : Cmd("Init")
 {
 }
 
@@ -93,11 +94,14 @@ bool CmdInit::get_git_super_project() const
     return m_git_super_project;
 }
 
-int CmdInit::run()
+std::string CmdInit::get_extra_start_msg()
+{
+    return "\n    url : " + get_url();
+}
+
+int CmdInit::impl_run()
 {
     int result;
-
-    info("Init ...\n    url : " + get_url());
 
     if (get_google_manifest()) warn("The option --google is not implemented yet");
     if (get_git_super_project()) warn("The option --git-super is not implemented yet");
@@ -108,7 +112,6 @@ int CmdInit::run()
     result = fetch_manifest();
     if (result < 0) return result;
 
-    info("Init done.");
     return 0;
 }
 

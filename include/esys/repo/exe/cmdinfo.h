@@ -58,13 +58,13 @@ public:
     void set_local_only(bool local_only);
     bool get_local_only() const;
 
-    int run() override;
-
     int open_repo(std::shared_ptr<manifest::Repository> repo);
     void print_repo(std::shared_ptr<manifest::Repository> repo);
 
 protected:
     //!< \cond DOXY_IMPL
+    int impl_run() override;
+
     bool m_diff = false;
     bool m_overview = false;
     bool m_current_branch = false;

@@ -27,6 +27,7 @@
 
 #include <string>
 #include <vector>
+#include <chrono>
 
 //<swig_inc/>
 
@@ -165,10 +166,21 @@ public:
      */
     virtual const std::string &get_lib_name() = 0;
 
+    virtual void cmd_start();
+    virtual void cmd_end();
+    virtual void open_time();
+    virtual void close_time();
+    virtual uint64_t get_open_time();
+    virtual uint64_t get_last_cmd_elapsed_time();
+
 protected:
     //!< \cond DOXY_IMPL
     std::size_t m_id = 0; //!< The id of the git repository handled
     bool m_debug = false; //!< Trus if debug information should be printed
+    std::chrono::time_point<std::chrono::steady_clock> m_open_time;
+    std::chrono::time_point<std::chrono::steady_clock> m_last_cmd_start_time;
+    std::chrono::time_point<std::chrono::steady_clock> m_last_cmd_end_time;
+    std::chrono::time_point<std::chrono::steady_clock> m_close_time;
     //!< \endcond
 };
 

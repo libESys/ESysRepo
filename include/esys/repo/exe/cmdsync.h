@@ -48,10 +48,10 @@ public:
     void set_force(bool force);
     bool get_force() const;
 
-    int run() override;
-
 protected:
     //!< \cond DOXY_IMPL
+    int impl_run() override;
+
     bool m_force = false;
     //!< \endcond
 };

@@ -29,6 +29,7 @@ namespace exe
 {
 
 CmdSync::CmdSync()
+    : Cmd("Sync")
 {
 }
 
@@ -46,11 +47,9 @@ bool CmdSync::get_force() const
     return m_force;
 }
 
-int CmdSync::run()
+int CmdSync::impl_run()
 {
     int result;
-
-    info("Sync ...");
 
     if (get_force()) warn("Option --force-sync is not implemented yet");
 
@@ -66,12 +65,10 @@ int CmdSync::run()
     clone_repos.set_git(get_git());
     clone_repos.set_manifest(get_manifest());
 
-    if (get_git()->is_ssh_agent_running()) 
-        get_logger_if()->info("SSH agent detected");
+    if (get_git()->is_ssh_agent_running()) get_logger_if()->info("SSH agent detected");
 
     result = clone_repos.run();
     if (result < 0) return result;
-    info("Sync done.");
     return 0;
 }
 

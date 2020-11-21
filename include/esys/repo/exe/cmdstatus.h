@@ -49,8 +49,6 @@ public:
     void set_quiet(bool quiet);
     bool get_quiet() const;
 
-    int run() override;
-
     int open_repo(std::shared_ptr<manifest::Repository> repo);
     void print_repo(std::shared_ptr<manifest::Repository> repo);
 
@@ -63,6 +61,8 @@ public:
 
 protected:
     //!< \cond DOXY_IMPL
+    int impl_run() override;
+
     bool m_quiet = false;
     std::string m_rel_repo_path;
     std::string m_repo_path;

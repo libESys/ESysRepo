@@ -114,11 +114,22 @@ void GitHelper::error(const std::string &msg, int result)
     log::User::error(oss.str(), result);
 }
 
+void GitHelper::done(const std::string &msg, uint64_t elapsed_time)
+{
+    std::ostringstream oss;
+
+    init_oss(oss, msg);
+
+    oss << " done.\n";
+    oss << "    elapsed time (s): " << (elapsed_time / 1000) << "." << (elapsed_time % 1000);
+    log::User::info(oss.str());
+}
+
 int GitHelper::open(const std::string &folder, log::Level log_level, int debug_level)
 {
     boost::filesystem::path rel_folder = boost::filesystem::relative(folder);
 
-    std::string msg = "Opening:\n    path  : " + rel_folder.string();
+    std::string msg = "Opening ...\n    path  : " + rel_folder.string();
 
     log(msg, log_level, debug_level);
 
@@ -132,12 +143,15 @@ int GitHelper::clone(const std::string &url, const std::string &path, bool do_cl
 {
     boost::filesystem::path rel_path = boost::filesystem::relative(path);
 
-    std::string msg = "Cloning:\n    url  : " + url + "\n    path : " + rel_path.string();
+    std::string msg = "Cloning ...\n    url  : " + url + "\n    path : " + rel_path.string();
 
     log(msg, log_level, debug_level);
 
     int result = get_git()->clone(url, path);
-    if (result < 0) error("Failed with error ", result);
+    if (result < 0)
+        error("Failed with error ", result);
+    else
+        done("Cloning", get_git()->get_last_cmd_elapsed_time());
     if (!do_close) return result;
     return close(log::Level::DEBUG);
 }
@@ -145,6 +159,8 @@ int GitHelper::clone(const std::string &url, const std::string &path, bool do_cl
 int GitHelper::clone(const std::string &url, const std::string &temp_path, const std::string &path, bool do_close,
                      log::Level log_level, int debug_level)
 {
+    auto start_time = std::chrono::steady_clock::now();
+    
     boost::filesystem::path rel_temp_path = boost::filesystem::relative(temp_path);
 
     if (boost::filesystem::exists(temp_path))
@@ -177,12 +193,12 @@ int GitHelper::clone(const std::string &url, const std::string &temp_path, const
     std::string clone_msg;
     boost::filesystem::path rel_path = boost::filesystem::relative(path);
 
-    clone_msg = "Cloning:\n    url  : " + url + "\n    path : " + rel_path.string();
+    clone_msg = "Cloning ...\n    url  : " + url + "\n    path : " + rel_path.string();
     log(clone_msg, log::Level::INFO);
 
     if (log_level == log::Level::DEBUG)
     {
-        clone_msg = "Cloning:\n    url  : " + url + "\n    path : " + rel_temp_path.string();
+        clone_msg = "Cloning ...\n    url  : " + url + "\n    path : " + rel_temp_path.string();
         log(clone_msg, log::Level::DEBUG);
     }
 
@@ -214,6 +230,10 @@ int GitHelper::clone(const std::string &url, const std::string &temp_path, const
             return result;
         }
     }
+    auto stop_time = std::chrono::steady_clock::now();
+    auto d_milli = std::chrono::duration_cast<std::chrono::milliseconds>(stop_time - start_time).count();
+
+    done("Cloning", static_cast<uint64_t>(d_milli));
     return 0;
 }
 

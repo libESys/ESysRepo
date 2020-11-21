@@ -56,6 +56,7 @@ public:
     void log(const std::string &msg, log::Level level, int debug_level = 0) override;
 
     void error(const std::string &msg, int result) override;
+    void done(const std::string &msg, uint64_t elapsed_time);
 
     int open(const std::string &folder, log::Level log_level, int debug_level = 0);
 

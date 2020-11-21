@@ -22,6 +22,8 @@
 
 #include <boost/filesystem.hpp>
 
+#include <sstream>
+
 namespace esys
 {
 
@@ -31,12 +33,48 @@ namespace repo
 namespace exe
 {
 
-Cmd::Cmd()
+Cmd::Cmd(const std::string &name)
     : log::User()
+    , m_name(name)
 {
 }
 
 Cmd::~Cmd() = default;
+
+const std::string &Cmd::get_name() const
+{
+    return m_name;
+}
+
+int Cmd::run()
+{
+    m_start_time = std::chrono::steady_clock::now();
+
+    std::string msg = get_name() + " ...";
+    info(msg);
+
+    int result = impl_run();
+
+    auto stop_time = std::chrono::steady_clock::now();
+    auto d_milli = std::chrono::duration_cast<std::chrono::milliseconds>(stop_time - m_start_time).count();
+
+    std::ostringstream oss;
+    msg = get_name();
+    oss << "    elapsed time (s): " << (d_milli / 1000) << "." << (d_milli % 1000);
+    if (result == 0)
+    {
+        msg += " done.\n";
+        msg += oss.str();
+        info(msg);
+    }
+    else
+    {
+        msg += " failed.\n";
+        msg += oss.str();
+        error(msg);
+    }
+    return result;
+}
 
 void Cmd::set_manifest(std::shared_ptr<Manifest> manifest)
 {
@@ -187,6 +225,11 @@ int Cmd::load_manifest()
     get_loader()->set_logger_if(get_logger_if());
     result = get_loader()->run();
     return result;
+}
+
+std::string Cmd::get_extra_start_msg()
+{
+    return "";
 }
 
 } // namespace exe

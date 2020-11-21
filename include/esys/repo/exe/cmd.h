@@ -26,6 +26,7 @@
 
 #include <esys/log/user.h>
 
+#include <chrono>
 #include <memory>
 
 namespace esys
@@ -44,10 +45,12 @@ class ESYSREPO_API Cmd : public log::User
 {
 public:
     //! Default constructor
-    Cmd();
+    Cmd(const std::string  &name);
 
     //! Destructor
     virtual ~Cmd();
+
+    const std::string &get_name() const;
 
     //! Set the manifest
     /*!
@@ -144,7 +147,7 @@ public:
     /*!
      * \return 0 if successful, < 0 otherwise
      */
-    virtual int run() = 0;
+    virtual int run();
 
     //! Set if debug information are printed or not
     /*!
@@ -164,21 +167,26 @@ public:
      */
     int set_folder(const std::string &folder);
 
+    virtual std::string get_extra_start_msg();
+
 protected:
     //!< \cond DOXY_IMPL
+
+    virtual int impl_run() = 0;
 
     //! Helper function to open the ESysRep config folder and file
     /*!
      * \return 0 if successful, < 0 otherwise
      */
     int open_esysrepo_folder();
-    
+
     //! Helper function to load the manifest
     /*!
      * \return 0 if successful, < 0 otherwise
      */
     int load_manifest();
 
+    std::string m_name;
     std::shared_ptr<Manifest> m_manifest;          //!< The manifest to use
     std::shared_ptr<GitBase> m_git;                //!< The git instance to use
     bool m_debug = false;                          //!< If true debug information is printed
@@ -186,6 +194,7 @@ protected:
     std::string m_parent_path;                     //!< The parent path
     std::shared_ptr<ConfigFolder> m_config_folder; //!< The config folder
     std::shared_ptr<manifest::Loader> m_loader;    //!< The manifest loader
+    std::chrono::time_point<std::chrono::steady_clock> m_start_time;
     //!< \endcond
 };
 

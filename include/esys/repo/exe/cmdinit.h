@@ -105,8 +105,6 @@ public:
      */
     bool get_git_super_project() const;
 
-    int run() override;
-
     //! Fetch the manifest regardless of its type
     /*!
      *  \return 0 if successdful, < 0 otherwise
@@ -143,8 +141,13 @@ public:
      */
     int create_esysrepo_folder();
 
+
+    std::string get_extra_start_msg() override;
+
 protected:
     //!< \cond DOXY_IMPL
+    int impl_run() override;
+
     std::string m_url;                                        //!< The url for the git repo with the manifest
     std::string m_branch;                                     //!< The branch of the git
     std::string m_manifest_name;                              //!< The name of the manifest file

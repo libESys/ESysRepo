@@ -34,7 +34,7 @@ namespace exe
 {
 
 CmdInfo::CmdInfo()
-    : Cmd()
+    : Cmd("Info")
 {
 }
 
@@ -82,11 +82,9 @@ bool CmdInfo::get_local_only() const
     return m_local_only;
 }
 
-int CmdInfo::run()
+int CmdInfo::impl_run()
 {
     int result;
-
-    info("Info ...");
 
     result = load_manifest();
     if (result < 0) return result;
@@ -101,7 +99,6 @@ int CmdInfo::run()
         }
     }
 
-    info("Info done.");
     return result;
 }
 
