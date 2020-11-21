@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx</Extensions>
+    </Filter>
+    <Filter Include="Source Files\Swig">
+      <UniqueIdentifier>{9d06c5ef-27ad-40b8-b3e0-04ea93ea20ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Swig_cxx">
+      <UniqueIdentifier>{7b428c7a-3b80-4097-9883-82c1228a910a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Swig\git">
+      <UniqueIdentifier>{f6c862c8-2eaf-4671-96af-416e59016467}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\src\pyesysrepo\pyesysrepo_dll.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\pyesysrepo\pyesysrepo_prec.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\pyesysrepo\esysrepo_wrap.cxx">
+      <Filter>Source Files\Swig_cxx</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\include\pyesysrepo\pyesysrepo_defs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\pyesysrepo\pyesysrepo_prec.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\pyesysrepo\pyversion.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\pyesysrepo\esysrepo.hh">
+      <Filter>Source Files\Swig</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\pyesysrepo\gitbase.hh">
+      <Filter>Source Files\Swig</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\pyesysrepo\githelper.hh">
+      <Filter>Source Files\Swig</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\pyesysrepo\pyversion.hh">
+      <Filter>Source Files\Swig</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\pyesysrepo\version.hh">
+      <Filter>Source Files\Swig</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\pyesysrepo\git\branch.hh">
+      <Filter>Source Files\Swig\git</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\pyesysrepo\git\branchtype.hh">
+      <Filter>Source Files\Swig\git</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\pyesysrepo\git\commit.hh">
+      <Filter>Source Files\Swig\git</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\pyesysrepo\git\remote.hh">
+      <Filter>Source Files\Swig\git</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\..\res\pyesysrepo.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\..\src\pyesysrepo.py" />
+  </ItemGroup>
+</Project>
