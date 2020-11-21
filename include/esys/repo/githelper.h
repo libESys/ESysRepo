@@ -77,6 +77,8 @@ public:
 
     int is_dirty(bool &dirty, log::Level log_level, int debug_level = 0);
 
+    int get_status(git::RepoStatus &status, log::Level log_level, int debug_level = 0);
+
     int move(const std::string &src, const std::string &dst, bool recursive, log::Level log_level, int debug_level = 0);
 
     //! Set the GitBase instance to use
@@ -91,6 +93,9 @@ public:
      */
     std::shared_ptr<GitBase> get_git();
 
+    void set_auto_close(bool auto_close = true);
+    bool get_auto_close() const;
+
     void set_repo_idx(int repo_idx);
     int get_repo_idx() const;
 
@@ -101,6 +106,7 @@ protected:
     //!< \cond DOXY_IMPL
     std::shared_ptr<GitBase> m_git; //!< The GitBase instance to use
     int m_repo_idx = -1;            //!< The index of the repository worked on
+    bool m_auto_close = false;
     //!< \endcond
 };
 

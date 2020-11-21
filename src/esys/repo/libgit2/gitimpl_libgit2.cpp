@@ -260,6 +260,156 @@ int GitImpl::is_dirty(bool &dirty)
     return 0;
 }
 
+int GitImpl::get_status(git::RepoStatus &repo_status)
+{
+    if (m_repo == nullptr) return -1;
+
+    const git_status_entry *status_entry;
+    Guard<git_status_list> status_list;
+    git_status_options statusopt = GIT_STATUS_OPTIONS_INIT;
+
+    statusopt.show = GIT_STATUS_SHOW_INDEX_AND_WORKDIR;
+    statusopt.flags =
+        GIT_STATUS_OPT_INCLUDE_UNTRACKED | GIT_STATUS_OPT_RENAMES_HEAD_TO_INDEX | GIT_STATUS_OPT_SORT_CASE_SENSITIVELY;
+
+    int result = git_status_list_new(status_list.get_p(), m_repo, &statusopt);
+    if (result < 0) return result;
+
+    std::size_t count = git_status_list_entrycount(status_list.get());
+
+    for (std::size_t idx = 0; idx < count; ++idx)
+    {
+        status_entry = git_status_byindex(status_list.get(), idx);
+
+        handle_status_entry(repo_status, status_entry);
+    }
+    return 0;
+}
+
+int GitImpl::handle_status_entry(git::RepoStatus &repo_status, const git_status_entry *status_entry)
+{
+    std::shared_ptr<git::Status> status = std::make_shared<git::Status>();
+    int result = 0;
+
+    if (status_entry->status == GIT_STATUS_CURRENT)
+        result = handle_status_entry_current(repo_status, status, status_entry);
+
+    else if (status_entry->status < GIT_STATUS_WT_NEW)
+        result = handle_status_entry_index(repo_status, status, status_entry);
+    else if (status_entry->status < GIT_STATUS_IGNORED)
+        result = handle_status_entry_work_dir(repo_status, status, status_entry);
+    else if (status_entry->status == GIT_STATUS_IGNORED)
+        result = handle_status_entry_ignored(repo_status, status, status_entry);
+    else if (status_entry->status == GIT_STATUS_CONFLICTED)
+        result = handle_status_entry_conflicted(repo_status, status, status_entry);
+    else
+        return -1;
+
+    repo_status.add(status);
+    return 0;
+}
+
+int GitImpl::handle_status_entry_current(git::RepoStatus &repo_status, std::shared_ptr<git::Status> status,
+                                         const git_status_entry *status_entry)
+{
+    status->set_type(git::StatusType::CURRENT);
+
+    return 0;
+}
+
+int GitImpl::handle_status_entry_index(git::RepoStatus &repo_status, std::shared_ptr<git::Status> status,
+                                       const git_status_entry *status_entry)
+{
+    status->set_type(git::StatusType::INDEX);
+
+    return 0;
+}
+
+int GitImpl::handle_status_entry_work_dir(git::RepoStatus &repo_status, std::shared_ptr<git::Status> status,
+                                          const git_status_entry *status_entry)
+{
+    status->set_type(git::StatusType::WORKING_DIR);
+
+    int result = 0;
+    int local_result = from_to(status_entry->index_to_workdir, status->get_diff_delta());
+    if (local_result < 0) --result;
+
+    local_result = from_to(status_entry->status, status);
+    if (local_result < 0) --result;
+
+    return result;
+}
+
+int GitImpl::handle_status_entry_conflicted(git::RepoStatus &repo_status, std::shared_ptr<git::Status> status,
+                                            const git_status_entry *status_entry)
+{
+    status->set_type(git::StatusType::CONFLICTED);
+
+    return 0;
+}
+
+int GitImpl::handle_status_entry_ignored(git::RepoStatus &repo_status, std::shared_ptr<git::Status> status,
+                                         const git_status_entry *status_entry)
+{
+    status->set_type(git::StatusType::IGNORED);
+
+    return 0;
+}
+
+int GitImpl::from_to(git_status_t status, std::shared_ptr<git::Status> status_ptr)
+{
+    switch (status)
+    {
+        case GIT_STATUS_INDEX_NEW:
+        case GIT_STATUS_WT_NEW: status_ptr->set_sub_type(git::StatusSubType::NEW); break;
+
+        case GIT_STATUS_INDEX_MODIFIED:
+        case GIT_STATUS_WT_MODIFIED: status_ptr->set_sub_type(git::StatusSubType::MODIFIED); break;
+
+        case GIT_STATUS_INDEX_DELETED:
+        case GIT_STATUS_WT_DELETED: status_ptr->set_sub_type(git::StatusSubType::DELETED); break;
+
+        case GIT_STATUS_INDEX_RENAMED:
+        case GIT_STATUS_WT_RENAMED: status_ptr->set_sub_type(git::StatusSubType::RENAMED); break;
+
+        case GIT_STATUS_INDEX_TYPECHANGE:
+        case GIT_STATUS_WT_TYPECHANGE: status_ptr->set_sub_type(git::StatusSubType::TYPECHANGE); break;
+
+        case GIT_STATUS_WT_UNREADABLE: status_ptr->set_sub_type(git::StatusSubType::UNREADABLE); break;
+
+        default: return -1;
+    }
+    return 0;
+}
+
+int GitImpl::from_to(const git_diff_delta *delta, git::DiffDelta &diff_delta)
+{
+    diff_delta.set_file_count(delta->nfiles);
+    diff_delta.set_similatiry(delta->similarity);
+
+    int result = 0;
+
+    int local_result = from_to(delta->old_file, diff_delta.get_old_file());
+    if (local_result < 0) --result;
+
+    local_result = from_to(delta->new_file, diff_delta.get_new_file());
+    if (local_result < 0) --result;
+
+    return result;
+}
+
+int GitImpl::from_to(const git_diff_file &file, git::DiffFile &diff_file)
+{
+    std::string id;
+    int result = convert_bin_hex(file.id, id);
+    if (result == 0) diff_file.set_id(id);
+
+    diff_file.set_path(file.path);
+    diff_file.set_size(file.size);
+
+    return result;
+}
+
 int GitImpl::check_error(int result, const std::string &action)
 {
     const git_error *error = git_error_last();
@@ -307,7 +457,7 @@ bool GitImpl::is_ssh_agent_running()
         self()->error(oss.str());
     }
     else
-        self()->info("SSH agent detected");
+        self()->debug(0, "SSH agent detected");
 
     libssh2_agent_disconnect(agent);
     libssh2_agent_free(agent);

@@ -39,6 +39,7 @@ GitHelper::GitHelper(std::shared_ptr<GitBase> git, std::shared_ptr<Logger_if> lo
 
 GitHelper::~GitHelper()
 {
+    if (get_auto_close() && get_git()->is_open()) close(log::Level::DEBUG);
 }
 
 void GitHelper::debug(int level, const std::string &msg)
@@ -249,7 +250,6 @@ void GitHelper::sort_branches(std::vector<git::Branch> &branches)
     std::sort(branches.begin(), branches.end(), head_first);
 }
 
-
 int GitHelper::is_dirty(bool &dirty, log::Level log_level, int debug_level)
 {
     int result = get_git()->is_dirty(dirty);
@@ -260,9 +260,20 @@ int GitHelper::is_dirty(bool &dirty, log::Level log_level, int debug_level)
         if (dirty)
             log("Dirty git repo", log_level, debug_level);
         else
-            log("No hanges in the git repo", log_level, debug_level);
+            log("No changes in the git repo", log_level, debug_level);
     }
-    return 0;
+    return result;
+}
+
+int GitHelper::get_status(git::RepoStatus &status, log::Level log_level, int debug_level)
+{
+    int result = get_git()->get_status(status);
+    if (result < 0)
+        error("Failed to get the repo status");
+    else
+        log("Succeeded to get repo status", log_level, debug_level);
+
+    return result;
 }
 
 int GitHelper::move(const std::string &src, const std::string &dst, bool recursive, log::Level log_level,
@@ -287,6 +298,16 @@ void GitHelper::set_git(std::shared_ptr<GitBase> git)
 std::shared_ptr<GitBase> GitHelper::get_git()
 {
     return m_git;
+}
+
+void GitHelper::set_auto_close(bool auto_close)
+{
+    m_auto_close = auto_close;
+}
+
+bool GitHelper::get_auto_close() const
+{
+    return m_auto_close;
 }
 
 void GitHelper::set_repo_idx(int repo_idx)

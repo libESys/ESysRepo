@@ -81,6 +81,16 @@ int Git::is_dirty(bool &dirty)
     return get_impl()->is_dirty(dirty);
 }
 
+int Git::get_status(git::RepoStatus &repo_status)
+{
+    return m_impl->get_status(repo_status);
+}
+
+bool Git::is_ssh_agent_running()
+{
+    return m_impl->is_ssh_agent_running();
+}
+
 const std::string &Git::get_version()
 {
     return m_impl->get_version();

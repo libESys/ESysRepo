@@ -66,6 +66,9 @@ int CmdSync::run()
     clone_repos.set_git(get_git());
     clone_repos.set_manifest(get_manifest());
 
+    if (get_git()->is_ssh_agent_running()) 
+        get_logger_if()->info("SSH agent detected");
+
     result = clone_repos.run();
     if (result < 0) return result;
     info("Sync done.");

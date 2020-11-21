@@ -21,6 +21,7 @@
 #include "esys/repo/git/remote.h"
 #include "esys/repo/git/branch.h"
 #include "esys/repo/git/commit.h"
+#include "esys/repo/git/repostatus.h"
 
 #include <esys/log/user.h>
 
@@ -100,12 +101,26 @@ public:
 
     //! Get the last commit of the HEAD
     /*!
-     * \param[in] commit the commit data
+     * \param[out] commit the commit data
      * \return 0 if successful, < 0 otherwise
      */
     virtual int get_last_commit(git::Commit &commit) = 0;
 
+    //! Tells if there are changes in the git repo
+    /*!
+     * \param[out] dirtay true if the git repo is dirty, there are modification; false otherwise
+     * \return 0 if successful, < 0 otherwise
+     */
     virtual int is_dirty(bool &dirty) = 0;
+
+    //! Get the status of the repository
+    /*!
+     * \param[out] status the status of the repository
+     * \return 0 if successful, < 0 otherwise
+     */
+    virtual int get_status(git::RepoStatus &status) = 0;
+
+    virtual bool is_ssh_agent_running() = 0;
 
     //! Tells if a folder is a git repository
     /*!

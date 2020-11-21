@@ -59,6 +59,10 @@ public:
 
     int is_dirty(bool &dirty) override;
 
+    int get_status(git::RepoStatus &repo_status) override;
+
+    bool is_ssh_agent_running() override;
+  
     const std::string &get_version() override;
     const std::string &get_lib_name() override;
 

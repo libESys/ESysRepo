@@ -168,6 +168,24 @@
     <ClCompile Include="..\..\src\esys\repo\manifest\syncrepos_manifest.cpp">
       <Filter>Source Files\manifest</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\exe\cmdstatus.cpp">
+      <Filter>Source Files\exe</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\git\status_git.cpp">
+      <Filter>Source Files\git</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\git\repostatus_git.cpp">
+      <Filter>Source Files\git</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\git\diffdelta_git.cpp">
+      <Filter>Source Files\git</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\git\difffile_git.cpp">
+      <Filter>Source Files\git</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\git\filestatus_git.cpp">
+      <Filter>Source Files\git</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\esys\repo\esysrepo_defs.h">
@@ -307,6 +325,33 @@
     </ClInclude>
     <ClInclude Include="..\..\include\esys\repo\manifest\syncrepos.h">
       <Filter>Header Files\manifest</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\exe\cmdstatus.h">
+      <Filter>Header Files\exe</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\git\status.h">
+      <Filter>Header Files\git</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\git\statustype.h">
+      <Filter>Header Files\git</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\git\statussubtype.h">
+      <Filter>Header Files\git</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\git\repostatus.h">
+      <Filter>Header Files\git</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\git\diffdelta.h">
+      <Filter>Header Files\git</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\git\diffdeltatype.h">
+      <Filter>Header Files\git</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\git\difffile.h">
+      <Filter>Header Files\git</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\git\filestatus.h">
+      <Filter>Header Files\git</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

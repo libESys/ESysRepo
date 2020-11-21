@@ -242,6 +242,7 @@
     <ClCompile Include="..\..\src\esys\repo\exe\cmdinfo.cpp" />
     <ClCompile Include="..\..\src\esys\repo\exe\cmdinit.cpp" />
     <ClCompile Include="..\..\src\esys\repo\exe\cmdlist.cpp" />
+    <ClCompile Include="..\..\src\esys\repo\exe\cmdstatus.cpp" />
     <ClCompile Include="..\..\src\esys\repo\exe\cmdsync.cpp" />
     <ClCompile Include="..\..\src\esys\repo\filesystem.cpp" />
     <ClCompile Include="..\..\src\esys\repo\gitbase.cpp" />
@@ -249,7 +250,12 @@
     <ClCompile Include="..\..\src\esys\repo\githelper.cpp" />
     <ClCompile Include="..\..\src\esys\repo\git\branch_git.cpp" />
     <ClCompile Include="..\..\src\esys\repo\git\commit.cpp" />
+    <ClCompile Include="..\..\src\esys\repo\git\diffdelta_git.cpp" />
+    <ClCompile Include="..\..\src\esys\repo\git\difffile_git.cpp" />
+    <ClCompile Include="..\..\src\esys\repo\git\filestatus_git.cpp" />
     <ClCompile Include="..\..\src\esys\repo\git\remote_git.cpp" />
+    <ClCompile Include="..\..\src\esys\repo\git\repostatus_git.cpp" />
+    <ClCompile Include="..\..\src\esys\repo\git\status_git.cpp" />
     <ClCompile Include="..\..\src\esys\repo\grepo\manifestimpl_grepo.cpp" />
     <ClCompile Include="..\..\src\esys\repo\grepo\manifest_grepo.cpp" />
     <ClCompile Include="..\..\src\esys\repo\libgit2\gitimpl_libgit2.cpp" />
@@ -283,6 +289,7 @@
     <ClInclude Include="..\..\include\esys\repo\exe\cmdinfo.h" />
     <ClInclude Include="..\..\include\esys\repo\exe\cmdinit.h" />
     <ClInclude Include="..\..\include\esys\repo\exe\cmdlist.h" />
+    <ClInclude Include="..\..\include\esys\repo\exe\cmdstatus.h" />
     <ClInclude Include="..\..\include\esys\repo\exe\cmdsync.h" />
     <ClInclude Include="..\..\include\esys\repo\filesystem.h" />
     <ClInclude Include="..\..\include\esys\repo\git.h" />
@@ -292,7 +299,15 @@
     <ClInclude Include="..\..\include\esys\repo\git\branch.h" />
     <ClInclude Include="..\..\include\esys\repo\git\branchtype.h" />
     <ClInclude Include="..\..\include\esys\repo\git\commit.h" />
+    <ClInclude Include="..\..\include\esys\repo\git\diffdelta.h" />
+    <ClInclude Include="..\..\include\esys\repo\git\diffdeltatype.h" />
+    <ClInclude Include="..\..\include\esys\repo\git\difffile.h" />
+    <ClInclude Include="..\..\include\esys\repo\git\filestatus.h" />
     <ClInclude Include="..\..\include\esys\repo\git\remote.h" />
+    <ClInclude Include="..\..\include\esys\repo\git\repostatus.h" />
+    <ClInclude Include="..\..\include\esys\repo\git\status.h" />
+    <ClInclude Include="..\..\include\esys\repo\git\statussubtype.h" />
+    <ClInclude Include="..\..\include\esys\repo\git\statustype.h" />
     <ClInclude Include="..\..\include\esys\repo\grepo\manifest.h" />
     <ClInclude Include="..\..\include\esys\repo\libgit2\git.h" />
     <ClInclude Include="..\..\include\esys\repo\manifest.h" />

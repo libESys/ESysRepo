@@ -48,6 +48,22 @@ public:
     //! Default constructor
     Branch();
 
+    //! Constructor
+    /*!
+     * \param[in] name the name of the branch
+     * \param[in] is_head true if this is current branch, false otherwise
+    */
+    Branch(const std::string &name, bool is_head);
+
+    //! Constructor
+    //! Constructor
+    /*!
+     * \param[in] name the name of the branch
+     * \param[in] type the type of the branch, e.g. local or remote
+     * \param[in] is_head true if this is current branch, false otherwise
+     */
+    Branch(const std::string &name, BranchType type, bool is_head);
+
     //! Destructor
     virtual ~Branch();
 

@@ -21,6 +21,7 @@
 #include "esys/repo/libgit2/git.h"
 #include "esys/repo/libgit2/libgit2.h"
 #include "esys/repo/libgit2/guard.h"
+#include "esys/repo/git/diffdelta.h"
 
 #include <git2.h>
 
@@ -54,6 +55,22 @@ public:
     int get_last_commit(git::Commit &commit);
 
     int is_dirty(bool &dirty);
+    int get_status(git::RepoStatus &repo_status);
+    int handle_status_entry(git::RepoStatus &repo_status, const git_status_entry *status_entry);
+    int handle_status_entry_current(git::RepoStatus &repo_status, std::shared_ptr<git::Status> status,
+                                    const git_status_entry *status_entry);
+    int handle_status_entry_index(git::RepoStatus &repo_status, std::shared_ptr<git::Status> status,
+                                  const git_status_entry *status_entry);
+    int handle_status_entry_work_dir(git::RepoStatus &repo_status, std::shared_ptr<git::Status> status,
+                                     const git_status_entry *status_entry);
+    int handle_status_entry_conflicted(git::RepoStatus &repo_status, std::shared_ptr<git::Status> status,
+                                       const git_status_entry *status_entry);
+    int handle_status_entry_ignored(git::RepoStatus &repo_status, std::shared_ptr<git::Status> status,
+                                    const git_status_entry *status_entry);
+
+    int from_to(git_status_t status, std::shared_ptr<git::Status> status_ptr);
+    int from_to(const git_diff_delta *delta, git::DiffDelta &diff_delta);
+    int from_to(const git_diff_file &file, git::DiffFile &diff_file);
 
     int check_error(int result, const std::string &action = "");
 

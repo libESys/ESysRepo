@@ -179,8 +179,8 @@ class Branch(_object):
     __getattr__ = lambda self, name: _swig_getattr(self, Branch, name)
     __repr__ = _swig_repr
 
-    def __init__(self):
-        this = _esysrepo.new_Branch()
+    def __init__(self, *args):
+        this = _esysrepo.new_Branch(*args)
         try:
             self.this.append(this)
         except __builtin__.Exception:
@@ -382,6 +382,13 @@ class GitHelper(esyslog.User):
 
     def get_branches(self, branches, branch_type, log_level, debug_level=0):
         return _esysrepo.GitHelper_get_branches(self, branches, branch_type, log_level, debug_level)
+    if _newclass:
+        sort_branches = staticmethod(_esysrepo.GitHelper_sort_branches)
+    else:
+        sort_branches = _esysrepo.GitHelper_sort_branches
+
+    def is_dirty(self, dirty, log_level, debug_level=0):
+        return _esysrepo.GitHelper_is_dirty(self, dirty, log_level, debug_level)
 
     def move(self, src, dst, recursive, log_level, debug_level=0):
         return _esysrepo.GitHelper_move(self, src, dst, recursive, log_level, debug_level)
@@ -402,6 +409,10 @@ class GitHelper(esyslog.User):
         return _esysrepo.GitHelper_init_oss(self, *args)
 GitHelper_swigregister = _esysrepo.GitHelper_swigregister
 GitHelper_swigregister(GitHelper)
+
+def GitHelper_sort_branches(branches):
+    return _esysrepo.GitHelper_sort_branches(branches)
+GitHelper_sort_branches = _esysrepo.GitHelper_sort_branches
 
 ESYSREPO_USE_LIBGIT2 = _esysrepo.ESYSREPO_USE_LIBGIT2
 class Git(GitBase):

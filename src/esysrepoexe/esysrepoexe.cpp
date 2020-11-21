@@ -24,6 +24,7 @@
 #include <esys/repo/exe/cmdsync.h>
 #include <esys/repo/exe/cmdlist.h>
 #include <esys/repo/exe/cmdinfo.h>
+#include <esys/repo/exe/cmdstatus.h>
 
 #include <boost/program_options/cmdline.hpp>
 #include <boost/program_options/options_description.hpp>
@@ -266,7 +267,7 @@ int ESysRepoExe::cmd_list()
     po::positional_options_description p;
     p.add("command", 1).add("subargs", -1);
 
-    po::options_description desc("Lizt options");
+    po::options_description desc("List options");
     po::options_description desc_all("Allowed options");
     po::options_description desc_help("Options");
 
@@ -304,8 +305,38 @@ int ESysRepoExe::cmd_list()
 
 int ESysRepoExe::cmd_status()
 {
-    error("Comamnd 'status' not implemented yet.");
-    return -1;
+    po::positional_options_description p;
+    p.add("command", 1).add("subargs", -1);
+
+    po::options_description desc("Status options");
+    po::options_description desc_all("Allowed options");
+    po::options_description desc_help("Options");
+
+    // clang-format off
+    desc.add_options()
+        ("help,h", "produce help message")
+        ("quiet,q", po::value<bool>()->default_value(false)->implicit_value(true), "Only print the name of modified projects")
+        ("folder", po::value<std::string>(), "the esysrepo folder to use")
+        ;
+    // clang-format on
+    desc_all.add(desc).add(*m_desc);
+
+    int result = parse(m_args, desc_all, p, m_vm);
+    if (result < 0) return 0;
+
+    esys::repo::exe::CmdStatus status;
+
+    status.set_git(m_git);
+    if (m_logger != nullptr) status.set_logger_if(m_logger);
+
+    if (m_vm["debug"].as<bool>()) status.set_debug(true);
+    if (m_vm["quiet"].as<bool>()) status.set_quiet(true);
+    
+
+    result = status.set_folder(get_folder());
+    if (result < 0) return result;
+
+    return status.run();
 }
 
 int ESysRepoExe::cmd_sync()
