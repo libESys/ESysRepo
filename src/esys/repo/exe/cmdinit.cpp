@@ -18,6 +18,7 @@
 #include "esys/repo/esysrepo_prec.h"
 #include "esys/repo/exe/cmdinit.h"
 #include "esys/repo/filesystem.h"
+#include "esys/repo/githelper.h"
 
 #include <boost/filesystem.hpp>
 
@@ -92,89 +93,14 @@ bool CmdInit::get_git_super_project() const
     return m_git_super_project;
 }
 
-void CmdInit::set_parent_path(const std::string &parent_path)
-{
-    m_parent_path = parent_path;
-}
-
-const std::string &CmdInit::get_parent_path() const
-{
-    return m_parent_path;
-}
-
-void CmdInit::set_force(bool force)
-{
-    m_force = force;
-}
-
-bool CmdInit::get_force() const
-{
-    return m_force;
-}
-
-void CmdInit::set_manifest(std::shared_ptr<Manifest> manifest)
-{
-    m_manifest = manifest;
-}
-
-std::shared_ptr<Manifest> CmdInit::get_manifest()
-{
-    return m_manifest;
-}
-
-const std::shared_ptr<Manifest> CmdInit::get_manifest() const
-{
-    return m_manifest;
-}
-
-void CmdInit::set_fetcher(std::shared_ptr<manifest::Fetch> fetcher)
-{
-    m_fetcher = fetcher;
-}
-
-std::shared_ptr<manifest::Fetch> CmdInit::get_fetcher()
-{
-    return m_fetcher;
-}
-
-const std::shared_ptr<manifest::Fetch> CmdInit::get_fetcher() const
-{
-    return m_fetcher;
-}
-
-void CmdInit::set_config_folder(std::shared_ptr<ConfigFolder> config_folder)
-{
-    m_config_folder = config_folder;
-}
-
-std::shared_ptr<ConfigFolder> CmdInit::get_config_folder()
-{
-    return m_config_folder;
-}
-
-const std::shared_ptr<ConfigFolder> CmdInit::get_config_folder() const
-{
-    return m_config_folder;
-}
-
-void CmdInit::set_git(std::shared_ptr<GitBase> git)
-{
-    m_git = git;
-}
-
-std::shared_ptr<GitBase> CmdInit::get_git()
-{
-    return m_git;
-}
-
-const std::shared_ptr<GitBase> CmdInit::get_git() const
-{
-    return m_git;
-}
-
 int CmdInit::run()
 {
     int result;
+
+    info("Init ...\n    url : " + get_url());
+
+    if (get_google_manifest()) warn("The option --google is not implemented yet");
+    if (get_git_super_project()) warn("The option --git-super is not implemented yet");
 
     result = create_esysrepo_folder();
     if (result < 0) return result;
@@ -182,6 +108,7 @@ int CmdInit::run()
     result = fetch_manifest();
     if (result < 0) return result;
 
+    info("Init done.");
     return 0;
 }
 
@@ -215,21 +142,29 @@ int CmdInit::fetch_unknown_manifest()
 {
     if (get_git() == nullptr) return -1;
 
+    info("Detecting the manifest type ...");
+
     boost::filesystem::path path = get_config_folder()->get_temp_path();
     path /= "unknown_manifest";
 
-    if (get_url().empty()) return -1;
+    if (get_url().empty())
+    {
+        error("URL is empty");
+        return -1;
+    }
 
-    int result = get_git()->clone(get_url(), path.normalize().make_preferred().string());
+    GitHelper git_helper(get_git(), get_logger_if());
+
+    int result = git_helper.clone(get_url(), path.normalize().make_preferred().string(), false, log::DEBUG);
     if (result < 0) return -1;
 
     if (!get_branch().empty())
     {
-        result = get_git()->checkout(get_branch(), get_force());
+        result = get_git()->checkout(get_branch() /*, get_force()*/);
         if (result < 0) return -1;
     }
 
-    result = get_git()->close();
+    result = git_helper.close(log::DEBUG);
     if (result < 0) return -1;
 
     boost::filesystem::path file_path = path;
@@ -237,13 +172,17 @@ int CmdInit::fetch_unknown_manifest()
 
     if (boost::filesystem::exists(file_path))
     {
+        info("ESysRepo manifest detected.");
         get_config_folder()->get_or_new_config()->set_manifest_type(manifest::Type::ESYSREPO_MANIFEST);
 
         boost::filesystem::path source = path.string();
+        boost::filesystem::path rel_source = boost::filesystem::relative(source);
         boost::filesystem::path target = get_config_folder()->get_parent_path();
 
-        result = move(source.string(), target.string());
-        if (result < -2) return -1;
+        result = git_helper.move(source.string(), target.string(), true, log::Level::DEBUG);
+        if (result == -1) return result;
+        if (result == -2) warn("While moving folder " + rel_source.string() + " some files were left behind.");
+
         return 0;
     }
 
@@ -255,21 +194,29 @@ int CmdInit::fetch_unknown_manifest()
 
     if (boost::filesystem::exists(file_path))
     {
+        info("Google repo tool manifest detected.");
         get_config_folder()->get_or_new_config()->set_manifest_type(manifest::Type::GOOGLE_MANIFEST);
 
         boost::filesystem::path source = path.string();
+        boost::filesystem::path rel_source = boost::filesystem::relative(source);
         boost::filesystem::path target = get_config_folder()->get_path();
+        boost::filesystem::path rel_target = boost::filesystem::relative(target);
         target /= "grepo";
+        rel_target = boost::filesystem::relative(target);
 
         bool result_bool = boost::filesystem::create_directory(target);
-        if (!result_bool) return -1;
-
-        result = boost_no_all::move(source.string(), target.string());
-        if (result == -1) return result;
-        if (result == -2)
+        if (!result_bool)
         {
-            std::cout << "WARNING: while moving folder " << source << " some files were left behind." << std::endl;
+            error("Couldn't create the folder : " + rel_target.string());
+            return -1;
         }
+        else
+            debug(0, "Created folder : " + rel_target.string());
+
+        result = git_helper.move(source.string(), target.string(), true, log::Level::DEBUG);
+        if (result == -1) return result;
+        if (result == -2) warn("While moving folder " + rel_source.string() + " some files were left behind.");
+
         std::string manifest_path = "grepo/";
         if (!get_manifest_name().empty())
             manifest_path += get_manifest_name();
@@ -285,12 +232,13 @@ int CmdInit::fetch_unknown_manifest()
 
     if (boost::filesystem::exists(file_path))
     {
+        info("Git submodule detected.");
         get_config_folder()->get_or_new_config()->set_manifest_type(manifest::Type::GIT_SUPER_PROJECT);
 
         boost::filesystem::path source = path.string();
         boost::filesystem::path target = get_config_folder()->get_parent_path();
 
-        result = move(source.string(), target.string());
+        result = git_helper.move(source.string(), target.string(), true, log::Level::DEBUG);
         if (result < -1) return -1;
         return 0;
     }
@@ -301,6 +249,7 @@ int CmdInit::fetch_unknown_manifest()
 int CmdInit::create_esysrepo_folder()
 {
     auto config_folder = std::make_shared<ConfigFolder>();
+    config_folder->set_logger_if(get_logger_if());
 
     set_config_folder(config_folder);
 

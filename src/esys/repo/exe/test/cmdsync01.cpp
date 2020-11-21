@@ -46,32 +46,21 @@ ESYSTEST_AUTO_TEST_CASE(CmdSync01)
 {
     boost::filesystem::path file_path;
 
-    file_path = repo::test::TestCaseCtrl::get().GetTempFilesFolder();
-    file_path /= ("cmdsync01");
+    auto &ctrl = repo::test::TestCaseCtrl::get();
+    file_path = ctrl.delete_create_temp_folder("cmdsync01");
+    ESYSTEST_REQUIRE_EQUAL(file_path.string().empty(), false);
 
-    bool remove_all = true;
-
-    try
-    {
-        if (boost::filesystem::exists(file_path)) boost_no_all::remove_all(file_path.string());
-    }
-    catch (const boost::filesystem::filesystem_error &e)
-    {
-        remove_all = false;
-        std::cerr << e.what() << std::endl;
-    }
-
-    ESYSTEST_REQUIRE_EQUAL(remove_all, true);
-
-    bool created = boost::filesystem::create_directory(file_path);
-    ESYSTEST_REQUIRE_EQUAL(created, true);
+    auto logger = ctrl.get_logger("logger", file_path.string());
+    ESYSTEST_REQUIRE_NE(logger, nullptr);
 
     CmdInit cmd_init;
     auto git = std::make_shared<libgit2::Git>();
+    git->set_logger_if(logger);
 
     cmd_init.set_url("https://gitlab.com/libesys/esysmodbus/manifest.git");
     cmd_init.set_parent_path(file_path.string());
     cmd_init.set_git(git);
+    cmd_init.set_logger_if(logger);
 
     int result = cmd_init.run();
     ESYSTEST_REQUIRE_EQUAL(result, 0);

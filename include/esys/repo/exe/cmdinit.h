@@ -18,10 +18,7 @@
 #pragma once
 
 #include "esys/repo/esysrepo_defs.h"
-#include "esys/repo/manifest/type.h"
-#include "esys/repo/manifest/fetch.h"
-#include "esys/repo/configfolder.h"
-#include "esys/repo/gitbase.h"
+#include "esys/repo/exe/cmd.h"
 
 #include <string>
 #include <vector>
@@ -36,71 +33,125 @@ namespace repo
 namespace exe
 {
 
-class ESYSREPO_API CmdInit
+/*! \class CmdInit esys/repo/exe/cmdinit.h "esys/repo/exe/cmdinit.h"
+ * \brief Init command
+ */
+class ESYSREPO_API CmdInit : public Cmd
 {
 public:
+    //! Default destructor
     CmdInit();
+
+    //! Destructor
     virtual ~CmdInit();
 
+    //! Set the url of the git repo with the manifest
+    /*!
+     *  \param[in] url the url of the git repo with the manifest
+     */
     void set_url(const std::string &url);
+
+    //! Get the url of the git repo with the manifest
+    /*!
+     *  \return the url of the git repo with the manifest
+     */
     const std::string &get_url() const;
 
+    //! Set the branch to used from the git repo with the manifest
+    /*!
+     *  \param[in] branch the branch to used from the git repo with the manifest
+     */
     void set_branch(const std::string &branch);
+
+    //! Get the branch to used from the git repo with the manifest
+    /*!
+     *  \return the branch to used from the git repo with the manifest
+     */
     const std::string &get_branch() const;
 
+    //! Set the name of the manifest file to use
+    /*!
+     *  \param[in] manifest_name the name of the manifest file to use
+     */
     void set_manifest_name(const std::string &manifest_name);
+
+    //! Get the name of the manifest file to use
+    /*!
+     *  \return the name of the manifest file to use
+     */
     const std::string &get_manifest_name() const;
 
+    //! Set if the manigest is known to be a Google repo tool manifest
+    /*!
+     *  \param[in] google_manifest if true, the manifest to use is a Google repo tool manifest
+     */
     void set_google_manifest(bool google_manifest);
+
+    //! Get if the manigest is known to be a Google repo tool manifest
+    /*!
+     *  \return if true, the manifest to use is a Google repo tool manifest
+     */
     bool get_google_manifest() const;
 
+    //! Set if the manigest is known to be a git super project
+    /*!
+     *  \param[in] git_super_project if true, the "manifest" to use is a git super project
+     */
     void set_git_super_project(bool git_super_project);
+
+    //! Get if the manifest is known to be a git super project
+    /*!
+     *  \return if true, the "manifest" to use is a git super project
+     */
     bool get_git_super_project() const;
 
-    void set_parent_path(const std::string &parent_path);
-    const std::string &get_parent_path() const;
+    int run() override;
 
-    void set_force(bool force);
-    bool get_force() const;
-
-    void set_manifest(std::shared_ptr<Manifest> manifest);
-    std::shared_ptr<Manifest> get_manifest();
-    const std::shared_ptr<Manifest> get_manifest() const;
-
-    void set_fetcher(std::shared_ptr<manifest::Fetch> fetcher);
-    std::shared_ptr<manifest::Fetch> get_fetcher();
-    const std::shared_ptr<manifest::Fetch> get_fetcher() const;
-
-    void set_config_folder(std::shared_ptr<ConfigFolder> config_folder);
-    std::shared_ptr<ConfigFolder> get_config_folder();
-    const std::shared_ptr<ConfigFolder> get_config_folder() const;
-
-    void set_git(std::shared_ptr<GitBase> git);
-    std::shared_ptr<GitBase> get_git();
-    const std::shared_ptr<GitBase> get_git() const;
-
-    int run();
-
+    //! Fetch the manifest regardless of its type
+    /*!
+     *  \return 0 if successdful, < 0 otherwise
+     */
     int fetch_manifest();
+
+    //! Fetch the manifest of type Google repo tool
+    /*!
+     *  \return 0 if successdful, < 0 otherwise
+     */
     int fetch_google_manifest();
+
+    //! Fetch the manifest of type ESysRepo
+    /*!
+     *  \return 0 if successdful, < 0 otherwise
+     */
     int fetch_esysrepo_manifest();
+
+    //! Fetch the "manifest" equivalent from a git super project
+    /*!
+     *  \return 0 if successdful, < 0 otherwise
+     */
     int fetch_git_super_project();
+
+    //! Fetch and detect the manifest
+    /*!
+     *  \return 0 if successdful, < 0 otherwise
+     */
     int fetch_unknown_manifest();
+
+    //! Create the ESysRepo config folder
+    /*!
+     *  \return 0 if successdful, < 0 otherwise
+     */
     int create_esysrepo_folder();
 
 protected:
-    std::string m_url;
-    std::string m_branch;
-    std::string m_manifest_name;
-    bool m_google_manifest = false;
-    bool m_git_super_project = false;
-    std::string m_parent_path;
-    bool m_force = false;
-    manifest::Type m_manifest_type = manifest::Type::NOT_SET;
-    std::shared_ptr<Manifest> m_manifest;
-    std::shared_ptr<manifest::Fetch> m_fetcher;
-    std::shared_ptr<ConfigFolder> m_config_folder;
-    std::shared_ptr<GitBase> m_git;
+    //!< \cond DOXY_IMPL
+    std::string m_url;                                        //!< The url for the git repo with the manifest
+    std::string m_branch;                                     //!< The branch of the git
+    std::string m_manifest_name;                              //!< The name of the manifest file
+    bool m_google_manifest = false;                           //!< The manifest is a Google repo tool manifest
+    bool m_git_super_project = false;                         //!< The reposotory hold a git super project
+    manifest::Type m_manifest_type = manifest::Type::NOT_SET; //!< The type of the loaded manifest
+    //!< \endcond
 };
 
 } // namespace exe
