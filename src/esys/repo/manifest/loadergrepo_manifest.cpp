@@ -1,5 +1,5 @@
 /*!
- * \file esys/repo/manifest/fetchgrepo_manifest.cpp
+ * \file esys/repo/manifest/loadergrepo_manifest.cpp
  * \brief
  *
  * \cond
@@ -16,7 +16,7 @@
  */
 
 #include "esys/repo/esysrepo_prec.h"
-#include "esys/repo/manifest/fetchgrepo.h"
+#include "esys/repo/manifest/loadergrepo.h"
 #include "esys/repo/grepo/manifest.h"
 
 #include <boost/filesystem.hpp>
@@ -30,16 +30,16 @@ namespace repo
 namespace manifest
 {
 
-FetchGRepo::FetchGRepo()
-    : FetchBase()
+LoaderGRepo::LoaderGRepo()
+    : LoaderBase()
 {
 }
 
-FetchGRepo::~FetchGRepo()
+LoaderGRepo::~LoaderGRepo()
 {
 }
 
-int FetchGRepo::run()
+int LoaderGRepo::run()
 {
     if (get_config_folder() == nullptr) return -1;
     if (get_config_folder()->get_config() == nullptr) return -1;
@@ -57,10 +57,15 @@ int FetchGRepo::run()
 
     loader.set_data(get_manifest());
 
-    int result = loader.read(path.string());
-    if (result < 0) return result;
+    boost::filesystem::path rel_path = boost::filesystem::relative(path);
 
-    return 0;
+    int result = loader.read(path.string());
+    if (result < 0)
+        error("Couldn't load Google repo manifest : " + rel_path.string());
+    else
+        debug(0, "Loaded Google repo manifest : " + rel_path.string());
+
+    return result;
 }
 
 } // namespace manifest

@@ -1,5 +1,5 @@
 /*!
- * \file esys/repo/manifest/fetchgrepo.h
+ * \file esys/repo/manifest/loadergrepo.h
  * \brief
  *
  * \cond
@@ -18,7 +18,7 @@
 #pragma once
 
 #include "esys/repo/esysrepo_defs.h"
-#include "esys/repo/manifest/fetchbase.h"
+#include "esys/repo/manifest/loaderbase.h"
 
 namespace esys
 {
@@ -29,11 +29,17 @@ namespace repo
 namespace manifest
 {
 
-class ESYSREPO_API FetchGRepo : public FetchBase
+/*! \class LoaderGRepo esys/repo/manifest/loadergrepo.h "esys/repo/manifest/loadergrepo.h"
+ * \brief Load a Google repo tool manifest
+ */
+class ESYSREPO_API LoaderGRepo : public LoaderBase
 {
 public:
-    FetchGRepo();
-    virtual ~FetchGRepo();
+    //! Default constructor
+    LoaderGRepo();
+
+    //! Destructor
+    virtual ~LoaderGRepo();
 
     int run() override;
 };

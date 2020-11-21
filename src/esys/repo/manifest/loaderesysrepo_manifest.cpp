@@ -1,5 +1,5 @@
 /*!
- * \file esys/repo/manifest/fetchgitsuper_manifest.cpp
+ * \file esys/repo/manifest/loaderesysrepo_manifest.cpp
  * \brief
  *
  * \cond
@@ -16,7 +16,7 @@
  */
 
 #include "esys/repo/esysrepo_prec.h"
-#include "esys/repo/manifest/fetchgitsuper.h"
+#include "esys/repo/manifest/loaderesysrepo.h"
 
 namespace esys
 {
@@ -27,16 +27,16 @@ namespace repo
 namespace manifest
 {
 
-FetchGitSuper::FetchGitSuper()
-    : FetchBase()
+LoaderESysRepo::LoaderESysRepo()
+    : LoaderBase()
 {
 }
 
-FetchGitSuper::~FetchGitSuper()
+LoaderESysRepo::~LoaderESysRepo()
 {
 }
 
-int FetchGitSuper::run()
+int LoaderESysRepo::run()
 {
     return -1;
 }

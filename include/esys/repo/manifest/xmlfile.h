@@ -34,20 +34,48 @@ namespace manifest
 
 class ESYSREPO_API XMLFileImpl;
 
+/*! \class XMLFile esys/repo/manifest/xmlfile.h "esys/repo/manifest/xmlfile.h"
+ * \brief Read and write the ESysRepo manifest in XML format
+ */
 class ESYSREPO_API XMLFile : public File
 {
 public:
+    //! Default constructor
     XMLFile();
+
+    //! Destructor
     virtual ~XMLFile();
 
+    //! Read a XML ESysRepo manifest file
+    /*!
+     * \param[in] path the path of the XML ESysRepo manifest file to read
+     * \return 0 if successful, < 0 otherwise
+     */
     int read(const std::string &path) override;
+
+    //! Write a XML ESysRepo manifest file
+    /*!
+     * \param[in] path the path of the XML ESysRepo manifest file to write
+     * \return 0 if successful, < 0 otherwise
+     */
     int write(const std::string &path) override;
 
+    //! Get the PIMPL
+    /*!
+     * \return the PIMPL
+     */
     XMLFileImpl *get_impl();
+
+    //! Get the PIMPL
+    /*!
+     * \return the PIMPL
+     */
     const XMLFileImpl *get_impl() const;
 
 protected:
-    std::unique_ptr<XMLFileImpl> m_impl;
+    //!< \cond DOXY_IMPL
+    std::unique_ptr<XMLFileImpl> m_impl; //!< The PIMPL
+    //!< \endcond
 };
 
 } // namespace manifest

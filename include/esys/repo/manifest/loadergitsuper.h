@@ -1,5 +1,5 @@
 /*!
- * \file esys/repo/manifest/fetchesysrepo.h
+ * \file esys/repo/manifest/loadergitsuper.h
  * \brief
  *
  * \cond
@@ -18,7 +18,7 @@
 #pragma once
 
 #include "esys/repo/esysrepo_defs.h"
-#include "esys/repo/manifest/fetchbase.h"
+#include "esys/repo/manifest/loaderbase.h"
 
 namespace esys
 {
@@ -29,11 +29,17 @@ namespace repo
 namespace manifest
 {
 
-class ESYSREPO_API FetchESysRepo : public FetchBase
+/*! \class LoaderGitSuper esys/repo/manifest/loadergitsuper.h "esys/repo/manifest/loadergitsuper.h"
+ * \brief Load a git super project
+ */
+class ESYSREPO_API LoaderGitSuper : public LoaderBase
 {
 public:
-    FetchESysRepo();
-    virtual ~FetchESysRepo();
+    //! Default constructor
+    LoaderGitSuper();
+
+    //! Destructor
+    virtual ~LoaderGitSuper();
 
     int run() override;
 };

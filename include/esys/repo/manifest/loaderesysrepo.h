@@ -1,5 +1,5 @@
 /*!
- * \file esys/repo/manifest/fetch.h
+ * \file esys/repo/manifest/loaderesysrepo.h
  * \brief
  *
  * \cond
@@ -18,9 +18,7 @@
 #pragma once
 
 #include "esys/repo/esysrepo_defs.h"
-#include "esys/repo/manifest/fetchbase.h"
-
-#include <memory>
+#include "esys/repo/manifest/loaderbase.h"
 
 namespace esys
 {
@@ -31,21 +29,19 @@ namespace repo
 namespace manifest
 {
 
-class ESYSREPO_API Fetch : public FetchBase
+/*! \class LoaderESysRepo esys/repo/manifest/loaderesysrepo.h "esys/repo/manifest/loaderesysrepo.h"
+ * \brief Load a ESysRepo manifest
+ */
+class ESYSREPO_API LoaderESysRepo : public LoaderBase
 {
 public:
-    Fetch();
-    virtual ~Fetch();
+    //! Default constructor
+    LoaderESysRepo();
+
+    //! Destructor
+    virtual ~LoaderESysRepo();
 
     int run() override;
-
-    void set_fetcher(std::shared_ptr<FetchBase> fetcher);
-    std::shared_ptr<FetchBase> get_fetcher();
-    const std::shared_ptr<FetchBase> get_fetcher() const;
-
-protected:
-    std::shared_ptr<FetchBase> m_fetcher;
-
 };
 
 } // namespace manifest

@@ -32,21 +32,54 @@ namespace repo
 namespace manifest
 {
 
+/*! \class File esys/repo/manifest/file.h "esys/repo/manifest/file.h"
+ * \brief Base class for all ESysRepo manifest file format
+ */
 class ESYSREPO_API File
 {
 public:
+    //! Default constructor
     File();
+
+    //! Destructor
     virtual ~File();
 
+    //! Set the manifest data
+    /*!
+     * \param[in] manifest the manifest data
+     */
     void set_manifest(std::shared_ptr<Manifest> manifest);
+
+    //! Get the manifest data
+    /*!
+     * \return the manifest data
+     */
     std::shared_ptr<Manifest> get_manifest();
+
+    //! Get the manifest data
+    /*!
+     * \return the manifest data
+     */
     const std::shared_ptr<Manifest> get_manifest() const;
 
+    //! Read the ESysRepo manifest
+    /*!
+     * \param[in] path the path of the ESysRepo manifest
+     * \return 0 if successful, < 0 otherwise
+     */
     virtual int read(const std::string &path) = 0;
+
+    //! Write this ESysRepo manifest
+    /*!
+     * \param[in] path the path of the ESysRepo manifest
+     * \return 0 if successful, < 0 otherwise
+     */
     virtual int write(const std::string &path) = 0;
 
 protected:
-    std::shared_ptr<Manifest> m_manifest;
+    //!< \cond DOXY_IMPL
+    std::shared_ptr<Manifest> m_manifest; //!< The manifest data
+    //!< \endcond
 };
 
 } // namespace manifest

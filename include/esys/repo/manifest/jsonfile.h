@@ -32,10 +32,16 @@ namespace repo
 namespace manifest
 {
 
+/*! \class JSONFile esys/repo/manifest/jsonfile.h "esys/repo/manifest/jsonfile.h"
+ * \brief Read and write the ESysRepo manifest in JSON format
+ */
 class ESYSREPO_API JSONFile : public File
 {
 public:
+    //! Default constructor
     JSONFile();
+
+    //! Destructor
     virtual ~JSONFile();
 
     int read(const std::string &path) override;
