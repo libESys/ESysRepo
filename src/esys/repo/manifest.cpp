@@ -89,6 +89,18 @@ std::shared_ptr<manifest::Location> Manifest::find_location(const std::string &n
     return it->second;
 }
 
+std::shared_ptr<manifest::Repository> Manifest::find_repo_by_path(const std::string &path)
+{
+    std::shared_ptr<manifest::Repository> repo;
+
+    for (auto location : get_locations())
+    {
+        repo = location->find_repo_by_path(path);
+        if (repo != nullptr) return repo;
+    }
+    return nullptr;
+}
+
 void Manifest::set_default_location(std::shared_ptr<manifest::Location> default_location)
 {
     m_default_location = default_location;

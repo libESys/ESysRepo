@@ -22,6 +22,7 @@
 #include "esys/repo/git/branch.h"
 #include "esys/repo/git/commit.h"
 #include "esys/repo/git/repostatus.h"
+#include "esys/repo/git/mergeanalysisresult.h"
 
 #include <esys/log/user.h>
 
@@ -122,6 +123,9 @@ public:
     virtual int get_status(git::RepoStatus &status) = 0;
 
     virtual bool is_ssh_agent_running() = 0;
+
+    virtual int merge_analysis(const std::vector<std::string> &refs, git::MergeAnalysisResult &merge_analysis_result,
+                               std::vector<git::Commit> &commits) = 0;
 
     //! Tells if a folder is a git repository
     /*!

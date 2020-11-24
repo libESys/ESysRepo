@@ -80,6 +80,9 @@ public:
 
     int get_status(git::RepoStatus &status, log::Level log_level, int debug_level = 0);
 
+    int merge_analysis(const std::vector<std::string> &refs, git::MergeAnalysisResult &merge_analysis_result,
+                       std::vector<git::Commit> &commits, log::Level log_level, int debug_level = 0);
+
     int move(const std::string &src, const std::string &dst, bool recursive, log::Level log_level, int debug_level = 0);
 
     //! Set the GitBase instance to use

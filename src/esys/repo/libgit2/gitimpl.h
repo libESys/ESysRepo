@@ -89,6 +89,11 @@ public:
                                    void *payload);
     bool is_ssh_agent_running();
 
+    int merge_analysis(const std::vector<std::string> &refs, git::MergeAnalysisResult &merge_analysis_result,
+                       std::vector<git::Commit> &commits);
+
+    int resolve_ref(git_annotated_commit **commit, const std::string &ref);
+
     int convert_bin_hex(const git_oid &oid, std::string &hex_str);
 
 protected:

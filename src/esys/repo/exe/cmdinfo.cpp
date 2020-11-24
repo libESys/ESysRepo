@@ -23,6 +23,7 @@
 #include <boost/filesystem.hpp>
 
 #include <sstream>
+#include <iomanip>
 
 namespace esys
 {
@@ -170,7 +171,8 @@ void CmdInfo::print_repo(std::shared_ptr<manifest::Repository> repo)
     std::size_t idx = 0;
     for (auto &branch : m_branches)
     {
-        oss << std::endl << "        [" << idx << "] " << branch.get_name();
+        oss << std::endl << "        [" << idx << "] " << std::left << std::setw(20) << branch.get_name();
+        oss << " -> " << branch.get_remote_branch();
         ++idx;
     }
 

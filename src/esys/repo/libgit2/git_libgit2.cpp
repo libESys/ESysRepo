@@ -91,6 +91,12 @@ bool Git::is_ssh_agent_running()
     return m_impl->is_ssh_agent_running();
 }
 
+int Git::merge_analysis(const std::vector<std::string> &refs, git::MergeAnalysisResult &merge_analysis_result,
+                        std::vector<git::Commit> &commits)
+{
+    return m_impl->merge_analysis(refs, merge_analysis_result, commits);
+}
+
 const std::string &Git::get_version()
 {
     return m_impl->get_version();

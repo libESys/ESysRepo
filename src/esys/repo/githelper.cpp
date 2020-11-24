@@ -160,7 +160,7 @@ int GitHelper::clone(const std::string &url, const std::string &temp_path, const
                      log::Level log_level, int debug_level)
 {
     auto start_time = std::chrono::steady_clock::now();
-    
+
     boost::filesystem::path rel_temp_path = boost::filesystem::relative(temp_path);
 
     if (boost::filesystem::exists(temp_path))
@@ -293,6 +293,17 @@ int GitHelper::get_status(git::RepoStatus &status, log::Level log_level, int deb
     else
         log("Succeeded to get repo status", log_level, debug_level);
 
+    return result;
+}
+
+int GitHelper::merge_analysis(const std::vector<std::string> &refs, git::MergeAnalysisResult &merge_analysis_result,
+                              std::vector<git::Commit> &commits, log::Level log_level, int debug_level)
+{
+    int result = get_git()->merge_analysis(refs, merge_analysis_result, commits);
+    if (result < 0)
+        error("Merge analysis failed");
+    else
+        log("Merge analysis succeeded", log_level, debug_level);
     return result;
 }
 

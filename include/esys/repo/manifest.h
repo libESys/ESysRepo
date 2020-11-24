@@ -96,6 +96,13 @@ public:
      */
     std::shared_ptr<manifest::Location> find_location(const std::string &name);
 
+    //! Find a git repo by its path
+    /*!
+     * \param[in] path the path of the git repo to find
+     * \return the location if found, nullptr otherwise
+     */
+    std::shared_ptr<manifest::Repository> find_repo_by_path(const std::string &path);
+
     //! Set the default location
     /*!
      * \param[in] default_location the default location
@@ -161,7 +168,8 @@ protected:
     //!< \cond DOXY_IMPL
     manifest::Type m_type = manifest::Type::NOT_SET;                            //!< The type of repository
     std::vector<std::shared_ptr<manifest::Location>> m_locations;               //!< All the locations
-    std::map<std::string, std::shared_ptr<manifest::Location>> m_map_locations; //!< The map of all locations
+    std::map<std::string, std::shared_ptr<manifest::Location>> m_map_locations; //!< The map of all locations by name
+    std::map<std::string, std::shared_ptr<manifest::Location>> m_map_locations_by_path; 
     std::shared_ptr<manifest::Location> m_default_location;                     //!< The default location
     std::string m_default_location_str;                                         //!< The name of the default location
     std::string m_default_revision = "master";                                  //!< The default revision

@@ -303,6 +303,7 @@
     <ClInclude Include="..\..\include\esys\repo\git\diffdeltatype.h" />
     <ClInclude Include="..\..\include\esys\repo\git\difffile.h" />
     <ClInclude Include="..\..\include\esys\repo\git\filestatus.h" />
+    <ClInclude Include="..\..\include\esys\repo\git\mergeanalysisresult.h" />
     <ClInclude Include="..\..\include\esys\repo\git\remote.h" />
     <ClInclude Include="..\..\include\esys\repo\git\repostatus.h" />
     <ClInclude Include="..\..\include\esys\repo\git\status.h" />

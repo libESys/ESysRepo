@@ -24,6 +24,7 @@
 
 #include <cstring>
 #include <sstream>
+#include <cassert>
 
 namespace esys
 {
@@ -160,7 +161,10 @@ int GitImpl::get_branches(std::vector<git::Branch> &branches, git::BranchType br
         result = git_branch_name(&branch_name, ref.get());
         if (result < 0) return check_error(result);
 
+        std::string ref_name = git_reference_name(ref.get());
+
         branch.set_name(branch_name);
+        branch.set_ref_name(ref_name);
 
         switch (git_branch_type)
         {
@@ -175,6 +179,26 @@ int GitImpl::get_branches(std::vector<git::Branch> &branches, git::BranchType br
         result = git_branch_is_head(ref.get());
         if (result == 1) branch.set_is_head(true);
 
+        if (branch_type == git::BranchType::LOCAL)
+        {
+            git_buf buf_out = {0};
+            result = git_branch_upstream_remote(&buf_out, m_repo, ref_name.c_str());
+            if (result == 0)
+            {
+                std::string remote_name(buf_out.ptr, buf_out.ptr + buf_out.size);
+                branch.set_remote_name(remote_name);
+                git_buf_dispose(&buf_out);
+            }
+            result = git_branch_upstream_name(&buf_out, m_repo, ref_name.c_str());
+            if (result == 0)
+            {
+                std::string remote_branch(buf_out.ptr, buf_out.ptr + buf_out.size);
+                branch.set_remote_branch(remote_branch);
+                git_buf_dispose(&buf_out);
+            }
+        }
+        else
+            check_error(result, "");
         branches.push_back(branch);
     }
     return check_error(0);
@@ -485,6 +509,89 @@ bool GitImpl::is_ssh_agent_running()
     libssh2_session_free(session);
 
     return (error == LIBSSH2_ERROR_NONE);
+}
+
+int GitImpl::merge_analysis(const std::vector<std::string> &refs, git::MergeAnalysisResult &merge_analysis_result,
+                            std::vector<git::Commit> &commits)
+{
+    git_repository_state_t state;
+    git_merge_analysis_t analysis;
+    git_merge_preference_t preference;
+    git_annotated_commit *annotated;
+    git::Commit commit;
+    int result = 0;
+
+    if (m_repo == nullptr) return -1;
+
+    state = static_cast<git_repository_state_t>(git_repository_state(m_repo));
+    if (state != GIT_REPOSITORY_STATE_NONE)
+    {
+        return -1;
+    }
+
+    std::vector<git_annotated_commit *> annotated_vec;
+    std::vector<git_oid> oids;
+    const git_oid *target_oid;
+    std::string hash;
+
+    for (auto &ref : refs)
+    {
+        result = resolve_ref(&annotated, ref);
+        if (result == GIT_OK)
+        {
+            target_oid = git_annotated_commit_id(annotated);
+            oids.push_back(*target_oid);
+            annotated_vec.push_back(annotated);
+
+            result = convert_bin_hex(*target_oid, hash);
+            if (result == 0)
+            {
+                commit.set_hash(hash);
+                commits.push_back(commit);
+            }
+        }
+    }
+
+    result = git_merge_analysis(&analysis, &preference, m_repo, (const git_annotated_commit **)annotated_vec.data(),
+                                annotated_vec.size());
+
+    for (auto annotated : annotated_vec) git_annotated_commit_free(annotated);
+
+    switch (analysis)
+    {
+        case GIT_MERGE_ANALYSIS_UP_TO_DATE: merge_analysis_result = git::MergeAnalysisResult::UP_TO_DATE; break;
+        case GIT_MERGE_ANALYSIS_FASTFORWARD: merge_analysis_result = git::MergeAnalysisResult::FASTFORWARD; break;
+        case GIT_MERGE_ANALYSIS_UNBORN: merge_analysis_result = git::MergeAnalysisResult::UNBORN; break;
+        case GIT_MERGE_ANALYSIS_NORMAL: merge_analysis_result = git::MergeAnalysisResult::NORMAL; break;
+        default: merge_analysis_result = git::MergeAnalysisResult::NONE;
+    }
+    return 0;
+}
+
+int GitImpl::resolve_ref(git_annotated_commit **commit, const std::string &ref)
+{
+    git_reference *git_ref;
+    git_object *git_obj;
+    int result = 0;
+
+    assert(commit != nullptr);
+
+    result = git_reference_dwim(&git_ref, m_repo, ref.c_str());
+    if (result == GIT_OK)
+    {
+        git_annotated_commit_from_ref(commit, m_repo, git_ref);
+        git_reference_free(git_ref);
+        return 0;
+    }
+
+    result = git_revparse_single(&git_obj, m_repo, ref.c_str());
+    if (result == GIT_OK)
+    {
+        result = git_annotated_commit_lookup(commit, m_repo, git_object_id(git_obj));
+        git_object_free(git_obj);
+    }
+
+    return result;
 }
 
 int GitImpl::convert_bin_hex(const git_oid &oid, std::string &hex_str)

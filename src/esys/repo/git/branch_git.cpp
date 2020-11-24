@@ -58,6 +58,16 @@ const std::string &Branch::get_name() const
     return m_name;
 }
 
+void Branch::set_ref_name(const std::string &ref_name)
+{
+    m_ref_name = ref_name;
+}
+
+const std::string &Branch::get_ref_name() const
+{
+    return m_ref_name;
+}
+
 void Branch::set_type(BranchType type)
 {
     m_type = type;
@@ -76,6 +86,26 @@ void Branch::set_is_head(bool is_head)
 bool Branch::get_is_head() const
 {
     return m_is_head;
+}
+
+void Branch::set_remote_branch(const std::string &remote_tracking)
+{
+    m_remote_branch = remote_tracking;
+}
+
+const std::string &Branch::get_remote_branch() const
+{
+    return m_remote_branch;
+}
+
+void Branch::set_remote_name(const std::string &remote_name)
+{
+    m_remote_name = remote_name;
+}
+
+const std::string &Branch::get_remote_name() const
+{
+    return m_remote_name;
 }
 
 } // namespace git

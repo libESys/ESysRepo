@@ -353,6 +353,9 @@
     <ClInclude Include="..\..\include\esys\repo\git\filestatus.h">
       <Filter>Header Files\git</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\git\mergeanalysisresult.h">
+      <Filter>Header Files\git</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\..\res\esysrepo.rc">

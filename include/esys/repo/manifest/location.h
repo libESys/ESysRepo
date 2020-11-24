@@ -22,6 +22,7 @@
 #include <string>
 #include <vector>
 #include <memory>
+#include <map>
 
 namespace esys
 {
@@ -98,11 +99,16 @@ public:
      */
     const std::vector<std::shared_ptr<Repository>> &get_repos() const;
 
+    std::shared_ptr<Repository> find_repo_by_path(const std::string &path);
+    std::shared_ptr<Repository> find_repo_by_name(const std::string &name);
+
 protected:
     //!< \cond DOXY_IMPL
     std::string m_name;                               //!< The name of this location
     std::string m_address;                            //!< The address of this location
     std::vector<std::shared_ptr<Repository>> m_repos; //!< All repositories of this location
+    std::map<std::string, std::shared_ptr<Repository>> m_map_repos_by_path;
+    std::map<std::string, std::shared_ptr<Repository>> m_map_repos_by_name;
     //!< \endcond
 };
 

@@ -19,6 +19,8 @@
 #include "esys/repo/manifest/location.h"
 #include "esys/repo/manifest/repository.h"
 
+#include <boost/filesystem.hpp>
+
 namespace esys
 {
 
@@ -68,10 +70,7 @@ std::shared_ptr<Repository> Location::add_repo(const std::string &name, const st
 {
     auto repo = std::make_shared<Repository>(name, path);
 
-    repo->set_location(this);
-
-    get_repos().push_back(repo);
-
+    add_repo(repo);
     return repo;
 }
 
@@ -80,6 +79,8 @@ void Location::add_repo(std::shared_ptr<Repository> repo)
     repo->set_location(this);
 
     get_repos().push_back(repo);
+    m_map_repos_by_name[repo->get_name()] = repo;
+    m_map_repos_by_path[repo->get_path()] = repo;
 }
 
 std::vector<std::shared_ptr<Repository>> &Location::get_repos()
@@ -90,6 +91,24 @@ std::vector<std::shared_ptr<Repository>> &Location::get_repos()
 const std::vector<std::shared_ptr<Repository>> &Location::get_repos() const
 {
     return m_repos;
+}
+
+std::shared_ptr<Repository> Location::find_repo_by_path(const std::string &path)
+{
+    boost::filesystem::path gen_path = path;
+
+    auto it = m_map_repos_by_path.find(gen_path.generic().string());
+
+    if (it == m_map_repos_by_path.end()) return nullptr;
+    return it->second;
+}
+
+std::shared_ptr<Repository> Location::find_repo_by_name(const std::string &name)
+{
+    auto it = m_map_repos_by_name.find(name);
+
+    if (it == m_map_repos_by_name.end()) return nullptr;
+    return it->second;
 }
 
 } // namespace manifest

@@ -179,7 +179,9 @@ int SyncRepos::fetch_update(std::shared_ptr<manifest::Repository> repository, st
 
     GitHelper::sort_branches(branches);
 
-
+    /*result = git_helper.merge_analysis()
+    const std::vector<std::string> &refs, git::MergeAnalysisResult &merge_analysis_result,
+                       std::vector<git::Commit> &commits */
 
     return -1;
 }

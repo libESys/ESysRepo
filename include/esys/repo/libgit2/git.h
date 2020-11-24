@@ -62,7 +62,10 @@ public:
     int get_status(git::RepoStatus &repo_status) override;
 
     bool is_ssh_agent_running() override;
-  
+
+    int merge_analysis(const std::vector<std::string> &refs, git::MergeAnalysisResult &merge_analysis_result,
+                       std::vector<git::Commit> &commits) override;
+
     const std::string &get_version() override;
     const std::string &get_lib_name() override;
 

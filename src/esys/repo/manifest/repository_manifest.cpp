@@ -18,6 +18,8 @@
 #include "esys/repo/esysrepo_prec.h"
 #include "esys/repo/manifest/repository.h"
 
+#include <boost/filesystem.hpp>
+
 namespace esys
 {
 
@@ -53,7 +55,9 @@ const std::string &Repository::get_name() const
 
 void Repository::set_path(const std::string &path)
 {
-    m_path = path;
+    boost::filesystem::path gen_path = path;
+
+    m_path = gen_path.generic().string();
 }
 
 const std::string &Repository::get_path() const

@@ -56,18 +56,18 @@ int CmdSync::impl_run()
     result = load_manifest();
     if (result < 0) return result;
 
-    manifest::SyncRepos clone_repos;
+    manifest::SyncRepos sync_repos;
 
-    if (get_debug()) clone_repos.set_log_level(log::Level::DEBUG);
+    if (get_debug()) sync_repos.set_log_level(log::Level::DEBUG);
 
-    clone_repos.set_logger_if(get_logger_if());
-    clone_repos.set_config_folder(get_config_folder());
-    clone_repos.set_git(get_git());
-    clone_repos.set_manifest(get_manifest());
+    sync_repos.set_logger_if(get_logger_if());
+    sync_repos.set_config_folder(get_config_folder());
+    sync_repos.set_git(get_git());
+    sync_repos.set_manifest(get_manifest());
 
     if (get_git()->is_ssh_agent_running()) get_logger_if()->info("SSH agent detected");
 
-    result = clone_repos.run();
+    result = sync_repos.run();
     if (result < 0) return result;
     return 0;
 }
