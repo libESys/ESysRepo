@@ -159,6 +159,7 @@ int ESysRepoExe::run()
             return -1;
         }
         m_git = std::make_shared<esys::repo::libgit2::Git>();
+        m_vm.clear();
         return (this->*cmd_fct)();
     }
 

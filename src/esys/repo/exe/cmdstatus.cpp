@@ -178,9 +178,46 @@ void CmdStatus::print(std::ostream &os, std::shared_ptr<git::FileStatus> file_st
 
 std::string CmdStatus::get_file_status_header(std::shared_ptr<git::FileStatus> file_status)
 {
-    return "--";
-}
+    std::string result;
+    std::shared_ptr<git::Status> status;
 
+    if (file_status->get_status().size() == 1)
+    {
+        status = file_status->get_status()[0];
+
+        switch (status->get_type())
+        {
+            case git::StatusType::CURRENT: result = "--"; break;
+            case git::StatusType::INDEX:
+                switch (status->get_sub_type())
+                {
+                    case git::StatusSubType::DELETED: result = "D-"; break;
+                    case git::StatusSubType::MODIFIED: result = "M-"; break;
+                    case git::StatusSubType::NEW: result = "A-"; break;
+                    case git::StatusSubType::RENAMED: result = "R-"; break;
+                    case git::StatusSubType::TYPECHANGE: result = "T-"; break;
+                    default: result = "--";
+                }
+                break;
+            case git::StatusType::WORKING_DIR:
+                switch (status->get_sub_type())
+                {
+                    case git::StatusSubType::MODIFIED: result = "-m"; break;
+                    case git::StatusSubType::DELETED: result = "-d"; break;
+                    default: result = "--";
+                }
+                break;
+            case git::StatusType::CONFLICTED: result = "U-"; break;
+            default: result = "--";
+        }
+    }
+    else
+    {
+        warn("[CmdStatus::get_file_status_header] 2 file status is not supported");
+        result = "??";
+    }
+    return result;
+}
 void CmdStatus::set_start_print_branch(std::size_t start_print_branch)
 {
     m_start_print_branch = start_print_branch;
@@ -208,7 +245,7 @@ int CmdStatus::process_sub_args_to_find_parent_path()
 
     for (auto &path : get_sub_args())
     {
-        //if (!boost::filesystem::exists(path)) continue;
+        // if (!boost::filesystem::exists(path)) continue;
         parent_path = Cmd::find_parent_path(path);
         if (!parent_path.empty())
         {
