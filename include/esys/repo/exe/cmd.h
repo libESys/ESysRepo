@@ -45,7 +45,7 @@ class ESYSREPO_API Cmd : public log::User
 {
 public:
     //! Default constructor
-    Cmd(const std::string  &name);
+    Cmd(const std::string &name);
 
     //! Destructor
     virtual ~Cmd();
@@ -143,6 +143,13 @@ public:
      */
     static std::string find_parent_path(const std::string &path = "");
 
+    //! Find the path of a git repo if any given a child path
+    /*!
+     * \param[in] path the child path is provided, otherwise the current path will be used
+     * \return the path of the git reop if found, empty string otherwise
+     */
+    static std::string find_git_repo_path(const std::string &path = "");
+
     //! Do the work
     /*!
      * \return 0 if successful, < 0 otherwise
@@ -166,6 +173,13 @@ public:
      * \param[in] folder the folder
      */
     int set_folder(const std::string &folder);
+
+    void set_sub_args(const std::vector<std::string> &sub_args);
+    const std::vector<std::string> &get_sub_args() const;
+
+    int process_sub_args_as_git_repo_path(const std::string &input_path);
+    int process_sub_args_as_git_repo_paths();
+    const std::vector<std::string> &get_input_git_repo_paths() const;
 
     virtual std::string get_extra_start_msg();
 
@@ -195,6 +209,8 @@ protected:
     std::shared_ptr<ConfigFolder> m_config_folder; //!< The config folder
     std::shared_ptr<manifest::Loader> m_loader;    //!< The manifest loader
     std::chrono::time_point<std::chrono::steady_clock> m_start_time;
+    std::vector<std::string> m_sub_args;
+    std::vector<std::string> m_input_rel_git_repo_paths;
     //!< \endcond
 };
 

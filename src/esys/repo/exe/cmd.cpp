@@ -134,6 +134,24 @@ std::string Cmd::find_parent_path(const std::string &path)
     return "";
 }
 
+std::string Cmd::find_git_repo_path(const std::string &path)
+{
+    boost::filesystem::path cur_path;
+
+    if (!path.empty())
+        cur_path = path;
+    else
+        cur_path = boost::filesystem::current_path();
+
+    while (!cur_path.empty())
+    {
+        if (GitBase::is_repo(cur_path.string())) return cur_path.string();
+        cur_path = cur_path.parent_path();
+    }
+
+    return "";
+}
+
 void Cmd::set_debug(bool debug)
 {
     m_debug = debug;
@@ -154,15 +172,97 @@ int Cmd::set_folder(const std::string &folder)
     }
     else
     {
-        boost::filesystem::path path = esys::repo::exe::Cmd::find_parent_path();
-        if (path.empty())
-        {
-            error("Couldn't find a folder with esysrepo from : " + boost::filesystem::current_path().string());
-            return -1;
-        }
+        boost::filesystem::path path = Cmd::find_parent_path();
+        if (path.empty()) return -1;
+
         set_parent_path(path.string());
     }
     return 0;
+}
+
+void Cmd::set_sub_args(const std::vector<std::string> &sub_args)
+{
+    m_sub_args = sub_args;
+}
+
+const std::vector<std::string> &Cmd::get_sub_args() const
+{
+    return m_sub_args;
+}
+
+int Cmd::process_sub_args_as_git_repo_path(const std::string &input_path)
+{
+    if (input_path.empty()) return 0;
+
+    boost::filesystem::path the_input_path = input_path;
+    if (the_input_path == ".") the_input_path = boost::filesystem::current_path();
+
+    boost::filesystem::path git_repo = Cmd::find_git_repo_path(the_input_path.string());
+    boost::filesystem::path esysrepo_path = get_parent_path();
+
+    if (esysrepo_path.empty())
+    {
+        esysrepo_path = Cmd::find_parent_path(the_input_path.string());
+
+        if (esysrepo_path.empty())
+        {
+            error("Requires ESysRepo to be installed first.");
+            return -1;
+        }
+        else
+            set_parent_path(esysrepo_path.string());
+    }
+
+    if (git_repo.empty()) return 0;
+
+    if (!boost::filesystem::exists(the_input_path))
+    {
+        // The input path doesn't exist
+        // Couldn't it be the relative path of a git repo in the manifest?
+        auto repo = get_manifest()->find_repo_by_path(the_input_path.string());
+        if (repo == nullptr)
+        {
+            error("The given path doesn't exists : " + the_input_path.string());
+            return -1;
+        }
+
+        // This was indeed the relative path of a git repo in the manifest
+        git_repo = the_input_path.string();
+    }
+    else
+    {
+        // We need to find which repo this is related too
+        boost::filesystem::path git_rel_path = boost::filesystem::relative(git_repo, esysrepo_path);
+
+        if (git_rel_path.empty())
+        {
+            error("The following git repo doesn't seem to be known by ESysRepo: " + git_repo.string());
+            return -1;
+        }
+        git_repo = git_rel_path;
+    }
+    m_input_rel_git_repo_paths.push_back(git_repo.generic().string());
+    return 0;
+}
+
+int Cmd::process_sub_args_as_git_repo_paths()
+{
+    if (get_manifest() == nullptr) return -1;
+
+    int result = 0;
+    int local_result;
+
+    for (auto &input_path : get_sub_args())
+    {
+        local_result = process_sub_args_as_git_repo_path(input_path);
+        if (local_result < 0) --result;
+    }
+    return result;
+}
+
+const std::vector<std::string> &Cmd::get_input_git_repo_paths() const
+{
+    return m_input_rel_git_repo_paths;
 }
 
 void Cmd::set_config_folder(std::shared_ptr<ConfigFolder> config_folder)

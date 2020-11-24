@@ -81,6 +81,7 @@ public:
     void set_logger_mngr(std::shared_ptr<esys::log::Mngr> logger_mngr);
 
     std::string get_folder();
+    std::vector<std::string> get_sub_args();
     std::string get_string(const std::string &name);
 
 protected:

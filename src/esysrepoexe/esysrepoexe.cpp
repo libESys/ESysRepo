@@ -331,10 +331,11 @@ int ESysRepoExe::cmd_status()
 
     if (m_vm["debug"].as<bool>()) status.set_debug(true);
     if (m_vm["quiet"].as<bool>()) status.set_quiet(true);
-    
 
-    result = status.set_folder(get_folder());
-    if (result < 0) return result;
+    auto subargs = get_sub_args();
+
+    status.set_sub_args(subargs);
+    status.set_folder(get_folder());
 
     return status.run();
 }
@@ -519,4 +520,11 @@ std::string ESysRepoExe::get_string(const std::string &name)
 std::string ESysRepoExe::get_folder()
 {
     return get_string("folder");
+}
+
+std::vector<std::string> ESysRepoExe::get_sub_args()
+{
+    if (m_vm.count("subargs") == 0) return std::vector<std::string>();
+
+    return m_vm["subargs"].as<std::vector<std::string>>();
 }

@@ -59,13 +59,38 @@ int CmdStatus::impl_run()
 
     if (get_quiet()) warn("The option --quiet is not implemented yet");
 
+    result = process_sub_args_to_find_parent_path();
+    if (result < 0)
+    {
+        error("No ESysRepo folder found");
+        return -1;
+    }
+
     result = load_manifest();
     if (result < 0) return result;
+
+    result = process_sub_args_as_git_repo_paths();
+    if (result < 0) return result;
+
+    std::map<std::string, int> map_input_repo_paths;
+
+    if (get_input_git_repo_paths().size() != 0)
+    {
+        for (auto &path : get_input_git_repo_paths())
+        {
+            auto repo = get_manifest()->find_repo_by_path(path);
+            if (repo != nullptr) map_input_repo_paths[path] = 1;
+        }
+    }
 
     for (auto location : get_manifest()->get_locations())
     {
         for (auto repo : location->get_repos())
         {
+            if (map_input_repo_paths.size() != 0)
+            {
+                if (map_input_repo_paths.find(repo->get_path()) == map_input_repo_paths.end()) continue;
+            }
             result = open_repo(repo);
             if (result < 0) continue;
             print_repo(repo);
@@ -133,8 +158,7 @@ void CmdStatus::print_repo(std::shared_ptr<manifest::Repository> repo)
     first_part = "Repository : " + repo->get_path();
     oss << std::setw(get_start_print_branch()) << std::setfill(' ') << std::left << first_part;
 
-    if (!cur_branch.empty())
-        oss << cur_branch;
+    if (!cur_branch.empty()) oss << cur_branch;
 
     for (auto file_status : m_repo_status->get_file_status())
     {
@@ -165,6 +189,39 @@ void CmdStatus::set_start_print_branch(std::size_t start_print_branch)
 std::size_t CmdStatus::get_start_print_branch() const
 {
     return m_start_print_branch;
+}
+
+int CmdStatus::process_sub_args_to_find_parent_path()
+{
+    if (!get_parent_path().empty()) return 0;
+
+    if (get_sub_args().size() == 0)
+    {
+        std::string parent_path = Cmd::find_parent_path();
+        if (parent_path.empty()) return -1;
+
+        set_parent_path(parent_path);
+        return 0;
+    }
+
+    std::string parent_path;
+
+    for (auto &path : get_sub_args())
+    {
+        //if (!boost::filesystem::exists(path)) continue;
+        parent_path = Cmd::find_parent_path(path);
+        if (!parent_path.empty())
+        {
+            set_parent_path(parent_path);
+            return 0;
+        }
+    }
+
+    parent_path = Cmd::find_parent_path();
+    if (parent_path.empty()) return -1;
+
+    set_parent_path(parent_path);
+    return 0;
 }
 
 } // namespace exe

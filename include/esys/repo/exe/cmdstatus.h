@@ -59,6 +59,8 @@ public:
 
     std::string get_file_status_header(std::shared_ptr<git::FileStatus> file_status);
 
+    int process_sub_args_to_find_parent_path();
+
 protected:
     //!< \cond DOXY_IMPL
     int impl_run() override;
@@ -70,6 +72,7 @@ protected:
     std::size_t m_start_print_branch = 50;
     std::shared_ptr<git::RepoStatus> m_repo_status;
     std::vector<git::Branch> m_branches;
+    std::map<std::string, int> m_map_repo_path_to_show;
     //!< \endcond
 };
 
