@@ -238,11 +238,21 @@ int GitImpl::clone(const std::string &url, const std::string &path)
 
 int GitImpl::checkout(const std::string &branch, bool force)
 {
+    Guard<git_annotated_commit> annotated_commit;
     Guard<git_object> treeish;
+    Guard<git_commit> target_commit;
+    Guard<git_reference> ref;
+    Guard<git_reference> branch_ref;
+
     self()->cmd_start();
 
-    int result = git_revparse_single(treeish.get_p(), m_repo, branch.c_str());
+    int result = resolve_ref(annotated_commit.get_p(), branch);
     if (result < 0) return check_error(result);
+
+    result = git_commit_lookup(target_commit.get_p(), m_repo, git_annotated_commit_id(annotated_commit.get()));
+    const git_oid *oid = git_commit_id(target_commit.get());
+    std::string oid_str;
+    result = convert_bin_hex(*oid, oid_str);
 
     git_checkout_options opts = GIT_CHECKOUT_OPTIONS_INIT;
     if (force)
@@ -250,8 +260,38 @@ int GitImpl::checkout(const std::string &branch, bool force)
     else
         opts.checkout_strategy = GIT_CHECKOUT_SAFE;
 
-    result = git_checkout_tree(m_repo, treeish.get(), &opts);
-    return check_error(result);
+    result = git_checkout_tree(m_repo, (const git_object *)target_commit.get(), &opts);
+    if (result < 0) return check_error(result);
+
+
+    if (git_annotated_commit_ref(annotated_commit.get()))
+    {
+        const char *target_head;
+
+        result = git_reference_lookup(ref.get_p(), m_repo, git_annotated_commit_ref(annotated_commit.get()));
+        if (result < 0) return check_error(result);
+
+   
+        if (git_reference_is_remote(ref.get()))
+        {
+            result = git_branch_create_from_annotated(branch_ref.get_p(), m_repo, branch.c_str(), annotated_commit.get(), 0);
+            if (result < 0) return check_error(result);
+
+            target_head = git_reference_name(branch_ref.get());
+        }
+        else
+        {
+            target_head = git_annotated_commit_ref(annotated_commit.get());
+        }
+
+        result = git_repository_set_head(m_repo, target_head);
+        return check_error(result);
+    }
+    else
+    {
+        result = git_repository_set_head_detached_from_annotated(m_repo, annotated_commit.get());
+        return check_error(result);
+    }
 }
 
 int GitImpl::get_last_commit(git::Commit &commit)

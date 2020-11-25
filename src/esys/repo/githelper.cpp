@@ -296,6 +296,16 @@ int GitHelper::get_status(git::RepoStatus &status, log::Level log_level, int deb
     return result;
 }
 
+int GitHelper::checkout(const std::string &branch, bool force, log::Level log_level, int debug_level)
+{
+    int result = get_git()->checkout(branch, force);
+    if (result < 0)
+        error("Failed to checkout");
+    else
+        log("Checkout succeeded", log_level, debug_level);
+    return result;
+}
+
 int GitHelper::merge_analysis(const std::vector<std::string> &refs, git::MergeAnalysisResult &merge_analysis_result,
                               std::vector<git::Commit> &commits, log::Level log_level, int debug_level)
 {

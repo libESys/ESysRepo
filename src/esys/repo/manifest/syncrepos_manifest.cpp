@@ -131,12 +131,22 @@ int SyncRepos::clone(std::shared_ptr<manifest::Repository> repository, std::size
     std::string url = repository->get_location()->get_address();
     url += "/" + repository->get_name();
 
+    bool do_close = true;
+    if (!repository->get_revision().empty()) do_close = false;
+
     boost::filesystem::path path = get_config_folder()->get_parent_path();
     if (repository->get_path() != ".")
     {
         // A simple clone can be made
         path /= repository->get_path();
-        result = git_helper.clone(url, path.string(), true, log::Level::INFO);
+        result = git_helper.clone(url, path.string(), do_close, log::Level::INFO);
+        if (result < 0) return result;
+
+        if (repository->get_revision().empty())
+            return 0;
+
+        result = git_helper.checkout(repository->get_revision(), false, log::Level::INFO);
+        git_helper.close(log::Level::DEBUG);
         return result;
     }
 
@@ -146,7 +156,14 @@ int SyncRepos::clone(std::shared_ptr<manifest::Repository> repository, std::size
     oss << "repo_temp" << repo_idx;
     temp_path /= oss.str();
 
-    result = git_helper.clone(url, temp_path.string(), path.string(), true, get_log_level());
+    result = git_helper.clone(url, temp_path.string(), path.string(), do_close, get_log_level());
+    if (result < 0) return result;
+
+    if (repository->get_revision().empty())
+        return 0;
+
+    result = git_helper.checkout(repository->get_revision(), false, log::Level::INFO);
+    git_helper.close(log::Level::DEBUG);
     return result;
 }
 

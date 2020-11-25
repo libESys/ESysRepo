@@ -80,6 +80,8 @@ public:
 
     int get_status(git::RepoStatus &status, log::Level log_level, int debug_level = 0);
 
+    int checkout(const std::string &branch, bool force, log::Level log_level, int debug_level = 0);
+
     int merge_analysis(const std::vector<std::string> &refs, git::MergeAnalysisResult &merge_analysis_result,
                        std::vector<git::Commit> &commits, log::Level log_level, int debug_level = 0);
 
