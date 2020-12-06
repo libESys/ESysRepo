@@ -85,12 +85,12 @@ public:
 
     Git *self() const;
 
-    static int libgit2_credentials(git_credential **out, const char *url, const char *name, unsigned int types,
-                                   void *payload);
     bool is_ssh_agent_running();
 
     int merge_analysis(const std::vector<std::string> &refs, git::MergeAnalysisResult &merge_analysis_result,
                        std::vector<git::Commit> &commits);
+
+    int fetch(const std::string &remote);
 
     int resolve_ref(git_annotated_commit **commit, const std::string &ref);
 
@@ -98,6 +98,13 @@ public:
 
 protected:
     static std::unique_ptr<LibGit2> s_libgt2;
+
+    static int libgit2_credentials_cb(git_credential **out, const char *url, const char *name, unsigned int types,
+                                      void *payload);
+    static int libgit2_sideband_progress_cb(const char *str, int len, void *data);
+    static int libgit2_transfer_progress_cb(const git_indexer_progress *stats, void *payload);
+    static int libgit2_update_tips_cb(const char *refname, const git_oid *a, const git_oid *b, void *data);
+    static int libgit2_pack_progress_cb(int stage, uint32_t current, uint32_t total, void *payload);
 
     Git *m_self = nullptr;
     git_repository *m_repo = nullptr;

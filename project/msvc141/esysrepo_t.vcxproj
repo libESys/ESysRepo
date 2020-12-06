@@ -89,6 +89,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseDLL|x64'">
     <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(ESYSREPO_DEV)\$(esysdevExeOutDir)</OutDir>
+    <IntDir>$(ESYSREPO_DEV)\$(esysdevIntRootDir)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DebugDLL|Win32'">
     <ClCompile>
@@ -213,7 +215,7 @@
       <AdditionalDependencies>libssh2.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>$(ESYSSDK_INST_DIR)\bin\esysdep.exe --copy --x32 $(OutDir)</Command>
+      <Command>$(ESYSSDK_INST_DIR)\bin\esysdep.exe --copy --x64 $(OutDir)</Command>
     </PostBuildEvent>
     <ResourceCompile>
       <PreprocessorDefinitions>WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -232,10 +234,12 @@
     <ClCompile Include="..\..\src\esys\repo\libgit2\test\isdirty01_libgit2.cpp" />
     <ClCompile Include="..\..\src\esys\repo\libgit2\test\opengitrepo01_libgit2.cpp" />
     <ClCompile Include="..\..\src\esys\repo\libgit2\test\sshagent01.cpp" />
+    <ClCompile Include="..\..\src\esys\repo\manifest\test\task_t01_manifest.cpp" />
     <ClCompile Include="..\..\src\esys\repo\manifest\test\xmlfileread01_manifest.cpp" />
     <ClCompile Include="..\..\src\esys\repo\manifest\test\xmlfilewrite01_manifest.cpp" />
     <ClCompile Include="..\..\src\esys\repo\test\configfilewrite01.cpp" />
     <ClCompile Include="..\..\src\esys\repo\test\configfoldercreate01.cpp" />
+    <ClCompile Include="..\..\src\esys\repo\test\decodesideband01.cpp" />
     <ClCompile Include="..\..\src\esys\repo\test\esysrepo_t_prec.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugDLL|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugDLL|x64'">Create</PrecompiledHeader>
@@ -249,6 +253,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugDLL|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugDLL|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\test\queuemt01.cpp" />
     <ClCompile Include="..\..\src\esys\repo\test\sortbranches01.cpp" />
     <ClCompile Include="..\..\src\esys\repo\test\testcasectrl.cpp" />
   </ItemGroup>

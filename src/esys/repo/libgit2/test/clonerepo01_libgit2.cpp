@@ -13,6 +13,7 @@
 #include "esys/repo/test/esysrepo_t_prec.h"
 
 #include <esys/repo/libgit2/git.h>
+#include <esys/repo/filesystem.h>
 
 #include <boost/filesystem.hpp>
 
@@ -49,7 +50,7 @@ ESYSTEST_AUTO_TEST_CASE(CloneRepo01LibGit2)
 
     try
     {
-        if (boost::filesystem::exists(file_path)) boost::filesystem::remove_all(file_path);
+        if (boost::filesystem::exists(file_path)) boost_no_all::remove_all(file_path.string());
     }
     catch (const boost::filesystem::filesystem_error &e)
     {

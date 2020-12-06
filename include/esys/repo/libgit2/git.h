@@ -45,6 +45,8 @@ public:
     //! Destructor
     virtual ~Git();
 
+    static std::shared_ptr<GitBase> new_ptr();
+
     int open(const std::string &folder) override;
     bool is_open() override;
 
@@ -65,6 +67,14 @@ public:
 
     int merge_analysis(const std::vector<std::string> &refs, git::MergeAnalysisResult &merge_analysis_result,
                        std::vector<git::Commit> &commits) override;
+
+    int fetch(const std::string &remote = "") override;
+
+    void set_url(const std::string &url);
+    const std::string &get_url();
+
+    void set_folder(const std::string &folder);
+    const std::string &get_folder();
 
     const std::string &get_version() override;
     const std::string &get_lib_name() override;
@@ -102,6 +112,8 @@ public:
 protected:
     //!< \cond DOXY_IMPL
     std::unique_ptr<GitImpl> m_impl; //!< the PIMPL
+    std::string m_url;
+    std::string m_folder;
     //!< \endcond
 };
 

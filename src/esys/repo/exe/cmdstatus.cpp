@@ -129,7 +129,7 @@ int CmdStatus::open_repo(std::shared_ptr<manifest::Repository> repo)
     result = git_helper.get_branches(m_branches, git::BranchType::LOCAL, log::Level::DEBUG);
     if (result < 0) return result;
 
-    GitHelper::sort_branches(m_branches);
+    GitBase::sort_branches(m_branches);
 
     return git_helper.close(log::Level::DEBUG);
 }

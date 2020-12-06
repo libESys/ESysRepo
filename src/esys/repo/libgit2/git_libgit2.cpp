@@ -28,6 +28,11 @@ namespace repo
 namespace libgit2
 {
 
+std::shared_ptr<GitBase> Git::new_ptr()
+{
+    return std::make_shared<Git>();
+}
+
 Git::Git()
     : GitBase()
 {
@@ -38,6 +43,7 @@ Git::~Git() = default;
 
 int Git::open(const std::string &folder)
 {
+    set_folder(folder);
     return get_impl()->open(folder);
 }
 
@@ -63,6 +69,7 @@ int Git::get_branches(std::vector<git::Branch> &branches, git::BranchType branch
 
 int Git::clone(const std::string &url, const std::string &path)
 {
+    set_url(url);
     return get_impl()->clone(url, path);
 }
 
@@ -95,6 +102,31 @@ int Git::merge_analysis(const std::vector<std::string> &refs, git::MergeAnalysis
                         std::vector<git::Commit> &commits)
 {
     return m_impl->merge_analysis(refs, merge_analysis_result, commits);
+}
+
+int Git::fetch(const std::string &remote)
+{
+    return m_impl->fetch(remote);
+}
+
+void Git::set_url(const std::string &url)
+{
+    m_url = url;
+}
+
+const std::string &Git::get_url()
+{
+    return m_url;
+}
+
+void Git::set_folder(const std::string &folder)
+{
+    m_folder = folder;
+}
+
+const std::string &Git::get_folder()
+{
+    return m_folder;
 }
 
 const std::string &Git::get_version()

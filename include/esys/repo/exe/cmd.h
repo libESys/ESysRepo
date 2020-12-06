@@ -52,6 +52,9 @@ public:
 
     const std::string &get_name() const;
 
+    void set_job_count(int job_count);
+    int get_job_count() const;
+
     //! Set the manifest
     /*!
      * \param[in] manifest the manifest
@@ -211,6 +214,7 @@ protected:
     std::chrono::time_point<std::chrono::steady_clock> m_start_time;
     std::vector<std::string> m_sub_args;
     std::vector<std::string> m_input_rel_git_repo_paths;
+    int m_job_count = -1;
     //!< \endcond
 };
 

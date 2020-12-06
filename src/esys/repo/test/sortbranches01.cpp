@@ -12,7 +12,7 @@
 
 #include "esys/repo/test/esysrepo_t_prec.h"
 
-#include <esys/repo/githelper.h>
+#include <esys/repo/gitbase.h>
 
 #include <boost/filesystem.hpp>
 
@@ -37,12 +37,12 @@ ESYSTEST_AUTO_TEST_CASE(SortBranches01)
 {
     std::vector<git::Branch> branches = {{"master", false}, {"develop", true}};
 
-    GitHelper::sort_branches(branches);
+    GitBase::sort_branches(branches);
     ESYSTEST_REQUIRE_EQUAL(branches[0].get_name(), "develop");
 
     std::vector<git::Branch> branches1 = {{"master", false}, {"develop", false}};
 
-    GitHelper::sort_branches(branches1);
+    GitBase::sort_branches(branches1);
     ESYSTEST_REQUIRE_EQUAL(branches1[0].get_name(), "master");
 }
 

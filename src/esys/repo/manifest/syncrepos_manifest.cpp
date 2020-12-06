@@ -18,6 +18,7 @@
 #include "esys/repo/esysrepo_prec.h"
 #include "esys/repo/manifest/syncrepos.h"
 #include "esys/repo/manifest/location.h"
+#include "esys/repo/git.h"
 #include "esys/repo/githelper.h"
 
 #include "esys/repo/filesystem.h"
@@ -89,13 +90,36 @@ const std::shared_ptr<GitBase> SyncRepos::get_git() const
     return m_git;
 }
 
+std::shared_ptr<GitBase> SyncRepos::get_git_or_new()
+{
+    if (get_git() != nullptr) return get_git();
+
+    return new_git();
+}
+
+void SyncRepos::set_git_generator(GitBase::GeneratorType git_generator)
+{
+    m_git_generator = git_generator;
+}
+
+GitBase::GeneratorType SyncRepos::get_git_generator()
+{
+    return m_git_generator;
+}
+
+std::shared_ptr<GitBase> SyncRepos::new_git()
+{
+    if (get_git_generator() != nullptr) return get_git_generator()();
+
+    return Git::new_ptr();
+}
+
 int SyncRepos::run()
 {
     if (get_manifest() == nullptr) return -1;
     if (get_config_folder() == nullptr) return -1;
     if (get_git() == nullptr) return -1;
 
-    int local_result;
     int result = 0;
 
     set_repo_idx(0);
@@ -103,104 +127,20 @@ int SyncRepos::run()
     {
         for (auto repo : location->get_repos())
         {
-            local_result = process_repo(repo, get_repo_idx());
-            if (local_result < 0)
-            {
-                --result;
-                //! \TODO
-            }
+            std::shared_ptr<SyncRepo> sync_repo = std::make_shared<SyncRepo>();
+
+            sync_repo->set_repo(repo);
+            sync_repo->set_repo_idx(get_repo_idx());
+            sync_repo->set_config_folder(get_config_folder());
+            sync_repo->set_git(new_git());
+            sync_repo->set_logger_if(get_logger_if());
+            
+            get_run_tasks().add(sync_repo);
+
             ++get_repo_idx();
         }
     }
-    return result;
-}
-
-int SyncRepos::process_repo(std::shared_ptr<manifest::Repository> repository, std::size_t repo_idx)
-{
-    boost::filesystem::path path = get_config_folder()->get_parent_path();
-    if (repository->get_path() != ".") path /= repository->get_path();
-
-    if (!GitBase::is_repo(path.string())) return clone(repository, repo_idx);
-    return fetch_update(repository, repo_idx);
-}
-
-int SyncRepos::clone(std::shared_ptr<manifest::Repository> repository, std::size_t repo_idx)
-{
-    GitHelper git_helper(get_git(), get_logger_if(), static_cast<int>(repo_idx));
-    int result;
-    std::string url = repository->get_location()->get_address();
-    url += "/" + repository->get_name();
-
-    bool do_close = true;
-    if (!repository->get_revision().empty()) do_close = false;
-
-    boost::filesystem::path path = get_config_folder()->get_parent_path();
-    if (repository->get_path() != ".")
-    {
-        // A simple clone can be made
-        path /= repository->get_path();
-        result = git_helper.clone(url, path.string(), do_close, log::Level::INFO);
-        if (result < 0) return result;
-
-        if (repository->get_revision().empty())
-            return 0;
-
-        result = git_helper.checkout(repository->get_revision(), false, log::Level::INFO);
-        git_helper.close(log::Level::DEBUG);
-        return result;
-    }
-
-    // Here since the folder where to clone is not empty so a temporary folder is used
-    boost::filesystem::path temp_path = get_config_folder()->get_temp_path();
-    std::ostringstream oss;
-    oss << "repo_temp" << repo_idx;
-    temp_path /= oss.str();
-
-    result = git_helper.clone(url, temp_path.string(), path.string(), do_close, get_log_level());
-    if (result < 0) return result;
-
-    if (repository->get_revision().empty())
-        return 0;
-
-    result = git_helper.checkout(repository->get_revision(), false, log::Level::INFO);
-    git_helper.close(log::Level::DEBUG);
-    return result;
-}
-
-int SyncRepos::fetch_update(std::shared_ptr<manifest::Repository> repository, std::size_t repo_idx)
-{
-    GitHelper git_helper(get_git(), get_logger_if(), static_cast<int>(repo_idx));
-    boost::filesystem::path path = get_config_folder()->get_parent_path();
-    if (repository->get_path() != ".") path /= repository->get_path();
-
-    int result = git_helper.open(path.string(), log::Level::INFO);
-    if (result < 0) return result;
-
-    bool dirty = false;
-    result = git_helper.is_dirty(dirty, log::Level::DEBUG);
-    if (result < 0) return result;
-
-    if (dirty)
-    {
-        git_helper.info("Changes detected in repo, no sync.");
-        return 0;
-    }
-
-    std::vector<git::Branch> branches;
-    result = git_helper.get_branches(branches, git::BranchType::LOCAL, log::Level::DEBUG);
-    if (result < 0)
-    {
-        error("Couldn't get the list of local branches");
-        return -1;
-    }
-
-    GitHelper::sort_branches(branches);
-
-    /*result = git_helper.merge_analysis()
-    const std::vector<std::string> &refs, git::MergeAnalysisResult &merge_analysis_result,
-                       std::vector<git::Commit> &commits */
-
-    return -1;
+    return get_run_tasks().run();
 }
 
 void SyncRepos::set_log_level(log::Level log_level)
@@ -226,6 +166,26 @@ std::size_t SyncRepos::get_repo_idx() const
 std::size_t &SyncRepos::get_repo_idx()
 {
     return m_repo_idx;
+}
+
+void SyncRepos::set_job_count(int job_count)
+{
+    m_run_tasks.set_job_count(job_count);
+}
+
+int SyncRepos::get_job_count() const
+{
+    return m_run_tasks.get_job_count();
+}
+
+RunTasks &SyncRepos::get_run_tasks()
+{
+    return m_run_tasks;
+}
+
+const RunTasks &SyncRepos::get_run_tasks() const
+{
+    return m_run_tasks;
 }
 
 } // namespace manifest

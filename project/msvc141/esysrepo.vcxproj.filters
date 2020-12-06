@@ -55,6 +55,12 @@
     <Filter Include="Header Files\cmake">
       <UniqueIdentifier>{ab9b59f0-d67c-4a1b-95d1-fcf4d36aabd3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\win32">
+      <UniqueIdentifier>{62e5ee0a-b219-463c-8935-2ac77d474ff2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\win32">
+      <UniqueIdentifier>{163f7243-74a9-4217-9c81-57b48e915692}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\esys\repo\esysrepo_dll.cpp">
@@ -184,6 +190,30 @@
       <Filter>Source Files\git</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\esys\repo\git\filestatus_git.cpp">
+      <Filter>Source Files\git</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\manifest\taskbase_manifest.cpp">
+      <Filter>Source Files\manifest</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\manifest\runtasks_manifest.cpp">
+      <Filter>Source Files\manifest</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\win32\cmdlineapp_win32.cpp">
+      <Filter>Source Files\win32</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\git\progress_git.cpp">
+      <Filter>Source Files\git</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\progresscallbackbase.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\manifest\syncrepo_manifest.cpp">
+      <Filter>Source Files\manifest</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\manifest\workerthread_manifest.cpp">
+      <Filter>Source Files\manifest</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\git\updatetip_git.cpp">
       <Filter>Source Files\git</Filter>
     </ClCompile>
   </ItemGroup>
@@ -354,6 +384,48 @@
       <Filter>Header Files\git</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\esys\repo\git\mergeanalysisresult.h">
+      <Filter>Header Files\git</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\git\fetchstep.h">
+      <Filter>Header Files\git</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\manifest\taskbase.h">
+      <Filter>Header Files\manifest</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\manifest\task_t.h">
+      <Filter>Header Files\manifest</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\manifest\runtasks.h">
+      <Filter>Header Files\manifest</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\queuemt.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\cmdlineapp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\win32\cmdlineapp.h">
+      <Filter>Header Files\win32</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\git\progress.h">
+      <Filter>Header Files\git</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\progresscallbackbase.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\progresscallback_t.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\manifest\syncrepo.h">
+      <Filter>Header Files\manifest</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\manifest\workerthread.h">
+      <Filter>Header Files\manifest</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\git\updatetip.h">
+      <Filter>Header Files\git</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\git\updatetiptype.h">
       <Filter>Header Files\git</Filter>
     </ClInclude>
   </ItemGroup>

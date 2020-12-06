@@ -70,12 +70,6 @@ public:
     int get_branches(std::vector<git::Branch> &branches, git::BranchType branch_type, log::Level log_level,
                      int debug_level = 0);
 
-    //! Sort the branches such that the current one is the first one
-    /*!
-     * \param[in] branches the branches to sort
-     */
-    static void sort_branches(std::vector<git::Branch> &branches);
-
     int is_dirty(bool &dirty, log::Level log_level, int debug_level = 0);
 
     int get_status(git::RepoStatus &status, log::Level log_level, int debug_level = 0);

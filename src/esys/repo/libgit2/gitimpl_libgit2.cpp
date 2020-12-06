@@ -18,13 +18,20 @@
 #include "esys/repo/esysrepo_prec.h"
 #include "esys/repo/libgit2/gitimpl.h"
 #include "esys/repo/libgit2/guard.h"
+#include "esys/repo/git/updatetip.h"
 
 #include <git2.h>
 #include <libssh2.h>
 
+#include <boost/algorithm/string.hpp>
+#include <boost/filesystem.hpp>
+
 #include <cstring>
 #include <sstream>
 #include <cassert>
+#include <algorithm>
+
+#include <iostream>
 
 namespace esys
 {
@@ -218,15 +225,15 @@ int GitImpl::clone(const std::string &url, const std::string &path)
         git_clone_options opts = GIT_CLONE_OPTIONS_INIT;
         // opts.fetch_opts.callbacks.connect = &Remote::Callbacks::connect;
         // opts.fetch_opts.callbacks.disconnect = &Remote::Callbacks::disconnect;
-        // opts.fetch_opts.callbacks.sideband_progress = &Remote::Callbacks::sideband;
-        opts.fetch_opts.callbacks.credentials = &GitImpl::libgit2_credentials;
+        opts.fetch_opts.callbacks.sideband_progress = &GitImpl::libgit2_sideband_progress_cb;
+        opts.fetch_opts.callbacks.credentials = &GitImpl::libgit2_credentials_cb;
         // opts.fetch_opts.callbacks.certificate_check = &Remote::Callbacks::certificate;
-        // opts.fetch_opts.callbacks.transfer_progress = &Remote::Callbacks::transfer;
-        // opts.fetch_opts.callbacks.update_tips = &Remote::Callbacks::update;
+        opts.fetch_opts.callbacks.transfer_progress = &GitImpl::libgit2_transfer_progress_cb;
+        opts.fetch_opts.callbacks.update_tips = &GitImpl::libgit2_update_tips_cb;
+        opts.fetch_opts.callbacks.pack_progress = &GitImpl::libgit2_pack_progress_cb;
         // opts.fetch_opts.callbacks.resolve_url = &Remote::Callbacks::url;
         opts.fetch_opts.callbacks.payload = this;
         // opts.bare = bare;
-        // git_credential_ssh_key_from_agent(m_credential.get_p(), name);
 
         result = git_clone(&m_repo, url.c_str(), path.c_str(), &opts);
     }
@@ -263,7 +270,6 @@ int GitImpl::checkout(const std::string &branch, bool force)
     result = git_checkout_tree(m_repo, (const git_object *)target_commit.get(), &opts);
     if (result < 0) return check_error(result);
 
-
     if (git_annotated_commit_ref(annotated_commit.get()))
     {
         const char *target_head;
@@ -271,10 +277,10 @@ int GitImpl::checkout(const std::string &branch, bool force)
         result = git_reference_lookup(ref.get_p(), m_repo, git_annotated_commit_ref(annotated_commit.get()));
         if (result < 0) return check_error(result);
 
-   
         if (git_reference_is_remote(ref.get()))
         {
-            result = git_branch_create_from_annotated(branch_ref.get_p(), m_repo, branch.c_str(), annotated_commit.get(), 0);
+            result =
+                git_branch_create_from_annotated(branch_ref.get_p(), m_repo, branch.c_str(), annotated_commit.get(), 0);
             if (result < 0) return check_error(result);
 
             target_head = git_reference_name(branch_ref.get());
@@ -513,8 +519,8 @@ Git *GitImpl::self() const
     return m_self;
 }
 
-int GitImpl::libgit2_credentials(git_credential **out, const char *url, const char *name, unsigned int types,
-                                 void *payload)
+int GitImpl::libgit2_credentials_cb(git_credential **out, const char *url, const char *name, unsigned int types,
+                                    void *payload)
 {
     const git_error *error = git_error_last();
     if (error && error->klass == GIT_ERROR_SSH) return -1;
@@ -524,6 +530,106 @@ int GitImpl::libgit2_credentials(git_credential **out, const char *url, const ch
     if (self->is_ssh_agent_running()) return git_credential_ssh_key_from_agent(out, name);
 
     return -1;
+}
+
+int GitImpl::libgit2_sideband_progress_cb(const char *str, int len, void *data)
+{
+    GitImpl *impl = reinterpret_cast<GitImpl *>(data);
+
+    if (impl == nullptr) return 0;
+
+    std::string txt(str, str + len);
+
+    int result = impl->self()->handle_sideband_progress(txt);
+    return result;
+}
+
+int GitImpl::libgit2_transfer_progress_cb(const git_indexer_progress *stats, void *payload)
+{
+    GitImpl *impl = reinterpret_cast<GitImpl *>(payload);
+
+    if (impl == nullptr) return 0;
+
+    git::Progress progress;
+
+    //std::cout << "[libgit2_transfer_progress_cb]" << std::endl;
+
+    if (stats->received_objects == stats->total_objects)
+    {
+        progress.set_fetch_step(git::FetchStep::RESOLVING);
+
+        if (stats->indexed_deltas == stats->total_deltas)
+        {
+            progress.set_done(true);
+            progress.set_percentage(100);
+        }
+        else
+        {
+            double percentage = (100.0 * stats->indexed_deltas) / stats->total_deltas;
+
+            progress.set_done(false);
+            progress.set_percentage(percentage);
+        }
+        //std::cout << "Resolving deltas " << stats->indexed_deltas << "/" << stats->total_deltas << std::endl;
+    }
+    else if (stats->total_objects > 0)
+    {
+        progress.set_fetch_step(git::FetchStep::RECEIVING);
+        //std::cout << "Received " << stats->received_objects << "/" << stats->total_objects << " objects "
+        //          << "(" << stats->indexed_objects << ") in " << stats->received_bytes << std::endl;
+        if (stats->received_objects == stats->total_objects)
+        {
+            progress.set_done(true);
+            progress.set_percentage(100);
+        }
+        else
+        {
+            double percentage = (100.0 * stats->received_objects) / stats->total_objects;
+
+            progress.set_done(false);
+            progress.set_percentage(percentage);
+        }
+    }
+
+    if (impl->self()->get_progress_callback() != nullptr) impl->self()->get_progress_callback()->git_progress_notif(progress);
+
+    return 0;
+}
+
+int GitImpl::libgit2_update_tips_cb(const char *refname, const git_oid *a, const git_oid *b, void *data)
+{
+    std::string a_str;
+    std::string b_str;
+    GitImpl *self = reinterpret_cast<GitImpl *>(data);
+    std::ostringstream oss;
+    git::UpdateTip update_tip;
+
+    self->convert_bin_hex(*b, b_str);
+    update_tip.set_ref_name(refname);
+
+    if (git_oid_is_zero(a))
+    {
+        //oss << "[new]     " << b_str << " " << refname;
+        //std::cout << oss.str() << std::endl;
+        update_tip.set_type(git::UpdateTipType::NEW);
+        update_tip.set_new_oid(b_str);
+    }
+    else
+    {
+        update_tip.set_type(git::UpdateTipType::UPDATE);
+        self->convert_bin_hex(*a, a_str);
+        update_tip.set_new_oid(b_str);
+        update_tip.set_new_oid(b_str);
+        //oss << "[updated] " << a_str << ".." << b_str << " " << refname;
+        //std::cout << oss.str() << std::endl;
+    }
+    return 0;
+}
+
+int GitImpl::libgit2_pack_progress_cb(int stage, uint32_t current, uint32_t total, void *payload)
+{
+    std::cout << "[libgit2_pack_progress_cb]" << std::endl;
+    return 0;
 }
 
 bool GitImpl::is_ssh_agent_running()
@@ -606,6 +712,76 @@ int GitImpl::merge_analysis(const std::vector<std::string> &refs, git::MergeAnal
         default: merge_analysis_result = git::MergeAnalysisResult::NONE;
     }
     return 0;
+}
+
+int GitImpl::fetch(const std::string &remote_str)
+{
+    if (m_repo == nullptr) return -1;
+
+    Guard<git_remote> remote;
+    std::string remote_name;
+    int result;
+
+    if (!remote_str.empty())
+    {
+        result = git_remote_lookup(remote.get_p(), m_repo, remote_str.c_str());
+        if (result < 0)
+        {
+            // The remote is not known
+            self()->error("The given remote is not known : " + remote_str);
+            return -1;
+        }
+
+        remote_name = git_remote_name(remote.get());
+    }
+    else
+    {
+        std::vector<git::Branch> branches;
+
+        result = get_branches(branches);
+        if (result < 0)
+        {
+            self()->error("Couldn't get the branches for this git repo");
+            return -1;
+        }
+
+        if (branches.size() == 0)
+        {
+            self()->error("No branches found for this git repo");
+            return -1;
+        }
+
+        GitBase::sort_branches(branches);
+
+        remote_name = branches[0].get_remote_name();
+
+        result = git_remote_lookup(remote.get_p(), m_repo, remote_name.c_str());
+        if (result < 0)
+        {
+            // The remote is not known
+            self()->error("The given remote is not known : " + remote_name);
+            return -1;
+        }
+    }
+
+    git_fetch_options fetch_opts = GIT_FETCH_OPTIONS_INIT;
+
+    /* Set up the callbacks (only update_tips for now) */
+    // fetch_opts.callbacks.update_tips = &update_cb;
+    fetch_opts.callbacks.sideband_progress = &GitImpl::libgit2_sideband_progress_cb;
+    // fetch_opts.callbacks.transfer_progress = transfer_progress_cb;
+    fetch_opts.callbacks.credentials = &GitImpl::libgit2_credentials_cb;
+
+    result = git_remote_fetch(remote.get(), NULL, &fetch_opts, "fetch");
+    if (result < 0)
+    {
+        self()->error("Fetch failed");
+        return -1;
+    }
+
+    const git_indexer_progress *stats = git_remote_stats(remote.get());
+
+    return result;
 }
 
 int GitImpl::resolve_ref(git_annotated_commit **commit, const std::string &ref)

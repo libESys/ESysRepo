@@ -46,6 +46,16 @@ const std::string &Cmd::get_name() const
     return m_name;
 }
 
+void Cmd::set_job_count(int job_count)
+{
+    m_job_count = job_count;
+}
+
+int Cmd::get_job_count() const
+{
+    return m_job_count;
+}
+
 int Cmd::run()
 {
     m_start_time = std::chrono::steady_clock::now();

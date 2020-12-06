@@ -21,6 +21,8 @@
 #include "esys/repo/manifest.h"
 #include "esys/repo/configfolder.h"
 #include "esys/repo/manifest/repository.h"
+#include "esys/repo/manifest/syncrepo.h"
+#include "esys/repo/manifest/runtasks.h"
 #include "esys/repo/gitbase.h"
 
 #include <esys/log/user.h>
@@ -102,35 +104,35 @@ public:
      */
     const std::shared_ptr<GitBase> get_git() const;
 
+    //! Get the git instance to use, create one if needed
+    /*!
+     * \retrun the git instance
+     */
+    std::shared_ptr<GitBase> get_git_or_new();
+
+    //! Set the git generator to use
+    /*!
+     * \param[in] git_generator the git generator to use
+     */
+    void set_git_generator(GitBase::GeneratorType git_generator);
+
+    //! Get the git generator to use
+    /*!
+     * \return the git generator to use
+     */
+    GitBase::GeneratorType get_git_generator();
+
+    //! Create a new git instance
+    /*!
+     * \return a new git instance
+     */
+    std::shared_ptr<GitBase> new_git();
+
     //! Do the work
     /*!
      * \return 0 if successful, < 0 otherwise
      */
     virtual int run();
-
-    //! Process one repository
-    /*!
-     * \param[in] repository the repository to process
-     * \param[in] repo_idx the repository index
-     * \return 0 if successful, < 0 otherwise
-    */
-    virtual int process_repo(std::shared_ptr<manifest::Repository> repository, std::size_t repo_idx);
-
-    //! Clone one new repository
-    /*!
-     * \param[in] repository the repository to process
-     * \param[in] repo_idx the repository index
-     * \return 0 if successful, < 0 otherwise
-     */
-    virtual int clone(std::shared_ptr<manifest::Repository> repository, std::size_t repo_idx);
-
-    //! Fetch and/or update one existing repository
-    /*!
-     * \param[in] repository the repository to process
-     * \param[in] repo_idx the repository index
-     * \return 0 if successful, < 0 otherwise
-     */
-    virtual int fetch_update(std::shared_ptr<manifest::Repository> repository, std::size_t repo_idx);
 
     //! Set the log level
     /*!
@@ -162,13 +164,21 @@ public:
      */
     std::size_t &get_repo_idx();
 
+    void set_job_count(int job_count);
+    int get_job_count() const;
+
+    RunTasks &get_run_tasks();
+    const RunTasks &get_run_tasks() const;
+
 protected:
     //!< \cond DOXY_IMPL
-    std::shared_ptr<Manifest> m_manifest;          //!< The manifest
-    std::shared_ptr<ConfigFolder> m_config_folder; //!< The config folder
-    std::shared_ptr<GitBase> m_git;                //!< The git instance
-    log::Level m_log_level = log::Level::INFO;     //!< The log level
-    std::size_t m_repo_idx = 0;                    //!< The repo index
+    std::shared_ptr<Manifest> m_manifest;             //!< The manifest
+    std::shared_ptr<ConfigFolder> m_config_folder;    //!< The config folder
+    GitBase::GeneratorType m_git_generator = nullptr; //!< Git generator
+    std::shared_ptr<GitBase> m_git;                   //!< The git instance
+    log::Level m_log_level = log::Level::INFO;        //!< The log level
+    std::size_t m_repo_idx = 0;                       //!< The repo index
+    RunTasks m_run_tasks;
     //!< \endcond
 };
 

@@ -90,6 +90,15 @@
     <ClCompile Include="..\..\src\esys\repo\exe\test\cmdstatus01.cpp">
       <Filter>Source Files\exe</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\test\decodesideband01.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\manifest\test\task_t01_manifest.cpp">
+      <Filter>Source Files\manifest</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\test\queuemt01.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\esys\repo\test\esysrepo_t_prec.h">

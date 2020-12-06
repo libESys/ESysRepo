@@ -23,9 +23,13 @@
 #include "esys/repo/git/commit.h"
 #include "esys/repo/git/repostatus.h"
 #include "esys/repo/git/mergeanalysisresult.h"
+#include "esys/repo/git/fetchstep.h"
+#include "esys/repo/git/progress.h"
+#include "esys/repo/progresscallbackbase.h"
 
 #include <esys/log/user.h>
 
+#include <mutex>
 #include <string>
 #include <vector>
 #include <chrono>
@@ -44,6 +48,8 @@ namespace repo
 class ESYSREPO_API GitBase : public log::User
 {
 public:
+    typedef std::shared_ptr<GitBase>(*GeneratorType)();
+
     //! Default constructor
     GitBase();
 
@@ -127,6 +133,8 @@ public:
     virtual int merge_analysis(const std::vector<std::string> &refs, git::MergeAnalysisResult &merge_analysis_result,
                                std::vector<git::Commit> &commits) = 0;
 
+    virtual int fetch(const std::string &remote = "") = 0;
+
     //! Tells if a folder is a git repository
     /*!
      * \param[in] path the path of the folder
@@ -170,6 +178,31 @@ public:
      */
     virtual const std::string &get_lib_name() = 0;
 
+    int handle_sideband_progress(const std::string &text);
+    int handle_transfer_progress(const git::Progress &progress);
+
+    void set_progress(const git::Progress &progress);
+    void get_progress(git::Progress &progress);
+
+    void set_progress_callback(ProgressCallbackBase *progress_callback);
+    ProgressCallbackBase *get_progress_callback();
+
+    //! Sort the branches such that the current one is the first one
+    /*!
+     * \param[in] branches the branches to sort
+     */
+    static void sort_branches(std::vector<git::Branch> &branches);
+
+    //! Decode the information sent by the remote git server
+    /*!
+     * \param[in] txt the text received
+     * \param[out] fetch_step the fetch step we are at
+     * \param[out] done true if the detected fetch step is done
+     * \param[out] percentage the percentange done of the detected fetch step
+     * \return 0 if the decoding was successful, < 0 if an error occurred
+     */
+    static int decode_sideband_progress(const std::string &txt, git::Progress &progress);
+
     virtual void cmd_start();
     virtual void cmd_end();
     virtual void open_time();
@@ -181,6 +214,9 @@ protected:
     //!< \cond DOXY_IMPL
     std::size_t m_id = 0; //!< The id of the git repository handled
     bool m_debug = false; //!< Trus if debug information should be printed
+    git::Progress m_progress;
+    ProgressCallbackBase *m_progress_callback = nullptr;
+    std::mutex m_progress_mutex;
     std::chrono::time_point<std::chrono::steady_clock> m_open_time;
     std::chrono::time_point<std::chrono::steady_clock> m_last_cmd_start_time;
     std::chrono::time_point<std::chrono::steady_clock> m_last_cmd_end_time;
