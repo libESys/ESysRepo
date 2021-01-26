@@ -32,8 +32,8 @@ namespace test
 {
 
 /*! \class GetStatus01LibGit2 esys/repo/libgit2/test/getstatus01_libgit2.cpp
- * "esys/repo/libgit2/test/getstatus01_libgit2.cpp" 
- * 
+ * "esys/repo/libgit2/test/getstatus01_libgit2.cpp"
+ *
  * \brief
  *
  */

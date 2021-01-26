@@ -64,7 +64,8 @@ ESYSTEST_AUTO_TEST_CASE(IsDirty01LibGit2)
 
     Git git;
 
-    int result = git.clone("https://gitlab.com/libesys/esysmodbus/dev.git", file_path.normalize().make_preferred().string());
+    int result =
+        git.clone("https://gitlab.com/libesys/esysmodbus/dev.git", file_path.normalize().make_preferred().string());
     if (result != 0) std::cout << "ERROR " << result << std::endl;
     ESYSTEST_REQUIRE_EQUAL(result, 0);
 

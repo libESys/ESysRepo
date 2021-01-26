@@ -42,7 +42,7 @@ enum Type
 int convert(Type type, std::string &text);
 int convert(const std::string &text, Type &type);
 
-}
+} // namespace manifest
 
 } // namespace repo
 

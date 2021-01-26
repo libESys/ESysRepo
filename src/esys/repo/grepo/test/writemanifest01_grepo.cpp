@@ -42,7 +42,7 @@ ESYSTEST_AUTO_TEST_CASE(WriteManifest01GRepo)
     file_path /= ("write_grepo_manifest.xml");
 
     Manifest manifest;
-    auto data = std::make_shared<repo::Manifest>(); 
+    auto data = std::make_shared<repo::Manifest>();
     auto location = std::make_shared<manifest::Location>("origin", "ssh://git@gitlab.com/libesys");
     auto repo = location->add_repo("esysbuild/dev", ".");
 

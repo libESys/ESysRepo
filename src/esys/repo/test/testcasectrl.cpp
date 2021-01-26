@@ -51,7 +51,7 @@ TestCaseCtrl::TestCaseCtrl()
 
     m_logger.Set(&std::cout);
     esystest::Logger::Set(&m_logger);
-    
+
     m_log_mngr = esys::log::Mngr::get();
     m_log_mngr->set_search_folder("plugins\\esyslog");
 }

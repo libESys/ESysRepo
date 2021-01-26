@@ -169,11 +169,11 @@ protected:
     manifest::Type m_type = manifest::Type::NOT_SET;                            //!< The type of repository
     std::vector<std::shared_ptr<manifest::Location>> m_locations;               //!< All the locations
     std::map<std::string, std::shared_ptr<manifest::Location>> m_map_locations; //!< The map of all locations by name
-    std::map<std::string, std::shared_ptr<manifest::Location>> m_map_locations_by_path; 
-    std::shared_ptr<manifest::Location> m_default_location;                     //!< The default location
-    std::string m_default_location_str;                                         //!< The name of the default location
-    std::string m_default_revision = "master";                                  //!< The default revision
-    int m_default_job_count = 1; //!< The default number of concurrent jobs
+    std::map<std::string, std::shared_ptr<manifest::Location>> m_map_locations_by_path;
+    std::shared_ptr<manifest::Location> m_default_location; //!< The default location
+    std::string m_default_location_str;                     //!< The name of the default location
+    std::string m_default_revision = "master";              //!< The default revision
+    int m_default_job_count = 1;                            //!< The default number of concurrent jobs
     //!< \endcond
 };
 

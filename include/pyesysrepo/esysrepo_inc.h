@@ -12,5 +12,3 @@
 #include "esys/repo/git.h"
 #include "esys/repo/libgit2/git.h"
 #include "pyversion.h"
-
-

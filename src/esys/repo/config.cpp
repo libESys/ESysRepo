@@ -61,7 +61,6 @@ bool Config::operator!=(const Config &cfg) const
     return !operator==(cfg);
 }
 
-
 void Config::operator=(const Config &cfg)
 {
     set_manifest_type(cfg.get_manifest_type());

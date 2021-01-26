@@ -65,7 +65,7 @@ const std::shared_ptr<repo::Manifest> Manifest::get_data() const
 ManifestImpl *Manifest::get_impl()
 {
     return m_impl.get();
- }
+}
 
 } // namespace grepo
 

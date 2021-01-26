@@ -38,6 +38,6 @@ public:
 
 } // namespace gitcmdline
 
-} // namespace build
+} // namespace repo
 
 } // namespace esys

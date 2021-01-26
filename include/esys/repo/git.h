@@ -26,4 +26,3 @@
 #include "esys/repo/libgit2/git.h"
 
 //<swig_inc/>
-

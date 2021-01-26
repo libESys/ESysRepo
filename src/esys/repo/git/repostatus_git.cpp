@@ -18,7 +18,7 @@
 #include "esys/repo/esysrepo_prec.h"
 #include "esys/repo/git/repostatus.h"
 
-#include  <algorithm>
+#include <algorithm>
 
 namespace esys
 {

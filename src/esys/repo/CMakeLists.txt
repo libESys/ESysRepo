@@ -94,7 +94,7 @@ target_link_libraries( esysrepo PRIVATE
     Boost::system
     git2
     esysfile
-)        
+)
 
 target_link_libraries(esysrepo PRIVATE nlohmann_json::nlohmann_json)
 

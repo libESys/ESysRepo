@@ -48,7 +48,7 @@ namespace repo
 class ESYSREPO_API GitBase : public log::User
 {
 public:
-    typedef std::shared_ptr<GitBase>(*GeneratorType)();
+    typedef std::shared_ptr<GitBase> (*GeneratorType)();
 
     //! Default constructor
     GitBase();

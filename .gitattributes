@@ -198,7 +198,7 @@
 
 * text=auto
 
-*.c	    text 
+*.c	    text
 *.cpp	text
 *.h	    text
 *h.in	text eol=lf

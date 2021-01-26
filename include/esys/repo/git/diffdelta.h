@@ -56,10 +56,10 @@ public:
 
     void set_file_count(std::size_t file_count);
     std::size_t get_file_count() const;
-    
+
     DiffFile &get_old_file();
     const DiffFile &get_old_file() const;
-    
+
     DiffFile &get_new_file();
     const DiffFile &get_new_file() const;
 

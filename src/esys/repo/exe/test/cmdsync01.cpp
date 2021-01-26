@@ -66,7 +66,7 @@ ESYSTEST_AUTO_TEST_CASE(CmdSync01)
     ESYSTEST_REQUIRE_EQUAL(result, 0);
 
     CmdSync cmd_sync;
-    
+
     cmd_sync.set_job_count(4);
     cmd_sync.set_parent_path(file_path.string());
     cmd_sync.set_git(git);
@@ -74,7 +74,6 @@ ESYSTEST_AUTO_TEST_CASE(CmdSync01)
 
     result = cmd_sync.run();
     ESYSTEST_REQUIRE_EQUAL(result, 0);
-
 }
 
 } // namespace test

@@ -28,17 +28,17 @@ file_config.set_input_dir("../include/esys/repo")
 file_config.set_base_inc_dir("esys/repo")
 
 # path to all sources, but relative to the input directory given above
-source = ["version.h",
-          "git/branchtype.h",
-          "git/branch.h",
-          "git/commit.h",
-          "git/remote.h",
-          "gitbase.h",
-          "githelper.h",
-          "git.h",
-          "libgit2/git.h",
-
-          ]
+source = [
+    "version.h",
+    "git/branchtype.h",
+    "git/branch.h",
+    "git/commit.h",
+    "git/remote.h",
+    "gitbase.h",
+    "githelper.h",
+    "git.h",
+    "libgit2/git.h",
+]
 
 file_config.set_source_files(source)
 
@@ -50,8 +50,7 @@ file_config_extra.set_input_dir("../include/pyesysrepo")
 file_config_extra.set_src_output_dir("./pyesysrepo")
 
 # path to all sources, but relative to the input directory given above
-source_extra = ["pyversion.h"
-                ]
+source_extra = ["pyversion.h"]
 
 file_config_extra.set_source_files(source_extra)
 

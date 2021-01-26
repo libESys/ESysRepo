@@ -57,6 +57,6 @@ const std::string &Remote::get_url() const
 
 } // namespace git
 
-} // namespace build
+} // namespace repo
 
 } // namespace esys

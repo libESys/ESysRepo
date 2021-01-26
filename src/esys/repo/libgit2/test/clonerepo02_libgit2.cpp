@@ -66,7 +66,8 @@ ESYSTEST_AUTO_TEST_CASE(CloneRepo02LibGit2)
 
     Git git;
 
-    int result = git.clone("ssh://git@gitlab.com/libesys/metacpp_manifest.git", file_path.normalize().make_preferred().string());
+    int result =
+        git.clone("ssh://git@gitlab.com/libesys/metacpp_manifest.git", file_path.normalize().make_preferred().string());
     if (result != 0) std::cout << "ERROR " << result << std::endl;
     ESYSTEST_REQUIRE_EQUAL(result, 0);
 

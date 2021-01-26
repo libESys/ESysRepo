@@ -45,7 +45,7 @@ ESYSTEST_AUTO_TEST_CASE(CloneRepo01LibGit2)
     file_path /= ("clonerepo01libgit2");
 
     std::cout << "Temp folder = " << file_path << std::endl;
- 
+
     bool remove_all = true;
 
     try

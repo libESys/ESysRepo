@@ -42,7 +42,8 @@ class ESYSREPO_API GitHelper : public log::User
 {
 public:
     //! Constructor
-    GitHelper(std::shared_ptr<GitBase> git = nullptr, std::shared_ptr<log::Logger_if> log_if = nullptr, int repo_idx = -1);
+    GitHelper(std::shared_ptr<GitBase> git = nullptr, std::shared_ptr<log::Logger_if> log_if = nullptr,
+              int repo_idx = -1);
 
     //! Destructor
     virtual ~GitHelper();

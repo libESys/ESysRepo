@@ -48,7 +48,7 @@ public:
     //! Set the actual loader to use
     /*!
      * \param[in] loader the actual loader to use
-    */
+     */
     void set_loader(std::shared_ptr<LoaderBase> loader);
 
     //! Get the actual loader to use

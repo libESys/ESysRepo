@@ -79,9 +79,9 @@ public:
 
 protected:
     //!< \cond DOXY_IMPL
-    std::vector<std::shared_ptr<Status>> m_all;           //!< All status information
-    std::vector<std::shared_ptr<Status>> m_current;       //!< All files with current status
-    std::vector<std::shared_ptr<Status>> m_head_to_index; //!< All files with index status
+    std::vector<std::shared_ptr<Status>> m_all;               //!< All status information
+    std::vector<std::shared_ptr<Status>> m_current;           //!< All files with current status
+    std::vector<std::shared_ptr<Status>> m_head_to_index;     //!< All files with index status
     std::vector<std::shared_ptr<Status>> m_index_to_work_dir; //!< All files with working directory status
     std::vector<std::shared_ptr<Status>> m_ignored;           //!< All ignored files
     std::vector<std::shared_ptr<Status>> m_conflicted;        //!< All files with conflicts

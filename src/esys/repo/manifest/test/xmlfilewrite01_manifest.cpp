@@ -65,7 +65,7 @@ ESYSTEST_AUTO_TEST_CASE(XMLFileWrite01Manifest)
     std::shared_ptr<Manifest> manifest = std::make_shared<Manifest>();
     std::shared_ptr<manifest::Location> location;
     std::shared_ptr<manifest::Repository> repo;
-    
+
     std::vector<std::pair<std::string, std::string>> origin_repos = {
         {"esysos", "src/esysos"},
         {"esysdep", "src/esysdep"},
@@ -160,9 +160,9 @@ ESYSTEST_AUTO_TEST_CASE(XMLFileWrite01Manifest)
     ESYSTEST_REQUIRE_EQUAL(result, 0);
 }
 
-}
-
 } // namespace test
+
+} // namespace manifest
 
 } // namespace repo
 

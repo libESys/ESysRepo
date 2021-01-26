@@ -275,7 +275,7 @@ int ESysRepoExe::cmd_list()
     // clang-format off
     desc.add_options()
         ("help,h", "produce help message")
-        ("fullpath,f", po::value<bool>()->default_value(false)->implicit_value(true), 
+        ("fullpath,f", po::value<bool>()->default_value(false)->implicit_value(true),
                         "Display the full work tree path instead of the"
                         "relative path")
         ("name-only,n", po::value<bool>()->default_value(false)->implicit_value(true), "Display only the name of the repository")
@@ -353,7 +353,7 @@ int ESysRepoExe::cmd_sync()
     // clang-format off
     desc.add_options()
         ("help,h", "produce help message")
-        ("force-sync", po::value<bool>()->default_value(false)->implicit_value(true), 
+        ("force-sync", po::value<bool>()->default_value(false)->implicit_value(true),
                         "overwrite an existing git directory if it needs to"
                         "point to a different object directory. WARNING: this"
                         "may cause loss of data")

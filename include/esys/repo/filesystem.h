@@ -74,7 +74,7 @@ namespace boost_no_all
 ESYSREPO_API int remove_all(const std::string &path);
 ESYSREPO_API int move(const std::string &src, const std::string &dst, bool recursive = false);
 
-}
+} // namespace boost_no_all
 
 #if defined(ESYSREPO_USE_BOOST_FILESYSTEM) || defined(ESYSREPO_USE_BOOST_FILESYSTEM_NO_RECURSIVE)
 using namespace boost_all;

@@ -141,7 +141,6 @@ public:
      */
     int create_esysrepo_folder();
 
-
     std::string get_extra_start_msg() override;
 
 protected:

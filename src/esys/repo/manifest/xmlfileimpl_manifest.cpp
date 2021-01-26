@@ -95,7 +95,8 @@ int XMLFileImpl::read_location(std::shared_ptr<esysfile::xml::Element> el)
 
     for (auto child_el : el->get_elements())
     {
-        if (child_el->get_name() == "repository") result = read_repository(child_el, location);
+        if (child_el->get_name() == "repository")
+            result = read_repository(child_el, location);
         else
             result = -1;
         if (result < 0) return result;

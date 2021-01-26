@@ -50,7 +50,7 @@ public:
     void set_type(StatusType type);
     StatusType get_type() const;
     StatusType &get_type();
-    
+
     void set_sub_type(StatusSubType sub_type);
     StatusSubType get_sub_type() const;
     StatusSubType &get_sub_type();

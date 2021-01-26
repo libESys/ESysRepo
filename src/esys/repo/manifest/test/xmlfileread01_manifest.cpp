@@ -78,7 +78,7 @@ ESYSTEST_AUTO_TEST_CASE(XMLFileRead01Manifest)
     location = xml_file.get_manifest()->find_location("origin");
     ESYSTEST_REQUIRE_NE(location, nullptr);
     test_fct(origin_repos, location);
-    
+
     std::vector<std::pair<std::string, std::string>> gerrit_repos = {
         {"esys", "src/esys"},
         {"esysdoc", "src/esysdoc"},

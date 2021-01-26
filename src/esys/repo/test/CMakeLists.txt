@@ -26,7 +26,7 @@ set(ESYSREPO_T_CXX_SOURCES
     main.cpp
     testcasectrl.cpp
 )
-    
+
 set(ESYSREPO_T_EXE_CXX_SOURCES
     ../exe/test/cmdinit01.cpp
     ../exe/test/cmdsync01.cpp
@@ -50,13 +50,13 @@ set(ESYSREPO_T_MANIFEST_CXX_SOURCES
     ../manifest/test/xmlfilewrite01_manifest.cpp
 )
 
-add_executable(esysrepo_t 
+add_executable(esysrepo_t
     ${ESYSREPO_T_CXX_SOURCES}
     ${ESYSREPO_T_GREPO_CXX_SOURCES}
     ${ESYSREPO_T_LIBGIT2_CXX_SOURCES}
     ${ESYSREPO_T_MANIFEST_CXX_SOURCES}
-    )    
-	
+    )
+
 find_package(Boost 1.66 REQUIRED QUIET COMPONENTS
              date_time filesystem iostreams program_options thread)
 
@@ -80,4 +80,3 @@ target_link_libraries(emdev_t PUBLIC
         Boost::unit_test_framework
 )
 endif()
-
