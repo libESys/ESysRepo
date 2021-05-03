@@ -5,7 +5,7 @@
  * \cond
  * __legal_b__
  *
- * Copyright (c) 2020 Michel Gillet
+ * Copyright (c) 2020-2021 Michel Gillet
  * Distributed under the wxWindows Library Licence, Version 3.1.
  * (See accompanying file LICENSE_3_1.txt or
  * copy at http://www.wxwidgets.org/about/licence)
@@ -118,7 +118,7 @@ int SyncRepo::fetch_update()
         return 0;
     }
 
-    std::vector<git::Branch> branches;
+    git::Branches branches;
     result = git_helper.get_branches(branches, git::BranchType::LOCAL, log::Level::DEBUG);
     if (result < 0)
     {
@@ -126,7 +126,7 @@ int SyncRepo::fetch_update()
         return -1;
     }
 
-    GitBase::sort_branches(branches);
+    branches.sort();
 
     /*result = git_helper.merge_analysis()
     const std::vector<std::string> &refs, git::MergeAnalysisResult &merge_analysis_result,

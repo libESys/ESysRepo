@@ -68,8 +68,7 @@ public:
 
     int close(log::Level log_level, int debug_level = 0);
 
-    int get_branches(std::vector<git::Branch> &branches, git::BranchType branch_type, log::Level log_level,
-                     int debug_level = 0);
+    int get_branches(git::Branches &branches, git::BranchType branch_type, log::Level log_level, int debug_level = 0);
 
     int is_dirty(bool &dirty, log::Level log_level, int debug_level = 0);
 
@@ -102,6 +101,8 @@ public:
 
     void init_oss(std::ostringstream &oss);
     void init_oss(std::ostringstream &oss, const std::string &msg);
+
+    void clean_cout();
 
 protected:
     //!< \cond DOXY_IMPL

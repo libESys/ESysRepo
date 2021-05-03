@@ -20,7 +20,7 @@
 #include "esys/repo/esysrepo_defs.h"
 #include "esys/repo/exe/cmd.h"
 #include "esys/repo/git/repostatus.h"
-#include "esys/repo/git/branch.h"
+#include "esys/repo/git/branches.h"
 
 #include <memory>
 #include <vector>
@@ -71,7 +71,7 @@ protected:
     std::shared_ptr<git::Commit> m_last_commit;
     std::size_t m_start_print_branch = 50;
     std::shared_ptr<git::RepoStatus> m_repo_status;
-    std::vector<git::Branch> m_branches;
+    git::Branches m_branches;
     std::map<std::string, int> m_map_repo_path_to_show;
     //!< \endcond
 };

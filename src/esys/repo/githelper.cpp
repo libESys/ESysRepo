@@ -19,9 +19,12 @@
 #include "esys/repo/githelper.h"
 #include "esys/repo/filesystem.h"
 
+#include <esys/log/consolelockguard.h>
+
 #include <boost/filesystem.hpp>
 
 #include <sstream>
+#include <iostream>
 
 namespace esys
 {
@@ -48,6 +51,7 @@ void GitHelper::debug(int level, const std::string &msg)
 
     init_oss(oss, msg);
 
+    clean_cout();
     log::User::debug(level, oss.str());
 }
 
@@ -57,6 +61,7 @@ void GitHelper::info(const std::string &msg)
 
     init_oss(oss, msg);
 
+    clean_cout();
     log::User::info(oss.str());
 }
 
@@ -66,6 +71,7 @@ void GitHelper::warn(const std::string &msg)
 
     init_oss(oss, msg);
 
+    clean_cout();
     log::User::warn(oss.str());
 }
 
@@ -75,6 +81,7 @@ void GitHelper::error(const std::string &msg)
 
     init_oss(oss, msg);
 
+    clean_cout();
     log::User::error(oss.str());
 }
 
@@ -84,6 +91,7 @@ void GitHelper::critical(const std::string &msg)
 
     init_oss(oss, msg);
 
+    clean_cout();
     log::User::critical(oss.str());
 }
 
@@ -93,6 +101,7 @@ void GitHelper::log(log::Level level, const std::string &msg)
 
     init_oss(oss, msg);
 
+    clean_cout();
     log::User::log(level, oss.str());
 }
 
@@ -102,6 +111,7 @@ void GitHelper::log(const std::string &msg, log::Level level, int debug_level)
 
     init_oss(oss, msg);
 
+    clean_cout();
     log::User::log(oss.str(), level, debug_level);
 }
 
@@ -111,6 +121,7 @@ void GitHelper::error(const std::string &msg, int result)
 
     init_oss(oss, msg);
 
+    clean_cout();
     log::User::error(oss.str(), result);
 }
 
@@ -122,6 +133,7 @@ void GitHelper::done(const std::string &msg, uint64_t elapsed_time)
 
     oss << " done.\n";
     oss << "    elapsed time (s): " << (elapsed_time / 1000) << "." << (elapsed_time % 1000);
+    clean_cout();
     log::User::info(oss.str());
 }
 
@@ -250,8 +262,7 @@ int GitHelper::close(log::Level log_level, int debug_level)
     return result;
 }
 
-int GitHelper::get_branches(std::vector<git::Branch> &branches, git::BranchType branch_type, log::Level log_level,
-                            int debug_level)
+int GitHelper::get_branches(git::Branches &branches, git::BranchType branch_type, log::Level log_level, int debug_level)
 {
     log("Getting branches ...", log::Level::DEBUG);
     int result = get_git()->get_branches(branches);
@@ -365,6 +376,17 @@ void GitHelper::init_oss(std::ostringstream &oss, const std::string &msg)
     init_oss(oss);
 
     oss << msg;
+}
+
+void GitHelper::clean_cout()
+{
+    log::ConsoleLockGuard<log::User> lock(this);
+
+    std::string s = "             ";
+    std::cout << "\r";
+
+    for (int idx = 0; idx < 8; ++idx) std::cout << s;
+    std::cout << "\r";
 }
 
 } // namespace repo

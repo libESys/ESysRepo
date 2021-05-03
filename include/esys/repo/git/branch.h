@@ -50,7 +50,6 @@ public:
     Branch(const std::string &name, bool is_head);
 
     //! Constructor
-    //! Constructor
     /*!
      * \param[in] name the name of the branch
      * \param[in] type the type of the branch, e.g. local or remote

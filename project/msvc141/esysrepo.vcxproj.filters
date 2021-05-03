@@ -216,6 +216,9 @@
     <ClCompile Include="..\..\src\esys\repo\git\updatetip_git.cpp">
       <Filter>Source Files\git</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\git\branches_git.cpp">
+      <Filter>Source Files\git</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\esys\repo\esysrepo_defs.h">
@@ -426,6 +429,9 @@
       <Filter>Header Files\git</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\esys\repo\git\updatetiptype.h">
+      <Filter>Header Files\git</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\git\branches.h">
       <Filter>Header Files\git</Filter>
     </ClInclude>
   </ItemGroup>

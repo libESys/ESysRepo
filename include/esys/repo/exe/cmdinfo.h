@@ -69,7 +69,7 @@ protected:
     bool m_overview = false;
     bool m_current_branch = false;
     bool m_local_only = false;
-    std::vector<git::Branch> m_branches;
+    git::Branches m_branches;
     std::string m_rel_repo_path;
     std::string m_repo_path;
     std::shared_ptr<git::Commit> m_last_commit;

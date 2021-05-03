@@ -85,7 +85,8 @@ bool CmdInfo::get_local_only() const
 
 int CmdInfo::impl_run()
 {
-    int result;
+    int result = open_esysrepo_folder();
+    if (result < 0) return result;
 
     result = load_manifest();
     if (result < 0) return result;
@@ -137,13 +138,13 @@ int CmdInfo::open_repo(std::shared_ptr<manifest::Repository> repo)
 void CmdInfo::print_repo(std::shared_ptr<manifest::Repository> repo)
 {
     std::ostringstream oss;
-    git::Branch *cur_branch = nullptr;
+    std::shared_ptr<git::Branch> cur_branch = nullptr;
 
-    for (auto &branch : m_branches)
+    for (auto branch : m_branches.get())
     {
-        if (branch.get_is_head())
+        if (branch->get_is_head())
         {
-            cur_branch = &branch;
+            cur_branch = branch;
             break;
         }
     }
@@ -169,10 +170,10 @@ void CmdInfo::print_repo(std::shared_ptr<manifest::Repository> repo)
     }
 
     std::size_t idx = 0;
-    for (auto &branch : m_branches)
+    for (auto branch : m_branches.get())
     {
-        oss << std::endl << "        [" << idx << "] " << std::left << std::setw(20) << branch.get_name();
-        oss << " -> " << branch.get_remote_branch();
+        oss << std::endl << "        [" << idx << "] " << std::left << std::setw(20) << branch->get_name();
+        oss << " -> " << branch->get_remote_branch();
         ++idx;
     }
 

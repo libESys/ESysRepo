@@ -19,7 +19,7 @@
 
 #include "esys/repo/esysrepo_defs.h"
 #include "esys/repo/git/remote.h"
-#include "esys/repo/git/branch.h"
+#include "esys/repo/git/branches.h"
 #include "esys/repo/git/commit.h"
 #include "esys/repo/git/repostatus.h"
 #include "esys/repo/git/mergeanalysisresult.h"
@@ -88,7 +88,7 @@ public:
      * \param[in] branch_type tells if the local or remote branches are requested
      * \return 0 if successful, < 0 otherwise
      */
-    virtual int get_branches(std::vector<git::Branch> &branches,
+    virtual int get_branches(git::Branches &branches,
                              git::BranchType branch_type = git::BranchType::LOCAL) = 0;
 
     //! Clone a remote git repository given it's address and path where to clone it
@@ -186,12 +186,6 @@ public:
 
     void set_progress_callback(ProgressCallbackBase *progress_callback);
     ProgressCallbackBase *get_progress_callback();
-
-    //! Sort the branches such that the current one is the first one
-    /*!
-     * \param[in] branches the branches to sort
-     */
-    static void sort_branches(std::vector<git::Branch> &branches);
 
     //! Decode the information sent by the remote git server
     /*!

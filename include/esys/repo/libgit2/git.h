@@ -52,7 +52,7 @@ public:
 
     int close() override;
     int get_remotes(std::vector<git::Remote> &remotes) override;
-    int get_branches(std::vector<git::Branch> &branches, git::BranchType branch_type = git::BranchType::LOCAL) override;
+    int get_branches(git::Branches &branches, git::BranchType branch_type = git::BranchType::LOCAL) override;
 
     int clone(const std::string &url, const std::string &path) override;
     int checkout(const std::string &branch, bool force = false) override;

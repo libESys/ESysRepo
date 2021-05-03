@@ -134,7 +134,7 @@ int GitImpl::get_remotes(std::vector<git::Remote> &remotes)
     return check_error(0);
 }
 
-int GitImpl::get_branches(std::vector<git::Branch> &branches, git::BranchType branch_type)
+int GitImpl::get_branches(git::Branches &branches, git::BranchType branch_type)
 {
     if (m_repo == nullptr) return -1;
 
@@ -163,15 +163,15 @@ int GitImpl::get_branches(std::vector<git::Branch> &branches, git::BranchType br
         if (result == GIT_ITEROVER) return check_error(0);
         if (result < 0) return check_error(result);
 
-        git::Branch branch;
+        std::shared_ptr<git::Branch> branch = std::make_shared<git::Branch>();
         const char *branch_name;
         result = git_branch_name(&branch_name, ref.get());
         if (result < 0) return check_error(result);
 
         std::string ref_name = git_reference_name(ref.get());
 
-        branch.set_name(branch_name);
-        branch.set_ref_name(ref_name);
+        branch->set_name(branch_name);
+        branch->set_ref_name(ref_name);
 
         switch (git_branch_type)
         {
@@ -181,10 +181,10 @@ int GitImpl::get_branches(std::vector<git::Branch> &branches, git::BranchType br
             default: branch_type = git::BranchType::NOT_SET;
         }
 
-        branch.set_type(branch_type);
+        branch->set_type(branch_type);
 
         result = git_branch_is_head(ref.get());
-        if (result == 1) branch.set_is_head(true);
+        if (result == 1) branch->set_is_head(true);
 
         if (branch_type == git::BranchType::LOCAL)
         {
@@ -193,20 +193,20 @@ int GitImpl::get_branches(std::vector<git::Branch> &branches, git::BranchType br
             if (result == 0)
             {
                 std::string remote_name(buf_out.ptr, buf_out.ptr + buf_out.size);
-                branch.set_remote_name(remote_name);
+                branch->set_remote_name(remote_name);
                 git_buf_dispose(&buf_out);
             }
             result = git_branch_upstream_name(&buf_out, m_repo, ref_name.c_str());
             if (result == 0)
             {
                 std::string remote_branch(buf_out.ptr, buf_out.ptr + buf_out.size);
-                branch.set_remote_branch(remote_branch);
+                branch->set_remote_branch(remote_branch);
                 git_buf_dispose(&buf_out);
             }
         }
         else
             check_error(result, "");
-        branches.push_back(branch);
+        branches.add(branch);
     }
     return check_error(0);
 }
@@ -736,7 +736,7 @@ int GitImpl::fetch(const std::string &remote_str)
     }
     else
     {
-        std::vector<git::Branch> branches;
+        git::Branches branches;
 
         result = get_branches(branches);
         if (result < 0)
@@ -751,9 +751,9 @@ int GitImpl::fetch(const std::string &remote_str)
             return -1;
         }
 
-        GitBase::sort_branches(branches);
+        branches.sort();
 
-        remote_name = branches[0].get_remote_name();
+        remote_name = branches.get()[0]->get_remote_name();
 
         result = git_remote_lookup(remote.get_p(), m_repo, remote_name.c_str());
         if (result < 0)

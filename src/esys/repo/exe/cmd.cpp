@@ -20,9 +20,12 @@
 #include "esys/repo/filesystem.h"
 #include "esys/repo/configfolder.h"
 
+#include <esys/log/consolelockguard.h>
+
 #include <boost/filesystem.hpp>
 
 #include <sstream>
+#include <iostream>
 
 namespace esys
 {
@@ -340,6 +343,67 @@ int Cmd::load_manifest()
 std::string Cmd::get_extra_start_msg()
 {
     return "";
+}
+
+void Cmd::debug(int level, const std::string &msg)
+{
+    clean_cout();
+
+    User::debug(level, msg);
+}
+
+void Cmd::info(const std::string &msg)
+{
+    clean_cout();
+
+    User::info(msg);
+}
+
+void Cmd::warn(const std::string &msg)
+{
+    clean_cout();
+
+    User::warn(msg);
+}
+
+void Cmd::error(const std::string &msg)
+{
+    clean_cout();
+
+    User::error(msg);
+}
+
+void Cmd::critical(const std::string &msg)
+{
+    clean_cout();
+
+    User::critical(msg);
+}
+
+void Cmd::log(log::Level level, const std::string &msg)
+{
+    clean_cout();
+
+    User::log(level, msg);
+}
+
+void Cmd::log(const std::string &msg, log::Level level, int debug_level)
+{
+    clean_cout();
+
+    User::log(msg, level, debug_level);
+}
+
+void Cmd::clean_cout()
+{
+    /*log::ConsoleLockGuard<log::User> lock(this);
+
+    std::string s = "             ";
+    std::cout << "\r";
+
+    for (int idx = 0; idx < 8; ++idx)
+        std::cout << s;
+    std::cout << "\r"; */
 }
 
 } // namespace exe

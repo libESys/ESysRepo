@@ -186,6 +186,16 @@ public:
 
     virtual std::string get_extra_start_msg();
 
+    void debug(int level, const std::string &msg) override;
+    void info(const std::string &msg) override;
+    void warn(const std::string &msg) override;
+    void error(const std::string &msg) override;
+    void critical(const std::string &msg) override;
+    void log(log::Level level, const std::string &msg) override;
+    void log(const std::string &msg, log::Level level, int debug_level = 0) override;
+
+    void clean_cout();
+
 protected:
     //!< \cond DOXY_IMPL
 

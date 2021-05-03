@@ -248,6 +248,7 @@
     <ClCompile Include="..\..\src\esys\repo\gitbase.cpp" />
     <ClCompile Include="..\..\src\esys\repo\gitcmdline\git_cmdline.cpp" />
     <ClCompile Include="..\..\src\esys\repo\githelper.cpp" />
+    <ClCompile Include="..\..\src\esys\repo\git\branches_git.cpp" />
     <ClCompile Include="..\..\src\esys\repo\git\branch_git.cpp" />
     <ClCompile Include="..\..\src\esys\repo\git\commit.cpp" />
     <ClCompile Include="..\..\src\esys\repo\git\diffdelta_git.cpp" />
@@ -306,6 +307,7 @@
     <ClInclude Include="..\..\include\esys\repo\gitcmdline\git.h" />
     <ClInclude Include="..\..\include\esys\repo\githelper.h" />
     <ClInclude Include="..\..\include\esys\repo\git\branch.h" />
+    <ClInclude Include="..\..\include\esys\repo\git\branches.h" />
     <ClInclude Include="..\..\include\esys\repo\git\branchtype.h" />
     <ClInclude Include="..\..\include\esys\repo\git\commit.h" />
     <ClInclude Include="..\..\include\esys\repo\git\diffdelta.h" />

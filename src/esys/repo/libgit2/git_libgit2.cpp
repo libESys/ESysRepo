@@ -62,7 +62,7 @@ int Git::get_remotes(std::vector<git::Remote> &remotes)
     return get_impl()->get_remotes(remotes);
 }
 
-int Git::get_branches(std::vector<git::Branch> &branches, git::BranchType branch_type)
+int Git::get_branches(git::Branches &branches, git::BranchType branch_type)
 {
     return get_impl()->get_branches(branches, branch_type);
 }

@@ -66,6 +66,9 @@ int CmdStatus::impl_run()
         return -1;
     }
 
+    result = open_esysrepo_folder();
+    if (result < 0) return result;
+
     result = load_manifest();
     if (result < 0) return result;
 
@@ -129,7 +132,7 @@ int CmdStatus::open_repo(std::shared_ptr<manifest::Repository> repo)
     result = git_helper.get_branches(m_branches, git::BranchType::LOCAL, log::Level::DEBUG);
     if (result < 0) return result;
 
-    GitBase::sort_branches(m_branches);
+    m_branches.sort();
 
     return git_helper.close(log::Level::DEBUG);
 }
@@ -142,7 +145,7 @@ void CmdStatus::print_repo(std::shared_ptr<manifest::Repository> repo)
 
     if (m_branches.size() != 0)
     {
-        if (m_branches[0].get_is_head()) cur_branch = m_branches[0].get_name();
+        if (m_branches.get()[0]->get_is_head()) cur_branch = m_branches.get()[0]->get_name();
     }
 
     if (m_repo_status->get_file_status().size() == 0)

@@ -29,13 +29,6 @@ namespace esys
 namespace repo
 {
 
-void GitBase::sort_branches(std::vector<git::Branch> &branches)
-{
-    auto head_first = [](const git::Branch &b0, const git::Branch &b1) -> bool { return b0.get_is_head(); };
-
-    std::sort(branches.begin(), branches.end(), head_first);
-}
-
 GitBase::GitBase()
     : log::User()
 {
