@@ -54,12 +54,16 @@ public:
     int get_remotes(std::vector<git::Remote> &remotes) override;
     int get_branches(git::Branches &branches, git::BranchType branch_type = git::BranchType::LOCAL) override;
 
-    int clone(const std::string &url, const std::string &path) override;
+    int clone(const std::string &url, const std::string &path, const std::string &branch = "") override;
     int checkout(const std::string &branch, bool force = false) override;
+    int reset(const git::Commit &commit, git::ResetType type = git::ResetType::SOFT) override;
+    int fastforward(const git::Commit &commit) override;
 
     int get_last_commit(git::Commit &commit) override;
+    int get_parent_commit(const git::Commit &commit, git::Commit &parent, int nth_parent = 1) override;
 
     int is_dirty(bool &dirty) override;
+    int is_detached(bool &detached) override;
 
     int get_status(git::RepoStatus &repo_status) override;
 
@@ -78,6 +82,8 @@ public:
 
     const std::string &get_version() override;
     const std::string &get_lib_name() override;
+
+    void debug(int level, const std::string &msg) override;
 
     //! Get the version of the git library used
     /*!

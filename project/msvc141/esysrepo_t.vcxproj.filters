@@ -25,6 +25,12 @@
     <Filter Include="Source Files\manifest">
       <UniqueIdentifier>{1b64d61a-0039-4e1c-addb-ce8ae248b142}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\git">
+      <UniqueIdentifier>{c5d3aabf-2995-4f3a-a3de-1ee694f267c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\exe">
+      <UniqueIdentifier>{3e79dac7-b9ce-4782-9028-c71592599e43}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\esys\repo\test\esysrepo_t_prec.cpp">
@@ -81,9 +87,6 @@
     <ClCompile Include="..\..\src\esys\repo\libgit2\test\isdirty01_libgit2.cpp">
       <Filter>Source Files\libgit2</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\esys\repo\test\sortbranches01.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\esys\repo\libgit2\test\getstatus01_libgit2.cpp">
       <Filter>Source Files\libgit2</Filter>
     </ClCompile>
@@ -99,6 +102,24 @@
     <ClCompile Include="..\..\src\esys\repo\test\queuemt01.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\git\test\sortbranches01.cpp">
+      <Filter>Source Files\git</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\exe\test\cmdsync02.cpp">
+      <Filter>Source Files\exe</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\exe\test\fixcmdsync.cpp">
+      <Filter>Source Files\exe</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\exe\test\cmdsync03.cpp">
+      <Filter>Source Files\exe</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\libgit2\test\getparentcommit01_libgit2.cpp">
+      <Filter>Source Files\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\exe\test\cmdsync04.cpp">
+      <Filter>Source Files\exe</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\esys\repo\test\esysrepo_t_prec.h">
@@ -109,6 +130,9 @@
     </ClInclude>
     <ClInclude Include="..\..\include\esys\repo\test\testcasectrl.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\exe\test\fixcmdsync.h">
+      <Filter>Header Files\exe</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

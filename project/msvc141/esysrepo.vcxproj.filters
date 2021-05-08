@@ -219,6 +219,12 @@
     <ClCompile Include="..\..\src\esys\repo\git\branches_git.cpp">
       <Filter>Source Files\git</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\libgit2\guardassign_libgit2.cpp">
+      <Filter>Source Files\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\manifest\sync_manifest.cpp">
+      <Filter>Source Files\manifest</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\esys\repo\esysrepo_defs.h">
@@ -433,6 +439,15 @@
     </ClInclude>
     <ClInclude Include="..\..\include\esys\repo\git\branches.h">
       <Filter>Header Files\git</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\esys\repo\libgit2\guardassign.h">
+      <Filter>Source Files\libgit2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\git\resettype.h">
+      <Filter>Header Files\git</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\manifest\sync.h">
+      <Filter>Header Files\manifest</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

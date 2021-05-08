@@ -230,6 +230,7 @@
     <ClCompile Include="..\..\src\esys\repo\grepo\test\writemanifest01_grepo.cpp" />
     <ClCompile Include="..\..\src\esys\repo\libgit2\test\clonerepo01_libgit2.cpp" />
     <ClCompile Include="..\..\src\esys\repo\libgit2\test\clonerepo02_libgit2.cpp" />
+    <ClCompile Include="..\..\src\esys\repo\libgit2\test\getparentcommit01_libgit2.cpp" />
     <ClCompile Include="..\..\src\esys\repo\libgit2\test\getstatus01_libgit2.cpp" />
     <ClCompile Include="..\..\src\esys\repo\libgit2\test\isdirty01_libgit2.cpp" />
     <ClCompile Include="..\..\src\esys\repo\libgit2\test\opengitrepo01_libgit2.cpp" />

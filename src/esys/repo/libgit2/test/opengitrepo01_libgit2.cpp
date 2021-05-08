@@ -50,7 +50,7 @@ ESYSTEST_AUTO_TEST_CASE(OpenGitRepo01LibGit2)
     result = git.get_remotes(remotes);
     ESYSTEST_REQUIRE_EQUAL(result, 0);
 
-    std::vector<git::Branch> branches;
+    git::Branches branches;
     result = git.get_branches(branches, git::BranchType::LOCAL);
     ESYSTEST_REQUIRE_EQUAL(result, 0);
 

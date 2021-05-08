@@ -19,6 +19,7 @@
 
 #include "esys/repo/esysrepo_defs.h"
 #include "esys/repo/libgit2/guardrelease.h"
+#include "esys/repo/libgit2/guardassign.h"
 
 namespace esys
 {
@@ -33,12 +34,19 @@ template<typename T>
 class Guard
 {
 public:
+    template<typename T>
+    friend int guard_assign(Guard<T> *dest, const Guard<T> &src);
+
     Guard();
     ~Guard();
 
     T *get() const;
     T **get_p();
 
+    void reset();
+
+    void operator=(const Guard &other);
+    
 protected:
     T *m_data = nullptr;
 };
@@ -64,6 +72,22 @@ template<typename T>
 T **Guard<T>::get_p()
 {
     return &m_data;
+}
+
+template<typename T>
+void Guard<T>::reset()
+{
+    if (m_data == nullptr) return;
+
+    guard_release<T>(m_data);
+    m_data = nullptr;
+}
+
+template<typename T>
+void Guard<T>::operator=(const Guard &other)
+{
+    int result = guard_assign<T>(this, other);
+    // \TODO throw exception??
 }
 
 } // namespace libgit2

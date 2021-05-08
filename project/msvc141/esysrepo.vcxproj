@@ -263,6 +263,7 @@
     <ClCompile Include="..\..\src\esys\repo\grepo\manifest_grepo.cpp" />
     <ClCompile Include="..\..\src\esys\repo\libgit2\gitimpl_libgit2.cpp" />
     <ClCompile Include="..\..\src\esys\repo\libgit2\git_libgit2.cpp" />
+    <ClCompile Include="..\..\src\esys\repo\libgit2\guardassign_libgit2.cpp" />
     <ClCompile Include="..\..\src\esys\repo\libgit2\guardrelease_libgit2.cpp" />
     <ClCompile Include="..\..\src\esys\repo\libgit2\libgit2.cpp" />
     <ClCompile Include="..\..\src\esys\repo\manifest.cpp" />
@@ -354,6 +355,7 @@
     <ClInclude Include="..\..\src\esys\repo\grepo\manifestimpl.h" />
     <ClInclude Include="..\..\src\esys\repo\libgit2\gitimpl.h" />
     <ClInclude Include="..\..\src\esys\repo\libgit2\guard.h" />
+    <ClInclude Include="..\..\src\esys\repo\libgit2\guardassign.h" />
     <ClInclude Include="..\..\src\esys\repo\libgit2\guardrelease.h" />
     <ClInclude Include="..\..\src\esys\repo\libgit2\libgit2.h" />
     <ClInclude Include="..\..\src\esys\repo\manifest\xmlfileimpl.h" />

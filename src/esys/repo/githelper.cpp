@@ -153,9 +153,30 @@ int GitHelper::open(const std::string &folder, log::Level log_level, int debug_l
 int GitHelper::clone(const std::string &url, const std::string &path, bool do_close, log::Level log_level,
                      int debug_level)
 {
-    boost::filesystem::path rel_path = boost::filesystem::relative(path);
+    /*boost::filesystem::path rel_path = boost::filesystem::relative(path);
 
     std::string msg = "Cloning ...\n    url  : " + url + "\n    path : " + rel_path.string();
+
+    log(msg, log_level, debug_level);
+
+    int result = get_git()->clone(url, path);
+    if (result < 0)
+        error("Failed with error ", result);
+    else
+        done("Cloning", get_git()->get_last_cmd_elapsed_time());
+    if (!do_close) return result;
+    return close(log::Level::DEBUG);*/
+    return clone_branch(url, "", path, do_close, log_level, debug_level);
+}
+
+int GitHelper::clone_branch(const std::string &url, const std::string &branch, const std::string &path, bool do_close,
+                     log::Level log_level, int debug_level)
+{
+    boost::filesystem::path rel_path = boost::filesystem::relative(path);
+
+    std::string msg = "Cloning ...\n    url  : " + url;
+    if (!branch.empty()) msg += "\n    rev  : " + branch;
+    msg += "\n    path : " + rel_path.string();
 
     log(msg, log_level, debug_level);
 

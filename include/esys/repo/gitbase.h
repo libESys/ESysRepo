@@ -5,7 +5,7 @@
  * \cond
  * __legal_b__
  *
- * Copyright (c) 2020 Michel Gillet
+ * Copyright (c) 2020-2021 Michel Gillet
  * Distributed under the wxWindows Library Licence, Version 3.1.
  * (See accompanying file LICENSE_3_1.txt or
  * copy at http://www.wxwidgets.org/about/licence)
@@ -25,6 +25,8 @@
 #include "esys/repo/git/mergeanalysisresult.h"
 #include "esys/repo/git/fetchstep.h"
 #include "esys/repo/git/progress.h"
+#include "esys/repo/git/resettype.h"
+
 #include "esys/repo/progresscallbackbase.h"
 
 #include <esys/log/user.h>
@@ -97,15 +99,30 @@ public:
      * \param[in] path where to clone the repository
      * \return 0 if successful, < 0 otherwise
      */
-    virtual int clone(const std::string &url, const std::string &path) = 0;
+    virtual int clone(const std::string &url, const std::string &path, const std::string &branch = "") = 0;
 
     //! Checkout a given branch of an open git repository
     /*!
      * \param[in] branch the name of the branch to checkout
-     * \param[in] force if the cloing will be forced or not
+     * \param[in] force if the cloning will be forced or not
      * \return 0 if successful, < 0 otherwise
      */
     virtual int checkout(const std::string &branch, bool force = false) = 0;
+
+    //! Reset the git repo to a given commit
+    /*!
+     * \param[in] commit the commit to reset the git repo to
+     * \param[in] type the type of reset to do
+     * \return 0 if successful, < 0 otherwise
+     */
+    virtual int reset(const git::Commit &commit, git::ResetType type = git::ResetType::SOFT) = 0;
+
+    //! Fast foward git repo to a given commit
+    /*!
+     * \param[in] commit the commit to reset the git repo to
+     * \return 0 if successful, < 0 otherwise
+     */
+    virtual int fastforward(const git::Commit &commit) = 0;
 
     //! Get the last commit of the HEAD
     /*!
@@ -114,12 +131,34 @@ public:
      */
     virtual int get_last_commit(git::Commit &commit) = 0;
 
+    //! Get the nth parent of a given commit
+    /*!
+     * If nth_parent is zero, the parent commit is simply the given commit.
+     * If nth_parent is 1, it will return the parent of the commit. 
+     * If nth_parent is 2, it will return the grandparent of the commit.
+     *
+     * In the case of an octopus merge, it will take the first parent of the list.
+     *
+     * \param[in] commit the commit data
+     * \param[out] parent the parent commit data
+     * \param[in] nth_parent the nth parent starting
+     * \return 0 if successful, < 0 otherwise
+     */
+    virtual int get_parent_commit(const git::Commit &commit, git::Commit &parent, int nth_parent = 1) = 0;
+
     //! Tells if there are changes in the git repo
     /*!
-     * \param[out] dirtay true if the git repo is dirty, there are modification; false otherwise
+     * \param[out] dirty true if the git repo is dirty, there are modification; false otherwise
      * \return 0 if successful, < 0 otherwise
      */
     virtual int is_dirty(bool &dirty) = 0;
+
+    //! Tells if git repo is detached or not
+    /*!
+     * \param[out] detached true if the git repo is detached; false otherwise
+     * \return 0 if successful, < 0 otherwise
+     */
+    virtual int is_detached(bool &detached) = 0;
 
     //! Get the status of the repository
     /*!
@@ -128,11 +167,27 @@ public:
      */
     virtual int get_status(git::RepoStatus &status) = 0;
 
+    //! Tells if a SSH agent is running or not
+    /*!
+     * \return true if a SSH agent is running, false otherwise
+     */
     virtual bool is_ssh_agent_running() = 0;
 
+    //! Check what kind of merge would required to merge the given branch to the git repo
+    /*!
+     * \param[in] refs the list of references/branches which would be merged
+     * \param[out] merge_analysis_result the type of merge which would be required
+     * \param[out] commits the list of commits which would be merged
+     * \return 0 if successful, < 0 otherwise
+     */
     virtual int merge_analysis(const std::vector<std::string> &refs, git::MergeAnalysisResult &merge_analysis_result,
                                std::vector<git::Commit> &commits) = 0;
 
+    //! Do a fetch on a git repo from the given remote
+    /*!
+     * \param[in] remote the remote to use, or uses the default one if not given
+     * \return 0 if successful, < 0 otherwise
+     */
     virtual int fetch(const std::string &remote = "") = 0;
 
     //! Tells if a folder is a git repository

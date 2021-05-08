@@ -1,0 +1,91 @@
+/*!
+ * \file esys/repo/libgit2/test/getparentcommit01_libgit2.cpp
+ * \brief For precompiled headers
+ *
+ * \cond
+ * __legal_b__
+ *
+ * __legal_e__
+ * \endcond
+ *
+ */
+
+#include "esys/repo/test/esysrepo_t_prec.h"
+
+#include <esys/repo/libgit2/git.h>
+
+#include <libssh2.h>
+
+#include <boost/filesystem.hpp>
+
+#include <iostream>
+
+namespace esys
+{
+
+namespace repo
+{
+
+namespace libgit2
+{
+
+namespace test
+{
+
+/*! \class GetParentCommit01LibGit2 esys/repo/libgit2/test/getparentcommit01_libgit2.cpp
+ * "esys/repo/libgit2/test/getparentcommit01_libgit2.cpp"
+ *
+ *  \brief
+ *
+ */
+ESYSTEST_AUTO_TEST_CASE(GetParantCommit01LibGit2)
+{
+    auto &ctrl = repo::test::TestCaseCtrl::get();
+
+    boost::filesystem::path file_path = ctrl.delete_create_temp_folder("getparantcommit01libgit2");
+    ESYSTEST_REQUIRE_EQUAL(file_path.string().empty(), false);
+
+    Git git;
+
+    int result = git.clone("ssh://git@gitlab.com/libesys/esysrepo/test.git", file_path.normalize().make_preferred().string());
+    if (result != 0) std::cout << "ERROR " << result << std::endl;
+    ESYSTEST_REQUIRE_EQUAL(result, 0);
+
+    result = git.checkout("branch_a_b");
+    if (result != 0) std::cout << "ERROR " << result << std::endl;
+    ESYSTEST_REQUIRE_EQUAL(result, 0);
+
+    git::Commit last_commit;
+    git::Commit parent_commit;
+
+    result = git.get_last_commit(last_commit);
+    if (result != 0) std::cout << "ERROR " << result << std::endl;
+    ESYSTEST_REQUIRE_EQUAL(result, 0);
+    ESYSTEST_REQUIRE_EQUAL(last_commit.get_hash(), "9200c176d27a1ecb7d35edffc90b4a452e3902a8");
+
+    result = git.get_parent_commit(last_commit, parent_commit);
+    if (result != 0) std::cout << "ERROR " << result << std::endl;
+    ESYSTEST_REQUIRE_EQUAL(result, 0);
+    ESYSTEST_REQUIRE_EQUAL(parent_commit.get_hash(), "3a1c73ade6f3bd5112d9ae993d83612c1a4d85b2");
+
+    result = git.get_parent_commit(last_commit, parent_commit, 2);
+    if (result != 0) std::cout << "ERROR " << result << std::endl;
+    ESYSTEST_REQUIRE_EQUAL(result, 0);
+    ESYSTEST_REQUIRE_EQUAL(parent_commit.get_hash(), "64280d3bed1531db5965fca8183cb68ad3770659");
+
+    result = git.get_parent_commit(last_commit, parent_commit, 3);
+    if (result != 0) std::cout << "ERROR " << result << std::endl;
+    ESYSTEST_REQUIRE_EQUAL(result, 0);
+    ESYSTEST_REQUIRE_EQUAL(parent_commit.get_hash(), "edc6451103785867926c6dd67a7299c3c531234b");
+
+    result = git.close();
+    ESYSTEST_REQUIRE_EQUAL(result, 0);
+}
+
+} // namespace test
+
+} // namespace libgit2
+
+} // namespace repo
+
+} // namespace esys

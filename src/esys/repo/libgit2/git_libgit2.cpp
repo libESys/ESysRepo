@@ -5,7 +5,7 @@
  * \cond
  * __legal_b__
  *
- * Copyright (c) 2020 Michel Gillet
+ * Copyright (c) 2020-2021 Michel Gillet
  * Distributed under the wxWindows Library Licence, Version 3.1.
  * (See accompanying file LICENSE_3_1.txt or
  * copy at http://www.wxwidgets.org/about/licence)
@@ -67,10 +67,10 @@ int Git::get_branches(git::Branches &branches, git::BranchType branch_type)
     return get_impl()->get_branches(branches, branch_type);
 }
 
-int Git::clone(const std::string &url, const std::string &path)
+int Git::clone(const std::string &url, const std::string &path, const std::string &branch)
 {
     set_url(url);
-    return get_impl()->clone(url, path);
+    return get_impl()->clone(url, path, branch);
 }
 
 int Git::checkout(const std::string &branch, bool force)
@@ -78,14 +78,34 @@ int Git::checkout(const std::string &branch, bool force)
     return get_impl()->checkout(branch, force);
 }
 
+int Git::reset(const git::Commit &commit, git::ResetType type)
+{
+    return get_impl()->reset(commit, type);
+}
+
+int Git::fastforward(const git::Commit &commit)
+{
+    return get_impl()->fastforward(commit);
+}
+
 int Git::get_last_commit(git::Commit &commit)
 {
     return get_impl()->get_last_commit(commit);
 }
 
+int Git::get_parent_commit(const git::Commit &commit, git::Commit &parent, int nth_parent)
+{
+    return get_impl()->get_parent_commit(commit, parent, nth_parent);
+}
+
 int Git::is_dirty(bool &dirty)
 {
     return get_impl()->is_dirty(dirty);
+}
+
+int Git::is_detached(bool &detached)
+{
+    return get_impl()->is_detached(detached);
 }
 
 int Git::get_status(git::RepoStatus &repo_status)
@@ -137,6 +157,14 @@ const std::string &Git::get_version()
 const std::string &Git::get_lib_name()
 {
     return m_impl->get_lib_name();
+}
+
+void Git::debug(int level, const std::string &msg)
+{
+    // log::ConsoleLockGuard<log::User> lock(this);
+    //! \TODO must be fixed to allow writing after all console is written
+
+    GitBase::debug(level, msg);
 }
 
 const std::string &Git::s_get_version()

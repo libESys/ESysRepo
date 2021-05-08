@@ -63,6 +63,8 @@ public:
 
     int clone(const std::string &url, const std::string &path, bool do_close, log::Level log_level,
               int debug_level = 0);
+    int clone_branch(const std::string &url, const std::string &branch, const std::string &path, bool do_close,
+              log::Level log_level, int debug_level = 0);
     int clone(const std::string &url, const std::string &temp_path, const std::string &path, bool do_close,
               log::Level log_level, int debug_level = 0);
 

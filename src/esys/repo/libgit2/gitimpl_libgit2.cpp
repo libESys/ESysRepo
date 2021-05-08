@@ -1,11 +1,11 @@
 /*!
- * \file esys/repo/libgit2/gitimpl_libgit2.h
+ * \file esys/repo/libgit2/gitimpl_libgit2.cpp
  * \brief
  *
  * \cond
  * __legal_b__
  *
- * Copyright (c) 2020 Michel Gillet
+ * Copyright (c) 2020-2021 Michel Gillet
  * Distributed under the wxWindows Library Licence, Version 3.1.
  * (See accompanying file LICENSE_3_1.txt or
  * copy at http://www.wxwidgets.org/about/licence)
@@ -211,18 +211,30 @@ int GitImpl::get_branches(git::Branches &branches, git::BranchType branch_type)
     return check_error(0);
 }
 
-int GitImpl::clone(const std::string &url, const std::string &path)
+int GitImpl::clone(const std::string &url, const std::string &path, const std::string &branch)
 {
     self()->cmd_start();
     self()->open_time();
 
+    std::string new_ref;
     int result = 0;
 
     if (url.find("https:") == 0)
-        result = git_clone(&m_repo, url.c_str(), path.c_str(), nullptr);
+    {
+        if (branch.empty())
+            result = git_clone(&m_repo, url.c_str(), path.c_str(), nullptr);
+        else
+        {
+            git_clone_options opts = GIT_CLONE_OPTIONS_INIT;
+            opts.checkout_branch = new_ref.c_str();
+
+            result = git_clone(&m_repo, url.c_str(), path.c_str(), &opts);
+        }
+    }
     else if ((url.find("ssh:") == 0))
     {
         git_clone_options opts = GIT_CLONE_OPTIONS_INIT;
+        if (!branch.empty()) opts.checkout_branch = new_ref.c_str();
         // opts.fetch_opts.callbacks.connect = &Remote::Callbacks::connect;
         // opts.fetch_opts.callbacks.disconnect = &Remote::Callbacks::disconnect;
         opts.fetch_opts.callbacks.sideband_progress = &GitImpl::libgit2_sideband_progress_cb;
@@ -250,11 +262,21 @@ int GitImpl::checkout(const std::string &branch, bool force)
     Guard<git_commit> target_commit;
     Guard<git_reference> ref;
     Guard<git_reference> branch_ref;
+    Guard<git_reference> input_branch_ref;
+    std::string new_ref = branch;
 
     self()->cmd_start();
 
-    int result = resolve_ref(annotated_commit.get_p(), branch);
-    if (result < 0) return check_error(result);
+    int result = resolve_ref(input_branch_ref.get_p(), annotated_commit.get_p(), branch);
+    if (result < 0)
+    {
+        self()->debug(0, "branch not found : " + branch);
+        // In the case where the content of branch doesn't have the full qualifier,
+        // try to to guess
+
+        result = find_ref(input_branch_ref.get_p(), annotated_commit.get_p(), branch, new_ref);
+        if (result < 0) return check_error(result);
+    }
 
     result = git_commit_lookup(target_commit.get_p(), m_repo, git_annotated_commit_id(annotated_commit.get()));
     const git_oid *oid = git_commit_id(target_commit.get());
@@ -284,6 +306,18 @@ int GitImpl::checkout(const std::string &branch, bool force)
             if (result < 0) return check_error(result);
 
             target_head = git_reference_name(branch_ref.get());
+
+            // if (git_reference_is_branch(input_branch_ref.get()))
+            // git_
+            const char *branch_name;
+            result = git_branch_name(&branch_name, input_branch_ref.get());
+            if (result < 0)
+                check_error(result, "can't get the name of the branch");
+            else
+            {
+                result = git_branch_set_upstream(branch_ref.get(), branch_name);
+                if (result < 0) check_error(result, "set branch upstream");
+            }
         }
         else
         {
@@ -298,6 +332,69 @@ int GitImpl::checkout(const std::string &branch, bool force)
         result = git_repository_set_head_detached_from_annotated(m_repo, annotated_commit.get());
         return check_error(result);
     }
+}
+
+int GitImpl::reset(const git::Commit &commit, git::ResetType type)
+{
+    if (m_repo == nullptr) return -1;
+
+    int result;
+    git_reset_t reset_type;
+
+    switch (type)
+    {
+        case git::ResetType::NOT_SET: return -2;
+        case git::ResetType::HARD: reset_type = GIT_RESET_HARD; break;
+        case git::ResetType::MIXED: reset_type = GIT_RESET_MIXED; break;
+        case git::ResetType::SOFT: reset_type = GIT_RESET_SOFT; break;
+        default: return -3;
+    }
+
+    Guard<git_commit> g_commit;
+    git_oid oid_commit;
+
+    result = convert_hex_bin(commit.get_hash(), oid_commit);
+    if (result < 0) return check_error(0);
+
+    // get the actual commit structure
+    result = git_commit_lookup(g_commit.get_p(), m_repo, &oid_commit);
+    if (result < 0) return check_error(result);
+
+    return git_reset(m_repo, (const git_object *)g_commit.get(), reset_type, nullptr);
+}
+
+int GitImpl::fastforward(const git::Commit &commit)
+{
+    git_checkout_options ff_checkout_options = GIT_CHECKOUT_OPTIONS_INIT;
+    Guard<git_reference> target_ref;
+    Guard<git_reference> new_target_ref;
+    Guard<git_object> target;
+    int result = 0;
+    git_oid target_oid;
+
+    assert(m_repo != nullptr);
+
+    result = convert_hex_bin(commit.get_hash(), target_oid);
+    if (result < 0) return check_error(result);
+
+    // HEAD exists, just lookup and resolve
+    result = git_repository_head(target_ref.get_p(), m_repo);
+    if (result != 0) return check_error(result, "failed to get HEAD reference");
+
+    // Lookup the target object
+    result = git_object_lookup(target.get_p(), m_repo, &target_oid, GIT_OBJECT_COMMIT);
+    if (result != 0) return check_error(result, "failed to lookup OID " + commit.get_hash());
+
+    // Checkout the result so the workdir is in the expected state
+    ff_checkout_options.checkout_strategy = GIT_CHECKOUT_SAFE;
+    result = git_checkout_tree(m_repo, target.get(), &ff_checkout_options);
+    if (result != 0) return check_error(result, "failed to checkout HEAD reference");
+
+    // Move the target reference to the target OID
+    result = git_reference_set_target(new_target_ref.get_p(), target_ref.get(), &target_oid, nullptr);
+    if (result != 0) return check_error(result, "failed to move HEAD reference");
+
+    return 0;
 }
 
 int GitImpl::get_last_commit(git::Commit &commit)
@@ -325,6 +422,55 @@ int GitImpl::get_last_commit(git::Commit &commit)
     return check_error(result);
 }
 
+int GitImpl::get_parent_commit(const git::Commit &commit, git::Commit &parent, int nth_parent)
+{
+    if (m_repo == nullptr) return -1;
+
+    int result;
+    Guard<git_commit> g_commit;
+    Guard<git_commit> cur_commit;
+    Guard<git_commit> parent_commit;
+    git_oid oid_commit;
+
+    self()->cmd_start();
+
+    if (nth_parent == 0)
+    {
+        parent = commit;
+        return check_error(0);
+    }
+
+    result = convert_hex_bin(commit.get_hash(), oid_commit);
+    if (result < 0) return check_error(0);
+
+    // get the actual commit structure
+    result = git_commit_lookup(cur_commit.get_p(), m_repo, &oid_commit);
+    if (result < 0) return check_error(result);
+
+    unsigned int count;
+
+    for (int idx = 0; idx < nth_parent; ++idx)
+    {
+        count = git_commit_parentcount(cur_commit.get());
+        if (count <= 0) return check_error(-2);
+
+        parent_commit.reset();
+        result = git_commit_parent(parent_commit.get_p(), cur_commit.get(), 0);
+        if (result < 0) return check_error(result);
+
+        cur_commit = parent_commit;
+    }
+
+    const git_oid *parent_commit_id = git_commit_id(parent_commit.get());
+    if (parent_commit_id == nullptr) check_error(-3);
+
+    std::string hash;
+    result = convert_bin_hex(*parent_commit_id, hash);
+    if (result == 0) parent.set_hash(hash);
+
+    return check_error(result);
+}
+
 int GitImpl::is_dirty(bool &dirty)
 {
     if (m_repo == nullptr) return -1;
@@ -343,6 +489,20 @@ int GitImpl::is_dirty(bool &dirty)
     std::size_t count = git_status_list_entrycount(status.get());
     dirty = (count != 0);
     return check_error(0);
+}
+
+int GitImpl::is_detached(bool &detached)
+{
+    if (m_repo == nullptr) return -1;
+
+    int result = git_repository_head_detached(m_repo);
+    if (result < 0) return result;
+
+    if (result == 1)
+        detached = true;
+    else
+        detached = false;
+    return 0;
 }
 
 int GitImpl::get_status(git::RepoStatus &repo_status)
@@ -552,7 +712,7 @@ int GitImpl::libgit2_transfer_progress_cb(const git_indexer_progress *stats, voi
 
     git::Progress progress;
 
-    //std::cout << "[libgit2_transfer_progress_cb]" << std::endl;
+    // std::cout << "[libgit2_transfer_progress_cb]" << std::endl;
 
     if (stats->received_objects == stats->total_objects)
     {
@@ -570,12 +730,12 @@ int GitImpl::libgit2_transfer_progress_cb(const git_indexer_progress *stats, voi
             progress.set_done(false);
             progress.set_percentage(percentage);
         }
-        //std::cout << "Resolving deltas " << stats->indexed_deltas << "/" << stats->total_deltas << std::endl;
+        // std::cout << "Resolving deltas " << stats->indexed_deltas << "/" << stats->total_deltas << std::endl;
     }
     else if (stats->total_objects > 0)
     {
         progress.set_fetch_step(git::FetchStep::RECEIVING);
-        //std::cout << "Received " << stats->received_objects << "/" << stats->total_objects << " objects "
+        // std::cout << "Received " << stats->received_objects << "/" << stats->total_objects << " objects "
         //          << "(" << stats->indexed_objects << ") in " << stats->received_bytes << std::endl;
         if (stats->received_objects == stats->total_objects)
         {
@@ -591,7 +751,8 @@ int GitImpl::libgit2_transfer_progress_cb(const git_indexer_progress *stats, voi
         }
     }
 
-    if (impl->self()->get_progress_callback() != nullptr) impl->self()->get_progress_callback()->git_progress_notif(progress);
+    if (impl->self()->get_progress_callback() != nullptr)
+        impl->self()->get_progress_callback()->git_progress_notif(progress);
 
     return 0;
 }
@@ -609,8 +770,8 @@ int GitImpl::libgit2_update_tips_cb(const char *refname, const git_oid *a, const
 
     if (git_oid_is_zero(a))
     {
-        //oss << "[new]     " << b_str << " " << refname;
-        //std::cout << oss.str() << std::endl;
+        // oss << "[new]     " << b_str << " " << refname;
+        // std::cout << oss.str() << std::endl;
         update_tip.set_type(git::UpdateTipType::NEW);
         update_tip.set_new_oid(b_str);
     }
@@ -620,8 +781,8 @@ int GitImpl::libgit2_update_tips_cb(const char *refname, const git_oid *a, const
         self->convert_bin_hex(*a, a_str);
         update_tip.set_new_oid(b_str);
         update_tip.set_new_oid(b_str);
-        //oss << "[updated] " << a_str << ".." << b_str << " " << refname;
-        //std::cout << oss.str() << std::endl;
+        // oss << "[updated] " << a_str << ".." << b_str << " " << refname;
+        // std::cout << oss.str() << std::endl;
     }
     return 0;
 }
@@ -703,14 +864,21 @@ int GitImpl::merge_analysis(const std::vector<std::string> &refs, git::MergeAnal
 
     for (auto annotated : annotated_vec) git_annotated_commit_free(annotated);
 
-    switch (analysis)
+    if (analysis & GIT_MERGE_ANALYSIS_UP_TO_DATE)
+        merge_analysis_result = git::MergeAnalysisResult::UP_TO_DATE;
+    else if (analysis & GIT_MERGE_ANALYSIS_NORMAL)
     {
-        case GIT_MERGE_ANALYSIS_UP_TO_DATE: merge_analysis_result = git::MergeAnalysisResult::UP_TO_DATE; break;
-        case GIT_MERGE_ANALYSIS_FASTFORWARD: merge_analysis_result = git::MergeAnalysisResult::FASTFORWARD; break;
-        case GIT_MERGE_ANALYSIS_UNBORN: merge_analysis_result = git::MergeAnalysisResult::UNBORN; break;
-        case GIT_MERGE_ANALYSIS_NORMAL: merge_analysis_result = git::MergeAnalysisResult::NORMAL; break;
-        default: merge_analysis_result = git::MergeAnalysisResult::NONE;
+        if (analysis & GIT_MERGE_ANALYSIS_FASTFORWARD)
+            merge_analysis_result = git::MergeAnalysisResult::FASTFORWARD;
+        else
+            merge_analysis_result = git::MergeAnalysisResult::NORMAL;
     }
+    else if (analysis & GIT_MERGE_ANALYSIS_FASTFORWARD)
+        merge_analysis_result = git::MergeAnalysisResult::FASTFORWARD;
+    else if (analysis & GIT_MERGE_ANALYSIS_UNBORN)
+        merge_analysis_result = git::MergeAnalysisResult::UNBORN;
+    else
+        merge_analysis_result = git::MergeAnalysisResult::NONE;
     return 0;
 }
 
@@ -771,6 +939,7 @@ int GitImpl::fetch(const std::string &remote_str)
     fetch_opts.callbacks.sideband_progress = &GitImpl::libgit2_sideband_progress_cb;
     // fetch_opts.callbacks.transfer_progress = transfer_progress_cb;
     fetch_opts.callbacks.credentials = &GitImpl::libgit2_credentials_cb;
+    fetch_opts.callbacks.payload = this;
 
     result = git_remote_fetch(remote.get(), NULL, &fetch_opts, "fetch");
     if (result < 0)
@@ -780,6 +949,25 @@ int GitImpl::fetch(const std::string &remote_str)
     }
 
     const git_indexer_progress *stats = git_remote_stats(remote.get());
+
+    //! \TODO what to do with the stats;
+
+    return result;
+}
+
+int GitImpl::resolve_ref(git_reference **ref, const std::string &ref_str)
+{
+    Guard<git_object> git_obj;
+    int result = 0;
+
+    assert(ref != nullptr);
+    assert(m_repo != nullptr);
+
+    result = git_reference_dwim(ref, m_repo, ref_str.c_str());
+    if (result == GIT_OK) return 0;
+
+    result = git_revparse_single(git_obj.get_p(), m_repo, ref_str.c_str());
+    if (result == GIT_OK) return 0;
 
     return result;
 }
@@ -791,10 +979,17 @@ int GitImpl::resolve_ref(git_annotated_commit **commit, const std::string &ref)
     int result = 0;
 
     assert(commit != nullptr);
+    assert(m_repo != nullptr);
 
     result = git_reference_dwim(&git_ref, m_repo, ref.c_str());
     if (result == GIT_OK)
     {
+        const char *name = git_reference_name(git_ref);
+
+        //! \TODO remote this
+        const char *branch_name;
+        git_branch_name(&branch_name, git_ref);
+
         git_annotated_commit_from_ref(commit, m_repo, git_ref);
         git_reference_free(git_ref);
         return 0;
@@ -810,6 +1005,78 @@ int GitImpl::resolve_ref(git_annotated_commit **commit, const std::string &ref)
     return result;
 }
 
+int GitImpl::resolve_ref(git_reference **ref, git_annotated_commit **commit, const std::string &ref_str)
+{
+    Guard<git_object> git_obj;
+    int result = 0;
+
+    assert(commit != nullptr);
+    assert(ref != nullptr);
+    assert(m_repo != nullptr);
+
+    result = git_reference_dwim(ref, m_repo, ref_str.c_str());
+    if (result == GIT_OK)
+    {
+        git_annotated_commit_from_ref(commit, m_repo, *ref);
+        return 0;
+    }
+
+    result = git_revparse_single(git_obj.get_p(), m_repo, ref_str.c_str());
+    if (result == GIT_OK)
+    {
+        result = git_annotated_commit_lookup(commit, m_repo, git_object_id(git_obj.get()));
+    }
+
+    return result;
+}
+
+int GitImpl::find_ref(git_annotated_commit **commit, const std::string &ref, std::string &new_ref)
+{
+    std::vector<git::Remote> remotes;
+    int found_remotes = 0;
+
+    int result = get_remotes(remotes);
+    if (result != GIT_OK) return result;
+
+    for (auto &remote : remotes)
+    {
+        new_ref = "refs/remotes/" + remote.get_name() + "/" + ref;
+
+        result = resolve_ref(commit, new_ref);
+        if (result == GIT_OK)
+        {
+            self()->debug(0, "found branch : " + new_ref);
+            ++found_remotes;
+        }
+    }
+    if (found_remotes == 1) return 0;
+    return -1;
+}
+
+int GitImpl::find_ref(git_reference **ref, git_annotated_commit **commit, const std::string &ref_str,
+                      std::string &new_ref)
+{
+    std::vector<git::Remote> remotes;
+    int found_remotes = 0;
+
+    int result = get_remotes(remotes);
+    if (result != GIT_OK) return result;
+
+    for (auto &remote : remotes)
+    {
+        new_ref = "refs/remotes/" + remote.get_name() + "/" + ref_str;
+
+        result = resolve_ref(ref, commit, new_ref);
+        if (result == GIT_OK)
+        {
+            self()->debug(0, "found branch : " + new_ref);
+            ++found_remotes;
+        }
+    }
+    if (found_remotes == 1) return 0;
+    return -1;
+}
+
 int GitImpl::convert_bin_hex(const git_oid &oid, std::string &hex_str)
 {
     char temp[GIT_OID_HEXSZ + 1];
@@ -819,6 +1086,11 @@ int GitImpl::convert_bin_hex(const git_oid &oid, std::string &hex_str)
     temp[GIT_OID_HEXSZ] = 0;
     hex_str = std::string(temp);
     return 0;
+}
+
+int GitImpl::convert_hex_bin(const std::string &hex_str, git_oid &oid)
+{
+    return git_oid_fromstrp(&oid, hex_str.c_str());
 }
 
 const std::string &GitImpl::get_version()

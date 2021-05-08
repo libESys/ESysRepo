@@ -49,12 +49,17 @@ public:
     int get_remotes(std::vector<git::Remote> &remotes);
     int get_branches(git::Branches &branches, git::BranchType branch_type = git::BranchType::LOCAL);
 
-    int clone(const std::string &url, const std::string &path);
+    int clone(const std::string &url, const std::string &path, const std::string &branch = "");
     int checkout(const std::string &branch, bool force = false);
-
+    int reset(const git::Commit &commit, git::ResetType type = git::ResetType::SOFT);
+    int fastforward(const git::Commit &commit);
+    
     int get_last_commit(git::Commit &commit);
+    int get_parent_commit(const git::Commit &commit, git::Commit &parent, int nth_parent = 1);
 
     int is_dirty(bool &dirty);
+    int is_detached(bool &detached);
+
     int get_status(git::RepoStatus &repo_status);
     int handle_status_entry(git::RepoStatus &repo_status, const git_status_entry *status_entry);
     int handle_status_entry_current(git::RepoStatus &repo_status, std::shared_ptr<git::Status> status,
@@ -93,8 +98,14 @@ public:
     int fetch(const std::string &remote);
 
     int resolve_ref(git_annotated_commit **commit, const std::string &ref);
+    int resolve_ref(git_reference **ref, const std::string &ref_str);
+    int resolve_ref(git_reference **ref, git_annotated_commit **commit, const std::string &ref_str);
+
+    int find_ref(git_annotated_commit **commit, const std::string &ref, std::string &new_ref);
+    int find_ref(git_reference **ref, git_annotated_commit **commit, const std::string &ref_str, std::string &new_ref);
 
     int convert_bin_hex(const git_oid &oid, std::string &hex_str);
+    int convert_hex_bin(const std::string &hex_str, git_oid &oid);
 
 protected:
     static std::unique_ptr<LibGit2> s_libgt2;
