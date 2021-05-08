@@ -5,7 +5,7 @@
  * \cond
  * __legal_b__
  *
- * Copyright (c) 2020 Michel Gillet
+ * Copyright (c) 2020-2021 Michel Gillet
  * Distributed under the wxWindows Library Licence, Version 3.1.
  * (See accompanying file LICENSE_3_1.txt or
  * copy at http://www.wxwidgets.org/about/licence)
@@ -70,9 +70,15 @@ public:
 
     int close(log::Level log_level, int debug_level = 0);
 
+    int fastforward(const git::Commit &commit, log::Level log_level, int debug_level = 0);
+
+    int fetch(const std::string &remote, log::Level log_level, int debug_level = 0);
+    int fetch(log::Level log_level, int debug_level = 0);
+
     int get_branches(git::Branches &branches, git::BranchType branch_type, log::Level log_level, int debug_level = 0);
 
     int is_dirty(bool &dirty, log::Level log_level, int debug_level = 0);
+    int is_detached(bool &detached, log::Level log_level, int debug_level = 0);
 
     int get_status(git::RepoStatus &status, log::Level log_level, int debug_level = 0);
 

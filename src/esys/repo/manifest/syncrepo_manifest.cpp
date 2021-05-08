@@ -118,21 +118,84 @@ int SyncRepo::fetch_update()
         return 0;
     }
 
+    bool detached;
+    result = git_helper.is_detached(detached, log::Level::DEBUG);
+    if (result < 0)
+    {
+        git_helper.error("Couldn't detect if the git repo is detached or not.");
+        return -1;
+    }
+
+    if (detached)
+    {
+        git_helper.warn("Sync repo aborted: the git repo is detached.");
+        return -2;
+    }
+
+    result = git_helper.fetch(log::Level::DEBUG);
+    if (result < 0)
+    {
+        git_helper.error("Fetch failed on the git repo");
+        return -3;
+    }
+
     git::Branches branches;
     result = git_helper.get_branches(branches, git::BranchType::LOCAL, log::Level::DEBUG);
     if (result < 0)
     {
-        error("Couldn't get the list of local branches");
-        return -1;
+        git_helper.error("Couldn't get the list of local branches");
+        return -3;
     }
 
     branches.sort();
 
-    /*result = git_helper.merge_analysis()
-    const std::vector<std::string> &refs, git::MergeAnalysisResult &merge_analysis_result,
-                       std::vector<git::Commit> &commits */
+    if (branches.get_head() == nullptr)
+    {
+        git_helper.error("Couldn't get the HEAD.");
+        return -4;
+    }
 
-    return -1;
+    std::vector<std::string> refs;
+    git::MergeAnalysisResult merge_analysis_result;
+    std::vector<git::Commit> commits;
+
+    refs.push_back(branches.get_head()->get_remote_branch());
+
+    result = git_helper.merge_analysis(refs, merge_analysis_result, commits, log::Level::DEBUG);
+    if (result < 0)
+    {
+        git_helper.error("Merge analysis failed.");
+        return -5;
+    }
+
+    if (merge_analysis_result == git::MergeAnalysisResult::UP_TO_DATE)
+    {
+        git_helper.info("Git repo up to date.");
+        return 0;
+    }
+    if (merge_analysis_result != git::MergeAnalysisResult::FASTFORWARD)
+    {
+        git_helper.warn("Sync manifest aborted: can't be fastforwarded.");
+        return -6;
+    }
+
+    // For a fastforward, there should be only one commit
+    if (commits.size() != 1)
+    {
+        git_helper.error("Fast forward failed.");
+        return -7;
+    }
+
+    git_helper.info("Fast forwarding git repo ...");
+
+    result = git_helper.fastforward(commits[0], log::Level::DEBUG);
+    if (result < 0)
+    {
+        git_helper.error("Fast forward failed.");
+        return -8;
+    }
+    git_helper.info("Fast forward completed.");
+    return 0;
 }
 
 void SyncRepo::set_log_level(log::Level log_level)

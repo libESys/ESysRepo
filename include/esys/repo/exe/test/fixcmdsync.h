@@ -64,6 +64,9 @@ public:
     int close_git();
     std::shared_ptr<libgit2::Git> get_git();
 
+    CmdInit &get_cmd_init();
+    CmdSync &get_cmd_sync();
+
 protected:
     boost::filesystem::path m_file_path;
     CmdInit m_cmd_init;

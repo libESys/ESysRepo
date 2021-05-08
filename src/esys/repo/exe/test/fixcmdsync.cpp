@@ -182,6 +182,16 @@ std::shared_ptr<libgit2::Git> FixCmdSync::get_git()
     return m_git;
 }
 
+CmdInit &FixCmdSync::get_cmd_init()
+{
+    return m_cmd_init;
+}
+
+CmdSync &FixCmdSync::get_cmd_sync()
+{
+    return m_cmd_sync;
+}
+
 } // namespace test
 
 } // namespace exe

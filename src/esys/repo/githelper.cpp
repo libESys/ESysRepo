@@ -5,7 +5,7 @@
  * \cond
  * __legal_b__
  *
- * Copyright (c) 2020 Michel Gillet
+ * Copyright (c) 2020-2021 Michel Gillet
  * Distributed under the wxWindows Library Licence, Version 3.1.
  * (See accompanying file LICENSE_3_1.txt or
  * copy at http://www.wxwidgets.org/about/licence)
@@ -283,6 +283,37 @@ int GitHelper::close(log::Level log_level, int debug_level)
     return result;
 }
 
+int GitHelper::fastforward(const git::Commit &commit, log::Level log_level, int debug_level)
+{
+    log("Fast forwarding ...", log_level, debug_level);
+
+    int result = get_git()->fastforward(commit);
+    if (result < 0)
+        error("Failed with error ", result);
+    else
+        log("Fast forwarded successfully.", log_level, debug_level);
+
+    return result;
+}
+
+int GitHelper::fetch(const std::string &remote, log::Level log_level, int debug_level)
+{
+    log("Fetching ...", log_level, debug_level);
+
+    int result = get_git()->fetch(remote);
+    if (result < 0)
+        error("Failed with error ", result);
+    else
+        log("Fetched successfully.", log_level, debug_level);
+
+    return result;
+}
+
+int GitHelper::fetch(log::Level log_level, int debug_level)
+{
+    return fetch("", log_level, debug_level);
+}
+
 int GitHelper::get_branches(git::Branches &branches, git::BranchType branch_type, log::Level log_level, int debug_level)
 {
     log("Getting branches ...", log::Level::DEBUG);
@@ -306,6 +337,21 @@ int GitHelper::is_dirty(bool &dirty, log::Level log_level, int debug_level)
             log("Dirty git repo", log_level, debug_level);
         else
             log("No changes in the git repo", log_level, debug_level);
+    }
+    return result;
+}
+
+int GitHelper::is_detached(bool &detached, log::Level log_level, int debug_level)
+{
+    int result = get_git()->is_detached(detached);
+    if (result < 0)
+        error("Failed to check if the git repo is detached or not.");
+    else
+    {
+        if (detached)
+            log("Git repo is detached", log_level, debug_level);
+        else
+            log("Git repo is not detached", log_level, debug_level);
     }
     return result;
 }
