@@ -115,7 +115,11 @@ int ESysRepoExe::parse_args()
     }
 
     if (m_logger_mngr == nullptr) m_logger_mngr = esys::log::Mngr::get();
-    m_logger_mngr->set_search_folder("plugins\\esyslog");
+    
+    boost::filesystem::path plugin_search_folder = m_executable.parent_path();
+    plugin_search_folder /= "plugins";
+    plugin_search_folder /= "esyslog";
+    m_logger_mngr->set_search_folder(plugin_search_folder.make_preferred().string());
     m_logger = m_logger_mngr->new_logger(esys::log::LoggerType::SPDLOG, "esysrepo");
     if (m_logger != nullptr)
     {
