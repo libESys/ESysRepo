@@ -133,6 +133,7 @@ int SyncRepos::run()
             sync_repo->set_repo_idx(get_repo_idx());
             sync_repo->set_config_folder(get_config_folder());
             sync_repo->set_git(new_git());
+            sync_repo->get_git()->set_logger_if(get_logger_if());
             sync_repo->set_logger_if(get_logger_if());
             
             get_run_tasks().add(sync_repo);

@@ -326,8 +326,7 @@ int Cmd::open_esysrepo_folder()
 
 int Cmd::load_manifest()
 {
-    int result = open_esysrepo_folder();
-    if (result < 0) return result;
+    if (get_config_folder() == nullptr) return -1;
 
     if (get_loader() == nullptr) set_loader(std::make_shared<manifest::Loader>());
     if (get_manifest() == nullptr) set_manifest(std::make_shared<Manifest>());
@@ -336,7 +335,7 @@ int Cmd::load_manifest()
     get_loader()->set_config_folder(get_config_folder());
 
     get_loader()->set_logger_if(get_logger_if());
-    result = get_loader()->run();
+    int result = get_loader()->run();
     return result;
 }
 

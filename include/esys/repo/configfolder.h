@@ -92,11 +92,19 @@ public:
      */
     const std::string &get_config_file_path() const;
 
+    std::string get_manifest_repo_path() const;
+
     //! Get the ESysRepo configuration stored in the git repo
     /*!
      * \return the ESysRepo configuration stored in the git repo
      */
     std::shared_ptr<Config> get_config();
+
+    //! Get the ESysRepo configuration stored in the git repo
+    /*!
+     * \return the ESysRepo configuration stored in the git repo
+     */
+    std::shared_ptr<Config> get_config() const;
 
     //! Set the ESysRepo configuration stored in the git repo
     /*!

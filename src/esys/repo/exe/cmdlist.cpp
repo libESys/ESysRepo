@@ -77,6 +77,9 @@ int CmdList::impl_run()
     if (get_name_only()) warn("Option --name-only is not implemented yet.");
     if (get_path_only()) warn("Option --path-only is not implemtented yet.");
 
+    result = open_esysrepo_folder();
+    if (result < 0) return result;
+
     result = load_manifest();
 
     std::ostringstream oss;

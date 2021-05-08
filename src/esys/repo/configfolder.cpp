@@ -172,7 +172,23 @@ const std::string &ConfigFolder::get_config_file_path() const
     return m_config_file_path;
 }
 
+std::string ConfigFolder::get_manifest_repo_path() const
+{
+    boost::filesystem::path repo_path = get_path();
+    if (get_config() == nullptr) return "";
+
+    repo_path /= get_config()->get_manifest_path();
+    repo_path = repo_path.parent_path().normalize().make_preferred();
+
+    return repo_path.string();
+}
+
 std::shared_ptr<Config> ConfigFolder::get_config()
+{
+    return m_config;
+}
+
+std::shared_ptr<Config> ConfigFolder::get_config() const
 {
     return m_config;
 }

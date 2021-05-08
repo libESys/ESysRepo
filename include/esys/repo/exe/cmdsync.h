@@ -48,6 +48,8 @@ public:
     void set_force(bool force);
     bool get_force() const;
 
+    int sync_manifest();
+
 protected:
     //!< \cond DOXY_IMPL
     int impl_run() override;

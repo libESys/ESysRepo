@@ -18,6 +18,7 @@
 #include "esys/repo/esysrepo_prec.h"
 #include "esys/repo/exe/cmdsync.h"
 #include "esys/repo/manifest/syncrepos.h"
+#include "esys/repo/manifest/sync.h"
 
 namespace esys
 {
@@ -47,11 +48,30 @@ bool CmdSync::get_force() const
     return m_force;
 }
 
+int CmdSync::sync_manifest()
+{
+    manifest::Sync sync;
+
+    if (get_config_folder() == nullptr) return -1;
+
+    sync.set_config_folder(get_config_folder());
+    sync.set_git(get_git());
+    sync.set_logger_if(get_logger_if());
+
+    return sync.run();
+}
+
 int CmdSync::impl_run()
 {
     int result;
 
     if (get_force()) warn("Option --force-sync is not implemented yet");
+
+    result = open_esysrepo_folder();
+    if (result < 0) return result;
+
+    result = sync_manifest();
+    if (result < 0) return result;
 
     result = load_manifest();
     if (result < 0) return result;

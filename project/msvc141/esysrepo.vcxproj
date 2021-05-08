@@ -278,6 +278,7 @@
     <ClCompile Include="..\..\src\esys\repo\manifest\location_manifest.cpp" />
     <ClCompile Include="..\..\src\esys\repo\manifest\repository_manifest.cpp" />
     <ClCompile Include="..\..\src\esys\repo\manifest\syncrepo_manifest.cpp" />
+    <ClCompile Include="..\..\src\esys\repo\manifest\sync_manifest.cpp" />
     <ClCompile Include="..\..\src\esys\repo\manifest\taskbase_manifest.cpp" />
     <ClCompile Include="..\..\src\esys\repo\manifest\type_manifest.cpp" />
     <ClCompile Include="..\..\src\esys\repo\manifest\workerthread_manifest.cpp" />
@@ -320,6 +321,7 @@
     <ClInclude Include="..\..\include\esys\repo\git\progress.h" />
     <ClInclude Include="..\..\include\esys\repo\git\remote.h" />
     <ClInclude Include="..\..\include\esys\repo\git\repostatus.h" />
+    <ClInclude Include="..\..\include\esys\repo\git\resettype.h" />
     <ClInclude Include="..\..\include\esys\repo\git\status.h" />
     <ClInclude Include="..\..\include\esys\repo\git\statussubtype.h" />
     <ClInclude Include="..\..\include\esys\repo\git\statustype.h" />
@@ -329,6 +331,7 @@
     <ClInclude Include="..\..\include\esys\repo\libgit2\git.h" />
     <ClInclude Include="..\..\include\esys\repo\manifest.h" />
     <ClInclude Include="..\..\include\esys\repo\manifest\runtasks.h" />
+    <ClInclude Include="..\..\include\esys\repo\manifest\sync.h" />
     <ClInclude Include="..\..\include\esys\repo\manifest\syncrepo.h" />
     <ClInclude Include="..\..\include\esys\repo\manifest\syncrepos.h" />
     <ClInclude Include="..\..\include\esys\repo\manifest\loader.h" />
