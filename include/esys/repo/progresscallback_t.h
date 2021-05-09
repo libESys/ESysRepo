@@ -38,7 +38,7 @@ public:
     ProgressCallback_t(OBJ *callee, CallbackType callback);
     virtual ~ProgressCallback_t();
 
-    void set_callee(OBJ *m_callee);
+    void set_callee(OBJ *callee);
     OBJ *get_callee();
 
     void set_callback(CallbackType callback);
@@ -69,7 +69,7 @@ ProgressCallback_t<OBJ>::~ProgressCallback_t()
 }
 
 template<typename OBJ>
-void ProgressCallback_t<OBJ>::set_callee(OBJ *m_callee)
+void ProgressCallback_t<OBJ>::set_callee(OBJ *callee)
 {
     m_callee = callee;
 }

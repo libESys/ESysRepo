@@ -29,6 +29,7 @@
 #include <vector>
 #include <thread>
 #include <atomic>
+#include <condition_variable>
 
 namespace esys
 {

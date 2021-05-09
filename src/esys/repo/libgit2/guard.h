@@ -34,8 +34,8 @@ template<typename T>
 class Guard
 {
 public:
-    template<typename T>
-    friend int guard_assign(Guard<T> *dest, const Guard<T> &src);
+    template<typename U>
+    friend int guard_assign(Guard<U> *dest, const Guard<U> &src);
 
     Guard();
     ~Guard();

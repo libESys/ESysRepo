@@ -11,13 +11,15 @@
 
 project(esysrepo_t CXX)
 
+include(GNUInstallDirs)
+
 include_directories(
     ../../../../include
     )
 
 add_definitions(-DESYSTEST_USE_ESYSTEST)
 
-find_package(libssh2 1.9.0 REQUIRED)
+find_package(Libssh2 1.9.0 REQUIRED)
 
 set(ESYSREPO_T_CXX_SOURCES
     configfilewrite01.cpp
@@ -61,22 +63,34 @@ find_package(Boost 1.66 REQUIRED QUIET COMPONENTS
              date_time filesystem iostreams program_options thread)
 
 target_link_libraries(esysrepo_t PUBLIC
-    esysrepo
     Boost::date_time
     Boost::filesystem
     Boost::iostreams
     Boost::program_options
     Boost::thread
     Libssh2::libssh2
+    esysrepo
+    esyslog
 )
 
 target_link_libraries(esysrepo_t PUBLIC esystest)
+
+install(TARGETS esysrepo_t LIBRARY DESTINATION ${CMAKE_INSTALL_BINDIR})
+
+install(DIRECTORY ../../../../res/esysrepo_t DESTINATION share
+    PATTERN "../../../../res/esysrepo_t/*"
+)
+
+add_test(NAME esysrepo_t
+    WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
+    COMMAND esysrepo_t -l test_suite
+)
 
 if(DEFINED ESYSTEST_USE_BOOST)
 add_definitions(-DBOOST_ALL_DYN_LINK)
 find_package(Boost 1.66 REQUIRED QUIET COMPONENTS
              unit_test_framework )
-target_link_libraries(emdev_t PUBLIC
+target_link_libraries(esysrepo_t PUBLIC
         Boost::unit_test_framework
 )
 endif()

@@ -24,6 +24,7 @@ target_link_libraries(esysrepoexe PRIVATE
     Boost::filesystem
     Boost::program_options
     Boost::system
+    esyslog
     esysrepo
 )
 

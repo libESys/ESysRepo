@@ -251,12 +251,18 @@ int CmdInit::fetch_unknown_manifest()
 
 int CmdInit::create_esysrepo_folder()
 {
+    debug(0, "[CmdInit::create_esysrepo_folder] begin ...");
+
     auto config_folder = std::make_shared<ConfigFolder>();
     config_folder->set_logger_if(get_logger_if());
 
     set_config_folder(config_folder);
 
-    return config_folder->create(get_parent_path());
+    debug(0, "[CmdInit::create_esysrepo_folder] parent_path = " + get_parent_path());
+
+    int result = config_folder->create(get_parent_path());
+    debug(0, "[CmdInit::create_esysrepo_folder] end.");
+    return result;
 }
 
 } // namespace exe

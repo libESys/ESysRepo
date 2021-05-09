@@ -173,7 +173,7 @@ int QueueMT<T>::remove_if(std::function<bool(const T &val)> fct)
 {
     std::lock_guard lock(m_mutex);
 
-    std::deque<T>::iterator it;
+    typename std::deque<T>::iterator it;
     bool remove;
     int result = -1;
 

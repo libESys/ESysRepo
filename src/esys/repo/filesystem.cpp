@@ -25,7 +25,7 @@
 #include <boost/filesystem.hpp>
 #include <boost/version.hpp>
 
-#if BOOST_VERSION <= 106700
+#if BOOST_VERSION <= 107100
 #define ESYSREPO_BOOST_FILESYSTEM_HAS_RECUR 0
 #else
 #define ESYSREPO_BOOST_FILESYSTEM_HAS_RECUR 1

@@ -31,6 +31,10 @@
 #include <boost/program_options/parsers.hpp>
 #include <boost/filesystem.hpp>
 
+#ifndef WIN32
+#include <boost/process/search_path.hpp>
+#endif
+
 #include <iostream>
 #include <iomanip>
 
@@ -61,8 +65,13 @@ void ESysRepoExe::set_args(int argc, char **argv)
 
     m_argc = argc;
 
+#ifdef WIN32
     m_executable = argv[0];
     m_executable = boost::filesystem::absolute(m_executable).normalize().make_preferred();
+#else
+    boost::filesystem::path temp_path = argv[0];
+    m_executable = boost::process::search_path(temp_path.filename());
+#endif
 
     for (i = 1; i < argc; ++i)
     {
@@ -114,11 +123,25 @@ int ESysRepoExe::parse_args()
         return -1;
     }
 
+    bool debug = m_vm["debug"].as<bool>();
+
     if (m_logger_mngr == nullptr) m_logger_mngr = esys::log::Mngr::get();
     
     boost::filesystem::path plugin_search_folder = m_executable.parent_path();
+#ifndef WIN32
+    plugin_search_folder = plugin_search_folder.parent_path();
+    plugin_search_folder /= "lib";
+    plugin_search_folder /= "esyslog";
+    plugin_search_folder /= "0";
+    plugin_search_folder /= "plugins";
+#else
     plugin_search_folder /= "plugins";
     plugin_search_folder /= "esyslog";
+#endif
+
+    if (debug)
+        std::cout << "plugin_search_folder = " << plugin_search_folder << std::endl;
+
     m_logger_mngr->set_search_folder(plugin_search_folder.make_preferred().string());
     m_logger = m_logger_mngr->new_logger(esys::log::LoggerType::SPDLOG, "esysrepo");
     if (m_logger != nullptr)
@@ -219,6 +242,8 @@ int ESysRepoExe::cmd_init()
         path = boost::filesystem::absolute(path).normalize().make_preferred();
         init.set_parent_path(path.string());
     }
+    else
+        init.set_parent_path(boost::filesystem::current_path().normalize().make_preferred().string());
     init.set_google_manifest(m_vm["google"].as<bool>());
 
     return init.run();
