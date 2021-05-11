@@ -12,14 +12,16 @@
 project(esysrepo_t CXX)
 
 include(GNUInstallDirs)
-
-include_directories(
-    ../../../../include
-    )
+include(FindPkgConfig)
 
 add_definitions(-DESYSTEST_USE_ESYSTEST)
 
-find_package(Libssh2 1.9.0 REQUIRED)
+pkg_check_modules(LIBSSH2 libssh2 REQUIRED)
+
+include_directories(
+    ../../../../include
+    ${LIBSSH2_INCLUDE_DIRS}
+    )
 
 set(ESYSREPO_T_CXX_SOURCES
     configfilewrite01.cpp
@@ -68,7 +70,7 @@ target_link_libraries(esysrepo_t PUBLIC
     Boost::iostreams
     Boost::program_options
     Boost::thread
-    Libssh2::libssh2
+    ${LIBSSH2_LIBRARIES}
     esysrepo
     esyslog
 )
