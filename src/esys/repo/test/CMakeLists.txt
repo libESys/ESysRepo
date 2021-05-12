@@ -14,7 +14,8 @@ project(esysrepo_t CXX)
 include(GNUInstallDirs)
 include(FindPkgConfig)
 
-add_definitions(-DESYSTEST_USE_ESYSTEST)
+# add_definitions(-DESYSTEST_USE_ESYSTEST)
+add_definitions(-DESYSTEST_MULTIOS -DESYSTEST_USE_BOOST)
 
 pkg_check_modules(LIBSSH2 libssh2 REQUIRED)
 
