@@ -65,6 +65,8 @@ int RunTasks::run()
 
     m_worker_thread_count = get_job_count();
 
+    if (static_cast<int>(get_job_count()) < 0) return -2;
+
     for (int idx = 0; idx < static_cast<int>(get_job_count()); ++idx)
     {
         std::shared_ptr<WorkerThread> worker = std::make_shared<WorkerThread>(idx);
