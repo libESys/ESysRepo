@@ -34,7 +34,16 @@ set(ESYSREPO_T_CXX_SOURCES
 
 set(ESYSREPO_T_EXE_CXX_SOURCES
     ../exe/test/cmdinit01.cpp
+    ../exe/test/cmdstatus01.cpp
     ../exe/test/cmdsync01.cpp
+    ../exe/test/cmdsync02.cpp
+    ../exe/test/cmdsync03.cpp
+    ../exe/test/cmdsync04.cpp
+    ../exe/test/fixcmdsync.cpp
+)
+
+set(ESYSREPO_T_GIT_CXX_SOURCES
+    ../git/test/sortbranches01.cpp
 )
 
 set(ESYSREPO_T_GREPO_CXX_SOURCES
@@ -46,17 +55,23 @@ set(ESYSREPO_T_GREPO_CXX_SOURCES
 set(ESYSREPO_T_LIBGIT2_CXX_SOURCES
     ../libgit2/test/clonerepo01_libgit2.cpp
     ../libgit2/test/clonerepo02_libgit2.cpp
+    ../libgit2/test/getparentcommit01_libgit2.cpp
+    ../libgit2/test/getstatus01_libgit2.cpp
+    ../libgit2/test/isdirty01_libgit2.cpp
     ../libgit2/test/opengitrepo01_libgit2.cpp
     ../libgit2/test/sshagent01.cpp
 )
 
 set(ESYSREPO_T_MANIFEST_CXX_SOURCES
+    ../manifest/test/task_t01_manifest.cpp
     ../manifest/test/xmlfileread01_manifest.cpp
     ../manifest/test/xmlfilewrite01_manifest.cpp
 )
 
 add_executable(esysrepo_t
     ${ESYSREPO_T_CXX_SOURCES}
+    ${ESYSREPO_T_EXE_CXX_SOURCES}
+    ${ESYSREPO_T_GIT_CXX_SOURCES}
     ${ESYSREPO_T_GREPO_CXX_SOURCES}
     ${ESYSREPO_T_LIBGIT2_CXX_SOURCES}
     ${ESYSREPO_T_MANIFEST_CXX_SOURCES}
