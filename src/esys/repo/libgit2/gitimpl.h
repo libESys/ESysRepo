@@ -5,7 +5,7 @@
  * \cond
  * __legal_b__
  *
- * Copyright (c) 2020 Michel Gillet
+ * Copyright (c) 2020-2021 Michel Gillet
  * Distributed under the wxWindows Library Licence, Version 3.1.
  * (See accompanying file LICENSE_3_1.txt or
  * copy at http://www.wxwidgets.org/about/licence)
@@ -22,6 +22,7 @@
 #include "esys/repo/libgit2/libgit2.h"
 #include "esys/repo/libgit2/guard.h"
 #include "esys/repo/git/diffdelta.h"
+#include "esys/repo/ssh.h"
 
 #include <git2.h>
 
@@ -120,6 +121,7 @@ protected:
     Git *m_self = nullptr;
     git_repository *m_repo = nullptr;
     Guard<git_credential> m_credential;
+    SSH m_ssh;
 };
 
 } // namespace libgit2

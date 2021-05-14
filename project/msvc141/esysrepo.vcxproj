@@ -266,6 +266,8 @@
     <ClCompile Include="..\..\src\esys\repo\libgit2\guardassign_libgit2.cpp" />
     <ClCompile Include="..\..\src\esys\repo\libgit2\guardrelease_libgit2.cpp" />
     <ClCompile Include="..\..\src\esys\repo\libgit2\libgit2.cpp" />
+    <ClCompile Include="..\..\src\esys\repo\libssh2\sshimpl_libssh2.cpp" />
+    <ClCompile Include="..\..\src\esys\repo\libssh2\ssh_libssh2.cpp" />
     <ClCompile Include="..\..\src\esys\repo\manifest.cpp" />
     <ClCompile Include="..\..\src\esys\repo\manifest\runtasks_manifest.cpp" />
     <ClCompile Include="..\..\src\esys\repo\manifest\syncrepos_manifest.cpp" />
@@ -285,6 +287,7 @@
     <ClCompile Include="..\..\src\esys\repo\manifest\xmlfile.cpp" />
     <ClCompile Include="..\..\src\esys\repo\manifest\xmlfileimpl_manifest.cpp" />
     <ClCompile Include="..\..\src\esys\repo\progresscallbackbase.cpp" />
+    <ClCompile Include="..\..\src\esys\repo\sshbase.cpp" />
     <ClCompile Include="..\..\src\esys\repo\win32\cmdlineapp_win32.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -329,6 +332,7 @@
     <ClInclude Include="..\..\include\esys\repo\git\updatetiptype.h" />
     <ClInclude Include="..\..\include\esys\repo\grepo\manifest.h" />
     <ClInclude Include="..\..\include\esys\repo\libgit2\git.h" />
+    <ClInclude Include="..\..\include\esys\repo\libssh2\ssh.h" />
     <ClInclude Include="..\..\include\esys\repo\manifest.h" />
     <ClInclude Include="..\..\include\esys\repo\manifest\runtasks.h" />
     <ClInclude Include="..\..\include\esys\repo\manifest\sync.h" />
@@ -352,6 +356,8 @@
     <ClInclude Include="..\..\include\esys\repo\progresscallbackbase.h" />
     <ClInclude Include="..\..\include\esys\repo\progresscallback_t.h" />
     <ClInclude Include="..\..\include\esys\repo\queuemt.h" />
+    <ClInclude Include="..\..\include\esys\repo\ssh.h" />
+    <ClInclude Include="..\..\include\esys\repo\sshbase.h" />
     <ClInclude Include="..\..\include\esys\repo\version.h" />
     <ClInclude Include="..\..\include\esys\repo\win32\cmdlineapp.h" />
     <ClInclude Include="..\..\src\esys\repo\configfileimpl.h" />
@@ -361,6 +367,7 @@
     <ClInclude Include="..\..\src\esys\repo\libgit2\guardassign.h" />
     <ClInclude Include="..\..\src\esys\repo\libgit2\guardrelease.h" />
     <ClInclude Include="..\..\src\esys\repo\libgit2\libgit2.h" />
+    <ClInclude Include="..\..\src\esys\repo\libssh2\sshimpl.h" />
     <ClInclude Include="..\..\src\esys\repo\manifest\xmlfileimpl.h" />
   </ItemGroup>
   <ItemGroup>

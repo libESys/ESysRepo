@@ -61,6 +61,12 @@
     <Filter Include="Source Files\win32">
       <UniqueIdentifier>{163f7243-74a9-4217-9c81-57b48e915692}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\libssh2">
+      <UniqueIdentifier>{1d8b7ac2-521e-4335-9c27-286c0de73770}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\libssh2">
+      <UniqueIdentifier>{5956fe53-80f4-454b-92e1-ef949fc86d1f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\esys\repo\esysrepo_dll.cpp">
@@ -224,6 +230,15 @@
     </ClCompile>
     <ClCompile Include="..\..\src\esys\repo\manifest\sync_manifest.cpp">
       <Filter>Source Files\manifest</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\sshbase.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\libssh2\ssh_libssh2.cpp">
+      <Filter>Source Files\libssh2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\libssh2\sshimpl_libssh2.cpp">
+      <Filter>Source Files\libssh2</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -448,6 +463,18 @@
     </ClInclude>
     <ClInclude Include="..\..\include\esys\repo\manifest\sync.h">
       <Filter>Header Files\manifest</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\sshbase.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\libssh2\ssh.h">
+      <Filter>Header Files\libssh2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\esys\repo\libssh2\sshimpl.h">
+      <Filter>Source Files\libssh2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\ssh.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

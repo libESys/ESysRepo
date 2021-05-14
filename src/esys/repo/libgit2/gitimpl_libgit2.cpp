@@ -795,27 +795,11 @@ int GitImpl::libgit2_pack_progress_cb(int stage, uint32_t current, uint32_t tota
 
 bool GitImpl::is_ssh_agent_running()
 {
-    LIBSSH2_SESSION *session = libssh2_session_init();
-    LIBSSH2_AGENT *agent = libssh2_agent_init(session);
+    bool present = m_ssh.is_agent_present();
 
-    int error = libssh2_agent_connect(agent);
-    if (error != LIBSSH2_ERROR_NONE)
-    {
-        char *msg;
-        libssh2_session_last_error(session, &msg, nullptr, 0);
+    if (present) self()->debug(0, "SSH agent detected");
 
-        std::ostringstream oss;
-        oss << "agent error (" << error << ") : " << msg << std::endl;
-        self()->error(oss.str());
-    }
-    else
-        self()->debug(0, "SSH agent detected");
-
-    libssh2_agent_disconnect(agent);
-    libssh2_agent_free(agent);
-    libssh2_session_free(session);
-
-    return (error == LIBSSH2_ERROR_NONE);
+    return present;
 }
 
 int GitImpl::merge_analysis(const std::vector<std::string> &refs, git::MergeAnalysisResult &merge_analysis_result,

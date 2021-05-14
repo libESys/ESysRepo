@@ -71,14 +71,14 @@ int Sync::run()
     {
         error("Couldn't detect if the git repo is detached or not.");
         get_git()->close();
-        return -7;
+        return 0;
     }
 
     if (detached)
     {
         warn("Sync manifest aborted: the git repo is detached.");
         get_git()->close();
-        return -8;
+        return 0;
     }
 
     git::Branches branches;
