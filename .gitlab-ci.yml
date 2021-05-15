@@ -1,10 +1,6 @@
-unit_tests:ubuntu20_04:
-  image: ubuntu:20.04
+.unit_test:
   script:
-    - apt update
-    - apt -y install git
     - git clone https://gitlab-ci-token:${CI_JOB_TOKEN}@gitlab.com/libesys/esysbuild/dev.git _ci_dev
-    - _ci_dev/scripts/vm_setup/ubuntu20_04.sh
     - _ci_dev/scripts/bootstrap.sh
     - cd build_dev
     - cd src
@@ -12,14 +8,19 @@ unit_tests:ubuntu20_04:
     - git checkout ${CI_COMMIT_BRANCH}
     - cd ../..
     - src/esysrepo/scripts/build_ci.sh
-    - build/cmake/bin/esysrepo_t --logger=HRF,test_suite,stdout:JUNIT,all,report.junit
+    - src/esysrepo/scripts/run_unittests.sh
   artifacts:
     paths:
       - build_dev/*.junit
     reports:
       junit: build_dev/*.junit
 
+unit_tests:ubuntu20_04:
+  extends: .unit_test
+  tags:
+    - ubuntu20.04
 
-
-
-
+unit_tests:ubuntu18_04:
+  extends: .unit_test
+  tags:
+    - ubuntu18.04

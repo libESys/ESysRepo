@@ -64,7 +64,7 @@ std::shared_ptr<log::LoggerBase> TestCaseCtrl::get_logger(const std::string &nam
     auto logger = m_log_mngr->new_logger(log::LoggerType::SPDLOG, name);
     if (logger == nullptr) return nullptr;
 
-    log::Level level = log::Level::INFO;
+    log::Level level = log::Level::DEBUG;
 
     logger->add_console(level);
     boost::filesystem::path log_path = path;
