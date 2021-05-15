@@ -38,6 +38,7 @@ set(ESYSREPO_CXX_SOURCES
     githelper.cpp
     manifest.cpp
     progresscallbackbase.cpp
+    sshbase.cpp
 )
 
 set(ESYSREPO_EXE_CXX_SOURCES
@@ -77,7 +78,13 @@ set(ESYSREPO_LIBGIT2_CXX_SOURCES
     libgit2/gitimpl_libgit2.cpp
     libgit2/guardassign_libgit2.cpp
     libgit2/guardrelease_libgit2.cpp
+    libgit2/guardsrelease_libgit2.cpp
     libgit2/libgit2.cpp
+)
+
+set(ESYSREPO_LIBSSH2_CXX_SOURCES
+    libssh2/ssh_libssh2.cpp
+    libssh2/sshimpl_libssh2.cpp
 )
 
 set(ESYSREPO_MANIFEST_CXX_SOURCES
@@ -107,6 +114,7 @@ add_library (esysrepo SHARED
     ${ESYSREPO_GITCMDLINE_CXX_SOURCES}
     ${ESYSREPO_GREPO_CXX_SOURCES}
     ${ESYSREPO_LIBGIT2_CXX_SOURCES}
+    ${ESYSREPO_LIBSSH2_CXX_SOURCES}
     ${ESYSREPO_MANIFEST_CXX_SOURCES}
 )
 
@@ -126,6 +134,7 @@ target_link_libraries(esysrepo PRIVATE
     git2
     esysfile
     esyslog
+    esyslog_spdlog
 )
 
 target_link_libraries(esysrepo PRIVATE nlohmann_json::nlohmann_json)

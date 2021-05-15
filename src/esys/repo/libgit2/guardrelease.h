@@ -5,7 +5,7 @@
  * \cond
  * __legal_b__
  *
- * Copyright (c) 2020 Michel Gillet
+ * Copyright (c) 2020-2021 Michel Gillet
  * Distributed under the wxWindows Library Licence, Version 3.1.
  * (See accompanying file LICENSE_3_1.txt or
  * copy at http://www.wxwidgets.org/about/licence)
@@ -22,6 +22,7 @@
 #include <git2.h>
 
 #include <memory>
+#include <cassert>
 
 namespace esys
 {
@@ -35,6 +36,7 @@ namespace libgit2
 template<typename T>
 void guard_release(T *data)
 {
+    assert(false);
 }
 
 template<>
@@ -57,6 +59,9 @@ ESYSREPO_API void guard_release<git_commit>(git_commit *commit);
 
 template<>
 ESYSREPO_API void guard_release<git_status_list>(git_status_list *status_list);
+
+template<>
+ESYSREPO_API void guard_release<git_annotated_commit>(git_annotated_commit *annotated_commit);
 
 } // namespace libgit2
 

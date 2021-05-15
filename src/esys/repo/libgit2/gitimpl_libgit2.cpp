@@ -18,6 +18,7 @@
 #include "esys/repo/esysrepo_prec.h"
 #include "esys/repo/libgit2/gitimpl.h"
 #include "esys/repo/libgit2/guard.h"
+#include "esys/repo/libgit2/guards.h"
 #include "esys/repo/git/updatetip.h"
 
 #include <git2.h>
@@ -89,17 +90,17 @@ int GitImpl::get_remotes(std::vector<git::Remote> &remotes)
 
     self()->cmd_start();
 
-    git_strarray data;
+    GuardS<git_strarray> data;
 
-    int result = git_remote_list(&data, m_repo);
+    int result = git_remote_list(data.get(), m_repo);
     if (result < 0) return check_error(result);
 
-    char **p = data.strings;
+    char **p = data.get()->strings;
 
-    if (data.count == 0) return check_error(0);
+    if (data.get()->count == 0) return check_error(0);
     if (p == nullptr) return check_error(-1, "Not data");
 
-    for (auto idx = 0; idx < data.count; ++idx)
+    for (auto idx = 0; idx < data.get()->count; ++idx)
     {
         char *name = *p;
         if (name == nullptr) return check_error(-1, "Not name");

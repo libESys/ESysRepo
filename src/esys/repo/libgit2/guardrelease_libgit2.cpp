@@ -76,6 +76,13 @@ ESYSREPO_API void guard_release<git_status_list>(git_status_list *status_list)
     git_status_list_free(status_list);
 }
 
+template<>
+ESYSREPO_API void guard_release<git_annotated_commit>(git_annotated_commit *annotated_commit)
+{
+    if (annotated_commit == nullptr) return;
+    git_annotated_commit_free(annotated_commit);
+}
+
 } // namespace libgit2
 
 } // namespace repo
