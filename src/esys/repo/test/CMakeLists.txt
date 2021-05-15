@@ -16,6 +16,7 @@ include(FindPkgConfig)
 
 # add_definitions(-DESYSTEST_USE_ESYSTEST)
 add_definitions(-DESYSTEST_MULTIOS -DESYSTEST_USE_BOOST)
+set(ESYSTEST_USE_BOOST 1)
 
 pkg_check_modules(LIBSSH2 libssh2 REQUIRED)
 
