@@ -1,26 +1,56 @@
-.unit_test:
+variables:
+    TXT_S: "\e[35m"
+    TXT_CLEAR: "\e[0m"
+
+.unit_test: &unit_test
   script:
-    - git clone https://gitlab-ci-token:${CI_JOB_TOKEN}@gitlab.com/libesys/esysbuild/dev.git _ci_dev
-    - _ci_dev/scripts/bootstrap.sh
-    - cd build_dev
-    - cd src
-    - cd esysrepo
-    - git checkout ${CI_COMMIT_BRANCH}
-    - cd ../..
-    - src/esysrepo/scripts/build_ci.sh
-    - src/esysrepo/scripts/run_unittests.sh
+    - scripts/bootstrap.sh
+    - scripts/build_ci.sh
+    - scripts/run_unittests.sh
+  rules:
+    - if: $CI_COMMIT_MESSAGE =~ /WIP$/
+      when: never
   artifacts:
     paths:
-      - build_dev/*.junit
+      - build_dev/*_junit.txt
     reports:
-      junit: build_dev/*.junit
+      junit: build_dev/*_junit.txt
 
-unit_tests:ubuntu20_04:
-  extends: .unit_test
+.merge_request: &merge_request
   tags:
     - ubuntu20.04
+  script:
+    - scripts/bootstrap.sh
+    - scripts/build_ci_merge.sh
+    - scripts/valgrind_unittests.sh 
+  artifacts:
+    paths:
+      - public
+      - build_dev/*_junit.txt
+      - build_dev/valgrind-out.txt
+    reports:
+      junit: build_dev/*_junit.txt
+
+unit_tests:ubuntu20_04:
+  <<: *unit_test 
+  tags:
+    - ubuntu20.04
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "push"'
 
 unit_tests:ubuntu18_04:
-  extends: .unit_test
+  <<: *unit_test 
   tags:
     - ubuntu18.04
+
+merge_request:
+  <<: *merge_request
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+
+pages:
+  <<: *merge_request
+  stage: deploy
+  # only:
+  #  - master
+  

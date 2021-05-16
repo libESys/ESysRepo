@@ -1,8 +1,9 @@
 #!/bin/bash
 
-echo "Build ..."
-echo "PATH = $PATH"
+echo "${TXT_S}Build ...${TXT_CLEAR}"
+echo "pwd = "`pwd`
 
+cd build_dev
 mkdir build
 cd build
 mkdir cmake
@@ -11,4 +12,5 @@ pwd
 cmake ../..
 make esysrepo_t -j`nproc --all`
 
-echo "Build done."
+echo "pwd = "`pwd`
+echo "${TXT_S}Build done.${TXT_CLEAR}"
