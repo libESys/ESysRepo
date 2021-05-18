@@ -14,7 +14,7 @@ valgrind --leak-check=full \
          --log-file=valgrind-out.txt \
          ./build/cmake/bin/esysrepo_t --logger=HRF,test_suite,stdout:JUNIT,all,report_junit.txt
 
-mkdir ../public/logs
+mkdir -p ../public/logs
 cp *_junit.txt ../public/logs
 cp valgrind-out.txt ../public/logs
 

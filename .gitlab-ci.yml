@@ -42,15 +42,38 @@ unit_tests:ubuntu18_04:
   <<: *unit_test 
   tags:
     - ubuntu18.04
+  rules:
+    - when: always
 
 merge_request:
   <<: *merge_request
   rules:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
 
+.webpage: &webpage
+  tags:
+    - ubuntu20.04
+  script:
+    - scripts/bootstrap.sh
+    - scripts/build_webpage.sh
+  artifacts:
+    paths:
+    - public
+
+test_webpage:
+  <<: *webpage
+  except:
+    - master
+
+webpage:
+  <<: *webpage
+  only:
+    - master
+
 pages:
   <<: *merge_request
   stage: deploy
-  # only:
-  #  - master
+  needs: ["webpage"]
+  only:
+  - master
   

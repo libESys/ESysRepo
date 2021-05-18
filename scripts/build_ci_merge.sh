@@ -19,7 +19,7 @@ make esysrepo_doc -j`nproc --all`
 echo "    ${TXT_S}Build esysrepo_doc done.${TXT_CLEAR}"
 
 mkdir ../../../public/cpp_api
-cp -R src/esysrepo/doc/html ../../../public
+cp -R src/esysrepo/doc/html ../../../public/cpp_api
 
 echo "pwd = "`pwd`
 echo "${TXT_S}Build done.${TXT_CLEAR}"
