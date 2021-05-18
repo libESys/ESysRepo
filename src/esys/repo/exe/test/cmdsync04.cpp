@@ -43,31 +43,19 @@ ESYSTEST_AUTO_TEST_CASE(CmdSync04)
     ESYSTEST_REQUIRE_EQUAL(result, 0);
 
     git::Commit last_commit;
-    git::Commit parent_commit;
 
     // Get the last commit in the manifest git repo
     result = m_fix_cmd_sync.get_git()->get_last_commit(last_commit);
     ESYSTEST_REQUIRE_EQUAL(result, 0);
 
-    // Get the its parent commit
-    result = m_fix_cmd_sync.get_git()->get_parent_commit(last_commit, parent_commit);
-    ESYSTEST_REQUIRE_EQUAL(result, 0);
-
-    // Reset the manifest git repo to the parent commit
-    result = m_fix_cmd_sync.get_git()->reset(parent_commit, git::ResetType::HARD);
+    result = m_fix_cmd_sync.get_git()->reset_to_parent();
     ESYSTEST_REQUIRE_EQUAL(result, 0);
 
     git::Commit new_last_commit;
 
-    // Get the new last commit
-    result = m_fix_cmd_sync.get_git()->get_last_commit(new_last_commit);
-    ESYSTEST_REQUIRE_EQUAL(result, 0);
     result = m_fix_cmd_sync.close_git();
     ESYSTEST_REQUIRE_EQUAL(result, 0);
 
-    // The new last commit should be the parent commit
-    ESYSTEST_REQUIRE_EQUAL(parent_commit.get_hash(), new_last_commit.get_hash());
-   
     // Sync the whole project, and the manifest should also be synced
     m_fix_cmd_sync.sync();
 
@@ -96,7 +84,7 @@ ESYSTEST_AUTO_TEST_CASE(CmdSync04)
     ESYSTEST_REQUIRE_NE(manifest, nullptr);
 
     auto repo = manifest->find_repo_by_path("src/test_a_b");
-    
+
     boost::filesystem::path repo_path;
     repo_path = m_fix_cmd_sync.get_file_path();
     repo_path /= "src/test_a_b";
@@ -106,26 +94,11 @@ ESYSTEST_AUTO_TEST_CASE(CmdSync04)
     result = m_fix_cmd_sync.get_git()->open(repo_path.normalize().make_preferred().string());
     ESYSTEST_REQUIRE_EQUAL(result, 0);
 
-    // Get the last commit in the manifest git repo
-    result = m_fix_cmd_sync.get_git()->get_last_commit(last_commit);
+    result = m_fix_cmd_sync.get_git()->reset_to_parent();
     ESYSTEST_REQUIRE_EQUAL(result, 0);
 
-    // Get the its parent commit
-    result = m_fix_cmd_sync.get_git()->get_parent_commit(last_commit, parent_commit);
-    ESYSTEST_REQUIRE_EQUAL(result, 0);
-
-    // Reset the manifest git repo to the parent commit
-    result = m_fix_cmd_sync.get_git()->reset(parent_commit, git::ResetType::HARD);
-    ESYSTEST_REQUIRE_EQUAL(result, 0);
-
-    // Get the new last commit
-    result = m_fix_cmd_sync.get_git()->get_last_commit(new_last_commit);
-    ESYSTEST_REQUIRE_EQUAL(result, 0);
     result = m_fix_cmd_sync.close_git();
     ESYSTEST_REQUIRE_EQUAL(result, 0);
-
-    // The new last commit should be the parent commit
-    ESYSTEST_REQUIRE_EQUAL(parent_commit.get_hash(), new_last_commit.get_hash());
 
     // Sync the whole project, and the manifest should also be synced
     m_fix_cmd_sync.sync();

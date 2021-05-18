@@ -240,6 +240,9 @@
     <ClCompile Include="..\..\src\esys\repo\libssh2\sshimpl_libssh2.cpp">
       <Filter>Source Files\libssh2</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\libgit2\guardsrelease_libgit2.cpp">
+      <Filter>Source Files\libgit2</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\esys\repo\esysrepo_defs.h">
@@ -475,6 +478,12 @@
     </ClInclude>
     <ClInclude Include="..\..\include\esys\repo\ssh.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\esys\repo\libgit2\guards.h">
+      <Filter>Source Files\libgit2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\esys\repo\libgit2\guardsrelease.h">
+      <Filter>Source Files\libgit2</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

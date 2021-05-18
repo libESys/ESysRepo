@@ -265,6 +265,7 @@
     <ClCompile Include="..\..\src\esys\repo\libgit2\git_libgit2.cpp" />
     <ClCompile Include="..\..\src\esys\repo\libgit2\guardassign_libgit2.cpp" />
     <ClCompile Include="..\..\src\esys\repo\libgit2\guardrelease_libgit2.cpp" />
+    <ClCompile Include="..\..\src\esys\repo\libgit2\guardsrelease_libgit2.cpp" />
     <ClCompile Include="..\..\src\esys\repo\libgit2\libgit2.cpp" />
     <ClCompile Include="..\..\src\esys\repo\libssh2\sshimpl_libssh2.cpp" />
     <ClCompile Include="..\..\src\esys\repo\libssh2\ssh_libssh2.cpp" />
@@ -366,6 +367,8 @@
     <ClInclude Include="..\..\src\esys\repo\libgit2\guard.h" />
     <ClInclude Include="..\..\src\esys\repo\libgit2\guardassign.h" />
     <ClInclude Include="..\..\src\esys\repo\libgit2\guardrelease.h" />
+    <ClInclude Include="..\..\src\esys\repo\libgit2\guards.h" />
+    <ClInclude Include="..\..\src\esys\repo\libgit2\guardsrelease.h" />
     <ClInclude Include="..\..\src\esys\repo\libgit2\libgit2.h" />
     <ClInclude Include="..\..\src\esys\repo\libssh2\sshimpl.h" />
     <ClInclude Include="..\..\src\esys\repo\manifest\xmlfileimpl.h" />

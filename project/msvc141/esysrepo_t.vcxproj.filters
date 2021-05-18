@@ -31,6 +31,9 @@
     <Filter Include="Header Files\exe">
       <UniqueIdentifier>{3e79dac7-b9ce-4782-9028-c71592599e43}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\git">
+      <UniqueIdentifier>{15153501-27c5-4d11-be57-4087ef7b2db9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\esys\repo\test\esysrepo_t_prec.cpp">

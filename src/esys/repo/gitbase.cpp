@@ -36,6 +36,38 @@ GitBase::GitBase()
 
 GitBase::~GitBase() = default;
 
+int GitBase::reset_to_parent(int nth_parent)
+{
+    int result = is_open();
+
+    if (result < 0) return result;
+
+    git::Commit last_commit;
+    git::Commit parent_commit;
+
+    // Get the last commit in the manifest git repo
+    result = get_last_commit(last_commit);
+    if (result < 0) return result;
+
+    // Get the its parent commit
+    result = get_parent_commit(last_commit, parent_commit);
+    if (result < 0) return result;
+
+    // Reset the manifest git repo to the parent commit
+    result = reset(parent_commit, git::ResetType::HARD);
+    if (result < 0) return result;
+
+    git::Commit new_last_commit;
+
+    // Get the new last commit
+    result = get_last_commit(new_last_commit);
+    if (result < 0) return result;
+
+    // The new last commit should be the parent commit
+    if (parent_commit.get_hash() != new_last_commit.get_hash()) return -1;
+    return 0;
+}
+
 bool GitBase::is_repo(const std::string &path)
 {
     boost::filesystem::path git_path = path;

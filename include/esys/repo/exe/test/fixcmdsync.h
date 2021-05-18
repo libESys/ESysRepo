@@ -31,7 +31,7 @@ namespace exe
 namespace test
 {
 
-/*! \class FixCmdSync esys/repo/exe/test/fixcmdsync.cpp "esys/repo/exe/test/fixcmdsync.cpp"
+/*! \class FixCmdSync esys/repo/exe/test/fixcmdsync.h "esys/repo/exe/test/fixcmdsync.h"
  *  \brief
  */
 class FixCmdSync

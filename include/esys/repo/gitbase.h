@@ -190,6 +190,8 @@ public:
      */
     virtual int fetch(const std::string &remote = "") = 0;
 
+    virtual int reset_to_parent(int nth_parent = 1);
+
     //! Tells if a folder is a git repository
     /*!
      * \param[in] path the path of the folder
