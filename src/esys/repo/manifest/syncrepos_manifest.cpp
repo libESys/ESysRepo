@@ -127,6 +127,8 @@ int SyncRepos::run()
     {
         for (auto repo : location->get_repos())
         {
+            if (!is_repo_to_be_synced(repo)) continue;
+
             std::shared_ptr<SyncRepo> sync_repo = std::make_shared<SyncRepo>();
 
             sync_repo->set_repo(repo);
@@ -135,7 +137,7 @@ int SyncRepos::run()
             sync_repo->set_git(new_git());
             sync_repo->get_git()->set_logger_if(get_logger_if());
             sync_repo->set_logger_if(get_logger_if());
-            
+
             get_run_tasks().add(sync_repo);
 
             ++get_repo_idx();
@@ -167,6 +169,72 @@ std::size_t SyncRepos::get_repo_idx() const
 std::size_t &SyncRepos::get_repo_idx()
 {
     return m_repo_idx;
+}
+
+bool SyncRepos::globly_match(const std::string &text, const std::string &glob)
+{
+    const char *text_backup = nullptr;
+    const char *glob_backup = nullptr;
+    const char *text_ = text.c_str();
+    const char *glob_ = glob.c_str();
+
+    while (*text_ != '\0')
+    {
+        if (*glob_ == '*')
+        {
+            // new star-loop: backup positions in pattern and text
+            text_backup = text_;
+            glob_backup = ++glob_;
+        }
+        else if ((*glob_ == '?' && *text_ != '/') || *glob_ == *text_)
+        {
+            // ? matched any character except /, or we matched the current non-NUL character
+            text_++;
+            glob_++;
+        }
+        else
+        {
+            if (glob_backup == nullptr || *text_backup == '/') return false;
+            // star-loop: backtrack to the last * but do not jump over /
+            text_ = ++text_backup;
+            glob_ = glob_backup;
+        }
+    }
+    // ignore trailing stars
+    while (*glob_ == '*') glob_++;
+    // at end of text means success if nothing else is left to match
+    return *glob_ == '\0' ? true : false;
+}
+
+bool SyncRepos::is_repo_to_be_synced(std::shared_ptr<manifest::Repository> repo) const
+{
+    if (m_map_folders_to_sync.size() == 0) return true;
+
+    auto it = m_map_folders_to_sync.find(repo->get_path());
+
+    if (it != m_map_folders_to_sync.end()) return true;
+
+    bool result = false;
+    // Now let's see if glob filter were used in the sync command
+    for (auto &str : get_folders_to_sync())
+    {
+        result = globly_match(repo->get_path(), str);
+        if (result) return true;
+    }
+    return false;
+}
+
+void SyncRepos::set_folders_to_sync(std::vector<std::string> folders_to_sync)
+{
+    m_folders_to_sync = folders_to_sync;
+    m_map_folders_to_sync.clear();
+
+    for (auto &folder : folders_to_sync) m_map_folders_to_sync[folder] = true;
+}
+
+const std::vector<std::string> &SyncRepos::get_folders_to_sync() const
+{
+    return m_folders_to_sync;
 }
 
 void SyncRepos::set_job_count(int job_count)

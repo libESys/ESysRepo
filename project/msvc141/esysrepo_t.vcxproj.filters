@@ -123,6 +123,12 @@
     <ClCompile Include="..\..\src\esys\repo\exe\test\cmdsync04.cpp">
       <Filter>Source Files\exe</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\exe\test\cmdsync05.cpp">
+      <Filter>Source Files\exe</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\manifest\test\globymatch01.cpp">
+      <Filter>Source Files\manifest</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\esys\repo\test\esysrepo_t_prec.h">

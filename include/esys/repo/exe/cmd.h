@@ -177,7 +177,7 @@ public:
      */
     int set_folder(const std::string &folder);
 
-    void set_sub_args(const std::vector<std::string> &sub_args);
+    virtual void set_sub_args(const std::vector<std::string> &sub_args);
     const std::vector<std::string> &get_sub_args() const;
 
     int process_sub_args_as_git_repo_path(const std::string &input_path);

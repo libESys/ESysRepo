@@ -40,6 +40,7 @@ set(ESYSREPO_T_EXE_CXX_SOURCES
     ../exe/test/cmdsync02.cpp
     ../exe/test/cmdsync03.cpp
     ../exe/test/cmdsync04.cpp
+    ../exe/test/cmdsync05.cpp
     ../exe/test/fixcmdsync.cpp
 )
 
@@ -64,6 +65,7 @@ set(ESYSREPO_T_LIBGIT2_CXX_SOURCES
 )
 
 set(ESYSREPO_T_MANIFEST_CXX_SOURCES
+    ../manifest/test/globymatch01.cpp
     ../manifest/test/task_t01_manifest.cpp
     ../manifest/test/xmlfileread01_manifest.cpp
     ../manifest/test/xmlfilewrite01_manifest.cpp

@@ -420,6 +420,7 @@ int ESysRepoExe::cmd_sync()
     }
 
     if (m_vm.count("job")) sync.set_job_count(m_vm["job"].as<int>());
+    sync.set_sub_args(get_sub_args());
 
     return sync.run();
 }

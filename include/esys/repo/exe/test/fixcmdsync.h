@@ -51,12 +51,14 @@ public:
     const boost::filesystem::path &get_file_path() const;
 
     int test_file_content(const std::string &filename, const std::string &content);
+    void test_repo_exists(const std::string &path, bool exists = true);
 
     void test_basic_files();
 
     void run();
     void init();
     void sync();
+    void sync(const std::vector<std::string> folders);
 
     int open_git_manifest_repo();
     int close_git();

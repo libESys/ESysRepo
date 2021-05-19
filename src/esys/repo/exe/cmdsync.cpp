@@ -78,6 +78,8 @@ int CmdSync::impl_run()
 
     manifest::SyncRepos sync_repos;
 
+    sync_repos.set_folders_to_sync(get_sub_args());
+
     if (get_debug()) sync_repos.set_log_level(log::Level::DEBUG);
 
     sync_repos.set_job_count(get_job_count());

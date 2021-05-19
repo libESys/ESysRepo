@@ -5,6 +5,11 @@
  * \cond
  * __legal_b__
  *
+ * Copyright (c) 2020-2021 Michel Gillet
+ * Distributed under the wxWindows Library Licence, Version 3.1.
+ * (See accompanying file LICENSE_3_1.txt or
+ * copy at http://www.wxwidgets.org/about/licence)
+ *
  * __legal_e__
  * \endcond
  *
@@ -87,6 +92,17 @@ int FixCmdSync::test_file_content(const std::string &filename, const std::string
     return -2;
 }
 
+void FixCmdSync::test_repo_exists(const std::string &path, bool exists)
+{
+    boost::filesystem::path file_path = get_file_path();
+    file_path /= path;
+
+    bool result = false;
+
+    result = boost::filesystem::is_directory(file_path);
+    ESYSTEST_REQUIRE_EQUAL(result, exists);
+}
+
 void FixCmdSync::test_basic_files()
 {
     int result;
@@ -141,6 +157,20 @@ void FixCmdSync::sync()
     m_cmd_sync.set_git(m_git);
     m_cmd_sync.set_logger_if(m_logger);
     m_cmd_sync.set_debug(true);
+
+    int result = m_cmd_sync.run();
+    ESYSTEST_REQUIRE_EQUAL(result, 0);
+}
+
+void FixCmdSync::sync(const std::vector<std::string> folders)
+{
+    m_cmd_sync.set_job_count(4);
+    m_cmd_sync.set_parent_path(m_file_path.string());
+    m_cmd_sync.set_git(m_git);
+    m_cmd_sync.set_logger_if(m_logger);
+    m_cmd_sync.set_debug(true);
+
+    m_cmd_sync.set_sub_args(folders);
 
     int result = m_cmd_sync.run();
     ESYSTEST_REQUIRE_EQUAL(result, 0);

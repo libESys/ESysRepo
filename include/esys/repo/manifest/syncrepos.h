@@ -28,6 +28,8 @@
 #include <esys/log/user.h>
 
 #include <memory>
+#include <string>
+#include <vector>
 
 namespace esys
 {
@@ -164,11 +166,17 @@ public:
      */
     std::size_t &get_repo_idx();
 
+    bool is_repo_to_be_synced(std::shared_ptr<manifest::Repository> repo) const;
+    void set_folders_to_sync(std::vector<std::string> folders_to_sync);
+    const std::vector<std::string> &get_folders_to_sync() const;
+
     void set_job_count(int job_count);
     int get_job_count() const;
 
     RunTasks &get_run_tasks();
     const RunTasks &get_run_tasks() const;
+
+    static bool globly_match(const std::string &text, const std::string &glob);
 
 protected:
     //!< \cond DOXY_IMPL
@@ -179,6 +187,8 @@ protected:
     log::Level m_log_level = log::Level::INFO;        //!< The log level
     std::size_t m_repo_idx = 0;                       //!< The repo index
     RunTasks m_run_tasks;
+    std::vector<std::string> m_folders_to_sync;
+    std::map<std::string, bool> m_map_folders_to_sync;
     //!< \endcond
 };
 
