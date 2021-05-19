@@ -5,6 +5,11 @@
  * \cond
  * __legal_b__
  *
+ * Copyright (c) 2020-2021 Michel Gillet
+ * Distributed under the wxWindows Library Licence, Version 3.1.
+ * (See accompanying file LICENSE_3_1.txt or
+ * copy at http://www.wxwidgets.org/about/licence)
+ *
  * __legal_e__
  * \endcond
  *
@@ -47,7 +52,8 @@ ESYSTEST_AUTO_TEST_CASE(GetParantCommit01LibGit2)
 
     Git git;
 
-    int result = git.clone("ssh://git@gitlab.com/libesys/esysrepo/test.git", file_path.normalize().make_preferred().string());
+    int result =
+        git.clone("ssh://git@gitlab.com/libesys/esysrepo/test.git", file_path.normalize().make_preferred().string());
     if (result != 0) std::cout << "ERROR " << result << std::endl;
     ESYSTEST_REQUIRE_EQUAL(result, 0);
 
