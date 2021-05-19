@@ -203,6 +203,16 @@ const std::vector<std::string> &Cmd::get_sub_args() const
     return m_sub_args;
 }
 
+void Cmd::set_groups(const std::vector<std::string> &groups)
+{
+    m_groups = groups;
+}
+
+const std::vector<std::string> &Cmd::get_groups() const
+{
+    return m_groups;
+}
+
 int Cmd::process_sub_args_as_git_repo_path(const std::string &input_path)
 {
     if (input_path.empty()) return 0;
@@ -330,6 +340,7 @@ int Cmd::load_manifest()
 
     if (get_loader() == nullptr) set_loader(std::make_shared<manifest::Loader>());
     if (get_manifest() == nullptr) set_manifest(std::make_shared<Manifest>());
+    get_manifest()->clear();
 
     get_loader()->set_manifest(get_manifest());
     get_loader()->set_config_folder(get_config_folder());

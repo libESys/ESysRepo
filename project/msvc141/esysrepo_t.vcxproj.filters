@@ -132,6 +132,9 @@
     <ClCompile Include="..\..\src\esys\repo\grepo\test\readmanifest03_grepo.cpp">
       <Filter>Source Files\grepo</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\exe\test\cmdsync06.cpp">
+      <Filter>Source Files\exe</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\esys\repo\test\esysrepo_t_prec.h">

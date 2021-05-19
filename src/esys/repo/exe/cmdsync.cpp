@@ -78,7 +78,28 @@ int CmdSync::impl_run()
 
     manifest::SyncRepos sync_repos;
 
-    sync_repos.set_folders_to_sync(get_sub_args());
+    if (get_sub_args().size() != 0)
+        sync_repos.set_folders_to_sync(get_sub_args());
+    else if (get_groups().size() != 0)
+    {
+        std::vector<std::string> repos;
+
+        for (auto &group : get_groups())
+        {
+            auto group_ptr = get_manifest()->get_groups().find_group_by_name(group);
+            if (group_ptr == nullptr)
+            {
+                //! \TODO 
+                continue;
+            }
+            for (auto repo : group_ptr->get_repos())
+            {
+                repos.push_back(repo->get_path());
+            }
+        }
+
+        sync_repos.set_folders_to_sync(repos);
+    }
 
     if (get_debug()) sync_repos.set_log_level(log::Level::DEBUG);
 

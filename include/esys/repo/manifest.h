@@ -165,6 +165,8 @@ public:
      */
     std::string get_repo_revision(std::shared_ptr<manifest::Repository> repo);
 
+    void clear();
+
     manifest::Groups &get_groups();
     const manifest::Groups &get_groups() const;
 

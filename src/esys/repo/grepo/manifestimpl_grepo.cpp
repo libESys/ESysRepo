@@ -52,6 +52,8 @@ int ManifestImpl::read(const std::string &filename)
 
     if (self()->get_data() == nullptr) self()->set_data(std::make_shared<repo::Manifest>());
 
+    self()->get_data()->clear();
+
     int result = m_file->read(filename);
     if (result < 0) return result;
 

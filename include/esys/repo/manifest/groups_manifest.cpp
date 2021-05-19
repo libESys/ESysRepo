@@ -71,6 +71,12 @@ std::shared_ptr<Group> Groups::find_or_new_group_by_name(const std::string &name
     return group;
 }
 
+void Groups::clear()
+{
+    m_groups.clear();
+    m_map_groups_by_name.clear();
+}
+
 } // namespace manifest
 
 } // namespace repo

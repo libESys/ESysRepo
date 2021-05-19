@@ -5,7 +5,7 @@
  * \cond
  * __legal_b__
  *
- * Copyright (c) 2020 Michel Gillet
+ * Copyright (c) 2020-2021 Michel Gillet
  * Distributed under the wxWindows Library Licence, Version 3.1.
  * (See accompanying file LICENSE_3_1.txt or
  * copy at http://www.wxwidgets.org/about/licence)
@@ -20,6 +20,7 @@
 #include <esys/log/mngr.h>
 
 #include <esys/repo/gitbase.h>
+#include <esys/repo/manifest/group.h>
 
 #include <esys/log/user.h>
 
@@ -83,6 +84,8 @@ public:
     std::string get_folder();
     std::vector<std::string> get_sub_args();
     std::string get_string(const std::string &name);
+
+    static int groups_str_to_groups(const std::string &groups_str, std::vector<std::string> &groups);
 
 protected:
     std::ostream *m_os = nullptr;

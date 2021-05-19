@@ -67,6 +67,7 @@ public:
     std::shared_ptr<Group> find_group_by_name(const std::string &name);
     std::shared_ptr<Group> find_or_new_group_by_name(const std::string &name);
 
+    void clear();
 protected:
     //!< \cond DOXY_IMPL
     std::vector<std::shared_ptr<Group>> m_groups; //!< All Groups

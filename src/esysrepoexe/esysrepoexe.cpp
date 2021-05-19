@@ -5,7 +5,7 @@
  * \cond
  * __legal_b__
  *
- * Copyright (c) 2020 Michel Gillet
+ * Copyright (c) 2020-2021 Michel Gillet
  * Distributed under the wxWindows Library Licence, Version 3.1.
  * (See accompanying file LICENSE_3_1.txt or
  * copy at http://www.wxwidgets.org/about/licence)
@@ -30,6 +30,7 @@
 #include <boost/program_options/options_description.hpp>
 #include <boost/program_options/parsers.hpp>
 #include <boost/filesystem.hpp>
+#include <boost/tokenizer.hpp>
 
 #ifndef WIN32
 #include <boost/process/search_path.hpp>
@@ -126,7 +127,7 @@ int ESysRepoExe::parse_args()
     bool debug = m_vm["debug"].as<bool>();
 
     if (m_logger_mngr == nullptr) m_logger_mngr = esys::log::Mngr::get();
-    
+
     boost::filesystem::path plugin_search_folder = m_executable.parent_path();
 #ifndef WIN32
     plugin_search_folder = plugin_search_folder.parent_path();
@@ -139,8 +140,7 @@ int ESysRepoExe::parse_args()
     plugin_search_folder /= "esyslog";
 #endif
 
-    if (debug)
-        std::cout << "plugin_search_folder = " << plugin_search_folder << std::endl;
+    if (debug) std::cout << "plugin_search_folder = " << plugin_search_folder << std::endl;
 
     m_logger_mngr->set_search_folder(plugin_search_folder.make_preferred().string());
     m_logger = m_logger_mngr->new_logger(esys::log::LoggerType::SPDLOG, "esysrepo");
@@ -388,6 +388,7 @@ int ESysRepoExe::cmd_sync()
                         "may cause loss of data")
         ("job,j", po::value<int>()->default_value(1), "projects to fetch simultaneously (default 1)")
         ("folder", po::value<std::string>(), "the esysrepo folder to use")
+        ("groups,g", po::value<std::string>(), "the groups to synchronize")
         ;
     // clang-format on
     desc_all.add(desc).add(*m_desc);
@@ -421,7 +422,17 @@ int ESysRepoExe::cmd_sync()
 
     if (m_vm.count("job")) sync.set_job_count(m_vm["job"].as<int>());
     sync.set_sub_args(get_sub_args());
+    if (m_vm.count("groups"))
+    {
+        std::vector<std::string> groups;
 
+        result = groups_str_to_groups(m_vm["groups"].as<std::string>(), groups);
+        if (result < 0)
+        {
+            return -1;
+        }
+        sync.set_groups(groups);
+    }
     return sync.run();
 }
 
@@ -548,6 +559,19 @@ std::string ESysRepoExe::get_string(const std::string &name)
 {
     if (m_vm.count(name)) return m_vm[name].as<std::string>();
     return "";
+}
+
+int ESysRepoExe::groups_str_to_groups(const std::string &groups_str, std::vector<std::string> &groups)
+{
+    typedef boost::tokenizer<boost::char_separator<char>> tokenizer;
+    boost::char_separator<char> sep(", ");
+    tokenizer tokens(groups_str, sep);
+
+    groups.clear();
+
+    for (tokenizer::iterator it = tokens.begin(); it != tokens.end(); ++it) groups.push_back(*it);
+
+    return 0;
 }
 
 std::string ESysRepoExe::get_folder()

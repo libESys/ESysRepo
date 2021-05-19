@@ -41,6 +41,7 @@ set(ESYSREPO_T_EXE_CXX_SOURCES
     ../exe/test/cmdsync03.cpp
     ../exe/test/cmdsync04.cpp
     ../exe/test/cmdsync05.cpp
+    ../exe/test/cmdsync06.cpp
     ../exe/test/fixcmdsync.cpp
 )
 

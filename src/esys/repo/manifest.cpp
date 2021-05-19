@@ -156,6 +156,20 @@ std::string Manifest::get_repo_revision(std::shared_ptr<manifest::Repository> re
     return get_default_revision();
 }
 
+void Manifest::clear()
+{
+    m_type = manifest::Type::NOT_SET;
+    m_locations.clear();
+    m_map_locations.clear();
+    m_map_locations_by_path.clear();
+    m_default_location.reset();
+    get_groups().clear();
+    m_map_locations_by_path.clear();
+    m_default_location_str.clear();
+    m_default_revision = "master";
+    m_default_job_count = 1;
+}
+
 manifest::Groups &Manifest::get_groups()
 {
     return m_groups;
@@ -176,6 +190,7 @@ bool Manifest::operator==(const Manifest &other) const
     {
         if (*get_locations()[idx] != *other.get_locations()[idx]) return false;
     }
+    return true;
 }
 
 bool Manifest::operator!=(const Manifest &other) const

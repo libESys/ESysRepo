@@ -180,6 +180,9 @@ public:
     virtual void set_sub_args(const std::vector<std::string> &sub_args);
     const std::vector<std::string> &get_sub_args() const;
 
+    void set_groups(const std::vector<std::string> &groups);
+    const std::vector<std::string> &get_groups() const;
+    
     int process_sub_args_as_git_repo_path(const std::string &input_path);
     int process_sub_args_as_git_repo_paths();
     const std::vector<std::string> &get_input_git_repo_paths() const;
@@ -224,6 +227,7 @@ protected:
     std::chrono::time_point<std::chrono::steady_clock> m_start_time;
     std::vector<std::string> m_sub_args;
     std::vector<std::string> m_input_rel_git_repo_paths;
+    std::vector<std::string> m_groups;
     int m_job_count = 1;
     //!< \endcond
 };
