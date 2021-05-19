@@ -5,7 +5,7 @@
  * \cond
  * __legal_b__
  *
- * Copyright (c) 2020 Michel Gillet
+ * Copyright (c) 2020-2021 Michel Gillet
  * Distributed under the wxWindows Library Licence, Version 3.1.
  * (See accompanying file LICENSE_3_1.txt or
  * copy at http://www.wxwidgets.org/about/licence)
@@ -64,10 +64,11 @@ int RunTasks::run()
     if (m_tasks.size() == 0) return -1;
 
     m_worker_thread_count = get_job_count();
-
     if (static_cast<int>(get_job_count()) < 0) return -2;
 
-    for (int idx = 0; idx < static_cast<int>(get_job_count()); ++idx)
+    if (m_tasks.size() < m_worker_thread_count) m_worker_thread_count = m_tasks.size();
+
+    for (int idx = 0; idx < m_worker_thread_count; ++idx)
     {
         std::shared_ptr<WorkerThread> worker = std::make_shared<WorkerThread>(idx);
 
