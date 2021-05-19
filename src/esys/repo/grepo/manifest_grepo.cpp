@@ -62,6 +62,16 @@ const std::shared_ptr<repo::Manifest> Manifest::get_data() const
     return m_data;
 }
 
+bool Manifest::operator==(const Manifest &other) const
+{
+    return (*get_data() == *other.get_data());
+}
+
+bool Manifest::operator!=(const Manifest &other) const
+{
+    return !operator==(other);
+}
+
 ManifestImpl *Manifest::get_impl()
 {
     return m_impl.get();

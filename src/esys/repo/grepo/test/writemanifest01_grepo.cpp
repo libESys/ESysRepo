@@ -38,7 +38,6 @@ namespace test
  *  \brief
  *
  */
-
 ESYSTEST_AUTO_TEST_CASE(WriteManifest01GRepo)
 {
     boost::filesystem::path file_path;

@@ -75,6 +75,12 @@ public:
      */
     const std::shared_ptr<repo::Manifest> get_data() const;
 
+    //! Equal to comparison operator
+    bool operator==(const Manifest &other) const;
+
+    //! Not equal to comparison operator
+    bool operator!=(const Manifest &other) const;
+
     //! Get the PIMPL
     /*!
      * \return the PIMPL

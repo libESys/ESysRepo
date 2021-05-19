@@ -20,6 +20,7 @@
 #include "esys/repo/esysrepo_defs.h"
 #include "esys/repo/manifest/type.h"
 #include "esys/repo/manifest/location.h"
+#include "esys/repo/manifest/groups.h"
 
 #include <string>
 #include <vector>
@@ -164,6 +165,15 @@ public:
      */
     std::string get_repo_revision(std::shared_ptr<manifest::Repository> repo);
 
+    manifest::Groups &get_groups();
+    const manifest::Groups &get_groups() const;
+
+    //! Equal to comparison operator
+    bool operator==(const Manifest &other) const;
+
+    //! Not equal to comparison operator
+    bool operator!=(const Manifest &other) const;
+
 protected:
     //!< \cond DOXY_IMPL
     manifest::Type m_type = manifest::Type::NOT_SET;                            //!< The type of repository
@@ -171,6 +181,7 @@ protected:
     std::map<std::string, std::shared_ptr<manifest::Location>> m_map_locations; //!< The map of all locations by name
     std::map<std::string, std::shared_ptr<manifest::Location>> m_map_locations_by_path;
     std::shared_ptr<manifest::Location> m_default_location; //!< The default location
+    manifest::Groups m_groups;
     std::string m_default_location_str;                     //!< The name of the default location
     std::string m_default_revision = "master";              //!< The default revision
     int m_default_job_count = 1;                            //!< The default number of concurrent jobs

@@ -227,6 +227,7 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\include\esys\repo\manifest\groups_manifest.cpp" />
     <ClCompile Include="..\..\src\esys\repo\config.cpp" />
     <ClCompile Include="..\..\src\esys\repo\configfile.cpp" />
     <ClCompile Include="..\..\src\esys\repo\configfileimpl.cpp" />
@@ -270,6 +271,7 @@
     <ClCompile Include="..\..\src\esys\repo\libssh2\sshimpl_libssh2.cpp" />
     <ClCompile Include="..\..\src\esys\repo\libssh2\ssh_libssh2.cpp" />
     <ClCompile Include="..\..\src\esys\repo\manifest.cpp" />
+    <ClCompile Include="..\..\src\esys\repo\manifest\group_manifest.cpp" />
     <ClCompile Include="..\..\src\esys\repo\manifest\runtasks_manifest.cpp" />
     <ClCompile Include="..\..\src\esys\repo\manifest\syncrepos_manifest.cpp" />
     <ClCompile Include="..\..\src\esys\repo\manifest\loaderbase_manifest.cpp" />
@@ -335,6 +337,8 @@
     <ClInclude Include="..\..\include\esys\repo\libgit2\git.h" />
     <ClInclude Include="..\..\include\esys\repo\libssh2\ssh.h" />
     <ClInclude Include="..\..\include\esys\repo\manifest.h" />
+    <ClInclude Include="..\..\include\esys\repo\manifest\group.h" />
+    <ClInclude Include="..\..\include\esys\repo\manifest\groups.h" />
     <ClInclude Include="..\..\include\esys\repo\manifest\runtasks.h" />
     <ClInclude Include="..\..\include\esys\repo\manifest\sync.h" />
     <ClInclude Include="..\..\include\esys\repo\manifest\syncrepo.h" />

@@ -53,6 +53,7 @@ public:
     int read(std::shared_ptr<esysfile::xml::Element> el);
     int read_remote(std::shared_ptr<esysfile::xml::Element> el);
     int read_default(std::shared_ptr<esysfile::xml::Element> el);
+    int read_groups(std::shared_ptr<manifest::Repository> project, const std::string &groups_str);
     int read_project(std::shared_ptr<esysfile::xml::Element> el);
 
     Manifest *self() const;

@@ -51,6 +51,7 @@ set(ESYSREPO_T_GIT_CXX_SOURCES
 set(ESYSREPO_T_GREPO_CXX_SOURCES
     ../grepo/test/readmanifest01_grepo.cpp
     ../grepo/test/readmanifest02_grepo.cpp
+    ../grepo/test/readmanifest03_grepo.cpp
     ../grepo/test/writemanifest01_grepo.cpp
 )
 

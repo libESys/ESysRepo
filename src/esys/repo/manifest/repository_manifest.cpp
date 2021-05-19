@@ -5,7 +5,7 @@
  * \cond
  * __legal_b__
  *
- * Copyright (c) 2020 Michel Gillet
+ * Copyright (c) 2020-2021 Michel Gillet
  * Distributed under the wxWindows Library Licence, Version 3.1.
  * (See accompanying file LICENSE_3_1.txt or
  * copy at http://www.wxwidgets.org/about/licence)
@@ -17,6 +17,7 @@
 
 #include "esys/repo/esysrepo_prec.h"
 #include "esys/repo/manifest/repository.h"
+#include "esys/repo/manifest/group.h"
 
 #include <boost/filesystem.hpp>
 
@@ -93,6 +94,38 @@ void Repository::set_location(Location *location)
 Location *Repository::get_location() const
 {
     return m_location;
+}
+
+std::vector<Group *> &Repository::get_groups()
+{
+    return m_groups;
+}
+
+const std::vector<Group *> &Repository::get_groups() const
+{
+    return m_groups;
+}
+
+bool Repository::operator==(const Repository &repository) const
+{
+    if (get_name() != repository.get_name()) return false;
+    if (get_path() != repository.get_path()) return false;
+    if (get_revision() != repository.get_revision()) return false;
+    if (get_location_str() != repository.get_location_str()) return false;
+
+    if (get_groups().size() != repository.get_groups().size()) return false;
+
+    for (std::size_t idx = 0; idx < get_groups().size(); ++idx)
+    {
+        if (get_groups()[idx]->get_name() != repository.get_groups()[idx]->get_name()) return false;
+    }
+
+    return true;
+}
+
+bool Repository::operator!=(const Repository &repository) const
+{
+    return !operator==(repository);
 }
 
 } // namespace manifest

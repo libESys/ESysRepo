@@ -1,11 +1,11 @@
 /*!
- * \file esys/repo/manifest/location.h
+ * \file esys/repo/manifest/group.h
  * \brief
  *
  * \cond
  * __legal_b__
  *
- * Copyright (c) 2020 Michel Gillet
+ * Copyright (c) 2021 Michel Gillet
  * Distributed under the wxWindows Library Licence, Version 3.1.
  * (See accompanying file LICENSE_3_1.txt or
  * copy at http://www.wxwidgets.org/about/licence)
@@ -35,20 +35,20 @@ namespace manifest
 
 class ESYSREPO_API Repository;
 
-/*! \class Location esys/repo/manifest/location.h "esys/repo/manifest/location.h"
- * \brief Data for a location in a ESysRepo manifest
+/*! \class Group esys/repo/manifest/group.h "esys/repo/manifest/group.h"
+ * \brief Data for a group in a ESysRepo manifest
  */
-class ESYSREPO_API Location : public std::enable_shared_from_this<Location>
+class ESYSREPO_API Group : public std::enable_shared_from_this<Group>
 {
 public:
     //! Default constructor
-    Location();
+    Group();
 
     //! Constructor
-    Location(const std::string &name, const std::string &address);
+    Group(const std::string &name);
 
     //! Destructor
-    virtual ~Location();
+    virtual ~Group();
 
     //! Set the name of the location
     /*!
@@ -61,25 +61,6 @@ public:
      * \return the name of the location
      */
     const std::string &get_name() const;
-
-    //! Set the address of the location
-    /*!
-     * \param[in] address the address of the location
-     */
-    void set_address(const std::string &address);
-
-    //! Get the address of the location
-    /*!
-     * \return the address of the location
-     */
-    const std::string &get_address() const;
-
-    //! Add a repository to this location
-    /*!
-     * \param[in] name the name of the repository
-     * \param[in] path the path of the repository
-     */
-    std::shared_ptr<Repository> add_repo(const std::string &name, const std::string &path);
 
     //! Add a repository to this location
     /*!
@@ -102,16 +83,9 @@ public:
     std::shared_ptr<Repository> find_repo_by_path(const std::string &path);
     std::shared_ptr<Repository> find_repo_by_name(const std::string &name);
 
-    //! Equal to comparison operator
-    bool operator==(const Location &location) const;
-
-    //! Not equal to comparison operator
-    bool operator!=(const Location &location) const;
-
 protected:
     //!< \cond DOXY_IMPL
     std::string m_name;                               //!< The name of this location
-    std::string m_address;                            //!< The address of this location
     std::vector<std::shared_ptr<Repository>> m_repos; //!< All repositories of this location
     std::map<std::string, std::shared_ptr<Repository>> m_map_repos_by_path;
     std::map<std::string, std::shared_ptr<Repository>> m_map_repos_by_name;

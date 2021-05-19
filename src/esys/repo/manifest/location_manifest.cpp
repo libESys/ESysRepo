@@ -111,6 +111,25 @@ std::shared_ptr<Repository> Location::find_repo_by_name(const std::string &name)
     return it->second;
 }
 
+bool Location::operator==(const Location &location) const
+{
+    if (get_name() != location.get_name()) return false;
+    if (get_address() != location.get_address()) return false;
+
+    if (get_repos().size() != location.get_repos().size()) return false;
+
+    for (std::size_t idx = 0; idx < get_repos().size(); ++idx)
+    {
+        if (*get_repos()[idx] != *location.get_repos()[idx]) return false;
+    }
+    return true;
+}
+
+bool Location::operator!=(const Location &location) const
+{
+    return !operator==(location);
+}
+
 } // namespace manifest
 
 } // namespace repo

@@ -5,7 +5,7 @@
  * \cond
  * __legal_b__
  *
- * Copyright (c) 2020 Michel Gillet
+ * Copyright (c) 2020-2021 Michel Gillet
  * Distributed under the wxWindows Library Licence, Version 3.1.
  * (See accompanying file LICENSE_3_1.txt or
  * copy at http://www.wxwidgets.org/about/licence)
@@ -22,6 +22,8 @@
 
 #include <esysfile/xml/writer.h>
 #include <esysfile/xml/attr.h>
+
+#include <boost/tokenizer.hpp>
 
 namespace esys
 {
@@ -156,6 +158,21 @@ int ManifestImpl::write_project(std::shared_ptr<esysfile::xml::Element> parent,
 
     if (!repository->get_revision().empty()) project_el->add_attr("revision", repository->get_revision());
 
+    auto &groups = repository->get_groups();
+    if (groups.size() != 0)
+    {
+        std::string groups_str;
+
+        for (auto group : groups)
+        {
+            if (groups_str.size() != 0) groups_str += ",";
+
+            groups_str += group->get_name();
+        }
+
+        project_el->add_attr("groups", groups_str);
+    }
+
     parent->add_element(project_el);
     return 0;
 }
@@ -248,6 +265,21 @@ int ManifestImpl::read_default(std::shared_ptr<esysfile::xml::Element> el)
     return 0;
 }
 
+int ManifestImpl::read_groups(std::shared_ptr<manifest::Repository> project, const std::string &groups_str)
+{
+    typedef boost::tokenizer<boost::char_separator<char>> tokenizer;
+    boost::char_separator<char> sep(", ");
+    tokenizer tokens(groups_str, sep);
+
+    for (tokenizer::iterator it = tokens.begin(); it != tokens.end(); ++it)
+    {
+        auto group = self()->get_data()->get_groups().find_or_new_group_by_name(*it);
+        project->get_groups().push_back(group.get());
+        group->add_repo(project);
+    }
+    return 0;
+}
+
 int ManifestImpl::read_project(std::shared_ptr<esysfile::xml::Element> el)
 {
     auto project = std::make_shared<manifest::Repository>();
@@ -273,6 +305,11 @@ int ManifestImpl::read_project(std::shared_ptr<esysfile::xml::Element> el)
             project->set_path(attr->get_value());
         else if (attr->get_name() == "revision")
             project->set_revision(attr->get_value());
+        else if (attr->get_name() == "groups")
+        {
+            int result = read_groups(project, attr->get_value());
+            //! \TODO handle errors
+        }
         else
         {
             return -1;

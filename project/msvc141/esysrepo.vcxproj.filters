@@ -243,6 +243,12 @@
     <ClCompile Include="..\..\src\esys\repo\libgit2\guardsrelease_libgit2.cpp">
       <Filter>Source Files\libgit2</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\manifest\group_manifest.cpp">
+      <Filter>Source Files\manifest</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\include\esys\repo\manifest\groups_manifest.cpp">
+      <Filter>Source Files\manifest</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\esys\repo\esysrepo_defs.h">
@@ -484,6 +490,12 @@
     </ClInclude>
     <ClInclude Include="..\..\src\esys\repo\libgit2\guardsrelease.h">
       <Filter>Source Files\libgit2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\manifest\group.h">
+      <Filter>Header Files\manifest</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\manifest\groups.h">
+      <Filter>Header Files\manifest</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

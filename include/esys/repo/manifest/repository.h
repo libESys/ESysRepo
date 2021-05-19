@@ -5,7 +5,7 @@
  * \cond
  * __legal_b__
  *
- * Copyright (c) 2020 Michel Gillet
+ * Copyright (c) 2020-2021 Michel Gillet
  * Distributed under the wxWindows Library Licence, Version 3.1.
  * (See accompanying file LICENSE_3_1.txt or
  * copy at http://www.wxwidgets.org/about/licence)
@@ -20,6 +20,7 @@
 #include "esys/repo/esysrepo_defs.h"
 
 #include <string>
+#include <vector>
 
 namespace esys
 {
@@ -31,6 +32,7 @@ namespace manifest
 {
 
 class ESYSREPO_API Location;
+class ESYSREPO_API Group;
 
 /*! \class Repository esys/repo/manifest/repository.h "esys/repo/manifest/repository.h"
  * \brief Data for a repository in a ESysRepo manifest
@@ -107,6 +109,24 @@ public:
      */
     Location *get_location() const;
 
+    //! Get all the groups where this reposiory belongs to
+    /*!
+     * \return all the groups
+     */
+    std::vector<Group *> &get_groups();
+
+    //! Get all the groups where this reposiory belongs to
+    /*!
+     * \return all the groups
+     */
+    const std::vector<Group *> &get_groups() const;
+
+    //! Equal to comparison operator
+    bool operator==(const Repository &repository) const;
+
+    //! Not equal to comparison operator
+    bool operator!=(const Repository &repository) const;
+
 protected:
     //!< \cond DOXY_IMPL
     std::string m_name;             //!< The name of the repository
@@ -114,6 +134,8 @@ protected:
     std::string m_revision;         //!< The revision of the repository
     Location *m_location = nullptr; //!< The location of the repository
     std::string m_location_str;     //!< The name of location of the repository
+    std::vector<Group *> m_groups;  //!< All groups where this repository belongs to
+
     //!< \endcond
 };
 

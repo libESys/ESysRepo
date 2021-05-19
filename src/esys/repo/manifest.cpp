@@ -156,6 +156,33 @@ std::string Manifest::get_repo_revision(std::shared_ptr<manifest::Repository> re
     return get_default_revision();
 }
 
+manifest::Groups &Manifest::get_groups()
+{
+    return m_groups;
+}
+
+const manifest::Groups &Manifest::get_groups() const
+{
+    return m_groups;
+}
+
+bool Manifest::operator==(const Manifest &other) const
+{
+    if (get_type() != other.get_type()) return false;
+
+    if (get_locations().size() != other.get_locations().size()) return false;
+
+    for (std::size_t idx = 0; idx < get_locations().size(); ++idx)
+    {
+        if (*get_locations()[idx] != *other.get_locations()[idx]) return false;
+    }
+}
+
+bool Manifest::operator!=(const Manifest &other) const
+{
+    return !operator==(other);
+}
+
 } // namespace repo
 
 } // namespace esys
