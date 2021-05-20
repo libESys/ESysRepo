@@ -1,4 +1,5 @@
 variables:
+    TXT_E: "\e[31m"
     TXT_S: "\e[35m"
     TXT_CLEAR: "\e[0m"
 

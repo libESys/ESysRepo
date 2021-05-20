@@ -8,7 +8,12 @@ _ci_dev/scripts/bootstrap.sh
 cd build_dev
 cd src
 cd esysrepo
+
 git checkout ${CI_COMMIT_BRANCH}
+if [ ! $? -eq 0 ]; then
+   echo "${TXT_E}Git checkout failed..${TXT_CLEAR}"
+   exit 1
+fi
 cd ../..
 
 echo "pwd = "`pwd`
