@@ -144,13 +144,7 @@ int GitImpl::get_branches(git::Branches &branches, git::BranchType branch_type)
     Guard<git_branch_iterator> branch_it;
     git_branch_t list_flags;
 
-    switch (branch_type)
-    {
-        case git::BranchType::ALL: list_flags = GIT_BRANCH_ALL; break;
-        case git::BranchType::LOCAL: list_flags = GIT_BRANCH_LOCAL; break;
-        case git::BranchType::REMOTE: list_flags = GIT_BRANCH_REMOTE; break;
-        default: list_flags = GIT_BRANCH_LOCAL;
-    }
+    convert(branch_type, list_flags);
 
     int result = git_branch_iterator_new(branch_it.get_p(), m_repo, list_flags);
     if (result < 0) return check_error(result);
@@ -210,6 +204,29 @@ int GitImpl::get_branches(git::Branches &branches, git::BranchType branch_type)
         branches.add(branch);
     }
     return check_error(0);
+}
+
+bool GitImpl::has_branch(const std::string &name, git::BranchType branch_type)
+{
+    Guard<git_reference> ref;
+    git_branch_t git_branch_type;
+    Guard<git_annotated_commit> annotated_commit;
+    //Guard<git_reference> branch_ref;
+    Guard<git_reference> input_branch_ref;
+    std::string new_ref = name;
+
+    int result = resolve_ref(input_branch_ref.get_p(), annotated_commit.get_p(), name);
+    if (result < 0)
+    {
+        self()->debug(0, "branch not found : " + name);
+        // In the case where the content of branch doesn't have the full qualifier,
+        // try to to guess
+
+        result = find_ref(input_branch_ref.get_p(), annotated_commit.get_p(), name, new_ref);
+        if (result < 0) return false;
+    }
+
+    return true;
 }
 
 int GitImpl::clone(const std::string &url, const std::string &path, const std::string &branch)
@@ -1086,6 +1103,17 @@ const std::string &GitImpl::get_version()
 const std::string &GitImpl::get_lib_name()
 {
     return s_get_lib_name();
+}
+
+void GitImpl::convert(git::BranchType branch_type, git_branch_t &list_flags)
+{
+    switch (branch_type)
+    {
+        case git::BranchType::ALL: list_flags = GIT_BRANCH_ALL; break;
+        case git::BranchType::LOCAL: list_flags = GIT_BRANCH_LOCAL; break;
+        case git::BranchType::REMOTE: list_flags = GIT_BRANCH_REMOTE; break;
+        default: list_flags = GIT_BRANCH_LOCAL;
+    }
 }
 
 const std::string &GitImpl::s_get_version()

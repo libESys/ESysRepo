@@ -48,6 +48,9 @@ public:
     void set_force(bool force);
     bool get_force() const;
 
+    void set_branch(const std::string &branch);
+    const std::string &get_branch() const;
+
     int sync_manifest();
 
 protected:
@@ -55,6 +58,7 @@ protected:
     int impl_run() override;
 
     bool m_force = false;
+    std::string m_branch;
     //!< \endcond
 };
 

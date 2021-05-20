@@ -246,7 +246,7 @@
     <ClCompile Include="..\..\src\esys\repo\manifest\group_manifest.cpp">
       <Filter>Source Files\manifest</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\include\esys\repo\manifest\groups_manifest.cpp">
+    <ClCompile Include="..\..\src\esys\repo\manifest\groups_manifest.cpp">
       <Filter>Source Files\manifest</Filter>
     </ClCompile>
   </ItemGroup>

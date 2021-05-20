@@ -23,6 +23,7 @@
 #include "esys/repo/gitbase.h"
 #include "esys/repo/manifest/repository.h"
 #include "esys/repo/manifest/taskbase.h"
+#include "esys/repo/githelper.h"
 
 #include <esys/log/user.h>
 
@@ -100,16 +101,28 @@ public:
      */
     std::size_t &get_repo_idx();
 
-    
+    void set_branch(const std::string &branch);
+    const std::string &get_branch() const;
+
+    void set_force(bool force);
+    bool get_force() const;
+
+    int normal_sync(GitHelper &git_helper);
+    int branch_sync(GitHelper &git_helper);
 
 protected:
     //!< \cond DOXY_IMPL
+    bool has_branch(GitHelper &git_helper, const std::string &branch);
+    std::string get_checkout_revision(GitHelper &git_helper);
+
     std::shared_ptr<ConfigFolder> m_config_folder; //!< The config folder
     std::shared_ptr<GitBase> m_git;                //!< The git instance
     std::shared_ptr<manifest::Repository> m_repo;  //!< The git repository to process
     log::Level m_log_level = log::Level::INFO;     //!< The log level
     std::size_t m_repo_idx = 0;                    //!< The repo index
-    
+    std::string m_branch;                          //!< The branch to checkout if existing
+    bool m_force = false;                          //!< Force the operation
+
     //!< \endcond
 };
 

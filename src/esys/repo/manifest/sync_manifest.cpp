@@ -36,6 +36,26 @@ Sync::~Sync()
 {
 }
 
+void Sync::set_branch(const std::string &branch)
+{
+    m_branch = branch;
+}
+
+const std::string &Sync::get_branch() const
+{
+    return m_branch;
+}
+
+void Sync::set_force(bool force)
+{
+    m_force = force;
+}
+
+bool Sync::get_force() const
+{
+    return m_force;
+}
+
 int Sync::run()
 {
     if (get_git() == nullptr) return -1;
@@ -65,8 +85,14 @@ int Sync::run()
         return -6;
     }
 
-    bool detached;
-    result = get_git()->is_detached(detached);
+    if (get_branch().empty()) return normal_sync();
+    return branch_sync();
+}
+
+int Sync::normal_sync()
+{
+    bool detached = false;
+    int result = get_git()->is_detached(detached);
     if (result < 0)
     {
         error("Couldn't detect if the git repo is detached or not.");
@@ -143,7 +169,30 @@ int Sync::run()
     }
     info("Fastforward manifest completed.");
     get_git()->close();
+
     return 0;
+}
+
+int Sync::branch_sync()
+{
+    int result = get_git()->fetch();
+    if (result < 0)
+    {
+        get_git()->close();
+        return -9;
+    }
+
+    bool has_branch = get_git()->has_branch(get_branch());
+    
+    if (!has_branch) return normal_sync();
+
+    result = get_git()->checkout(get_branch(), get_force());
+    if (result == 0)
+        info("Manifest: checkout branch " + get_branch() + ".");
+    else
+        error("Manifest: failed to checkout branch " + get_branch() + ".");
+    get_git()->close();
+    return result;
 }
 
 int Sync::process_repo()

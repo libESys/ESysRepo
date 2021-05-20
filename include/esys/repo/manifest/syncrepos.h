@@ -173,6 +173,9 @@ public:
     void set_job_count(int job_count);
     int get_job_count() const;
 
+    void set_branch(const std::string &branch);
+    const std::string &get_branch() const;
+
     RunTasks &get_run_tasks();
     const RunTasks &get_run_tasks() const;
 
@@ -180,15 +183,16 @@ public:
 
 protected:
     //!< \cond DOXY_IMPL
-    std::shared_ptr<Manifest> m_manifest;             //!< The manifest
-    std::shared_ptr<ConfigFolder> m_config_folder;    //!< The config folder
-    GitBase::GeneratorType m_git_generator = nullptr; //!< Git generator
-    std::shared_ptr<GitBase> m_git;                   //!< The git instance
-    log::Level m_log_level = log::Level::INFO;        //!< The log level
-    std::size_t m_repo_idx = 0;                       //!< The repo index
-    RunTasks m_run_tasks;
-    std::vector<std::string> m_folders_to_sync;
-    std::map<std::string, bool> m_map_folders_to_sync;
+    std::shared_ptr<Manifest> m_manifest;              //!< The manifest
+    std::shared_ptr<ConfigFolder> m_config_folder;     //!< The config folder
+    GitBase::GeneratorType m_git_generator = nullptr;  //!< Git generator
+    std::shared_ptr<GitBase> m_git;                    //!< The git instance
+    log::Level m_log_level = log::Level::INFO;         //!< The log level
+    std::size_t m_repo_idx = 0;                        //!< The repo index
+    RunTasks m_run_tasks;                              //!< Mamange a set of threads to run a list of tasks
+    std::vector<std::string> m_folders_to_sync;        //!< The list of folders to sync
+    std::map<std::string, bool> m_map_folders_to_sync; //!< The map of folders to sync
+    std::string m_branch;                              //!< The branch to checkout if found
     //!< \endcond
 };
 

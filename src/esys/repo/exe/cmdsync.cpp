@@ -48,6 +48,16 @@ bool CmdSync::get_force() const
     return m_force;
 }
 
+void CmdSync::set_branch(const std::string &branch)
+{
+    m_branch = branch;
+}
+
+const std::string &CmdSync::get_branch() const
+{
+    return m_branch;
+}
+
 int CmdSync::sync_manifest()
 {
     manifest::Sync sync;
@@ -57,6 +67,7 @@ int CmdSync::sync_manifest()
     sync.set_config_folder(get_config_folder());
     sync.set_git(get_git());
     sync.set_logger_if(get_logger_if());
+    if (!get_branch().empty()) sync.set_branch(get_branch());
 
     return sync.run();
 }
@@ -77,6 +88,8 @@ int CmdSync::impl_run()
     if (result < 0) return result;
 
     manifest::SyncRepos sync_repos;
+
+    if (!get_branch().empty()) sync_repos.set_branch(get_branch());
 
     if (get_sub_args().size() != 0)
         sync_repos.set_folders_to_sync(get_sub_args());

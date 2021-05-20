@@ -138,6 +138,8 @@ int SyncRepos::run()
             sync_repo->get_git()->set_logger_if(get_logger_if());
             sync_repo->set_logger_if(get_logger_if());
 
+            if (!get_branch().empty()) sync_repo->set_branch(get_branch());
+
             get_run_tasks().add(sync_repo);
 
             ++get_repo_idx();
@@ -245,6 +247,16 @@ void SyncRepos::set_job_count(int job_count)
 int SyncRepos::get_job_count() const
 {
     return m_run_tasks.get_job_count();
+}
+
+void SyncRepos::set_branch(const std::string &branch)
+{
+    m_branch = branch;
+}
+
+const std::string &SyncRepos::get_branch() const
+{
+    return m_branch;
 }
 
 RunTasks &SyncRepos::get_run_tasks()

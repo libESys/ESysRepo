@@ -389,6 +389,7 @@ int ESysRepoExe::cmd_sync()
         ("job,j", po::value<int>()->default_value(1), "projects to fetch simultaneously (default 1)")
         ("folder", po::value<std::string>(), "the esysrepo folder to use")
         ("groups,g", po::value<std::string>(), "the groups to synchronize")
+        ("branch,b", po::value<std::string>(), "the branch to synchronize across repos")
         ;
     // clang-format on
     desc_all.add(desc).add(*m_desc);
@@ -433,6 +434,7 @@ int ESysRepoExe::cmd_sync()
         }
         sync.set_groups(groups);
     }
+    if (m_vm.count("branch")) sync.set_branch(m_vm["branch"].as<std::string>());
     return sync.run();
 }
 

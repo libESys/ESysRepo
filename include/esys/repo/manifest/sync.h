@@ -46,7 +46,16 @@ public:
     //! Destructor
     virtual ~Sync();
 
+    void set_branch(const std::string &branch);
+    const std::string &get_branch() const;
+
+    void set_force(bool force = true);
+    bool get_force() const;
+
     int run();
+
+    int normal_sync();
+    int branch_sync();
 
     //! Process one repository
     /*!
@@ -113,6 +122,8 @@ protected:
     std::shared_ptr<ConfigFolder> m_config_folder; //!< The config folder
     std::shared_ptr<GitBase> m_git;                //!< The git instance
     log::Level m_log_level = log::Level::INFO;     //!< The log level
+    std::string m_branch;                          //!< The branch to sync
+    bool m_force = false;                          //!< Force the operation
     //!< \endcond
 };
 

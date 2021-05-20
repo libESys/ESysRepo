@@ -86,6 +86,15 @@ const std::vector<std::shared_ptr<Branch>> &Branches::get() const
     return m_branches;
 }
 
+std::shared_ptr<Branch> Branches::find(const std::string &name)
+{
+    for (auto branch : get())
+    {
+        if (branch->get_name() == name) return branch;
+    }
+    return nullptr;
+}
+
 } // namespace git
 
 } // namespace repo

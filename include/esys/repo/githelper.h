@@ -77,6 +77,8 @@ public:
 
     int get_branches(git::Branches &branches, git::BranchType branch_type, log::Level log_level, int debug_level = 0);
 
+    bool has_branch(const std::string &name, git::BranchType branch_type, log::Level log_level, int debug_level = 0);
+
     int is_dirty(bool &dirty, log::Level log_level, int debug_level = 0);
     int is_detached(bool &detached, log::Level log_level, int debug_level = 0);
 

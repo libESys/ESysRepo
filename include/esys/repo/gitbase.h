@@ -90,8 +90,7 @@ public:
      * \param[in] branch_type tells if the local or remote branches are requested
      * \return 0 if successful, < 0 otherwise
      */
-    virtual int get_branches(git::Branches &branches,
-                             git::BranchType branch_type = git::BranchType::LOCAL) = 0;
+    virtual int get_branches(git::Branches &branches, git::BranchType branch_type = git::BranchType::LOCAL) = 0;
 
     //! Clone a remote git repository given it's address and path where to clone it
     /*!
@@ -134,7 +133,7 @@ public:
     //! Get the nth parent of a given commit
     /*!
      * If nth_parent is zero, the parent commit is simply the given commit.
-     * If nth_parent is 1, it will return the parent of the commit. 
+     * If nth_parent is 1, it will return the parent of the commit.
      * If nth_parent is 2, it will return the grandparent of the commit.
      *
      * In the case of an octopus merge, it will take the first parent of the list.
@@ -191,6 +190,8 @@ public:
     virtual int fetch(const std::string &remote = "") = 0;
 
     virtual int reset_to_parent(int nth_parent = 1);
+
+    virtual bool has_branch(const std::string &name, git::BranchType branch_type = git::BranchType::LOCAL) = 0;
 
     //! Tells if a folder is a git repository
     /*!

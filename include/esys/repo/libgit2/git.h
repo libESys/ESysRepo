@@ -74,6 +74,8 @@ public:
 
     int fetch(const std::string &remote = "") override;
 
+    bool has_branch(const std::string &name, git::BranchType branch_type = git::BranchType::LOCAL) override;
+
     void set_url(const std::string &url);
     const std::string &get_url();
 

@@ -54,7 +54,7 @@ public:
     int checkout(const std::string &branch, bool force = false);
     int reset(const git::Commit &commit, git::ResetType type = git::ResetType::SOFT);
     int fastforward(const git::Commit &commit);
-    
+
     int get_last_commit(git::Commit &commit);
     int get_parent_commit(const git::Commit &commit, git::Commit &parent, int nth_parent = 1);
 
@@ -98,6 +98,8 @@ public:
 
     int fetch(const std::string &remote);
 
+    bool has_branch(const std::string &name, git::BranchType branch_type = git::BranchType::LOCAL);
+
     int resolve_ref(git_annotated_commit **commit, const std::string &ref);
     int resolve_ref(git_reference **ref, const std::string &ref_str);
     int resolve_ref(git_reference **ref, git_annotated_commit **commit, const std::string &ref_str);
@@ -107,6 +109,8 @@ public:
 
     int convert_bin_hex(const git_oid &oid, std::string &hex_str);
     int convert_hex_bin(const std::string &hex_str, git_oid &oid);
+
+    static void convert(git::BranchType branch_type, git_branch_t &list_flags);
 
 protected:
     static std::unique_ptr<LibGit2> s_libgt2;

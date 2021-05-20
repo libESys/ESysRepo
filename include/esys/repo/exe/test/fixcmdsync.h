@@ -52,6 +52,7 @@ public:
 
     int test_file_content(const std::string &filename, const std::string &content);
     void test_repo_exists(const std::string &path, bool exists = true);
+    void test_repo_head(const std::string &path, const std::string &head_name);
 
     void test_basic_files();
 
@@ -61,6 +62,7 @@ public:
     void sync(const std::vector<std::string> folders);
 
     int open_git_manifest_repo();
+    void test_manifest_repo_head(const std::string &head_name);
     int close_git();
     std::shared_ptr<libgit2::Git> get_git();
 

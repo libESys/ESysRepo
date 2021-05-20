@@ -76,6 +76,8 @@ public:
     std::vector<std::shared_ptr<Branch>> &get();
     const std::vector<std::shared_ptr<Branch>> &get() const;
 
+    std::shared_ptr<Branch> find(const std::string &name);
+
 protected:
     //!< \cond DOXY_IMPL
     std::vector<std::shared_ptr<Branch>> m_branches; //!< All the branches

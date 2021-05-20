@@ -18,6 +18,8 @@
 #include "esys/repo/test/esysrepo_t_prec.h"
 #include "esys/repo/exe/test/fixcmdsync.h"
 
+#include <esys/repo/git.h>
+
 #include <fstream>
 
 namespace esys
@@ -101,6 +103,44 @@ void FixCmdSync::test_repo_exists(const std::string &path, bool exists)
 
     result = boost::filesystem::is_directory(file_path);
     ESYSTEST_REQUIRE_EQUAL(result, exists);
+}
+
+void FixCmdSync::test_repo_head(const std::string &path, const std::string &head_name)
+{
+    libgit2::Git git;
+    boost::filesystem::path repo_path = get_file_path();
+    repo_path /= path;
+
+    int result = git.open(repo_path.string());
+    ESYSTEST_REQUIRE_EQUAL(result, 0);
+
+    git::Branches branches;
+
+    result = git.get_branches(branches);
+    ESYSTEST_REQUIRE_EQUAL(result, 0);
+
+    ESYSTEST_REQUIRE_NE(branches.get_head(), nullptr);
+    ESYSTEST_REQUIRE_EQUAL(branches.get_head()->get_name(), head_name);
+
+    result = git.close();
+    ESYSTEST_REQUIRE_EQUAL(result, 0);
+}
+
+void FixCmdSync::test_manifest_repo_head(const std::string &head_name)
+{
+    int result = open_git_manifest_repo();
+    ESYSTEST_REQUIRE_EQUAL(result, 0);
+
+    git::Branches branches;
+
+    result = get_git()->get_branches(branches);
+    ESYSTEST_REQUIRE_EQUAL(result, 0);
+
+    ESYSTEST_REQUIRE_NE(branches.get_head(), nullptr);
+    ESYSTEST_REQUIRE_EQUAL(branches.get_head()->get_name(), head_name);
+
+    result = close_git();
+    ESYSTEST_REQUIRE_EQUAL(result, 0);
 }
 
 void FixCmdSync::test_basic_files()

@@ -129,6 +129,11 @@ int Git::fetch(const std::string &remote)
     return m_impl->fetch(remote);
 }
 
+bool Git::has_branch(const std::string &name, git::BranchType branch_type)
+{
+    return m_impl->has_branch(name, branch_type);
+}
+
 void Git::set_url(const std::string &url)
 {
     m_url = url;

@@ -170,7 +170,7 @@ int GitHelper::clone(const std::string &url, const std::string &path, bool do_cl
 }
 
 int GitHelper::clone_branch(const std::string &url, const std::string &branch, const std::string &path, bool do_close,
-                     log::Level log_level, int debug_level)
+                            log::Level log_level, int debug_level)
 {
     boost::filesystem::path rel_path = boost::filesystem::relative(path);
 
@@ -217,7 +217,7 @@ int GitHelper::clone(const std::string &url, const std::string &temp_path, const
             int result = boost_no_all::remove_all(temp_path);
             if (result < 0)
             {
-                error("Failed to clone");
+                error("Failed to delete path : " + temp_path);
                 return result;
             }
         }
@@ -257,11 +257,14 @@ int GitHelper::clone(const std::string &url, const std::string &temp_path, const
     else
     {
         result = boost_no_all::move(temp_path, path, true);
-        if (result < 0)
+        if (result == -1)
         {
-            error("Failed to clone");
+            error("Failed to copy from temp_path to path : " + temp_path + " -> " + path);
             return result;
         }
+        else if (result == -2)
+            warn("Failed to delete temp_path : " + temp_path);
+       
     }
     auto stop_time = std::chrono::steady_clock::now();
     auto d_milli = std::chrono::duration_cast<std::chrono::milliseconds>(stop_time - start_time).count();
@@ -317,12 +320,23 @@ int GitHelper::fetch(log::Level log_level, int debug_level)
 int GitHelper::get_branches(git::Branches &branches, git::BranchType branch_type, log::Level log_level, int debug_level)
 {
     log("Getting branches ...", log::Level::DEBUG);
-    int result = get_git()->get_branches(branches);
+    int result = get_git()->get_branches(branches, branch_type);
     if (result < 0)
         error("Failed with error ", result);
     else
         log("Got branches.", log::Level::DEBUG);
 
+    return result;
+}
+
+bool GitHelper::has_branch(const std::string &name, git::BranchType branch_type, log::Level log_level, int debug_level)
+{
+    log("Check branch existance " + name + " ...", log::Level::DEBUG);
+    bool result = get_git()->has_branch(name, branch_type);
+    if (result)
+        log("Found it.", log::Level::DEBUG);
+    else
+        log("Not Found", log::Level::DEBUG);
     return result;
 }
 
