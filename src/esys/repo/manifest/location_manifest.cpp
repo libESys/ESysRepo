@@ -130,6 +130,11 @@ bool Location::operator!=(const Location &location) const
     return !operator==(location);
 }
 
+ESYSREPO_API std::ostream &operator<<(std::ostream &os, const Location &location)
+{
+    return os;
+}
+
 } // namespace manifest
 
 } // namespace repo

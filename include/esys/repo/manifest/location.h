@@ -118,6 +118,8 @@ protected:
     //!< \endcond
 };
 
+ESYSREPO_API std::ostream &operator<<(std::ostream &os, const Location &location);
+
 } // namespace manifest
 
 } // namespace repo

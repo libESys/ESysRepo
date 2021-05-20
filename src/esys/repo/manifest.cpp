@@ -198,6 +198,11 @@ bool Manifest::operator!=(const Manifest &other) const
     return !operator==(other);
 }
 
+ESYSREPO_API std::ostream &operator<<(std::ostream &os, const Manifest &manifest)
+{
+    return os;
+}
+
 } // namespace repo
 
 } // namespace esys

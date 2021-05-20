@@ -5,7 +5,7 @@
  * \cond
  * __legal_b__
  *
- * Copyright (c) 2020 Michel Gillet
+ * Copyright (c) 2020-2021 Michel Gillet
  * Distributed under the wxWindows Library Licence, Version 3.1.
  * (See accompanying file LICENSE_3_1.txt or
  * copy at http://www.wxwidgets.org/about/licence)
@@ -93,6 +93,8 @@ protected:
     std::shared_ptr<repo::Manifest> m_data; //!< The abstract data of a manifest
     //!< \endcond
 };
+
+ESYSREPO_API std::ostream &operator<<(std::ostream &os, const Manifest &manifest);
 
 } // namespace grepo
 
