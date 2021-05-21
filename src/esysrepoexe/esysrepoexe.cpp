@@ -34,6 +34,8 @@
 
 #ifndef WIN32
 #include <boost/process/search_path.hpp>
+#else
+#include <libloaderapi.h>
 #endif
 
 #include <iostream>
@@ -128,21 +130,13 @@ int ESysRepoExe::parse_args()
 
     if (m_logger_mngr == nullptr) m_logger_mngr = esys::log::Mngr::get();
 
-    boost::filesystem::path plugin_search_folder = m_executable.parent_path();
-#ifndef WIN32
-    plugin_search_folder = plugin_search_folder.parent_path();
-    plugin_search_folder /= "lib";
-    plugin_search_folder /= "esyslog";
-    plugin_search_folder /= "0";
-    plugin_search_folder /= "plugins";
-#else
-    plugin_search_folder /= "plugins";
-    plugin_search_folder /= "esyslog";
-#endif
+    std::string plugin_search_folder;
 
+    result = esys::log::Mngr::get()->find_plugin_folder(plugin_search_folder);
+    if (result < 0) std::cout << "ERROR: can't find ESysLog plugin folder." << std::endl;
     if (debug) std::cout << "plugin_search_folder = " << plugin_search_folder << std::endl;
 
-    m_logger_mngr->set_search_folder(plugin_search_folder.make_preferred().string());
+    //m_logger_mngr->set_search_folder(plugin_search_folder.make_preferred().string());
     m_logger = m_logger_mngr->new_logger(esys::log::LoggerType::SPDLOG, "esysrepo");
     if (m_logger != nullptr)
     {
