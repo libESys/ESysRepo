@@ -16,7 +16,7 @@
  */
 
 #include "esys/repo/test/esysrepo_t_prec.h"
-#include "esys/repo/exe/test/fixcmdsync.h"
+#include "esys/repo/exe/test/fixcmd.h"
 
 namespace esys
 {
@@ -35,7 +35,7 @@ namespace test
  */
 ESYSTEST_AUTO_TEST_CASE(CmdSync06)
 {
-    FixCmdSync m_fix_cmd_sync;
+    FixCmd m_fix_cmd_sync;
 
     m_fix_cmd_sync.set_temp_sub_folder("cmdsync06");
     m_fix_cmd_sync.set_manifest_url("ssh://git@gitlab.com/libesys/esysrepo/test_google_manifest.git");

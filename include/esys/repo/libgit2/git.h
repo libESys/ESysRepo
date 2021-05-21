@@ -76,6 +76,9 @@ public:
 
     bool has_branch(const std::string &name, git::BranchType branch_type = git::BranchType::LOCAL) override;
 
+    int get_hash(const std::string &revision, std::string &hash,
+                 git::BranchType branch_type = git::BranchType::REMOTE) override;
+
     void set_url(const std::string &url);
     const std::string &get_url();
 

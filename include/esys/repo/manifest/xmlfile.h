@@ -60,6 +60,13 @@ public:
      */
     int write(const std::string &path) override;
 
+    //! Write a XML ESysRepo manifest to a stream
+    /*!
+     * \param[in] os the stream
+     * \return 0 if successful, < 0 otherwise
+     */
+    int write(std::ostream &os) override;
+
     //! Get the PIMPL
     /*!
      * \return the PIMPL

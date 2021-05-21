@@ -42,6 +42,7 @@ public:
 
     int read(const std::string &filename);
     int write(const std::string &filename);
+    int write(std::ostream &os);
 
     void write_remotes();
     void write_remote(std::shared_ptr<esysfile::xml::Element> parent, std::shared_ptr<manifest::Location> location);
@@ -59,6 +60,8 @@ public:
     Manifest *self() const;
 
 protected:
+    int write_xml();
+
     Manifest *m_self = nullptr;
     std::shared_ptr<esysfile::xml::Data> m_xml_data;
     std::shared_ptr<esysfile::xml::File> m_file;

@@ -264,7 +264,6 @@ int GitHelper::clone(const std::string &url, const std::string &temp_path, const
         }
         else if (result == -2)
             warn("Failed to delete temp_path : " + temp_path);
-       
     }
     auto stop_time = std::chrono::steady_clock::now();
     auto d_milli = std::chrono::duration_cast<std::chrono::milliseconds>(stop_time - start_time).count();
@@ -333,6 +332,29 @@ bool GitHelper::has_branch(const std::string &name, git::BranchType branch_type,
 {
     log("Check branch existance " + name + " ...", log::Level::DEBUG);
     bool result = get_git()->has_branch(name, branch_type);
+    if (result)
+        log("Found it.", log::Level::DEBUG);
+    else
+        log("Not Found", log::Level::DEBUG);
+    return result;
+}
+
+int GitHelper::get_hash(const std::string &revision, std::string &hash, log::Level log_level, int debug_level)
+{
+    log("Check remote hash for " + revision + " ...", log::Level::DEBUG);
+    int result = get_git()->get_hash(revision, hash, git::BranchType::REMOTE);
+    if (result == 0)
+        log("Found it.", log::Level::DEBUG);
+    else
+        log("Not Found", log::Level::DEBUG);
+    return result;
+}
+
+int GitHelper::get_hash_local(const std::string &revision, std::string &hash, log::Level log_level,
+    int debug_level)
+{
+    log("Check local hash for " + revision + " ...", log::Level::DEBUG);
+    int result = get_git()->get_hash(revision, hash, git::BranchType::LOCAL);
     if (result)
         log("Found it.", log::Level::DEBUG);
     else

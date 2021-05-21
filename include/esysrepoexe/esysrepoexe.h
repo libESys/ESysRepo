@@ -58,6 +58,7 @@ public:
     int cmd_list();
     int cmd_status();
     int cmd_sync();
+    int cmd_manifest();
     int cmd_version();
 
     void set_os(std::ostream &os);
@@ -103,7 +104,8 @@ protected:
     std::shared_ptr<esys::log::LoggerBase> m_logger;
     std::shared_ptr<esys::log::Mngr> m_logger_mngr;
     std::map<std::string, CmdFctType> m_map_commands = {
-        {"help", &ESysRepoExe::cmd_help},      {"init", &ESysRepoExe::cmd_init},     {"info", &ESysRepoExe::cmd_info},
-        {"list", &ESysRepoExe::cmd_list},      {"status", &ESysRepoExe::cmd_status}, {"sync", &ESysRepoExe::cmd_sync},
-        {"version", &ESysRepoExe::cmd_version}};
+        {"help", &ESysRepoExe::cmd_help},       {"init", &ESysRepoExe::cmd_init},
+        {"info", &ESysRepoExe::cmd_info},       {"list", &ESysRepoExe::cmd_list},
+        {"status", &ESysRepoExe::cmd_status},   {"sync", &ESysRepoExe::cmd_sync},
+        {"version", &ESysRepoExe::cmd_version}, {"manifest", &ESysRepoExe::cmd_manifest}};
 };

@@ -49,9 +49,9 @@ int XMLFileImpl::read(const std::string &path)
     int result = xml_file.read(path);
     if (result < 0) return result;
 
-    if (self()->get_manifest() == nullptr) self()->set_manifest(std::make_shared<Manifest>());
+    if (self()->get_data() == nullptr) self()->set_data(std::make_shared<Manifest>());
 
-    self()->get_manifest()->set_type(Type::ESYSREPO_MANIFEST);
+    self()->get_data()->set_type(Type::ESYSREPO_MANIFEST);
 
     return read(xml_file.get_data());
 }
@@ -102,7 +102,7 @@ int XMLFileImpl::read_location(std::shared_ptr<esysfile::xml::Element> el)
         if (result < 0) return result;
     }
 
-    self()->get_manifest()->add_location(location);
+    self()->get_data()->add_location(location);
     return 0;
 }
 
@@ -134,26 +134,41 @@ int XMLFileImpl::read_default(std::shared_ptr<esysfile::xml::Element> el)
     return -1;
 }
 
-int XMLFileImpl::write(const std::string &path)
+int XMLFileImpl::write_xml()
 {
-    if (self()->get_manifest() == nullptr) return -1;
+    if (self()->get_data() == nullptr) return -1;
 
     m_xml_data = std::make_shared<esysfile::xml::Data>();
     m_xml_data->set_root_node_name("esysrepo_manifest");
 
     int result;
 
-    for (auto location : self()->get_manifest()->get_locations())
+    for (auto location : self()->get_data()->get_locations())
     {
         result = write(m_xml_data, location);
         if (result < 0) return result;
     }
+    return 0;
+}
+
+int XMLFileImpl::write(const std::string &path)
+{
+    if (write_xml() < 0) return -1;
 
     esysfile::xml::Writer writer;
 
     writer.set_indent(4);
-    result = writer.write(path, m_xml_data);
-    return result;
+    return writer.write(path, m_xml_data);
+}
+
+int XMLFileImpl::write(std::ostream &os)
+{
+    if (write_xml() < 0) return -1;
+
+    esysfile::xml::Writer writer;
+
+    writer.set_indent(4);
+    return writer.write(os, m_xml_data);
 }
 
 int XMLFileImpl::write(std::shared_ptr<esysfile::xml::Element> parent_el, std::shared_ptr<Location> location)

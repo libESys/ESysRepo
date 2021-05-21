@@ -193,6 +193,9 @@ public:
 
     virtual bool has_branch(const std::string &name, git::BranchType branch_type = git::BranchType::LOCAL) = 0;
 
+    virtual int get_hash(const std::string &revision, std::string &hash,
+                         git::BranchType branch_type = git::BranchType::REMOTE) = 0;
+
     //! Tells if a folder is a git repository
     /*!
      * \param[in] path the path of the folder

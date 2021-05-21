@@ -36,7 +36,6 @@ namespace test
  * "esys/repo/test/decodesideband01.cpp"
  *
  *  \brief
- *
  */
 ESYSTEST_AUTO_TEST_CASE(DecodeSideband01)
 {

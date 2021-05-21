@@ -223,6 +223,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\esys\repo\exe\test\cmdinit01.cpp" />
+    <ClCompile Include="..\..\src\esys\repo\exe\test\cmdmanifest01.cpp" />
     <ClCompile Include="..\..\src\esys\repo\exe\test\cmdstatus01.cpp" />
     <ClCompile Include="..\..\src\esys\repo\exe\test\cmdsync01.cpp" />
     <ClCompile Include="..\..\src\esys\repo\exe\test\cmdsync02.cpp" />
@@ -232,7 +233,7 @@
     <ClCompile Include="..\..\src\esys\repo\exe\test\cmdsync06.cpp" />
     <ClCompile Include="..\..\src\esys\repo\exe\test\cmdsync07.cpp" />
     <ClCompile Include="..\..\src\esys\repo\exe\test\cmdsync08.cpp" />
-    <ClCompile Include="..\..\src\esys\repo\exe\test\fixcmdsync.cpp" />
+    <ClCompile Include="..\..\src\esys\repo\exe\test\fixcmd.cpp" />
     <ClCompile Include="..\..\src\esys\repo\git\test\sortbranches01.cpp" />
     <ClCompile Include="..\..\src\esys\repo\grepo\test\readmanifest01_grepo.cpp" />
     <ClCompile Include="..\..\src\esys\repo\grepo\test\readmanifest02_grepo.cpp" />
@@ -269,13 +270,16 @@
     <ClCompile Include="..\..\src\esys\repo\test\testcasectrl.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\include\esys\repo\exe\test\fixcmdsync.h" />
+    <ClInclude Include="..\..\include\esys\repo\exe\test\fixcmd.h" />
     <ClInclude Include="..\..\include\esys\repo\test\esysrepo_t_prec.h" />
     <ClInclude Include="..\..\include\esys\repo\test\testcasectrl.h" />
     <ClInclude Include="..\..\include\esys\repo\test\version.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\..\res\esysrepo_t.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\..\src\esys\repo\test\CMakeLists.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

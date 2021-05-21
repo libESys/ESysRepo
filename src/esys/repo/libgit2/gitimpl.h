@@ -99,6 +99,7 @@ public:
     int fetch(const std::string &remote);
 
     bool has_branch(const std::string &name, git::BranchType branch_type = git::BranchType::LOCAL);
+    int get_hash(const std::string &revision, std::string &hash, git::BranchType branch_type = git::BranchType::REMOTE);
 
     int resolve_ref(git_annotated_commit **commit, const std::string &ref);
     int resolve_ref(git_reference **ref, const std::string &ref_str);

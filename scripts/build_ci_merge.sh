@@ -11,6 +11,11 @@ cd cmake
 pwd
 
 cmake ../.. -DESYSREPO_BUILD_DOC=On
+if [ ! $? -eq 0 ]; then
+   echo "${TXT_E}Build failed: cmake failed.${TXT_CLEAR}"
+   exit 1
+fi
+
 echo "    ${TXT_S}Build esysrepo_t ...${TXT_CLEAR}"
 make esysrepo_t -j`nproc --all`
 if [ ! $? -eq 0 ]; then
@@ -18,6 +23,14 @@ if [ ! $? -eq 0 ]; then
    exit 1
 fi
 echo "    ${TXT_S}Build esysrepo_t done.${TXT_CLEAR}"
+
+echo "    ${TXT_S}Build esysrepoexe ...${TXT_CLEAR}"
+make esysrepoexe -j`nproc --all`
+if [ ! $? -eq 0 ]; then
+   echo "${TXT_E}Build failed: esysrepoexe.${TXT_CLEAR}"
+   exit 1
+fi
+echo "    ${TXT_S}Build esysrepoexe done.${TXT_CLEAR}"
 
 echo "    ${TXT_S}Build esysrepo_doc ...${TXT_CLEAR}"
 make esysrepo_doc -j`nproc --all`

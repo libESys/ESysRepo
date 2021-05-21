@@ -16,7 +16,7 @@
  */
 
 #include "esys/repo/test/esysrepo_t_prec.h"
-#include "esys/repo/exe/test/fixcmdsync.h"
+#include "esys/repo/exe/test/fixcmd.h"
 
 #include <esys/repo/git.h>
 
@@ -34,46 +34,57 @@ namespace exe
 namespace test
 {
 
-FixCmdSync::FixCmdSync()
+FixCmd::FixCmd()
 {
 }
 
-void FixCmdSync::set_manifest_url(const std::string &manifest_url)
+void FixCmd::set_manifest_url(const std::string &manifest_url)
 {
     m_manifest_url = manifest_url;
 }
 
-const std::string &FixCmdSync::get_manifest_url() const
+const std::string &FixCmd::get_manifest_url() const
 {
     return m_manifest_url;
 }
 
-void FixCmdSync::set_manifest_branch(const std::string &manifest_branch)
+void FixCmd::set_manifest_branch(const std::string &manifest_branch)
 {
     m_manifest_branch = manifest_branch;
 }
 
-const std::string &FixCmdSync::get_manifest_branch() const
+const std::string &FixCmd::get_manifest_branch() const
 {
     return m_manifest_branch;
 }
 
-void FixCmdSync::set_temp_sub_folder(const std::string &temp_sub_folder)
+void FixCmd::set_temp_sub_folder(const std::string &temp_sub_folder)
 {
     m_temp_sub_folder = temp_sub_folder;
 }
 
-const std::string &FixCmdSync::get_temp_sub_folder() const
+const std::string &FixCmd::get_temp_sub_folder() const
 {
     return m_temp_sub_folder;
 }
 
-const boost::filesystem::path &FixCmdSync::get_file_path() const
+std::string FixCmd::get_temp_folder() const
+{
+    auto &ctrl = repo::test::TestCaseCtrl::get();
+
+    boost::filesystem::path p = ctrl.GetTempFilesFolder();
+
+    if (!get_temp_sub_folder().empty()) p /= get_temp_sub_folder();
+    p = p.normalize().make_preferred();
+    return p.string();
+}
+
+const boost::filesystem::path &FixCmd::get_file_path() const
 {
     return m_file_path;
 }
 
-int FixCmdSync::test_file_content(const std::string &filename, const std::string &content)
+int FixCmd::test_file_content(const std::string &filename, const std::string &content)
 {
     boost::filesystem::path file_path = get_file_path();
     file_path /= filename;
@@ -94,7 +105,7 @@ int FixCmdSync::test_file_content(const std::string &filename, const std::string
     return -2;
 }
 
-void FixCmdSync::test_repo_exists(const std::string &path, bool exists)
+void FixCmd::test_repo_exists(const std::string &path, bool exists)
 {
     boost::filesystem::path file_path = get_file_path();
     file_path /= path;
@@ -105,7 +116,7 @@ void FixCmdSync::test_repo_exists(const std::string &path, bool exists)
     ESYSTEST_REQUIRE_EQUAL(result, exists);
 }
 
-void FixCmdSync::test_repo_head(const std::string &path, const std::string &head_name)
+void FixCmd::test_repo_head(const std::string &path, const std::string &head_name)
 {
     libgit2::Git git;
     boost::filesystem::path repo_path = get_file_path();
@@ -126,7 +137,7 @@ void FixCmdSync::test_repo_head(const std::string &path, const std::string &head
     ESYSTEST_REQUIRE_EQUAL(result, 0);
 }
 
-void FixCmdSync::test_manifest_repo_head(const std::string &head_name)
+void FixCmd::test_manifest_repo_head(const std::string &head_name)
 {
     int result = open_git_manifest_repo();
     ESYSTEST_REQUIRE_EQUAL(result, 0);
@@ -143,7 +154,7 @@ void FixCmdSync::test_manifest_repo_head(const std::string &head_name)
     ESYSTEST_REQUIRE_EQUAL(result, 0);
 }
 
-void FixCmdSync::test_basic_files()
+void FixCmd::test_basic_files()
 {
     int result;
 
@@ -163,7 +174,7 @@ void FixCmdSync::test_basic_files()
     ESYSTEST_REQUIRE_EQUAL(result, 0);
 }
 
-void FixCmdSync::init()
+void FixCmd::init()
 {
     auto &ctrl = repo::test::TestCaseCtrl::get();
 
@@ -190,7 +201,7 @@ void FixCmdSync::init()
     ESYSTEST_REQUIRE_EQUAL(result, 0);
 }
 
-void FixCmdSync::sync()
+void FixCmd::sync()
 {
     m_cmd_sync.set_job_count(4);
     m_cmd_sync.set_parent_path(m_file_path.string());
@@ -202,7 +213,7 @@ void FixCmdSync::sync()
     ESYSTEST_REQUIRE_EQUAL(result, 0);
 }
 
-void FixCmdSync::sync(const std::vector<std::string> folders)
+void FixCmd::sync(const std::vector<std::string> folders)
 {
     m_cmd_sync.set_job_count(4);
     m_cmd_sync.set_parent_path(m_file_path.string());
@@ -216,13 +227,24 @@ void FixCmdSync::sync(const std::vector<std::string> folders)
     ESYSTEST_REQUIRE_EQUAL(result, 0);
 }
 
-void FixCmdSync::run()
+void FixCmd::manifest()
+{
+    m_cmd_manifest.set_parent_path(m_file_path.string());
+    m_cmd_manifest.set_git(m_git);
+    m_cmd_manifest.set_logger_if(m_logger);
+    m_cmd_manifest.set_debug(true);
+
+    int result = m_cmd_manifest.run();
+    ESYSTEST_REQUIRE_EQUAL(result, 0);
+}
+
+void FixCmd::run()
 {
     init();
     sync();
 }
 
-int FixCmdSync::open_git_manifest_repo()
+int FixCmd::open_git_manifest_repo()
 {
     if (get_git() == nullptr) return -1;
     if (get_git()->is_open()) return -2;
@@ -238,7 +260,7 @@ int FixCmdSync::open_git_manifest_repo()
     return get_git()->open(manifest_path.string());
 }
 
-int FixCmdSync::close_git()
+int FixCmd::close_git()
 {
     if (get_git() == nullptr) return -1;
     if (!get_git()->is_open()) return -2;
@@ -247,19 +269,24 @@ int FixCmdSync::close_git()
     return 0;
 }
 
-std::shared_ptr<libgit2::Git> FixCmdSync::get_git()
+std::shared_ptr<libgit2::Git> FixCmd::get_git()
 {
     return m_git;
 }
 
-CmdInit &FixCmdSync::get_cmd_init()
+CmdInit &FixCmd::get_cmd_init()
 {
     return m_cmd_init;
 }
 
-CmdSync &FixCmdSync::get_cmd_sync()
+CmdSync &FixCmd::get_cmd_sync()
 {
     return m_cmd_sync;
+}
+
+CmdManifest &FixCmd::get_cmd_manifest()
+{
+    return m_cmd_manifest;
 }
 
 } // namespace test

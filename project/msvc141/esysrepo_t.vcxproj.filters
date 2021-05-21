@@ -111,9 +111,6 @@
     <ClCompile Include="..\..\src\esys\repo\exe\test\cmdsync02.cpp">
       <Filter>Source Files\exe</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\esys\repo\exe\test\fixcmdsync.cpp">
-      <Filter>Source Files\exe</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\esys\repo\exe\test\cmdsync03.cpp">
       <Filter>Source Files\exe</Filter>
     </ClCompile>
@@ -141,6 +138,12 @@
     <ClCompile Include="..\..\src\esys\repo\exe\test\cmdsync08.cpp">
       <Filter>Source Files\exe</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\exe\test\cmdmanifest01.cpp">
+      <Filter>Source Files\exe</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\exe\test\fixcmd.cpp">
+      <Filter>Source Files\exe</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\esys\repo\test\esysrepo_t_prec.h">
@@ -152,7 +155,7 @@
     <ClInclude Include="..\..\include\esys\repo\test\testcasectrl.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\esys\repo\exe\test\fixcmdsync.h">
+    <ClInclude Include="..\..\include\esys\repo\exe\test\fixcmd.h">
       <Filter>Header Files\exe</Filter>
     </ClInclude>
   </ItemGroup>
@@ -160,5 +163,10 @@
     <ResourceCompile Include="..\..\res\esysrepo_t.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\..\src\esys\repo\test\CMakeLists.txt">
+      <Filter>Source Files</Filter>
+    </Text>
   </ItemGroup>
 </Project>

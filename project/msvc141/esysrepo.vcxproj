@@ -242,6 +242,7 @@
     <ClCompile Include="..\..\src\esys\repo\exe\cmdinfo.cpp" />
     <ClCompile Include="..\..\src\esys\repo\exe\cmdinit.cpp" />
     <ClCompile Include="..\..\src\esys\repo\exe\cmdlist.cpp" />
+    <ClCompile Include="..\..\src\esys\repo\exe\cmdmanifest.cpp" />
     <ClCompile Include="..\..\src\esys\repo\exe\cmdstatus.cpp" />
     <ClCompile Include="..\..\src\esys\repo\exe\cmdsync.cpp" />
     <ClCompile Include="..\..\src\esys\repo\filesystem.cpp" />
@@ -307,6 +308,7 @@
     <ClInclude Include="..\..\include\esys\repo\exe\cmdinfo.h" />
     <ClInclude Include="..\..\include\esys\repo\exe\cmdinit.h" />
     <ClInclude Include="..\..\include\esys\repo\exe\cmdlist.h" />
+    <ClInclude Include="..\..\include\esys\repo\exe\cmdmanifest.h" />
     <ClInclude Include="..\..\include\esys\repo\exe\cmdstatus.h" />
     <ClInclude Include="..\..\include\esys\repo\exe\cmdsync.h" />
     <ClInclude Include="..\..\include\esys\repo\filesystem.h" />
@@ -379,6 +381,9 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\..\res\esysrepo.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\..\src\esys\repo\CMakeLists.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

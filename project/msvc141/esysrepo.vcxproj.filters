@@ -49,9 +49,6 @@
     <Filter Include="Source Files\exe">
       <UniqueIdentifier>{479137d9-ce29-44e1-84fb-62f70801aac2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\msvc">
-      <UniqueIdentifier>{8ac7e3b6-126e-412e-a731-04f1a5f3bae6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\cmake">
       <UniqueIdentifier>{ab9b59f0-d67c-4a1b-95d1-fcf4d36aabd3}</UniqueIdentifier>
     </Filter>
@@ -66,6 +63,9 @@
     </Filter>
     <Filter Include="Source Files\libssh2">
       <UniqueIdentifier>{5956fe53-80f4-454b-92e1-ef949fc86d1f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\msvc">
+      <UniqueIdentifier>{8ac7e3b6-126e-412e-a731-04f1a5f3bae6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -248,6 +248,9 @@
     </ClCompile>
     <ClCompile Include="..\..\src\esys\repo\manifest\groups_manifest.cpp">
       <Filter>Source Files\manifest</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\exe\cmdmanifest.cpp">
+      <Filter>Source Files\exe</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -497,10 +500,18 @@
     <ClInclude Include="..\..\include\esys\repo\manifest\groups.h">
       <Filter>Header Files\manifest</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\exe\cmdmanifest.h">
+      <Filter>Header Files\exe</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\..\res\esysrepo.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\..\src\esys\repo\CMakeLists.txt">
+      <Filter>Source Files</Filter>
+    </Text>
   </ItemGroup>
 </Project>

@@ -5,7 +5,7 @@
  * \cond
  * __legal_b__
  *
- * Copyright (c) 2020 Michel Gillet
+ * Copyright (c) 2020-2021 Michel Gillet
  * Distributed under the wxWindows Library Licence, Version 3.1.
  * (See accompanying file LICENSE_3_1.txt or
  * copy at http://www.wxwidgets.org/about/licence)
@@ -48,37 +48,43 @@ public:
     /*!
      * \param[in] manifest the manifest data
      */
-    void set_manifest(std::shared_ptr<Manifest> manifest);
+    void set_data(std::shared_ptr<Manifest> manifest);
 
     //! Get the manifest data
     /*!
      * \return the manifest data
      */
-    std::shared_ptr<Manifest> get_manifest();
+    std::shared_ptr<Manifest> get_data();
 
     //! Get the manifest data
     /*!
      * \return the manifest data
      */
-    const std::shared_ptr<Manifest> get_manifest() const;
+    const std::shared_ptr<Manifest> get_data() const;
 
-    //! Read the ESysRepo manifest
+    //! Read the manifest
     /*!
-     * \param[in] path the path of the ESysRepo manifest
+     * \param[in] path the path of the manifest
      * \return 0 if successful, < 0 otherwise
      */
     virtual int read(const std::string &path) = 0;
 
-    //! Write this ESysRepo manifest
+    //! Write this manifest to a file
     /*!
      * \param[in] path the path of the ESysRepo manifest
      * \return 0 if successful, < 0 otherwise
      */
     virtual int write(const std::string &path) = 0;
 
+    //! Write the manifest to a stream
+    /*!
+     * \param[in] os the stream
+     */
+    virtual int write(std::ostream &os) = 0;
+
 protected:
     //!< \cond DOXY_IMPL
-    std::shared_ptr<Manifest> m_manifest; //!< The manifest data
+    std::shared_ptr<Manifest> m_data; //!< The abstract data of a manifest
     //!< \endcond
 };
 

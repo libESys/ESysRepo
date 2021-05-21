@@ -64,7 +64,7 @@ public:
     int clone(const std::string &url, const std::string &path, bool do_close, log::Level log_level,
               int debug_level = 0);
     int clone_branch(const std::string &url, const std::string &branch, const std::string &path, bool do_close,
-              log::Level log_level, int debug_level = 0);
+                     log::Level log_level, int debug_level = 0);
     int clone(const std::string &url, const std::string &temp_path, const std::string &path, bool do_close,
               log::Level log_level, int debug_level = 0);
 
@@ -78,6 +78,10 @@ public:
     int get_branches(git::Branches &branches, git::BranchType branch_type, log::Level log_level, int debug_level = 0);
 
     bool has_branch(const std::string &name, git::BranchType branch_type, log::Level log_level, int debug_level = 0);
+
+    int get_hash(const std::string &revision, std::string &hash, log::Level log_level, int debug_level = 0);
+
+    int get_hash_local(const std::string &revision, std::string &hash, log::Level log_level, int debug_level = 0);
 
     int is_dirty(bool &dirty, log::Level log_level, int debug_level = 0);
     int is_detached(bool &detached, log::Level log_level, int debug_level = 0);

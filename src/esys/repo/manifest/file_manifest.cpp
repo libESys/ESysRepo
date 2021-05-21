@@ -5,7 +5,7 @@
  * \cond
  * __legal_b__
  *
- * Copyright (c) 2020 Michel Gillet
+ * Copyright (c) 2020-2021 Michel Gillet
  * Distributed under the wxWindows Library Licence, Version 3.1.
  * (See accompanying file LICENSE_3_1.txt or
  * copy at http://www.wxwidgets.org/about/licence)
@@ -31,19 +31,19 @@ File::File() = default;
 
 File::~File() = default;
 
-void File::set_manifest(std::shared_ptr<Manifest> manifest)
+void File::set_data(std::shared_ptr<Manifest> data)
 {
-    m_manifest = manifest;
+    m_data = data;
 }
 
-std::shared_ptr<Manifest> File::get_manifest()
+std::shared_ptr<Manifest> File::get_data()
 {
-    return m_manifest;
+    return m_data;
 }
 
-const std::shared_ptr<Manifest> File::get_manifest() const
+const std::shared_ptr<Manifest> File::get_data() const
 {
-    return m_manifest;
+    return m_data;
 }
 
 } // namespace manifest

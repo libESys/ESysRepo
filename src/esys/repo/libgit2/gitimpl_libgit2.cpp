@@ -211,7 +211,7 @@ bool GitImpl::has_branch(const std::string &name, git::BranchType branch_type)
     Guard<git_reference> ref;
     git_branch_t git_branch_type;
     Guard<git_annotated_commit> annotated_commit;
-    //Guard<git_reference> branch_ref;
+    // Guard<git_reference> branch_ref;
     Guard<git_reference> input_branch_ref;
     std::string new_ref = name;
 
@@ -227,6 +227,31 @@ bool GitImpl::has_branch(const std::string &name, git::BranchType branch_type)
     }
 
     return true;
+}
+
+int GitImpl::get_hash(const std::string &revision, std::string &hash, git::BranchType branch_type)
+{
+    Guard<git_annotated_commit> annotated_commit;
+    Guard<git_reference> revision_ref;
+    std::string new_ref = revision;
+
+    int result = resolve_ref(revision_ref.get_p(), annotated_commit.get_p(), revision);
+    if (result < 0)
+    {
+        self()->debug(0, "revision not found : " + revision);
+        // In the case where the content of branch doesn't have the full qualifier,
+        // try to to guess
+
+        result = find_ref(revision_ref.get_p(), annotated_commit.get_p(), revision, new_ref);
+        if (result < 0) return check_error(result);
+    }
+
+    const git_oid *oid = git_annotated_commit_id(annotated_commit.get());
+    if (oid == nullptr) return -1;
+
+    result = convert_bin_hex(*oid, hash);
+    if (result < 0) return -2;
+    return 0;
 }
 
 int GitImpl::clone(const std::string &url, const std::string &path, const std::string &branch)

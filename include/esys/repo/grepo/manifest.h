@@ -19,6 +19,7 @@
 
 #include "esys/repo/esysrepo_defs.h"
 #include "esys/repo/manifest.h"
+#include "esys/repo/manifest/file.h"
 
 #include <memory>
 
@@ -36,7 +37,7 @@ class ESYSREPO_API ManifestImpl;
 /*! \class Manifest esys/repo/grepo/manifest.h "esys/repo/grepo/manifest.h"
  * \brief Hold information about a google repo tool manifest
  */
-class ESYSREPO_API Manifest
+class ESYSREPO_API Manifest : public manifest::File
 {
 public:
     //! Default constructor
@@ -45,35 +46,9 @@ public:
     //! Destructor
     virtual ~Manifest();
 
-    //! Read a manifest
-    /*!
-     * \param[in] filename the filename of the manifest to read
-     */
-    int read(const std::string &filename);
-
-    //! Write the manifest
-    /*!
-     * \param[in] filename the filename
-     */
-    int write(const std::string &filename);
-
-    //! Set the abstract data of a manifest
-    /*!
-     * \param[in] data the abstract data of a manifest
-     */
-    void set_data(std::shared_ptr<repo::Manifest> data);
-
-    //! Get the abstract data of a manifest
-    /*!
-     * \return the abstract data of a manifest
-     */
-    std::shared_ptr<repo::Manifest> get_data();
-
-    //! Get the abstract data of a manifest
-    /*!
-     * \return the abstract data of a manifest
-     */
-    const std::shared_ptr<repo::Manifest> get_data() const;
+    int read(const std::string &filename) override;
+    int write(const std::string &filename) override;
+    int write(std::ostream &os) override;
 
     //! Equal to comparison operator
     bool operator==(const Manifest &other) const;
@@ -90,7 +65,6 @@ public:
 protected:
     //!< \cond DOXY_IMPL
     std::unique_ptr<ManifestImpl> m_impl;   //!< The PIMPL
-    std::shared_ptr<repo::Manifest> m_data; //!< The abstract data of a manifest
     //!< \endcond
 };
 

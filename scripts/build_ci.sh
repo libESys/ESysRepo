@@ -18,7 +18,13 @@ fi
 
 make esysrepo_t -j`nproc --all`
 if [ ! $? -eq 0 ]; then
-   echo "${TXT_E}Build failed: make failed.${TXT_CLEAR}"
+   echo "${TXT_E}Build failed: esysrepo_t.${TXT_CLEAR}"
+   exit 1
+fi
+
+make esysrepoexe -j`nproc --all`
+if [ ! $? -eq 0 ]; then
+   echo "${TXT_E}Build failed: esysrepoexe.${TXT_CLEAR}"
    exit 1
 fi
 

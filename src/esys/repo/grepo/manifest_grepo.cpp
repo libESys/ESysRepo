@@ -29,6 +29,7 @@ namespace grepo
 {
 
 Manifest::Manifest()
+    : manifest::File()
 {
     m_impl = std::make_unique<ManifestImpl>(this);
 }
@@ -47,19 +48,9 @@ int Manifest::write(const std::string &filename)
     return m_impl->write(filename);
 }
 
-void Manifest::set_data(std::shared_ptr<repo::Manifest> data)
+int Manifest::write(std::ostream &os)
 {
-    m_data = data;
-}
-
-std::shared_ptr<repo::Manifest> Manifest::get_data()
-{
-    return m_data;
-}
-
-const std::shared_ptr<repo::Manifest> Manifest::get_data() const
-{
-    return m_data;
+    return m_impl->write(os);
 }
 
 bool Manifest::operator==(const Manifest &other) const

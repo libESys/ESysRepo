@@ -134,6 +134,11 @@ bool Git::has_branch(const std::string &name, git::BranchType branch_type)
     return m_impl->has_branch(name, branch_type);
 }
 
+int Git::get_hash(const std::string &revision, std::string &hash, git::BranchType branch_type)
+{
+    return m_impl->get_hash(revision, hash, branch_type);
+}
+
 void Git::set_url(const std::string &url)
 {
     m_url = url;

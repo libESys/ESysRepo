@@ -46,6 +46,7 @@ set(ESYSREPO_EXE_CXX_SOURCES
     exe/cmdinfo.cpp
     exe/cmdinit.cpp
     exe/cmdlist.cpp
+    exe/cmdmanifest.cpp
     exe/cmdstatus.cpp
     exe/cmdsync.cpp
 )

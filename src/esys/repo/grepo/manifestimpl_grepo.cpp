@@ -62,7 +62,7 @@ int ManifestImpl::read(const std::string &filename)
     return read(m_file->get_data());
 }
 
-int ManifestImpl::write(const std::string &filename)
+int ManifestImpl::write_xml()
 {
     if (self()->get_data() == nullptr) return -1;
 
@@ -73,11 +73,28 @@ int ManifestImpl::write(const std::string &filename)
     write_remotes();
     write_default(m_xml_data, self()->get_data());
     write_projects();
+    return 0;
+}
+
+int ManifestImpl::write(const std::string &filename)
+{
+    if (write_xml() < 0) return -1;
 
     esysfile::xml::Writer writer;
 
     writer.set_data(m_xml_data);
     return writer.write(filename);
+}
+
+int ManifestImpl::write(std::ostream &os)
+{
+    if (write_xml() < 0) return -1;
+
+    esysfile::xml::Writer writer;
+    
+    writer.set_indent(4);
+    writer.set_data(m_xml_data);
+    return writer.write(os);
 }
 
 void ManifestImpl::write_remotes()

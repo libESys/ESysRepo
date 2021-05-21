@@ -157,7 +157,7 @@ ESYSTEST_AUTO_TEST_CASE(XMLFileWrite01Manifest)
 
     manifest->add_location(location);
 
-    xml_file.set_manifest(manifest);
+    xml_file.set_data(manifest);
 
     path /= ".esysrepo.manifest.xml";
 

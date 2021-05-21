@@ -48,6 +48,11 @@ int XMLFile::write(const std::string &path)
     return get_impl()->write(path);
 }
 
+int XMLFile::write(std::ostream &os)
+{
+    return get_impl()->write(os);
+}
+
 XMLFileImpl *XMLFile::get_impl()
 {
     return m_impl.get();

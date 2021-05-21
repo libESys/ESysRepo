@@ -35,6 +35,7 @@ set(ESYSREPO_T_CXX_SOURCES
 
 set(ESYSREPO_T_EXE_CXX_SOURCES
     ../exe/test/cmdinit01.cpp
+    ../exe/test/cmdmanifest01.cpp
     ../exe/test/cmdstatus01.cpp
     ../exe/test/cmdsync01.cpp
     ../exe/test/cmdsync02.cpp
@@ -44,7 +45,7 @@ set(ESYSREPO_T_EXE_CXX_SOURCES
     ../exe/test/cmdsync06.cpp
     ../exe/test/cmdsync07.cpp
     ../exe/test/cmdsync08.cpp
-    ../exe/test/fixcmdsync.cpp
+    ../exe/test/fixcmd.cpp
 )
 
 set(ESYSREPO_T_GIT_CXX_SOURCES

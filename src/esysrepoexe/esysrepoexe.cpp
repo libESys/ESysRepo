@@ -25,6 +25,7 @@
 #include <esys/repo/exe/cmdlist.h>
 #include <esys/repo/exe/cmdinfo.h>
 #include <esys/repo/exe/cmdstatus.h>
+#include <esys/repo/exe/cmdmanifest.h>
 
 #include <boost/program_options/cmdline.hpp>
 #include <boost/program_options/options_description.hpp>
@@ -430,6 +431,57 @@ int ESysRepoExe::cmd_sync()
     }
     if (m_vm.count("branch")) sync.set_branch(m_vm["branch"].as<std::string>());
     return sync.run();
+}
+
+int ESysRepoExe::cmd_manifest()
+{
+    po::positional_options_description p;
+    p.add("command", 1).add("subargs", -1);
+
+    po::options_description desc("Manifest options");
+    po::options_description desc_all("Allowed options");
+    po::options_description desc_help("Options");
+
+    // clang-format off
+    desc.add_options()
+        ("help,h", "produce help message")
+        ("revision-as-HEAD,r", "Save revisions as current HEAD")
+        ("output-file,o", po::value<std::string>(), "File to save the manifest to")
+        ("folder", po::value<std::string>(), "the esysrepo folder to use")
+        ;
+    // clang-format on
+    desc_all.add(desc).add(*m_desc);
+
+    int result = parse(m_args, desc_all, p, m_vm);
+    if (result < 0) return 0;
+
+    esys::repo::exe::CmdManifest manifest;
+
+    manifest.set_git(m_git);
+    if (m_logger != nullptr) manifest.set_logger_if(m_logger);
+
+    if (m_vm.count("revision-as-HEAD"))
+        manifest.set_revision_as_head(true);
+    if (m_vm.count("output-file")) manifest.set_output_file(m_vm["output-file"].as<std::string>());
+
+    if (m_vm.count("folder"))
+    {
+        boost::filesystem::path path = m_vm["folder"].as<std::string>();
+        path = boost::filesystem::absolute(path).normalize().make_preferred();
+        manifest.set_parent_path(path.string());
+    }
+    else
+    {
+        boost::filesystem::path path = esys::repo::exe::Cmd::find_parent_path();
+        if (path.empty())
+        {
+            error("Couldn't find a folder with esysrepo from : " + boost::filesystem::current_path().string());
+            return -1;
+        }
+        manifest.set_parent_path(path.string());
+    }
+
+    return manifest.run();
 }
 
 int ESysRepoExe::cmd_version()

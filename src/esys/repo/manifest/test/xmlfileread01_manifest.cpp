@@ -58,7 +58,7 @@ ESYSTEST_AUTO_TEST_CASE(XMLFileRead01Manifest)
 
     int result = xml_file.read(path.string());
     ESYSTEST_REQUIRE_EQUAL(result, 0);
-    ESYSTEST_REQUIRE_NE(xml_file.get_manifest(), nullptr);
+    ESYSTEST_REQUIRE_NE(xml_file.get_data(), nullptr);
 
     auto test_fct = [](std::vector<std::pair<std::string, std::string>> &values,
                        std::shared_ptr<manifest::Location> location) {
@@ -80,7 +80,7 @@ ESYSTEST_AUTO_TEST_CASE(XMLFileRead01Manifest)
         {"esysres", "src/esysres"},
     };
 
-    location = xml_file.get_manifest()->find_location("origin");
+    location = xml_file.get_data()->find_location("origin");
     ESYSTEST_REQUIRE_NE(location, nullptr);
     test_fct(origin_repos, location);
 
@@ -111,7 +111,7 @@ ESYSTEST_AUTO_TEST_CASE(XMLFileRead01Manifest)
         {"dfuprog", "src/dfuprog"},
     };
 
-    location = xml_file.get_manifest()->find_location("gerrit");
+    location = xml_file.get_data()->find_location("gerrit");
     ESYSTEST_REQUIRE_NE(location, nullptr);
     test_fct(gerrit_repos, location);
 
@@ -140,7 +140,7 @@ ESYSTEST_AUTO_TEST_CASE(XMLFileRead01Manifest)
         {"cryptoauthlib", "extlib/cryptoauthlib"},
     };
 
-    location = xml_file.get_manifest()->find_location("extlib");
+    location = xml_file.get_data()->find_location("extlib");
     ESYSTEST_REQUIRE_NE(location, nullptr);
     test_fct(extlib_repos, location);
 }

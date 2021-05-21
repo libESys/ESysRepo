@@ -5,7 +5,7 @@
  * \cond
  * __legal_b__
  *
- * Copyright (c) 2020 Michel Gillet
+ * Copyright (c) 2020-2021 Michel Gillet
  * Distributed under the wxWindows Library Licence, Version 3.1.
  * (See accompanying file LICENSE_3_1.txt or
  * copy at http://www.wxwidgets.org/about/licence)
@@ -43,6 +43,7 @@ public:
 
     int read(const std::string &path);
     int write(const std::string &path);
+    int write(std::ostream &os);
 
     int read(std::shared_ptr<esysfile::xml::Data> data);
     int read_location(std::shared_ptr<esysfile::xml::Element> el);
@@ -56,6 +57,8 @@ public:
     const XMLFile *self() const;
 
 protected:
+    int write_xml();
+
     XMLFile *m_self = nullptr;
     std::shared_ptr<esysfile::xml::Data> m_xml_data;
 };
