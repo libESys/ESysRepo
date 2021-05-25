@@ -1,4 +1,8 @@
-baseURL = "http://example.org/"
+baseURL = "/esysrepo/esysrepo/"
 languageCode = "en-us"
 title = "ESysRepo"
 theme = "hugo-theme-learn"
+
+[params]
+  # Change default color scheme with a variant one. Can be "red", "blue", "green".
+  themeVariant = "libesys"
