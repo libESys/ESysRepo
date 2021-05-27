@@ -1,8 +1,20 @@
-baseURL = "/esysrepo/esysrepo/"
+baseURL = "/"
 languageCode = "en-us"
 title = "ESysRepo"
 theme = "hugo-theme-learn"
+staticDir = ["static", ".."]
 
 [params]
   # Change default color scheme with a variant one. Can be "red", "blue", "green".
   themeVariant = "libesys"
+
+[[menu.shortcuts]] 
+name = "<i class='fab fa-gitlab'></i> GitLab repo"
+identifier = "ds"
+url = "https://gitlab.com/libesys/esysrepo/esysrepo"
+weight = 10
+
+[[menu.shortcuts]]
+name = "<img src='/images/libesys_only_log_fb.png' width='25' height='25'/> LibESys"
+url = "https://libesys.gitlab.io"
+weight = 11
