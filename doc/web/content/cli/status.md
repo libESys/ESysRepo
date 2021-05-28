@@ -26,4 +26,4 @@ The available options are:
 
 On a fresh sync of the ESysRepo development tree, where there are 2 new log.txt files:
 
-![alt text](/images/status_exmaple01.png "The text")
+![alt text]({{< image_src "images/status_exmaple01.png" >}} "The text")

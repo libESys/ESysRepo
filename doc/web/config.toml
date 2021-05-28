@@ -2,7 +2,7 @@ baseURL = "/"
 languageCode = "en-us"
 title = "ESysRepo"
 theme = "hugo-theme-learn"
-staticDir = ["static", ".."]
+staticDir = ["static", "../static"]
 
 [params]
   # Change default color scheme with a variant one. Can be "red", "blue", "green".

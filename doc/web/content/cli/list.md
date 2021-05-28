@@ -24,4 +24,4 @@ All available options are:
 
 Still on a ESysRepo SW development workspace:
 
-![alt text](/images/list_example01.png "The text")
+![alt text]({{< image_src "images/list_example01.png" >}} "The text")

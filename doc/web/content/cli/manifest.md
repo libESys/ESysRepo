@@ -36,7 +36,7 @@ are show below:
 esysrepo manifest
 ```
 
-![alt text](/images/manifest_example01.png "The text")
+![alt text]({{< image_src "images/manifest_example01.png" >}})
 
 When using the option -r, the results is as follow:
 
@@ -44,4 +44,4 @@ When using the option -r, the results is as follow:
 esysrepo manifest -r
 ```
 
-![alt text](/images/manifest_example02.png "The text")
+![alt text]({{< image_src "images/manifest_example02.png" >}} "The text")

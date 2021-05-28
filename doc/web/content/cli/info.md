@@ -34,4 +34,4 @@ Currently none are implemented.
 When ran while working on the ESysRepo SW, it looked like this, only the first few lines are shown
 for conciseness:
 
-![alt text](/images/info_example01.png "The text")
+![alt text]({{< image_src "images/info_example01.png" >}} "The text")

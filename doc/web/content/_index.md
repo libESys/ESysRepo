@@ -1,4 +1,4 @@
-![](/images/esysrepo_landscape_title.svg)
+![]({{< image_src "images/esysrepo_landscape_title.svg" >}})
 With any sizeable SW project, working with several git repositories is usually inevitable.
 Typically, this leads to the debate about the mono-repo vs. multi-repo pattern. ESysRepo is a tool
 to simplify handling a multi-repo, including the issues related to their CI. It takes inspiration
