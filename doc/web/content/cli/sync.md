@@ -6,8 +6,8 @@ pre: "4.2. "
 
 ## Description
 
-Typically, this is the second command called just after *init*; this command downloads new changes and
-updates the working files in your local workspace. If you run repo sync without arguments, it
+Typically, this is the second command called just after *init*; this command downloads new changes
+and updates the working files in your local workspace. If you run repo sync without arguments, it
 synchronizes the files for all projects.
 
 When you run repo sync, this is what happens to the manifest:
@@ -15,23 +15,24 @@ When you run repo sync, this is what happens to the manifest:
 * The first time sync is run on a local workspace; nothing should happen since the manifest should
 be up to date
 
-* If the git repository holding the manifest has local changes, the sync procedure is aborted
+* If the git repository holding the manifest has local changes, esysrepo will abort the sync
+procedure
 
-* If the git repository is detached, the sync procedure is aborted
+* If the git repository is detached, esysrepo will abort the sync procedure
 
 * If no branch was specified and if the current HEAD can be fast-forwarded, the git repository is
-fast-forwarded; if it can’t, the sync procedure is also aborted
+fast-forwarded; if it can't, the sync procedure is also aborted
 
 * If a branch was specified and if it exists, then it is checkout; otherwise, the same process as
 if not branch had been specified is followed
 
 And for every git repository found in the manifest, set to be synced, the following happens:
 
-* If the git repository is not found in the local workspace, it will be cloned. If a branch was
+* If the git repository is not found in the local workspace, it will be cloned. If a branch were
 specified, this branch would be checkout if it exists in this repo
 
 * The update procedure starts by checking if there are any changes in the git repository. If
-changes are found, the sync operation is aborted
+changes are found, esysrepo will abort the sync procedure
 
 * If no branch was specified:
 
@@ -48,7 +49,7 @@ branch had been specified
 ## Usage
 
 ```
-esysrepo sync [options…]
+esysrepo sync [options ...]
 ```
 
 ## Options
@@ -66,11 +67,12 @@ directory. WARNING: this may cause loss of data
 have not white spaces
 
 * --branch / -b <BRANCH\>: the branch will be checkout if existing in all targeted git
-repositories; otherwise all repositories without such branch will be synced normally
+repositories; otherwise, esysrepo will do a normal sync procedure on all repositories without such
+branch
 
 ## Examples
 
-To sync the manifest and all git repositories with 4 parallel jobs:
+To sync the manifest and all git repositories with four parallel jobs:
 
 ```
 esysrepo sync -j4
@@ -81,3 +83,9 @@ To sync only the manifest and a given list of groups
 ```
 esysrepo sync -g grp1,grp2,grp3
 ```
+
+
+
+
+
+

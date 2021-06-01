@@ -6,20 +6,24 @@ pre: "4.7. "
 
 ## Description
 
-Print the version of ESysRepo and of few used libraries.
+Print the version of ESysRepo and few used libraries.
 
 ## Usage
 
 ```
-esysrepo version [options…]
+esysrepo version [options ...]
 ```
 
 ## Options
 
-Currently none are implemented.
+Currently, there is none.
 
 ## Examples
 
-The output from the first released version of ESysRepo.
+The output from the first released version of ESysRepo is shown below.
 
-![alt text](/images/version_example01.png "The text")
+![alt text]({{< image_src "images/version_example01.png" >}} "The text")
+
+
+
+

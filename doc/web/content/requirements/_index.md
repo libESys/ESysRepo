@@ -14,7 +14,7 @@ The main requirements for a tool to help the handling of muti-repos are:
 * Efficient: the tool should minimize the time needed for getting the source since it can be a
 sizeable percentage of the time spent by a CI engine
 
-* Fast execution: the time spent to run a CI is previous
+* Fast execution: the time spent to run a CI is precious
 
 * Have a certain level of compatibility with existing tools solving similar issues, i.e., Google
 repo tool

@@ -6,7 +6,7 @@ pre: "4.3. "
 
 ## Description
 
-Show information about the manifest branch, current branch or unmerged branches of all git repos
+Show information about the manifest branch, current branch, or unmerged branches of all git repos
 found in the manifest file. The information provided for each git repository are:
 
 * The name
@@ -22,16 +22,20 @@ found in the manifest file. The information provided for each git repository are
 ## Usage
 
 ```
-esysrepo info [options…]
+esysrepo info [options ...]
 ```
 
 ## Options
 
-Currently none are implemented.
+Currently, there is none.
 
 ## Examples
 
-When ran while working on the ESysRepo SW, it looked like this, only the first few lines are shown
-for conciseness:
+When ran while working on the ESysRepo SW, it looked like this, and for conciseness, we will show
+only the first few lines:
 
 ![alt text]({{< image_src "images/info_example01.png" >}} "The text")
+
+
+
+

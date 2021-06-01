@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mswordtomd_output_cfg>
+  <cfgs>
+    <cfg name="hugo">
+      <conversion>
+        <parameters>
+          <parameter name="converter_name" value="md/hugo"/>
+          <parameter name="offset_heading" value="-2"/>
+        </parameters>
+        <paths>
+            <path value="static/" action="remove"/>
+            <path value="web/static/" action="remove"/>
+        </paths>
+      </conversion>
+      <output_files>
+        <output_file path="web/content/_index.md">
+          <headings>
+            <heading id="1" write_children="true"/>
+          </headings>
+        </output_file>
+        <output_file path="web/content/requirements/_index.md">
+          <headings>
+            <heading id="2" write_children="true"/>
+          </headings>
+        </output_file>
+        <output_file path="web/content/implementation/_index.md">
+          <headings>
+            <heading id="3" write_children="true"/>
+          </headings>
+        </output_file>
+        <output_file path="web/content/installation/_index.md">
+          <headings>
+            <heading id="4" write_children="false"/>
+          </headings>
+        </output_file>
+        <output_file path="web/content/installation/windows.md">
+          <headings>
+            <heading id="4.1" write_children="true" offset_heading="0"/>
+          </headings>
+        </output_file>
+        <output_file path="web/content/installation/linux.md">
+          <headings>
+            <heading id="4.2" write_children="true" offset_heading="0"/>
+          </headings>
+        </output_file>
+        <output_file path="web/content/installation/macos.md">
+          <headings>
+            <heading id="4.3" write_children="true" offset_heading="0"/>
+          </headings>
+        </output_file>
+        <output_file path="web/content/cli/_index.md">
+          <headings>
+            <heading id="5.1" write_children="true"/>
+          </headings>
+        </output_file>
+        <output_file path="web/content/cli/init.md">
+          <headings>
+            <heading id="5.2.2" write_children="true"/>
+          </headings>
+        </output_file>
+        <output_file path="web/content/cli/info.md">
+          <headings>
+            <heading id="5.2.3" write_children="true"/>
+          </headings>
+        </output_file>
+        <output_file path="web/content/cli/list.md">
+          <headings>
+            <heading id="5.2.4" write_children="true"/>
+          </headings>
+        </output_file>
+        <output_file path="web/content/cli/manifest.md">
+          <headings>
+            <heading id="5.2.5" write_children="true"/>
+          </headings>
+        </output_file>
+        <output_file path="web/content/cli/status.md">
+          <headings>
+            <heading id="5.2.6" write_children="true"/>
+          </headings>
+        </output_file>
+        <output_file path="web/content/cli/sync.md">
+          <headings>
+            <heading id="5.2.7" write_children="true"/>
+          </headings>
+        </output_file>
+        <output_file path="web/content/cli/version.md">
+          <headings>
+            <heading id="5.2.8" write_children="true"/>
+          </headings>
+        </output_file>
+        <output_file path="web/content/cli/help.md">
+          <headings>
+            <heading id="5.2.1" write_children="true"/>
+          </headings>
+        </output_file>
+        <output_file path="web/content/manifest/_index.md">
+          <headings>
+            <heading id="5.3" write_children="false" offset_heading="0"/>
+          </headings>
+        </output_file>
+        <output_file path="web/content/manifest/google.md">
+          <headings>
+            <heading id="5.3.1" write_children="true"/>
+          </headings>
+        </output_file>
+        <output_file path="web/content/manifest/own.md">
+          <headings>
+            <heading id="5.3.2" write_children="true"/>
+          </headings>
+        </output_file>
+        <output_file path="web/content/development/_index.md">
+          <headings>
+            <heading id="6" write_children="false" offset_heading="0"/>
+          </headings>
+        </output_file>
+        <output_file path="web/content/development/ci.md">
+          <headings>
+            <heading id="6.1" write_children="true"/>
+          </headings>
+        </output_file>
+      </output_files>
+    </cfg>
+  </cfgs>
+</mswordtomd_output_cfg>

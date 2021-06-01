@@ -6,8 +6,8 @@ pre: "4.1. "
 
 ## Description
 
-Always the first command used as it initializes the current workspace. It will create a folder
-called *.esysrepo* where various configuration files will be stored as well as few git
+Since this command initializes the current workspace, you will always start with this command. It
+will create a folder called *.esysrepo* storing various configuration files as well as few git
 repositories.
 
 In its simplest form, the only parameter of the *init* command is the URL of the git repository
@@ -18,31 +18,31 @@ where the manifest is located. The steps then followed are:
 * Detect the format of the manifest file. Is it following the Google repo tool manifest format or
 the ESysRepo manifest format
 
-* Depending of the format of the manifest, create configurations files and move the git repo with
+* Depending on the manifest's format, it creates configurations files and moves the git repo with
 the manifest to its final folder inside the *.esysrepo* folder
 
-The content of the folder *.esysrepo* is not secret, but it’s not part of the public interface of
-the tool and may change with different version. So it’s strongly advised to use only the command
-line tool itself and not change by hand any of the files found in that folder, except if explicitly
-documented.
+The folder's content of the folder .esysrepo is not secret, but it's not part of the public
+interface of the tool and may change with different versions. So it's strongly advised to use only
+the command line tool itself and not change by hand any of the files found in that folder, except
+if explicitly documented.
 
 ## Usage
 
 ```
-esysrepo init -u <URL> [options …]
+esysrepo init -u <URL> [options ...]
 ```
 
 ## Options
 
 Available options:
 
-* --manifest-url / -u <URL\> : The URL of the git repository holding the manifest
+* --manifest-URL / -u <URL\>: The URL of the git repository holding the manifest
 
-* --manifest-branch / -b <BRANCH\> : Manifest branch or revision to be checked out (default
-“master”)
+* --manifest-branch / -b <BRANCH\>: Manifest branch or revision to be checked out (default
+"master")
 
 * --manifest-name / -m <NAME\>: Manifest file name used to initialize workspace (default
-“default.xml”).
+"default.xml").
 
 * --google / -g: The manifest file has the Google repo tool format
 
@@ -63,3 +63,7 @@ Or simply using HTTPS, which will work for everyone:
 ```
 esysrepo init -u https://gitlab.com/libesys/esysbuild/manifest.git
 ```
+
+
+
+
