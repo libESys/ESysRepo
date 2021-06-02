@@ -228,7 +228,6 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\src\esysrepoexe\esysrepoexe.cpp" />
     <ClCompile Include="..\..\src\esysrepoexe\esysrepoexe_prec.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugDLL|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugDLL|x64'">Create</PrecompiledHeader>
@@ -238,7 +237,6 @@
     <ClCompile Include="..\..\src\esysrepoexe\main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\include\esysrepoexe\esysrepoexe.h" />
     <ClInclude Include="..\..\include\esysrepoexe\esysrepoexe_prec.h" />
     <ClInclude Include="..\..\include\esysrepoexe\version.h" />
   </ItemGroup>

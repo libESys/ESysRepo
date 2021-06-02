@@ -21,18 +21,12 @@
     <ClCompile Include="..\..\src\esysrepoexe\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\esysrepoexe\esysrepoexe.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\esysrepoexe\esysrepoexe_prec.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\esysrepoexe\version.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\esysrepoexe\esysrepoexe.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -14,7 +14,7 @@ project (esysrepo CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(Boost 1.66 REQUIRED COMPONENTS filesystem system)
+find_package(Boost 1.66 REQUIRED COMPONENTS filesystem program_options system)
 
 find_package(PkgConfig REQUIRED)
 pkg_search_module(git2 libgit2 REQUIRED)
@@ -39,6 +39,10 @@ set(ESYSREPO_CXX_SOURCES
     manifest.cpp
     progresscallbackbase.cpp
     sshbase.cpp
+)
+
+set(ESYSREPO_CLI_CXX_SOURCES
+    cli/app.cpp
 )
 
 set(ESYSREPO_EXE_CXX_SOURCES
@@ -112,6 +116,7 @@ set(ESYSREPO_MANIFEST_CXX_SOURCES
 
 add_library (esysrepo SHARED
     ${ESYSREPO_CXX_SOURCES}
+    ${ESYSREPO_CLI_CXX_SOURCES}
     ${ESYSREPO_EXE_CXX_SOURCES}
     ${ESYSREPO_GIT_CXX_SOURCES}
     ${ESYSREPO_GITCMDLINE_CXX_SOURCES}
@@ -133,6 +138,7 @@ target_include_directories (esysrepo PUBLIC
 
 target_link_libraries(esysrepo PRIVATE
     Boost::filesystem
+    Boost::program_options
     Boost::system
     git2
     esysfile

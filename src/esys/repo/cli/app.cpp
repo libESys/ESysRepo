@@ -1,5 +1,5 @@
 /*!
- * \file esysrepoexe/esysrepoexe.cpp
+ * \file esys/repo/cli/app.cpp
  * \brief
  *
  * \cond
@@ -15,17 +15,16 @@
  *
  */
 
-#include "esysrepoexe/esysrepoexe_prec.h"
-#include "esysrepoexe/esysrepoexe.h"
-#include "esysrepoexe/version.h"
-
-#include <esys/repo/libgit2/git.h>
-#include <esys/repo/exe/cmdinit.h>
-#include <esys/repo/exe/cmdsync.h>
-#include <esys/repo/exe/cmdlist.h>
-#include <esys/repo/exe/cmdinfo.h>
-#include <esys/repo/exe/cmdstatus.h>
-#include <esys/repo/exe/cmdmanifest.h>
+#include "esys/repo/esysrepo_prec.h"
+#include "esys/repo/version.h"
+#include "esys/repo/cli/app.h"
+#include "esys/repo/libgit2/git.h"
+#include "esys/repo/exe/cmdinit.h"
+#include "esys/repo/exe/cmdsync.h"
+#include "esys/repo/exe/cmdlist.h"
+#include "esys/repo/exe/cmdinfo.h"
+#include "esys/repo/exe/cmdstatus.h"
+#include "esys/repo/exe/cmdmanifest.h"
 
 #include <boost/program_options/cmdline.hpp>
 #include <boost/program_options/options_description.hpp>
@@ -42,26 +41,35 @@
 #include <iostream>
 #include <iomanip>
 
-ESysRepoExe::ESysRepoExe()
+namespace esys
+{
+
+namespace repo
+{
+
+namespace cli
+{
+
+App::App()
     : esys::log::User()
 {
 }
 
-ESysRepoExe::~ESysRepoExe()
+App::~App()
 {
 }
 
-void ESysRepoExe::set_os(std::ostream &os)
+void App::set_os(std::ostream &os)
 {
     m_os = &os;
 }
 
-std::ostream *ESysRepoExe::get_os()
+std::ostream *App::get_os()
 {
     return m_os;
 }
 
-void ESysRepoExe::set_args(int argc, char **argv)
+void App::set_args(int argc, char **argv)
 {
     int i;
 
@@ -89,7 +97,7 @@ void ESysRepoExe::set_args(int argc, char **argv)
     }
 }
 
-int ESysRepoExe::parse_args()
+int App::parse_args()
 {
     po::positional_options_description p;
     p.add("command", 1).add("subargs", -1);
@@ -137,8 +145,8 @@ int ESysRepoExe::parse_args()
     if (result < 0) std::cout << "ERROR: can't find ESysLog plugin folder." << std::endl;
     if (debug) std::cout << "plugin_search_folder = " << plugin_search_folder << std::endl;
 
-    //m_logger_mngr->set_search_folder(plugin_search_folder.make_preferred().string());
-    m_logger = m_logger_mngr->new_logger(esys::log::LoggerType::SPDLOG, "esysrepo");
+    // m_logger_mngr->set_search_folder(plugin_search_folder.make_preferred().string());
+    m_logger = m_logger_mngr->new_logger(esys::log::LoggerType::SPDLOG, "App");
     if (m_logger != nullptr)
     {
         set_logger_if(m_logger);
@@ -164,12 +172,12 @@ int ESysRepoExe::parse_args()
     return 0;
 }
 
-bool ESysRepoExe::get_debug()
+bool App::get_debug()
 {
     return m_vm["debug"].as<bool>();
 }
 
-int ESysRepoExe::run()
+int App::run()
 {
     if (m_vm.count("command"))
     {
@@ -189,13 +197,13 @@ int ESysRepoExe::run()
     return -1;
 }
 
-int ESysRepoExe::cmd_help()
+int App::cmd_help()
 {
     error("Comamnd 'help' not implemented yet.");
     return -1;
 }
 
-int ESysRepoExe::cmd_init()
+int App::cmd_init()
 {
     po::positional_options_description p;
     p.add("command", 1).add("subargs", -1);
@@ -244,7 +252,7 @@ int ESysRepoExe::cmd_init()
     return init.run();
 }
 
-int ESysRepoExe::cmd_info()
+int App::cmd_info()
 {
     po::positional_options_description p;
     p.add("command", 1).add("subargs", -1);
@@ -262,7 +270,7 @@ int ESysRepoExe::cmd_info()
         ("overview,o", po::value<bool>()->default_value(false)->implicit_value(true), "Show overview of all local commits")
         ("current-branch,b", po::value<bool>()->default_value(false)->implicit_value(true), "Consider only checked out branches")
         ("local-only,l", po::value<bool>()->default_value(false)->implicit_value(true), "Disable all remote operations")
-        ("folder", po::value<std::string>(), "The esysrepo folder to use")
+        ("folder", po::value<std::string>(), "The App folder to use")
         ;
     // clang-format on
     desc_all.add(desc).add(*m_desc);
@@ -287,7 +295,7 @@ int ESysRepoExe::cmd_info()
     return info.run();
 }
 
-int ESysRepoExe::cmd_list()
+int App::cmd_list()
 {
     po::positional_options_description p;
     p.add("command", 1).add("subargs", -1);
@@ -304,7 +312,7 @@ int ESysRepoExe::cmd_list()
                         "relative path")
         ("name-only,n", po::value<bool>()->default_value(false)->implicit_value(true), "Display only the name of the repository")
         ("path-only,p", po::value<bool>()->default_value(false)->implicit_value(true), "Display only the path of the repository")
-        ("folder", po::value<std::string>(), "the esysrepo folder to use")
+        ("folder", po::value<std::string>(), "the App folder to use")
         ;
     // clang-format on
     desc_all.add(desc).add(*m_desc);
@@ -328,7 +336,7 @@ int ESysRepoExe::cmd_list()
     return list.run();
 }
 
-int ESysRepoExe::cmd_status()
+int App::cmd_status()
 {
     po::positional_options_description p;
     p.add("command", 1).add("subargs", -1);
@@ -341,7 +349,7 @@ int ESysRepoExe::cmd_status()
     desc.add_options()
         ("help,h", "produce help message")
         ("quiet,q", po::value<bool>()->default_value(false)->implicit_value(true), "Only print the name of modified projects")
-        ("folder", po::value<std::string>(), "the esysrepo folder to use")
+        ("folder", po::value<std::string>(), "the App folder to use")
         ;
     // clang-format on
     desc_all.add(desc).add(*m_desc);
@@ -365,7 +373,7 @@ int ESysRepoExe::cmd_status()
     return status.run();
 }
 
-int ESysRepoExe::cmd_sync()
+int App::cmd_sync()
 {
     po::positional_options_description p;
     p.add("command", 1).add("subargs", -1);
@@ -382,7 +390,7 @@ int ESysRepoExe::cmd_sync()
                         "point to a different object directory. WARNING: this"
                         "may cause loss of data")
         ("job,j", po::value<int>()->default_value(1), "projects to fetch simultaneously (default 1)")
-        ("folder", po::value<std::string>(), "the esysrepo folder to use")
+        ("folder", po::value<std::string>(), "the App folder to use")
         ("groups,g", po::value<std::string>(), "the groups to synchronize")
         ("branch,b", po::value<std::string>(), "the branch to synchronize across repos")
         ;
@@ -410,7 +418,7 @@ int ESysRepoExe::cmd_sync()
         boost::filesystem::path path = esys::repo::exe::Cmd::find_parent_path();
         if (path.empty())
         {
-            error("Couldn't find a folder with esysrepo from : " + boost::filesystem::current_path().string());
+            error("Couldn't find a folder with App from : " + boost::filesystem::current_path().string());
             return -1;
         }
         sync.set_parent_path(path.string());
@@ -433,7 +441,7 @@ int ESysRepoExe::cmd_sync()
     return sync.run();
 }
 
-int ESysRepoExe::cmd_manifest()
+int App::cmd_manifest()
 {
     po::positional_options_description p;
     p.add("command", 1).add("subargs", -1);
@@ -447,7 +455,7 @@ int ESysRepoExe::cmd_manifest()
         ("help,h", "produce help message")
         ("revision-as-HEAD,r", "Save revisions as current HEAD")
         ("output-file,o", po::value<std::string>(), "File to save the manifest to")
-        ("folder", po::value<std::string>(), "the esysrepo folder to use")
+        ("folder", po::value<std::string>(), "the App folder to use")
         ;
     // clang-format on
     desc_all.add(desc).add(*m_desc);
@@ -460,8 +468,7 @@ int ESysRepoExe::cmd_manifest()
     manifest.set_git(m_git);
     if (m_logger != nullptr) manifest.set_logger_if(m_logger);
 
-    if (m_vm.count("revision-as-HEAD"))
-        manifest.set_revision_as_head(true);
+    if (m_vm.count("revision-as-HEAD")) manifest.set_revision_as_head(true);
     if (m_vm.count("output-file")) manifest.set_output_file(m_vm["output-file"].as<std::string>());
 
     if (m_vm.count("folder"))
@@ -475,7 +482,7 @@ int ESysRepoExe::cmd_manifest()
         boost::filesystem::path path = esys::repo::exe::Cmd::find_parent_path();
         if (path.empty())
         {
-            error("Couldn't find a folder with esysrepo from : " + boost::filesystem::current_path().string());
+            error("Couldn't find a folder with App from : " + boost::filesystem::current_path().string());
             return -1;
         }
         manifest.set_parent_path(path.string());
@@ -484,13 +491,15 @@ int ESysRepoExe::cmd_manifest()
     return manifest.run();
 }
 
-int ESysRepoExe::cmd_version()
+int App::cmd_version()
 {
     std::ostringstream oss;
 
     oss << "Version ..." << std::endl;
-    oss << std::setw(15) << std::left << "ESysRepo";
-    oss << ESYSREPOEXE_VERSION_NUM_DOT_STRING << std::endl;
+    oss << std::setw(15) << std::left << "App";
+    oss << get_version() << std::endl;
+
+    oss << std::setw(15) << std::left << "ESysRepo lib" << ESYSREPO_VERSION_NUM_DOT_STRING << std::endl;
 
     oss << std::setw(15) << std::left << esys::repo::libgit2::Git::s_get_lib_name();
     oss << esys::repo::libgit2::Git::s_get_version() << std::endl;
@@ -503,17 +512,17 @@ int ESysRepoExe::cmd_version()
     return 0;
 }
 
-void ESysRepoExe::set_error_msg(const std::string &error_msg)
+void App::set_error_msg(const std::string &error_msg)
 {
     m_error_msg = error_msg;
 }
 
-const std::string &ESysRepoExe::get_error_msg()
+const std::string &App::get_error_msg()
 {
     return m_error_msg;
 }
 
-void ESysRepoExe::print_help(std::ostream &os)
+void App::print_help(std::ostream &os)
 {
     std::ostringstream oss;
 
@@ -523,14 +532,14 @@ void ESysRepoExe::print_help(std::ostream &os)
     os << oss.str();
 }
 
-std::string ESysRepoExe::get_input_filename()
+std::string App::get_input_filename()
 {
     std::string result = m_vm["input"].as<std::string>();
 
     return result;
 }
 
-std::string ESysRepoExe::get_output_filename()
+std::string App::get_output_filename()
 {
     std::string result;
 
@@ -541,15 +550,15 @@ std::string ESysRepoExe::get_output_filename()
     return output.make_preferred().string();
 }
 
-std::string ESysRepoExe::get_base_dir()
+std::string App::get_base_dir()
 {
     if (m_vm.count("base_dir") != 0) return m_vm["base_dir"].as<std::string>();
 
     return "";
 }
 
-int ESysRepoExe::parse(const std::vector<std::string> &args, po::options_description &desc,
-                       po::positional_options_description &p, po::variables_map &vm, bool strict)
+int App::parse(const std::vector<std::string> &args, po::options_description &desc,
+               po::positional_options_description &p, po::variables_map &vm, bool strict)
 {
     bool parse_error = false;
 
@@ -583,7 +592,7 @@ int ESysRepoExe::parse(const std::vector<std::string> &args, po::options_descrip
     return 0;
 }
 
-ESysRepoExe::CmdFctType ESysRepoExe::find_cmd_fct(const std::string &cmd)
+App::CmdFctType App::find_cmd_fct(const std::string &cmd)
 {
     auto it = m_map_commands.find(cmd);
 
@@ -592,24 +601,34 @@ ESysRepoExe::CmdFctType ESysRepoExe::find_cmd_fct(const std::string &cmd)
     return it->second;
 }
 
-const std::string &ESysRepoExe::get_log_file_path()
+const std::string &App::get_log_file_path()
 {
     m_log_file_path = "log.txt";
     return m_log_file_path;
 }
 
-void ESysRepoExe::set_logger_mngr(std::shared_ptr<esys::log::Mngr> logger_mngr)
+void App::set_logger_mngr(std::shared_ptr<esys::log::Mngr> logger_mngr)
 {
     m_logger_mngr = logger_mngr;
 }
 
-std::string ESysRepoExe::get_string(const std::string &name)
+std::string App::get_string(const std::string &name)
 {
     if (m_vm.count(name)) return m_vm[name].as<std::string>();
     return "";
 }
 
-int ESysRepoExe::groups_str_to_groups(const std::string &groups_str, std::vector<std::string> &groups)
+void App::set_version(const std::string &version)
+{
+    m_version = version;
+}
+
+const std::string &App::get_version() const
+{
+    return m_version;
+}
+
+int App::groups_str_to_groups(const std::string &groups_str, std::vector<std::string> &groups)
 {
     typedef boost::tokenizer<boost::char_separator<char>> tokenizer;
     boost::char_separator<char> sep(", ");
@@ -622,14 +641,20 @@ int ESysRepoExe::groups_str_to_groups(const std::string &groups_str, std::vector
     return 0;
 }
 
-std::string ESysRepoExe::get_folder()
+std::string App::get_folder()
 {
     return get_string("folder");
 }
 
-std::vector<std::string> ESysRepoExe::get_sub_args()
+std::vector<std::string> App::get_sub_args()
 {
     if (m_vm.count("subargs") == 0) return std::vector<std::string>();
 
     return m_vm["subargs"].as<std::vector<std::string>>();
 }
+
+} // namespace exe
+
+} // namespace repo
+
+} // namespace esys

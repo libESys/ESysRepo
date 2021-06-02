@@ -9,7 +9,6 @@ include_directories(
 
 set(ESYSREPOEXE_CXX_SOURCES
     esysrepoexe_prec.cpp
-    esysrepoexe.cpp
     main.cpp
 )
 

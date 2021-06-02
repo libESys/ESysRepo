@@ -227,6 +227,7 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\src\esys\repo\cli\app.cpp" />
     <ClCompile Include="..\..\src\esys\repo\config.cpp" />
     <ClCompile Include="..\..\src\esys\repo\configfile.cpp" />
     <ClCompile Include="..\..\src\esys\repo\configfileimpl.cpp" />
@@ -296,6 +297,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\esys\repo\autolink.h" />
+    <ClInclude Include="..\..\include\esys\repo\cli\app.h" />
     <ClInclude Include="..\..\include\esys\repo\cmake\config_defs.h" />
     <ClInclude Include="..\..\include\esys\repo\cmdlineapp.h" />
     <ClInclude Include="..\..\include\esys\repo\config.h" />

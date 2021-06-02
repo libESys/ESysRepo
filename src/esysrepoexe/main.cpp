@@ -17,7 +17,8 @@
 
 #include "esysrepoexe/esysrepoexe_prec.h"
 #include "esysrepoexe/version.h"
-#include "esysrepoexe/esysrepoexe.h"
+
+#include <esys/repo/cli/app.h>
 
 #include <iostream>
 
@@ -27,21 +28,23 @@ int main(int argc, char *argv[])
 
     // auto logger_mngr = esys::log::Mngr::get();
 
-    ESysRepoExe exe;
+    esys::repo::cli::App cli;
+    cli.set_version(ESYSREPOEXE_VERSION_NUM_DOT_STRING);
+
     int result = 0;
 
     // exe.set_logger_mngr(logger_mngr);
 
-    exe.set_os(std::cout);
-    exe.set_args(argc, argv);
-    result = exe.parse_args();
+    cli.set_os(std::cout);
+    cli.set_args(argc, argv);
+    result = cli.parse_args();
 
     if (result < 0)
     {
-        exe.print_help(std::cout);
+        cli.print_help(std::cout);
         return -result;
     }
 
-    result = exe.run();
+    result = cli.run();
     return -result;
 }

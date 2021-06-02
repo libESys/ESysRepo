@@ -67,6 +67,12 @@
     <Filter Include="Header Files\msvc">
       <UniqueIdentifier>{8ac7e3b6-126e-412e-a731-04f1a5f3bae6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\cli">
+      <UniqueIdentifier>{3a8e9377-dfca-47cc-8dbe-7507f80180e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\cli">
+      <UniqueIdentifier>{7bea241d-1320-476f-bea9-34908ef42143}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\esys\repo\esysrepo_dll.cpp">
@@ -251,6 +257,9 @@
     </ClCompile>
     <ClCompile Include="..\..\src\esys\repo\exe\cmdmanifest.cpp">
       <Filter>Source Files\exe</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\cli\app.cpp">
+      <Filter>Source Files\cli</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -502,6 +511,9 @@
     </ClInclude>
     <ClInclude Include="..\..\include\esys\repo\exe\cmdmanifest.h">
       <Filter>Header Files\exe</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\cli\app.h">
+      <Filter>Header Files\cli</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

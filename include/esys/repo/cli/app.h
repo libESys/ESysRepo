@@ -1,5 +1,5 @@
 /*!
- * \file esysepoexe/esysepoexe.h
+ * \file esys/repo/cli/app.h
  * \brief
  *
  * \cond
@@ -17,12 +17,12 @@
 
 #pragma once
 
-#include <esys/log/mngr.h>
-
-#include <esys/repo/gitbase.h>
-#include <esys/repo/manifest/group.h>
+#include "esys/repo/esysrepo_defs.h"
+#include "esys/repo/gitbase.h"
+#include "esys/repo/manifest/group.h"
 
 #include <esys/log/user.h>
+#include <esys/log/mngr.h>
 
 #include <boost/program_options/variables_map.hpp>
 #include <boost/program_options/options_description.hpp>
@@ -38,13 +38,22 @@
 
 namespace po = boost::program_options;
 
-class ESysRepoExe : public esys::log::User
+namespace esys
+{
+
+namespace repo
+{
+
+namespace cli
+{
+
+class ESYSREPO_API App : public esys::log::User
 {
 public:
-    typedef int (ESysRepoExe::*CmdFctType)();
+    typedef int (App::*CmdFctType)();
 
-    ESysRepoExe();
-    ~ESysRepoExe();
+    App();
+    ~App();
 
     void set_args(int argc, char **argv);
     int parse_args();
@@ -86,6 +95,9 @@ public:
     std::vector<std::string> get_sub_args();
     std::string get_string(const std::string &name);
 
+    void set_version(const std::string &version);
+    const std::string &get_version() const;
+
     static int groups_str_to_groups(const std::string &groups_str, std::vector<std::string> &groups);
 
 protected:
@@ -103,9 +115,16 @@ protected:
     std::string m_log_file_path;
     std::shared_ptr<esys::log::LoggerBase> m_logger;
     std::shared_ptr<esys::log::Mngr> m_logger_mngr;
+    std::string m_version;
     std::map<std::string, CmdFctType> m_map_commands = {
-        {"help", &ESysRepoExe::cmd_help},       {"init", &ESysRepoExe::cmd_init},
-        {"info", &ESysRepoExe::cmd_info},       {"list", &ESysRepoExe::cmd_list},
-        {"status", &ESysRepoExe::cmd_status},   {"sync", &ESysRepoExe::cmd_sync},
-        {"version", &ESysRepoExe::cmd_version}, {"manifest", &ESysRepoExe::cmd_manifest}};
+        {"help", &App::cmd_help},       {"init", &App::cmd_init},
+        {"info", &App::cmd_info},       {"list", &App::cmd_list},
+        {"status", &App::cmd_status},   {"sync", &App::cmd_sync},
+        {"version", &App::cmd_version}, {"manifest", &App::cmd_manifest}};
 };
+
+}
+
+}
+
+}
