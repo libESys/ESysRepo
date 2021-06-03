@@ -258,8 +258,20 @@
     <ClCompile Include="..\..\src\esys\repo\exe\cmdmanifest.cpp">
       <Filter>Source Files\exe</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\cli\cmd_cli.cpp">
+      <Filter>Source Files\cli</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\cli\cmdinit_cli.cpp">
+      <Filter>Source Files\cli</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\cli\appbase.cpp">
+      <Filter>Source Files\cli</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\src\esys\repo\cli\app.cpp">
       <Filter>Source Files\cli</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\gitmngr.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -513,6 +525,18 @@
       <Filter>Header Files\exe</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\esys\repo\cli\app.h">
+      <Filter>Header Files\cli</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\cli\cmdinit.h">
+      <Filter>Header Files\cli</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\cli\cmd.h">
+      <Filter>Header Files\cli</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\cli\cmd_t.h">
+      <Filter>Header Files\cli</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\cli\appbase.h">
       <Filter>Header Files\cli</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\esys\repo\gitmngr.h">

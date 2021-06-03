@@ -180,6 +180,11 @@ public:
     virtual void set_sub_args(const std::vector<std::string> &sub_args);
     const std::vector<std::string> &get_sub_args() const;
 
+    void set_time(bool time);
+    bool get_time() const;
+    void set_delta_time(bool delta_time);
+    bool get_delta_time() const;
+
     void set_groups(const std::vector<std::string> &groups);
     const std::vector<std::string> &get_groups() const;
 
@@ -229,6 +234,8 @@ protected:
     std::vector<std::string> m_input_rel_git_repo_paths;
     std::vector<std::string> m_groups;
     int m_job_count = 1;
+    bool m_time = false;
+    bool m_delta_time = false;
     //!< \endcond
 };
 

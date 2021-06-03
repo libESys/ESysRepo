@@ -1,5 +1,5 @@
 /*!
- * \file esys/repo/cli/app.h
+ * \file esys/repo/cli/cmdinit.h
  * \brief
  *
  * \cond
@@ -18,9 +18,8 @@
 #pragma once
 
 #include "esys/repo/esysrepo_defs.h"
-#include "esys/repo/cli/appbase.h"
-
-#include "esys/repo/cli/cmdinit.h"
+#include "esys/repo/cli/cmd_t.h"
+#include "esys/repo/exe/cmdinit.h"
 
 namespace esys
 {
@@ -31,16 +30,18 @@ namespace repo
 namespace cli
 {
 
-class ESYSREPO_API App : public AppBase
+class ESYSREPO_API CmdInit : public Cmd_t<exe::CmdInit>
 {
 public:
-    App();
-    ~App();
+    typedef Cmd_t<exe::CmdInit> BaseType;
 
-    CmdInit &get_cmd_init();
+    CmdInit(AppBase *app = nullptr);
+    virtual ~CmdInit();
+
+    int configure_cmd(CmdType &cmd) override;
+    std::shared_ptr<po::options_description> get_desc() override;
 
 protected:
-    CmdInit m_cmd_init{this};
 };
 
 } // namespace cli

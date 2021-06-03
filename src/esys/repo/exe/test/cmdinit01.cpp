@@ -54,13 +54,10 @@ ESYSTEST_AUTO_TEST_CASE(CmdInit01)
     ESYSTEST_REQUIRE_NE(logger, nullptr);
 
     CmdInit cmd_init;
-    auto git = std::make_shared<libgit2::Git>();
-    git->set_logger_if(logger);
-
+    
     file_path /= "manifest";
     cmd_init.set_url("https://gitlab.com/libesys/esysmodbus/manifest.git");
     cmd_init.set_workspace_path(file_path.string());
-    cmd_init.set_git(git);
     cmd_init.set_logger_if(logger);
 
     int result = cmd_init.run();

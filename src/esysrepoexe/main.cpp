@@ -37,7 +37,7 @@ int main(int argc, char *argv[])
 
     cli.set_os(std::cout);
     cli.set_args(argc, argv);
-    result = cli.parse_args();
+    result = cli.parse_and_configure();
 
     if (result < 0)
     {

@@ -19,6 +19,7 @@
 #include "esys/repo/exe/cmd.h"
 #include "esys/repo/filesystem.h"
 #include "esys/repo/configfolder.h"
+#include "esys/repo/gitmngr.h"
 
 #include <esys/log/consolelockguard.h>
 
@@ -65,6 +66,9 @@ int Cmd::run()
 
     std::string msg = get_name() + " ...";
     info(msg);
+
+    if (get_git() == nullptr) set_git(GitMngr::new_ptr());
+    if (get_logger_if() != nullptr) get_git()->set_logger_if(get_logger_if());
 
     int result = impl_run();
 
@@ -177,19 +181,11 @@ bool Cmd::get_debug() const
 
 int Cmd::set_folder(const std::string &folder)
 {
-    if (!folder.empty())
-    {
-        boost::filesystem::path path = folder;
-        path = boost::filesystem::absolute(path).normalize().make_preferred();
-        set_workspace_path(path.string());
-    }
-    else
-    {
-        boost::filesystem::path path = Cmd::find_workspace_path();
-        if (path.empty()) return -1;
+    boost::filesystem::path path = Cmd::find_workspace_path(folder);
+    if (path.empty()) return -1;
 
-        set_workspace_path(path.string());
-    }
+    set_workspace_path(path.string());
+   
     return 0;
 }
 
@@ -201,6 +197,26 @@ void Cmd::set_sub_args(const std::vector<std::string> &sub_args)
 const std::vector<std::string> &Cmd::get_sub_args() const
 {
     return m_sub_args;
+}
+
+void Cmd::set_time(bool time)
+{
+    m_time = time;
+}
+
+bool Cmd::get_time() const
+{
+    return m_time;
+}
+
+void Cmd::set_delta_time(bool delta_time)
+{
+    m_delta_time = delta_time;
+}
+
+bool Cmd::get_delta_time() const
+{
+    return m_delta_time;
 }
 
 void Cmd::set_groups(const std::vector<std::string> &groups)
@@ -221,19 +237,19 @@ int Cmd::process_sub_args_as_git_repo_path(const std::string &input_path)
     if (the_input_path == ".") the_input_path = boost::filesystem::current_path();
 
     boost::filesystem::path git_repo = Cmd::find_git_repo_path(the_input_path.string());
-    boost::filesystem::path esysrepo_path = get_workspace_path();
+    boost::filesystem::path workspace_path = get_workspace_path();
 
-    if (esysrepo_path.empty())
+    if (workspace_path.empty())
     {
-        esysrepo_path = Cmd::find_workspace_path(the_input_path.string());
+        workspace_path = Cmd::find_workspace_path(the_input_path.string());
 
-        if (esysrepo_path.empty())
+        if (workspace_path.empty())
         {
             error("Requires ESysRepo to be installed first.");
             return -1;
         }
         else
-            set_workspace_path(esysrepo_path.string());
+            set_workspace_path(workspace_path.string());
     }
 
     if (git_repo.empty()) return 0;
@@ -255,7 +271,7 @@ int Cmd::process_sub_args_as_git_repo_path(const std::string &input_path)
     else
     {
         // We need to find which repo this is related too
-        boost::filesystem::path git_rel_path = boost::filesystem::relative(git_repo, esysrepo_path);
+        boost::filesystem::path git_rel_path = boost::filesystem::relative(git_repo, workspace_path);
 
         if (git_rel_path.empty())
         {

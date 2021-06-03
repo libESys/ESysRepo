@@ -222,6 +222,9 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\src\esys\repo\cli\test\app01.cpp" />
+    <ClCompile Include="..\..\src\esys\repo\cli\test\appbase01.cpp" />
+    <ClCompile Include="..\..\src\esys\repo\cli\test\cmdinit01_cli.cpp" />
     <ClCompile Include="..\..\src\esys\repo\exe\test\cmdinit01.cpp" />
     <ClCompile Include="..\..\src\esys\repo\exe\test\cmdmanifest01.cpp" />
     <ClCompile Include="..\..\src\esys\repo\exe\test\cmdstatus01.cpp" />

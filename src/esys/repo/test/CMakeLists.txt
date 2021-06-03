@@ -33,6 +33,12 @@ set(ESYSREPO_T_CXX_SOURCES
     testcasectrl.cpp
 )
 
+set(ESYSREPO_T_CLI_CXX_SOURCES
+    ../cli/test/app01.cpp
+    ../cli/test/appbase01.cpp
+    ../cli/test/cmdinit01_cli.cpp
+)
+
 set(ESYSREPO_T_EXE_CXX_SOURCES
     ../exe/test/cmdinit01.cpp
     ../exe/test/cmdmanifest01.cpp
@@ -78,6 +84,7 @@ set(ESYSREPO_T_MANIFEST_CXX_SOURCES
 
 add_executable(esysrepo_t
     ${ESYSREPO_T_CXX_SOURCES}
+    ${ESYSREPO_T_CLI_CXX_SOURCES}
     ${ESYSREPO_T_EXE_CXX_SOURCES}
     ${ESYSREPO_T_GIT_CXX_SOURCES}
     ${ESYSREPO_T_GREPO_CXX_SOURCES}
