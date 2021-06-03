@@ -36,6 +36,7 @@ set(ESYSREPO_CXX_SOURCES
     filesystem.cpp
     gitbase.cpp
     githelper.cpp
+    gitmngr.cpp
     manifest.cpp
     progresscallbackbase.cpp
     sshbase.cpp

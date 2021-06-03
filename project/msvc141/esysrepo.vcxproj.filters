@@ -515,6 +515,9 @@
     <ClInclude Include="..\..\include\esys\repo\cli\app.h">
       <Filter>Header Files\cli</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\gitmngr.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\..\res\esysrepo.rc">
