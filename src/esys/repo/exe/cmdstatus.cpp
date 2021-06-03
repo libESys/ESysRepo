@@ -109,7 +109,7 @@ int CmdStatus::open_repo(std::shared_ptr<manifest::Repository> repo)
     git_helper.set_auto_close();
 
     boost::filesystem::path rel_repo_path;
-    boost::filesystem::path repo_path = get_config_folder()->get_parent_path();
+    boost::filesystem::path repo_path = get_config_folder()->get_workspace_path();
     repo_path /= repo->get_path();
     repo_path = boost::filesystem::absolute(repo_path).normalize().make_preferred();
     rel_repo_path = boost::filesystem::relative(repo_path);
@@ -233,14 +233,14 @@ std::size_t CmdStatus::get_start_print_branch() const
 
 int CmdStatus::process_sub_args_to_find_parent_path()
 {
-    if (!get_parent_path().empty()) return 0;
+    if (!get_workspace_path().empty()) return 0;
 
     if (get_sub_args().size() == 0)
     {
-        std::string parent_path = Cmd::find_parent_path();
+        std::string parent_path = Cmd::find_workspace_path();
         if (parent_path.empty()) return -1;
 
-        set_parent_path(parent_path);
+        set_workspace_path(parent_path);
         return 0;
     }
 
@@ -249,18 +249,18 @@ int CmdStatus::process_sub_args_to_find_parent_path()
     for (auto &path : get_sub_args())
     {
         // if (!boost::filesystem::exists(path)) continue;
-        parent_path = Cmd::find_parent_path(path);
+        parent_path = Cmd::find_workspace_path(path);
         if (!parent_path.empty())
         {
-            set_parent_path(parent_path);
+            set_workspace_path(parent_path);
             return 0;
         }
     }
 
-    parent_path = Cmd::find_parent_path();
+    parent_path = Cmd::find_workspace_path();
     if (parent_path.empty()) return -1;
 
-    set_parent_path(parent_path);
+    set_workspace_path(parent_path);
     return 0;
 }
 

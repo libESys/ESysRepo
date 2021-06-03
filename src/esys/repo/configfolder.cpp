@@ -35,7 +35,7 @@ ConfigFolder::~ConfigFolder()
 {
 }
 
-void ConfigFolder::set_parent_path(const std::string &parent_path)
+void ConfigFolder::set_workspace_path(const std::string &parent_path)
 {
     boost::filesystem::path path = parent_path;
 
@@ -44,14 +44,14 @@ void ConfigFolder::set_parent_path(const std::string &parent_path)
     m_parent_path = boost::filesystem::absolute(path).make_preferred().string();
 }
 
-const std::string &ConfigFolder::get_parent_path() const
+const std::string &ConfigFolder::get_workspace_path() const
 {
     return m_parent_path;
 }
 
 void ConfigFolder::populate_all_pathes()
 {
-    boost::filesystem::path path = get_parent_path();
+    boost::filesystem::path path = get_workspace_path();
     boost::filesystem::path temp;
     boost::filesystem::path config_file;
 
@@ -69,13 +69,13 @@ void ConfigFolder::populate_all_pathes()
 
 int ConfigFolder::create(const std::string &parent_path)
 {
-    if (!parent_path.empty()) set_parent_path(parent_path);
+    if (!parent_path.empty()) set_workspace_path(parent_path);
 
-    if (!boost::filesystem::exists(get_parent_path()))
+    if (!boost::filesystem::exists(get_workspace_path()))
     {
-        boost::filesystem::path rel_parent_path = boost::filesystem::relative(get_parent_path());
+        boost::filesystem::path rel_parent_path = boost::filesystem::relative(get_workspace_path());
 
-        bool result = boost::filesystem::create_directories(get_parent_path());
+        bool result = boost::filesystem::create_directories(get_workspace_path());
         if (result)
         {
             info("Created folder : " + rel_parent_path.string());
@@ -120,7 +120,7 @@ int ConfigFolder::create(const std::string &parent_path)
 
 int ConfigFolder::open(const std::string &parent_path)
 {
-    if (!parent_path.empty()) set_parent_path(parent_path);
+    if (!parent_path.empty()) set_workspace_path(parent_path);
 
     populate_all_pathes();
 
@@ -152,7 +152,7 @@ int ConfigFolder::open(const std::string &parent_path)
 
 int ConfigFolder::write(const std::string &parent_path)
 {
-    if (!parent_path.empty()) set_parent_path(parent_path);
+    if (!parent_path.empty()) set_workspace_path(parent_path);
 
     return -1;
 }

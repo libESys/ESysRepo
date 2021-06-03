@@ -41,9 +41,7 @@ namespace test
  * "esys/repo/exe/test/cmdinit01.cpp"
  *
  *  \brief
- *
  */
-
 ESYSTEST_AUTO_TEST_CASE(CmdInit01)
 {
     boost::filesystem::path file_path;
@@ -61,7 +59,7 @@ ESYSTEST_AUTO_TEST_CASE(CmdInit01)
 
     file_path /= "manifest";
     cmd_init.set_url("https://gitlab.com/libesys/esysmodbus/manifest.git");
-    cmd_init.set_parent_path(file_path.string());
+    cmd_init.set_workspace_path(file_path.string());
     cmd_init.set_git(git);
     cmd_init.set_logger_if(logger);
 

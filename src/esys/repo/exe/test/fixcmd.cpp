@@ -192,7 +192,7 @@ void FixCmd::init()
 
     m_cmd_init.set_url(get_manifest_url());
     if (!get_manifest_branch().empty()) m_cmd_init.set_branch(get_manifest_branch());
-    m_cmd_init.set_parent_path(m_file_path.string());
+    m_cmd_init.set_workspace_path(m_file_path.string());
     m_cmd_init.set_git(m_git);
     m_cmd_init.set_logger_if(m_logger);
     m_cmd_init.set_debug(true);
@@ -204,7 +204,7 @@ void FixCmd::init()
 void FixCmd::sync()
 {
     m_cmd_sync.set_job_count(4);
-    m_cmd_sync.set_parent_path(m_file_path.string());
+    m_cmd_sync.set_workspace_path(m_file_path.string());
     m_cmd_sync.set_git(m_git);
     m_cmd_sync.set_logger_if(m_logger);
     m_cmd_sync.set_debug(true);
@@ -216,7 +216,7 @@ void FixCmd::sync()
 void FixCmd::sync(const std::vector<std::string> folders)
 {
     m_cmd_sync.set_job_count(4);
-    m_cmd_sync.set_parent_path(m_file_path.string());
+    m_cmd_sync.set_workspace_path(m_file_path.string());
     m_cmd_sync.set_git(m_git);
     m_cmd_sync.set_logger_if(m_logger);
     m_cmd_sync.set_debug(true);
@@ -229,7 +229,7 @@ void FixCmd::sync(const std::vector<std::string> folders)
 
 void FixCmd::manifest()
 {
-    m_cmd_manifest.set_parent_path(m_file_path.string());
+    m_cmd_manifest.set_workspace_path(m_file_path.string());
     m_cmd_manifest.set_git(m_git);
     m_cmd_manifest.set_logger_if(m_logger);
     m_cmd_manifest.set_debug(true);

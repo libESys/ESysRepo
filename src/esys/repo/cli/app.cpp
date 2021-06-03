@@ -243,10 +243,10 @@ int App::cmd_init()
     {
         boost::filesystem::path path = m_vm["output"].as<std::string>();
         path = boost::filesystem::absolute(path).normalize().make_preferred();
-        init.set_parent_path(path.string());
+        init.set_workspace_path(path.string());
     }
     else
-        init.set_parent_path(boost::filesystem::current_path().normalize().make_preferred().string());
+        init.set_workspace_path(boost::filesystem::current_path().normalize().make_preferred().string());
     init.set_google_manifest(m_vm["google"].as<bool>());
 
     return init.run();
@@ -411,17 +411,17 @@ int App::cmd_sync()
     {
         boost::filesystem::path path = m_vm["folder"].as<std::string>();
         path = boost::filesystem::absolute(path).normalize().make_preferred();
-        sync.set_parent_path(path.string());
+        sync.set_workspace_path(path.string());
     }
     else
     {
-        boost::filesystem::path path = esys::repo::exe::Cmd::find_parent_path();
+        boost::filesystem::path path = esys::repo::exe::Cmd::find_workspace_path();
         if (path.empty())
         {
             error("Couldn't find a folder with App from : " + boost::filesystem::current_path().string());
             return -1;
         }
-        sync.set_parent_path(path.string());
+        sync.set_workspace_path(path.string());
     }
 
     if (m_vm.count("job")) sync.set_job_count(m_vm["job"].as<int>());
@@ -475,17 +475,17 @@ int App::cmd_manifest()
     {
         boost::filesystem::path path = m_vm["folder"].as<std::string>();
         path = boost::filesystem::absolute(path).normalize().make_preferred();
-        manifest.set_parent_path(path.string());
+        manifest.set_workspace_path(path.string());
     }
     else
     {
-        boost::filesystem::path path = esys::repo::exe::Cmd::find_parent_path();
+        boost::filesystem::path path = esys::repo::exe::Cmd::find_workspace_path();
         if (path.empty())
         {
             error("Couldn't find a folder with App from : " + boost::filesystem::current_path().string());
             return -1;
         }
-        manifest.set_parent_path(path.string());
+        manifest.set_workspace_path(path.string());
     }
 
     return manifest.run();
@@ -653,7 +653,7 @@ std::vector<std::string> App::get_sub_args()
     return m_vm["subargs"].as<std::vector<std::string>>();
 }
 
-} // namespace exe
+} // namespace cli
 
 } // namespace repo
 

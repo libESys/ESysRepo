@@ -180,7 +180,7 @@ int CmdInit::fetch_unknown_manifest()
 
         boost::filesystem::path source = path.string();
         boost::filesystem::path rel_source = boost::filesystem::relative(source);
-        boost::filesystem::path target = get_config_folder()->get_parent_path();
+        boost::filesystem::path target = get_config_folder()->get_workspace_path();
 
         result = git_helper.move(source.string(), target.string(), true, log::Level::DEBUG);
         if (result == -1) return result;
@@ -239,7 +239,7 @@ int CmdInit::fetch_unknown_manifest()
         get_config_folder()->get_or_new_config()->set_manifest_type(manifest::Type::GIT_SUPER_PROJECT);
 
         boost::filesystem::path source = path.string();
-        boost::filesystem::path target = get_config_folder()->get_parent_path();
+        boost::filesystem::path target = get_config_folder()->get_workspace_path();
 
         result = git_helper.move(source.string(), target.string(), true, log::Level::DEBUG);
         if (result < -1) return -1;
@@ -258,9 +258,9 @@ int CmdInit::create_esysrepo_folder()
 
     set_config_folder(config_folder);
 
-    debug(0, "[CmdInit::create_esysrepo_folder] parent_path = " + get_parent_path());
+    debug(0, "[CmdInit::create_esysrepo_folder] parent_path = " + get_workspace_path());
 
-    int result = config_folder->create(get_parent_path());
+    int result = config_folder->create(get_workspace_path());
     debug(0, "[CmdInit::create_esysrepo_folder] end.");
     return result;
 }

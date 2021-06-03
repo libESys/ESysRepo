@@ -50,7 +50,7 @@ int SyncRepo::run()
 
 int SyncRepo::process_repo()
 {
-    boost::filesystem::path path = get_config_folder()->get_parent_path();
+    boost::filesystem::path path = get_config_folder()->get_workspace_path();
     if (get_repo()->get_path() != ".") path /= get_repo()->get_path();
 
     if (!GitBase::is_repo(path.string())) return clone();
@@ -98,7 +98,7 @@ int SyncRepo::clone()
 
     std::string branch_to_checkout;
 
-    boost::filesystem::path path = get_config_folder()->get_parent_path();
+    boost::filesystem::path path = get_config_folder()->get_workspace_path();
     if (get_repo()->get_path() != ".")
     {
         // A simple clone can be made
@@ -171,7 +171,7 @@ int SyncRepo::clone()
 int SyncRepo::fetch_update()
 {
     GitHelper git_helper(get_git(), get_logger_if(), static_cast<int>(get_repo_idx()));
-    boost::filesystem::path path = get_config_folder()->get_parent_path();
+    boost::filesystem::path path = get_config_folder()->get_workspace_path();
     if (get_repo()->get_path() != ".") path /= get_repo()->get_path();
 
     int result = git_helper.open(path.string(), log::Level::INFO);

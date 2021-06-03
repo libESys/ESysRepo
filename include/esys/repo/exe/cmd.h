@@ -95,13 +95,13 @@ public:
     /*!
      * \param[in] parent_path the parent path
      */
-    void set_parent_path(const std::string &parent_path);
+    void set_workspace_path(const std::string &workspace_path);
 
     //! Get the parent path
     /*!
      * \return the parent path
      */
-    const std::string &get_parent_path() const;
+    const std::string &get_workspace_path() const;
 
     //! Set the config folder
     /*!
@@ -139,12 +139,12 @@ public:
      */
     const std::shared_ptr<manifest::Loader> get_loader() const;
 
-    //! Find the parent path if any given a child path
+    //! Find the workspace path if any given a child path
     /*!
      * \param[in] path the child path is provided, otherwise the current path will be used
-     * \return the parent path if found, empty string otherwise
+     * \return the workspace path if found, empty string otherwise
      */
-    static std::string find_parent_path(const std::string &path = "");
+    static std::string find_workspace_path(const std::string &path = "");
 
     //! Find the path of a git repo if any given a child path
     /*!
@@ -182,7 +182,7 @@ public:
 
     void set_groups(const std::vector<std::string> &groups);
     const std::vector<std::string> &get_groups() const;
-    
+
     int process_sub_args_as_git_repo_path(const std::string &input_path);
     int process_sub_args_as_git_repo_paths();
     const std::vector<std::string> &get_input_git_repo_paths() const;
@@ -221,7 +221,7 @@ protected:
     std::shared_ptr<GitBase> m_git;                //!< The git instance to use
     bool m_debug = false;                          //!< If true debug information is printed
     std::string m_folder;                          //!< The current folder
-    std::string m_parent_path;                     //!< The parent path
+    std::string m_workspace_path;                  //!< The workspace path
     std::shared_ptr<ConfigFolder> m_config_folder; //!< The config folder
     std::shared_ptr<manifest::Loader> m_loader;    //!< The manifest loader
     std::chrono::time_point<std::chrono::steady_clock> m_start_time;

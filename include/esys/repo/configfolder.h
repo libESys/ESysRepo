@@ -48,13 +48,13 @@ public:
     /*!
      * \param[in] path the parent path of the ConfigFolder
      */
-    void set_parent_path(const std::string &path);
+    void set_workspace_path(const std::string &path);
 
     //! Get the parent path of the ConfigFolder
     /*!
      * \return the parent path of the ConfigFolder
      */
-    const std::string &get_parent_path() const;
+    const std::string &get_workspace_path() const;
 
     //! Create a new ConfigFolder
     /*!

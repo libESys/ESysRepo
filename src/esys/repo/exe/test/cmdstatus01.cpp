@@ -61,7 +61,7 @@ ESYSTEST_AUTO_TEST_CASE(CmdStatus01)
     git->set_logger_if(logger);
 
     cmd_init.set_url("https://gitlab.com/libesys/esysmodbus/manifest.git");
-    cmd_init.set_parent_path(file_path.string());
+    cmd_init.set_workspace_path(file_path.string());
     cmd_init.set_git(git);
     cmd_init.set_logger_if(logger);
 
@@ -70,7 +70,7 @@ ESYSTEST_AUTO_TEST_CASE(CmdStatus01)
 
     CmdSync cmd_sync;
 
-    cmd_sync.set_parent_path(file_path.string());
+    cmd_sync.set_workspace_path(file_path.string());
     cmd_sync.set_git(git);
     cmd_sync.set_logger_if(logger);
 
@@ -79,7 +79,7 @@ ESYSTEST_AUTO_TEST_CASE(CmdStatus01)
 
     CmdStatus cmd_status;
 
-    cmd_status.set_parent_path(file_path.string());
+    cmd_status.set_workspace_path(file_path.string());
     cmd_status.set_git(git);
     cmd_status.set_logger_if(logger);
 

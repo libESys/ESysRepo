@@ -86,7 +86,7 @@ int CmdManifest::update_revision_as_head(std::shared_ptr<manifest::Repository> r
     GitHelper git_helper(get_git(), get_logger_if());
 
     boost::filesystem::path rel_repo_path;
-    boost::filesystem::path repo_path = get_config_folder()->get_parent_path();
+    boost::filesystem::path repo_path = get_config_folder()->get_workspace_path();
     repo_path /= repo->get_path();
     repo_path = boost::filesystem::absolute(repo_path).normalize().make_preferred();
     rel_repo_path = boost::filesystem::relative(repo_path);

@@ -119,17 +119,17 @@ const std::shared_ptr<GitBase> Cmd::get_git() const
     return m_git;
 }
 
-void Cmd::set_parent_path(const std::string &parent_path)
+void Cmd::set_workspace_path(const std::string &workspace_path)
 {
-    m_parent_path = parent_path;
+    m_workspace_path = workspace_path;
 }
 
-const std::string &Cmd::get_parent_path() const
+const std::string &Cmd::get_workspace_path() const
 {
-    return m_parent_path;
+    return m_workspace_path;
 }
 
-std::string Cmd::find_parent_path(const std::string &path)
+std::string Cmd::find_workspace_path(const std::string &path)
 {
     boost::filesystem::path cur_path;
 
@@ -181,14 +181,14 @@ int Cmd::set_folder(const std::string &folder)
     {
         boost::filesystem::path path = folder;
         path = boost::filesystem::absolute(path).normalize().make_preferred();
-        set_parent_path(path.string());
+        set_workspace_path(path.string());
     }
     else
     {
-        boost::filesystem::path path = Cmd::find_parent_path();
+        boost::filesystem::path path = Cmd::find_workspace_path();
         if (path.empty()) return -1;
 
-        set_parent_path(path.string());
+        set_workspace_path(path.string());
     }
     return 0;
 }
@@ -221,11 +221,11 @@ int Cmd::process_sub_args_as_git_repo_path(const std::string &input_path)
     if (the_input_path == ".") the_input_path = boost::filesystem::current_path();
 
     boost::filesystem::path git_repo = Cmd::find_git_repo_path(the_input_path.string());
-    boost::filesystem::path esysrepo_path = get_parent_path();
+    boost::filesystem::path esysrepo_path = get_workspace_path();
 
     if (esysrepo_path.empty())
     {
-        esysrepo_path = Cmd::find_parent_path(the_input_path.string());
+        esysrepo_path = Cmd::find_workspace_path(the_input_path.string());
 
         if (esysrepo_path.empty())
         {
@@ -233,7 +233,7 @@ int Cmd::process_sub_args_as_git_repo_path(const std::string &input_path)
             return -1;
         }
         else
-            set_parent_path(esysrepo_path.string());
+            set_workspace_path(esysrepo_path.string());
     }
 
     if (git_repo.empty()) return 0;
@@ -324,8 +324,8 @@ int Cmd::open_esysrepo_folder()
 
     set_config_folder(config_folder);
 
-    boost::filesystem::path rel_parent_path = boost::filesystem::relative(get_parent_path());
-    int result = config_folder->open(get_parent_path());
+    boost::filesystem::path rel_parent_path = boost::filesystem::relative(get_workspace_path());
+    int result = config_folder->open(get_workspace_path());
     if (result < 0)
         error("Failed to open esysrepo folder : " + rel_parent_path.string());
     else

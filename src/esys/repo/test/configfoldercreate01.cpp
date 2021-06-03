@@ -70,7 +70,7 @@ ESYSTEST_AUTO_TEST_CASE(ConfigFolderCreate01)
     cfg->set_manifest_path("grepo/default.xml");
 
     config_folder.set_config(cfg);
-    config_folder.set_parent_path(parent_path.string());
+    config_folder.set_workspace_path(parent_path.string());
 
     int result = config_folder.create();
     ESYSTEST_REQUIRE_EQUAL(result, 0);
