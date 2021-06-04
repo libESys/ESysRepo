@@ -20,6 +20,7 @@
 #include "esys/repo/cli/appbase.h"
 
 #include <boost/program_options/parsers.hpp>
+#include <boost/tokenizer.hpp>
 
 #include <cassert>
 
@@ -252,6 +253,19 @@ int Cmd::get_int(const std::string &name, int dflt)
 {
     if (m_vm.count(name)) return m_vm[name].as<int>();
     return dflt;
+}
+
+int Cmd::groups_str_to_groups(const std::string &groups_str, std::vector<std::string> &groups)
+{
+    typedef boost::tokenizer<boost::char_separator<char>> tokenizer;
+    boost::char_separator<char> sep(", ");
+    tokenizer tokens(groups_str, sep);
+
+    groups.clear();
+
+    for (tokenizer::iterator it = tokens.begin(); it != tokens.end(); ++it) groups.push_back(*it);
+
+    return 0;
 }
 
 } // namespace cli

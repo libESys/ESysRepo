@@ -273,6 +273,9 @@
     <ClCompile Include="..\..\src\esys\repo\gitmngr.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\cli\cmdsync_cli.cpp">
+      <Filter>Source Files\cli</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\esys\repo\esysrepo_defs.h">
@@ -541,6 +544,9 @@
     </ClInclude>
     <ClInclude Include="..\..\include\esys\repo\gitmngr.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\cli\cmdsync.h">
+      <Filter>Header Files\cli</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -48,21 +48,35 @@ ESYSTEST_AUTO_TEST_CASE(App01)
     std::vector<std::string> args;
     int result = 0;
 
-    App app;
-   
-    args = {};
-    app.set_args(args);
-    result = app.parse_and_configure();
-    ESYSTEST_REQUIRE_NE(result, 0);
+    {
+        App app;
 
-    args = {"init", "-u", url, "--folder", file_path.string()};
-    app.set_args(args);
-    result = app.parse_and_configure();
-    ESYSTEST_REQUIRE_EQUAL(result, 0);
-    ESYSTEST_REQUIRE_EQUAL(app.get_cmd_init().get_cmd().get_url(), url);
+        args = {};
+        app.set_args(args);
+        result = app.parse_and_configure();
+        ESYSTEST_REQUIRE_NE(result, 0);
 
-    result = app.run();
-    ESYSTEST_REQUIRE_EQUAL(result, 0);
+        args = {"init", "-u", url, "--folder", file_path.string()};
+        app.set_args(args);
+        result = app.parse_and_configure();
+        ESYSTEST_REQUIRE_EQUAL(result, 0);
+        ESYSTEST_REQUIRE_EQUAL(app.get_cmd_init().get_cmd().get_url(), url);
+
+        result = app.run();
+        ESYSTEST_REQUIRE_EQUAL(result, 0);
+    }
+
+    {
+        App app;
+
+        args = {"sync", "-j", "4", "--folder", file_path.string()};
+        app.set_args(args);
+        result = app.parse_and_configure();
+        ESYSTEST_REQUIRE_EQUAL(result, 0);
+
+        result = app.run();
+        ESYSTEST_REQUIRE_EQUAL(result, 0);
+    }
 }
 
 } // namespace test

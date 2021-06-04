@@ -276,6 +276,8 @@ int GitImpl::clone(const std::string &url, const std::string &path, const std::s
     }
     else if ((url.find("ssh:") == 0))
     {
+        if (!is_ssh_agent_running()) return check_error(result, "Only authentication via an ssh agent is supported.");
+
         git_clone_options opts = GIT_CLONE_OPTIONS_INIT;
         if (!branch.empty()) opts.checkout_branch = new_ref.c_str();
         // opts.fetch_opts.callbacks.connect = &Remote::Callbacks::connect;
@@ -732,7 +734,7 @@ int GitImpl::libgit2_credentials_cb(git_credential **out, const char *url, const
 
     if (self->is_ssh_agent_running()) return git_credential_ssh_key_from_agent(out, name);
 
-    return -1;
+    return -177;
 }
 
 int GitImpl::libgit2_sideband_progress_cb(const char *str, int len, void *data)

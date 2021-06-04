@@ -86,7 +86,9 @@ public:
     std::string get_workspace();
     std::string get_folder();
     std::vector<std::string> get_sub_args();
-   
+
+    static int groups_str_to_groups(const std::string &groups_str, std::vector<std::string> &groups);
+
 protected:
     void set_desc(std::shared_ptr<po::options_description> desc);
     std::string get_string(const std::string &name);

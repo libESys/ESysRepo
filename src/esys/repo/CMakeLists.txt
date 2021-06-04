@@ -47,6 +47,7 @@ set(ESYSREPO_CLI_CXX_SOURCES
     cli/appbase.cpp
     cli/cmd_cli.cpp
     cli/cmdinit_cli.cpp
+    cli/cmdsync_cli.cpp
 )
 
 set(ESYSREPO_EXE_CXX_SOURCES

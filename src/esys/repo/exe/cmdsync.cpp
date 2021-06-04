@@ -20,6 +20,8 @@
 #include "esys/repo/manifest/syncrepos.h"
 #include "esys/repo/manifest/sync.h"
 
+#include <boost/filesystem.hpp>
+
 namespace esys
 {
 
@@ -78,6 +80,40 @@ int CmdSync::impl_run()
 
     if (get_force()) warn("Option --force-sync is not implemented yet");
 
+    if (!get_folder().empty() && get_workspace_path().empty())
+    {
+        boost::filesystem::path path = exe::Cmd::find_workspace_path(get_folder());
+        if (path.empty())
+        {
+            error("Couldn't find a folder with ESysRepo from : " + get_folder());
+            return -1;
+        }
+        path = boost::filesystem::absolute(path).normalize().make_preferred();
+        set_workspace_path(path.string());
+    }
+    else if (!get_workspace_path().empty())
+    {
+        boost::filesystem::path path = exe::Cmd::find_workspace_path(get_workspace_path());
+        if (path.empty())
+        {
+            error("Couldn't find a folder with ESysRepo from : " + get_workspace_path());
+            return -1;
+        }
+        path = boost::filesystem::absolute(path).normalize().make_preferred();
+        set_workspace_path(path.string());
+    }
+    else
+    {
+        boost::filesystem::path path = exe::Cmd::find_workspace_path();
+        if (path.empty())
+        {
+            error("Couldn't find a folder with ESysRepo from : " + boost::filesystem::current_path().string());
+            return -1;
+        }
+        path = boost::filesystem::absolute(path).normalize().make_preferred();
+        set_workspace_path(path.string());
+    }
+
     result = open_esysrepo_folder();
     if (result < 0) return result;
 
@@ -102,7 +138,7 @@ int CmdSync::impl_run()
             auto group_ptr = get_manifest()->get_groups().find_group_by_name(group);
             if (group_ptr == nullptr)
             {
-                //! \TODO 
+                //! \TODO
                 continue;
             }
             for (auto repo : group_ptr->get_repos())

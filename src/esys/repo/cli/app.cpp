@@ -43,6 +43,11 @@ CmdInit &App::get_cmd_init()
     return m_cmd_init;
 }
 
+CmdSync &App::get_cmd_sync()
+{
+    return m_cmd_sync;
+}
+
 } // namespace cli
 
 } // namespace repo

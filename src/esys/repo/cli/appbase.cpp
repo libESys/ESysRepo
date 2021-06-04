@@ -153,12 +153,15 @@ int AppBase::parse_and_configure()
         return -1;
     }
 
+    cmd_obj->set_logger_if(get_logger_if());
     cmd_obj->set_args(get_args());
     return cmd_obj->parse_and_configure();
 }
 
 int AppBase::parse_args()
 {
+    setup_console_and_logs();
+
     po::positional_options_description p;
     p.add("command", 1).add("subargs", -1);
 
@@ -285,7 +288,6 @@ int AppBase::setup_console_and_logs()
             m_logger->set_flush_log_level(esys::log::Level::INFO);
         }
     }
-
     return 0;
 }
 
@@ -300,7 +302,6 @@ int AppBase::run()
         {
             m_git = std::make_shared<esys::repo::libgit2::Git>();
             m_vm.clear();
-            setup_console_and_logs();
             cmd_obj->set_logger_if(get_logger_if());
             return cmd_obj->run();
         }
@@ -314,7 +315,6 @@ int AppBase::run()
             }
             m_git = std::make_shared<esys::repo::libgit2::Git>();
             m_vm.clear();
-            setup_console_and_logs();
             return (this->*cmd_fct)();
         }
     }
@@ -415,9 +415,7 @@ int AppBase::cmd_info()
     if (m_vm["current-branch"].as<bool>()) info.set_current_branch(true);
     if (m_vm["local-only"].as<bool>()) info.set_local_only(true);
 
-    result = info.set_folder(get_folder());
-    if (result < 0) return result;
-
+    info.set_folder(get_folder());
     return info.run();
 }
 
@@ -456,8 +454,7 @@ int AppBase::cmd_list()
     if (m_vm["name-only"].as<bool>()) list.set_name_only(true);
     if (m_vm["path-only"].as<bool>()) list.set_path_only(true);
 
-    result = list.set_folder(get_folder());
-    if (result < 0) return result;
+    list.set_folder(get_folder());
 
     return list.run();
 }

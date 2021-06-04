@@ -179,14 +179,20 @@ bool Cmd::get_debug() const
     return m_debug;
 }
 
-int Cmd::set_folder(const std::string &folder)
+void Cmd::set_folder(const std::string &folder)
 {
-    boost::filesystem::path path = Cmd::find_workspace_path(folder);
+    m_folder = folder;
+
+    /*boost::filesystem::path path = Cmd::find_workspace_path(folder);
     if (path.empty()) return -1;
 
-    set_workspace_path(path.string());
-   
-    return 0;
+    set_workspace_path(path.string());*/
+  
+}
+
+const std::string &Cmd::get_folder() const
+{
+    return m_folder;
 }
 
 void Cmd::set_sub_args(const std::vector<std::string> &sub_args)

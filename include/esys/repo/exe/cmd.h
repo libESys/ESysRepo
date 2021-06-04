@@ -175,7 +175,13 @@ public:
     /*!
      * \param[in] folder the folder
      */
-    int set_folder(const std::string &folder);
+    void set_folder(const std::string &folder);
+
+    //! Get folder in use
+    /*!
+     * \return the folder
+     */
+    const std::string &get_folder() const;
 
     virtual void set_sub_args(const std::vector<std::string> &sub_args);
     const std::vector<std::string> &get_sub_args() const;
