@@ -1,5 +1,5 @@
 /*!
- * \file esys/repo/cli/test/cmdsync01.cpp
+ * \file esys/repo/cli/test/cmdinfo01.cpp
  * \brief
  *
  * \cond
@@ -17,7 +17,7 @@
 
 #include "esys/repo/test/esysrepo_t_prec.h"
 
-#include <esys/repo/cli/cmdsync.h>
+#include <esys/repo/cli/cmdinfo.h>
 
 namespace esys
 {
@@ -31,28 +31,21 @@ namespace cli
 namespace test
 {
 
-/*! \class CmdSync01Cli esys/repo/cli/test/cmdsync01_cli.cpp
- * "esys/repo/cli/test/cmdsync01_cli.cpp"
+/*! \class CmdInfo01Cli esys/repo/cli/test/cmdinfo01_cli.cpp
+ * "esys/repo/cli/test/cmdinfo01_cli.cpp"
  *
  *  \brief
  */
-ESYSTEST_AUTO_TEST_CASE(CmdSync01Cli)
+ESYSTEST_AUTO_TEST_CASE(CmdInfo01Cli)
 {
-    CmdSync cmd_sync;
-    int job_count = 4;
+    CmdInfo cmd_info;
     std::vector<std::string> args;
     int result = 0;
 
-    args = {};
-    cmd_sync.set_args(args);
-    result = cmd_sync.parse_and_configure();
+    args = {"info"};
+    cmd_info.set_args(args);
+    result = cmd_info.parse_and_configure();
     ESYSTEST_REQUIRE_EQUAL(result, 0);
-
-    args = {"-j", std::to_string(job_count)};
-    cmd_sync.set_args(args);
-    result = cmd_sync.parse_and_configure();
-    ESYSTEST_REQUIRE_EQUAL(result, 0);
-    ESYSTEST_REQUIRE_EQUAL(cmd_sync.get_cmd().get_job_count(), job_count);
 }
 
 } // namespace test

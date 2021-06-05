@@ -85,7 +85,10 @@ bool CmdInfo::get_local_only() const
 
 int CmdInfo::impl_run()
 {
-    int result = open_esysrepo_folder();
+    int result = default_handling_folder_workspace();
+    if (result < 0) return result;
+
+    result = open_esysrepo_folder();
     if (result < 0) return result;
 
     result = load_manifest();

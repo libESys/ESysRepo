@@ -276,6 +276,9 @@
     <ClCompile Include="..\..\src\esys\repo\cli\cmdsync_cli.cpp">
       <Filter>Source Files\cli</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\cli\cmdinfo_cli.cpp">
+      <Filter>Source Files\cli</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\esys\repo\esysrepo_defs.h">
@@ -546,6 +549,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\esys\repo\cli\cmdsync.h">
+      <Filter>Header Files\cli</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\cli\cmdinfo.h">
       <Filter>Header Files\cli</Filter>
     </ClInclude>
   </ItemGroup>

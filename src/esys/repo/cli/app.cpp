@@ -38,6 +38,11 @@ App::~App()
 {
 }
 
+CmdInfo &App::get_cmd_info()
+{
+    return m_cmd_info;
+}
+
 CmdInit &App::get_cmd_init()
 {
     return m_cmd_init;

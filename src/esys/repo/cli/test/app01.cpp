@@ -77,6 +77,18 @@ ESYSTEST_AUTO_TEST_CASE(App01)
         result = app.run();
         ESYSTEST_REQUIRE_EQUAL(result, 0);
     }
+
+    {
+        App app;
+
+        args = {"info", "--folder", file_path.string()};
+        app.set_args(args);
+        result = app.parse_and_configure();
+        ESYSTEST_REQUIRE_EQUAL(result, 0);
+
+        result = app.run();
+        ESYSTEST_REQUIRE_EQUAL(result, 0);
+    }
 }
 
 } // namespace test

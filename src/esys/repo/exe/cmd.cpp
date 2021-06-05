@@ -187,7 +187,6 @@ void Cmd::set_folder(const std::string &folder)
     if (path.empty()) return -1;
 
     set_workspace_path(path.string());*/
-  
 }
 
 const std::string &Cmd::get_folder() const
@@ -370,6 +369,46 @@ int Cmd::load_manifest()
     get_loader()->set_logger_if(get_logger_if());
     int result = get_loader()->run();
     return result;
+}
+
+int Cmd::default_handling_folder_workspace()
+{
+    int result;
+
+    if (!get_folder().empty() && get_workspace_path().empty())
+    {
+        boost::filesystem::path path = exe::Cmd::find_workspace_path(get_folder());
+        if (path.empty())
+        {
+            error("Couldn't find a folder with ESysRepo from : " + get_folder());
+            return -1;
+        }
+        path = boost::filesystem::absolute(path).normalize().make_preferred();
+        set_workspace_path(path.string());
+    }
+    else if (!get_workspace_path().empty())
+    {
+        boost::filesystem::path path = exe::Cmd::find_workspace_path(get_workspace_path());
+        if (path.empty())
+        {
+            error("Couldn't find a folder with ESysRepo from : " + get_workspace_path());
+            return -1;
+        }
+        path = boost::filesystem::absolute(path).normalize().make_preferred();
+        set_workspace_path(path.string());
+    }
+    else
+    {
+        boost::filesystem::path path = exe::Cmd::find_workspace_path();
+        if (path.empty())
+        {
+            error("Couldn't find a folder with ESysRepo from : " + boost::filesystem::current_path().string());
+            return -1;
+        }
+        path = boost::filesystem::absolute(path).normalize().make_preferred();
+        set_workspace_path(path.string());
+    }
+    return 0;
 }
 
 std::string Cmd::get_extra_start_msg()
