@@ -171,6 +171,12 @@
     <ClCompile Include="..\..\src\esys\repo\cli\test\cmdstatus01_cli.cpp">
       <Filter>Source Files\cli</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\cli\test\cmdversion01_cli.cpp">
+      <Filter>Source Files\cli</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\cli\test\app02.cpp">
+      <Filter>Source Files\cli</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\esys\repo\test\esysrepo_t_prec.h">

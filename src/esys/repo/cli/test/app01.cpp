@@ -31,8 +31,8 @@ namespace cli
 namespace test
 {
 
-/*! \class CmdInit01Cli esys/repo/cli/test/cmdinit01_cli.cpp
- * "esys/repo/cli/test/cmdinit01_cli.cpp"
+/*! \class App01 esys/repo/cli/test/app01.cpp
+ * "esys/repo/cli/test/app01.cpp"
  *
  *  \brief
  */

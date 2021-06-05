@@ -235,6 +235,7 @@
     <ClCompile Include="..\..\src\esys\repo\cli\cmdmanifest_cli.cpp" />
     <ClCompile Include="..\..\src\esys\repo\cli\cmdstatus_cli.cpp" />
     <ClCompile Include="..\..\src\esys\repo\cli\cmdsync_cli.cpp" />
+    <ClCompile Include="..\..\src\esys\repo\cli\cmdversion_cli.cpp" />
     <ClCompile Include="..\..\src\esys\repo\cli\cmd_cli.cpp" />
     <ClCompile Include="..\..\src\esys\repo\config.cpp" />
     <ClCompile Include="..\..\src\esys\repo\configfile.cpp" />
@@ -254,6 +255,7 @@
     <ClCompile Include="..\..\src\esys\repo\exe\cmdmanifest.cpp" />
     <ClCompile Include="..\..\src\esys\repo\exe\cmdstatus.cpp" />
     <ClCompile Include="..\..\src\esys\repo\exe\cmdsync.cpp" />
+    <ClCompile Include="..\..\src\esys\repo\exe\cmdversion.cpp" />
     <ClCompile Include="..\..\src\esys\repo\filesystem.cpp" />
     <ClCompile Include="..\..\src\esys\repo\gitbase.cpp" />
     <ClCompile Include="..\..\src\esys\repo\gitcmdline\git_cmdline.cpp" />
@@ -315,6 +317,7 @@
     <ClInclude Include="..\..\include\esys\repo\cli\cmdmanifest.h" />
     <ClInclude Include="..\..\include\esys\repo\cli\cmdstatus.h" />
     <ClInclude Include="..\..\include\esys\repo\cli\cmdsync.h" />
+    <ClInclude Include="..\..\include\esys\repo\cli\cmdversion.h" />
     <ClInclude Include="..\..\include\esys\repo\cli\cmd_t.h" />
     <ClInclude Include="..\..\include\esys\repo\cmake\config_defs.h" />
     <ClInclude Include="..\..\include\esys\repo\cmdlineapp.h" />
@@ -331,6 +334,7 @@
     <ClInclude Include="..\..\include\esys\repo\exe\cmdmanifest.h" />
     <ClInclude Include="..\..\include\esys\repo\exe\cmdstatus.h" />
     <ClInclude Include="..\..\include\esys\repo\exe\cmdsync.h" />
+    <ClInclude Include="..\..\include\esys\repo\exe\cmdversion.h" />
     <ClInclude Include="..\..\include\esys\repo\filesystem.h" />
     <ClInclude Include="..\..\include\esys\repo\git.h" />
     <ClInclude Include="..\..\include\esys\repo\gitbase.h" />

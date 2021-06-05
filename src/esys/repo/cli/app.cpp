@@ -38,6 +38,12 @@ App::~App()
 {
 }
 
+void App::set_version(const std::string &version)
+{
+    AppBase::set_version(version);
+    get_cmd_version().get_cmd().set_version(version);
+}
+
 CmdInfo &App::get_cmd_info()
 {
     return m_cmd_info;
@@ -66,6 +72,11 @@ CmdStatus &App::get_cmd_status()
 CmdSync &App::get_cmd_sync()
 {
     return m_cmd_sync;
+}
+
+CmdVersion &App::get_cmd_version()
+{
+    return m_cmd_version;
 }
 
 } // namespace cli

@@ -52,6 +52,7 @@ set(ESYSREPO_CLI_CXX_SOURCES
     cli/cmdmanifest_cli.cpp
     cli/cmdsync_cli.cpp
     cli/cmdstatus_cli.cpp
+    cli/cmdversion_cli.cpp
 )
 
 set(ESYSREPO_EXE_CXX_SOURCES
@@ -62,6 +63,7 @@ set(ESYSREPO_EXE_CXX_SOURCES
     exe/cmdmanifest.cpp
     exe/cmdstatus.cpp
     exe/cmdsync.cpp
+    exe/cmdversion.cpp
 )
 
 set(ESYSREPO_GIT_CXX_SOURCES

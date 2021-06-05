@@ -26,6 +26,7 @@
 #include "esys/repo/cli/cmdmanifest.h"
 #include "esys/repo/cli/cmdstatus.h"
 #include "esys/repo/cli/cmdsync.h"
+#include "esys/repo/cli/cmdversion.h"
 
 namespace esys
 {
@@ -42,12 +43,15 @@ public:
     App();
     ~App();
 
+    void set_version(const std::string &version) override;
+
     CmdInfo &get_cmd_info();
     CmdInit &get_cmd_init();
     CmdList &get_cmd_list();
     CmdManifest &get_cmd_manifest();
     CmdStatus &get_cmd_status();
     CmdSync &get_cmd_sync();
+    CmdVersion &get_cmd_version();
 
 protected:
     CmdInfo m_cmd_info{this};
@@ -56,6 +60,7 @@ protected:
     CmdManifest m_cmd_manifest{this};
     CmdStatus m_cmd_status{this};
     CmdSync m_cmd_sync{this};
+    CmdVersion m_cmd_version{this};
 };
 
 } // namespace cli

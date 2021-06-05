@@ -75,7 +75,7 @@ std::shared_ptr<po::options_description> Cmd::get_common_desc()
     // clang-format off
     m_common_desc->add_options()
         ("help,h", "Produce help message")
-        ("command", po::value<std::string>(), "Command to execute")
+        ("command", po::value<std::string>()->required(), "Command to execute")
         ("subargs", po::value<std::vector<std::string>>(), "Arguments for command")
         ("time", po::value<bool>()->default_value(false)->implicit_value(true), "Display timestamp")
         ("delta-time", po::value<bool>()->default_value(false)->implicit_value(true), "Display delta timestamp")
@@ -105,7 +105,9 @@ std::shared_ptr<po::options_description> Cmd::get_desc_all()
     if (m_desc_all != nullptr) return m_desc_all;
 
     m_desc_all = std::make_shared<po::options_description>("Allowed options");
-    m_desc_all->add(*get_common_desc()).add(*get_desc());
+    m_desc_all->add(*get_common_desc());
+    auto desc = get_desc();
+    if (desc != nullptr) m_desc_all->add(*desc);
 
     return m_desc_all;
 }

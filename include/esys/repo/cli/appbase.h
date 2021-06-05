@@ -54,10 +54,8 @@ class ESYSREPO_API Cmd;
 class ESYSREPO_API AppBase : public esys::log::User
 {
 public:
-    typedef int (AppBase::*CmdFctType)();
-
     AppBase();
-    ~AppBase();
+    virtual ~AppBase();
 
     void set_args(const std::vector<std::string> &args);
     const std::vector<std::string> &get_args() const;
@@ -70,15 +68,6 @@ public:
     std::string get_cmd();
 
     bool get_debug();
-
-    int cmd_help();
-    int cmd_init();
-    int cmd_info();
-    int cmd_list();
-    int cmd_status();
-    int cmd_sync();
-    int cmd_manifest();
-    int cmd_version();
 
     void register_cmd(Cmd *cmd);
     std::vector<Cmd *> &get_cmds();
@@ -101,7 +90,7 @@ public:
     int parse(const std::vector<std::string> &args, po::options_description &desc,
               po::positional_options_description &p, po::variables_map &vm, bool strict = true);
 
-    CmdFctType find_cmd_fct(const std::string &cmd);
+    //CmdFctType find_cmd_fct(const std::string &cmd);
 
     const std::string &get_log_file_path();
 
@@ -110,7 +99,7 @@ public:
     std::vector<std::string> get_sub_args();
     std::string get_string(const std::string &name);
 
-    void set_version(const std::string &version);
+    virtual void set_version(const std::string &version);
     const std::string &get_version() const;
 
     std::shared_ptr<po::options_description> get_common_desc();
@@ -133,10 +122,10 @@ protected:
     std::shared_ptr<esys::log::LoggerBase> m_logger;
     std::shared_ptr<esys::log::Mngr> m_logger_mngr;
     std::string m_version;
-    std::map<std::string, CmdFctType> m_map_commands = {
+    /*std::map<std::string, CmdFctType> m_map_commands = {
         {"help", &AppBase::cmd_help},       {"init", &AppBase::cmd_init},        {"info", &AppBase::cmd_info},
         {"list", &AppBase::cmd_list},       {"status", &AppBase::cmd_status},    {"sync", &AppBase::cmd_sync},
-        {"version", &AppBase::cmd_version}, {"manifest", &AppBase::cmd_manifest}};
+        {"version", &AppBase::cmd_version}, {"manifest", &AppBase::cmd_manifest}}; */
 
     std::vector<Cmd *> m_cmds;
     std::map<std::string, Cmd *> m_map_cmds;

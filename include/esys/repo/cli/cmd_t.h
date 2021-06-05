@@ -79,6 +79,7 @@ int Cmd_t<CMD>::parse_and_configure()
     int result = parse();
     if (result < 0) return result;
 
+    if (m_vm.count("command") == 0) return -1;
     std::string cmd_txt = m_vm["command"].as<std::string>();
     if (cmd_txt != get_name())
     {
