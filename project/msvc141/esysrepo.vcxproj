@@ -233,6 +233,7 @@
     <ClCompile Include="..\..\src\esys\repo\cli\cmdinit_cli.cpp" />
     <ClCompile Include="..\..\src\esys\repo\cli\cmdlist_cli.cpp" />
     <ClCompile Include="..\..\src\esys\repo\cli\cmdmanifest_cli.cpp" />
+    <ClCompile Include="..\..\src\esys\repo\cli\cmdstatus_cli.cpp" />
     <ClCompile Include="..\..\src\esys\repo\cli\cmdsync_cli.cpp" />
     <ClCompile Include="..\..\src\esys\repo\cli\cmd_cli.cpp" />
     <ClCompile Include="..\..\src\esys\repo\config.cpp" />
@@ -312,6 +313,7 @@
     <ClInclude Include="..\..\include\esys\repo\cli\cmdinit.h" />
     <ClInclude Include="..\..\include\esys\repo\cli\cmdlist.h" />
     <ClInclude Include="..\..\include\esys\repo\cli\cmdmanifest.h" />
+    <ClInclude Include="..\..\include\esys\repo\cli\cmdstatus.h" />
     <ClInclude Include="..\..\include\esys\repo\cli\cmdsync.h" />
     <ClInclude Include="..\..\include\esys\repo\cli\cmd_t.h" />
     <ClInclude Include="..\..\include\esys\repo\cmake\config_defs.h" />

@@ -24,6 +24,7 @@
 #include "esys/repo/cli/cmdinit.h"
 #include "esys/repo/cli/cmdlist.h"
 #include "esys/repo/cli/cmdmanifest.h"
+#include "esys/repo/cli/cmdstatus.h"
 #include "esys/repo/cli/cmdsync.h"
 
 namespace esys
@@ -45,6 +46,7 @@ public:
     CmdInit &get_cmd_init();
     CmdList &get_cmd_list();
     CmdManifest &get_cmd_manifest();
+    CmdStatus &get_cmd_status();
     CmdSync &get_cmd_sync();
 
 protected:
@@ -52,6 +54,7 @@ protected:
     CmdInit m_cmd_init{this};
     CmdList m_cmd_list{this};
     CmdManifest m_cmd_manifest{this};
+    CmdStatus m_cmd_status{this};
     CmdSync m_cmd_sync{this};
 };
 

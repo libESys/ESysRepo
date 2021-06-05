@@ -228,6 +228,7 @@
     <ClCompile Include="..\..\src\esys\repo\cli\test\cmdinit01_cli.cpp" />
     <ClCompile Include="..\..\src\esys\repo\cli\test\cmdlist01_cli.cpp" />
     <ClCompile Include="..\..\src\esys\repo\cli\test\cmdmanifest01_cli.cpp" />
+    <ClCompile Include="..\..\src\esys\repo\cli\test\cmdstatus01_cli.cpp" />
     <ClCompile Include="..\..\src\esys\repo\cli\test\cmdsync01_cli.cpp" />
     <ClCompile Include="..\..\src\esys\repo\exe\test\cmdinit01.cpp" />
     <ClCompile Include="..\..\src\esys\repo\exe\test\cmdmanifest01.cpp" />

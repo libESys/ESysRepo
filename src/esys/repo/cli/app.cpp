@@ -58,6 +58,11 @@ CmdManifest &App::get_cmd_manifest()
     return m_cmd_manifest;
 }
 
+CmdStatus &App::get_cmd_status()
+{
+    return m_cmd_status;
+}
+
 CmdSync &App::get_cmd_sync()
 {
     return m_cmd_sync;
