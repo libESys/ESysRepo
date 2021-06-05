@@ -22,6 +22,7 @@
 
 #include "esys/repo/cli/cmdinfo.h"
 #include "esys/repo/cli/cmdinit.h"
+#include "esys/repo/cli/cmdlist.h"
 #include "esys/repo/cli/cmdsync.h"
 
 namespace esys
@@ -41,11 +42,13 @@ public:
 
     CmdInfo &get_cmd_info();
     CmdInit &get_cmd_init();
+    CmdList &get_cmd_list();
     CmdSync &get_cmd_sync();
 
 protected:
     CmdInfo m_cmd_info{this};
     CmdInit m_cmd_init{this};
+    CmdList m_cmd_list{this};
     CmdSync m_cmd_sync{this};
 };
 

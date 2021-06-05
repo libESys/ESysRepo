@@ -48,6 +48,11 @@ CmdInit &App::get_cmd_init()
     return m_cmd_init;
 }
 
+CmdList &App::get_cmd_list()
+{
+    return m_cmd_list;
+}
+
 CmdSync &App::get_cmd_sync()
 {
     return m_cmd_sync;

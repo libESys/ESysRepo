@@ -43,7 +43,7 @@ std::shared_ptr<po::options_description> CmdInfo::get_desc()
     auto desc = Cmd::get_desc();
     if (desc != nullptr) return desc;
 
-    desc = std::make_shared<po::options_description>("Sync options");
+    desc = std::make_shared<po::options_description>("Info options");
     // clang-format off
     desc->add_options()
         ("help,h", "produce help message")

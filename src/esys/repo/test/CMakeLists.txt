@@ -38,6 +38,7 @@ set(ESYSREPO_T_CLI_CXX_SOURCES
     ../cli/test/appbase01.cpp
     ../cli/test/cmdinfo01_cli.cpp
     ../cli/test/cmdinit01_cli.cpp
+    ../cli/test/cmdlist01_cli.cpp
     ../cli/test/cmdsync01_cli.cpp
 )
 
