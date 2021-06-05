@@ -53,6 +53,11 @@ CmdList &App::get_cmd_list()
     return m_cmd_list;
 }
 
+CmdManifest &App::get_cmd_manifest()
+{
+    return m_cmd_manifest;
+}
+
 CmdSync &App::get_cmd_sync()
 {
     return m_cmd_sync;

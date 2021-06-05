@@ -411,6 +411,28 @@ int Cmd::default_handling_folder_workspace()
     return 0;
 }
 
+int Cmd::only_one_folder_or_workspace()
+{
+    if (!get_folder().empty() && !get_workspace_path().empty())
+    {
+        error("--folder and --workspace can't be specified at the same time");
+        return -1;
+    }
+    else if (!get_folder().empty() || !get_workspace_path().empty())
+    {
+        boost::filesystem::path path;
+        if (!get_folder().empty())
+            path = get_folder();
+        else
+            path = get_workspace_path();
+        path = boost::filesystem::absolute(path).normalize().make_preferred();
+        set_workspace_path(path.string());
+    }
+    else
+        set_workspace_path(boost::filesystem::current_path().normalize().make_preferred().string());
+    return 0;
+}
+
 std::string Cmd::get_extra_start_msg()
 {
     return "";

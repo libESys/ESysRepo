@@ -106,6 +106,9 @@ int CmdInit::impl_run()
     if (get_google_manifest()) warn("The option --google is not implemented yet");
     if (get_git_super_project()) warn("The option --git-super is not implemented yet");
 
+    result = only_one_folder_or_workspace();
+    if (result < 0) return 0;
+
     result = create_esysrepo_folder();
     if (result < 0) return result;
 

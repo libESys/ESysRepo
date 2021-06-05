@@ -66,7 +66,7 @@ int CmdInit::configure_cmd(CmdType &cmd)
     if (m_vm.count("google")) get_cmd().set_google_manifest(m_vm["google"].as<bool>());
     if (m_vm.count("git-super")) get_cmd().set_google_manifest(m_vm["git-super"].as<bool>());
 
-    if (!get_folder().empty() && !get_workspace().empty())
+    /*if (!get_folder().empty() && !get_workspace().empty())
     {
         error("--folder and --workspace can't be specified at the same time");
         return -1;
@@ -82,7 +82,7 @@ int CmdInit::configure_cmd(CmdType &cmd)
         get_cmd().set_workspace_path(path.string());
     }
     else
-        get_cmd().set_workspace_path(boost::filesystem::current_path().normalize().make_preferred().string());
+        get_cmd().set_workspace_path(boost::filesystem::current_path().normalize().make_preferred().string()); */
     get_cmd().set_google_manifest(m_vm["google"].as<bool>());
 
     return 0;

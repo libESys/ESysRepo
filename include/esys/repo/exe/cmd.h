@@ -201,6 +201,7 @@ public:
     virtual std::string get_extra_start_msg();
 
     int default_handling_folder_workspace();
+    int only_one_folder_or_workspace();
 
     void debug(int level, const std::string &msg) override;
     void info(const std::string &msg) override;

@@ -98,7 +98,7 @@ int CmdManifest::update_revision_as_head(std::shared_ptr<manifest::Repository> r
     if (result < 0) return result;
 
     result = git_helper.fetch(log::Level::DEBUG);
-    if (result < 0) return result; 
+    if (result < 0) return result;
 
     std::string hash;
     result = git_helper.get_hash(revision, hash, log::Level::DEBUG);
@@ -114,7 +114,10 @@ int CmdManifest::update_revision_as_head(std::shared_ptr<manifest::Repository> r
 
 int CmdManifest::impl_run()
 {
-    int result = open_esysrepo_folder();
+    int result = only_one_folder_or_workspace();
+    if (result < 0) return result;
+
+    result = open_esysrepo_folder();
     if (result < 0) return result;
 
     result = load_manifest();
