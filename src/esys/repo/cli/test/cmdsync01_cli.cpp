@@ -43,12 +43,12 @@ ESYSTEST_AUTO_TEST_CASE(CmdSync01Cli)
     std::vector<std::string> args;
     int result = 0;
 
-    args = {};
+    args = {"sync"};
     cmd_sync.set_args(args);
     result = cmd_sync.parse_and_configure();
     ESYSTEST_REQUIRE_EQUAL(result, 0);
 
-    args = {"-j", std::to_string(job_count)};
+    args = {"sync", "-j", std::to_string(job_count)};
     cmd_sync.set_args(args);
     result = cmd_sync.parse_and_configure();
     ESYSTEST_REQUIRE_EQUAL(result, 0);
