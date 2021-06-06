@@ -235,14 +235,8 @@ int CmdStatus::process_sub_args_to_find_parent_path()
 {
     if (!get_workspace_path().empty()) return 0;
 
-    if (get_sub_args().size() == 0)
-    {
-        std::string parent_path = Cmd::find_workspace_path();
-        if (parent_path.empty()) return -1;
-
-        set_workspace_path(parent_path);
-        return 0;
-    }
+    if ((get_sub_args().size() == 0) || (!get_folder().empty()) || (!get_workspace_path().empty()))
+        return default_handling_folder_workspace();
 
     std::string parent_path;
 
