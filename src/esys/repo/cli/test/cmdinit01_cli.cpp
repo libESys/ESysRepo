@@ -43,12 +43,12 @@ ESYSTEST_AUTO_TEST_CASE(CmdInit01Cli)
     std::vector<std::string> args;
     int result = 0;
 
-    args = {};
+    args = {"init"};
     cmd_init.set_args(args);
     result = cmd_init.parse_and_configure();
     ESYSTEST_REQUIRE_NE(result, 0);
 
-    args = {"-u", url};
+    args = {"init", "-u", url};
     cmd_init.set_args(args);
     result = cmd_init.parse_and_configure();
     ESYSTEST_REQUIRE_EQUAL(result, 0);
