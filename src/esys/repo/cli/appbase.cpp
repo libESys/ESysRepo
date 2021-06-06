@@ -31,6 +31,15 @@
 #include <boost/process/search_path.hpp>
 #endif
 
+#ifdef WIN32
+#include <stdio.h>
+
+#ifndef ENABLE_VIRTUAL_TERMINAL_PROCESSING
+#define ENABLE_VIRTUAL_TERMINAL_PROCESSING 0x0004
+#endif
+
+#endif
+
 #include <iostream>
 #include <iomanip>
 #include <cassert>
@@ -228,6 +237,33 @@ int AppBase::setup_console_and_logs()
         }
     }
     return 0;
+}
+
+void AppBase::setup_terminal()
+{
+#ifdef WIN32
+    // Set output mode to handle virtual terminal sequences
+    HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
+    if (hOut == INVALID_HANDLE_VALUE)
+    {
+        std::cout << "ERROR: couldn't get handle to standard output." << std::endl;
+        return;
+    }
+
+    DWORD dwMode = 0;
+    if (!GetConsoleMode(hOut, &dwMode))
+    {
+        std::cout << "ERROR: couldn't get windows console mode." << std::endl;
+        return;
+    }
+
+    dwMode |= ENABLE_VIRTUAL_TERMINAL_PROCESSING;
+    if (!SetConsoleMode(hOut, dwMode))
+    {
+        std::cout << "ERROR: couldn't set virtual terminal processing mode." << std::endl;
+        return;
+    }
+#endif
 }
 
 int AppBase::run()

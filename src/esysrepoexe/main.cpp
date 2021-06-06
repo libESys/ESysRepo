@@ -20,21 +20,21 @@
 
 #include <esys/repo/cli/app.h>
 
+#include <termcolor/termcolor.hpp>
+
 #include <iostream>
 
 int main(int argc, char *argv[])
 {
-    std::cout << ESYSREPOEXE_VERSION_STRING << std::endl << std::endl;
-
-    // auto logger_mngr = esys::log::Mngr::get();
-
-    esys::repo::cli::App cli;
-    cli.set_version(ESYSREPOEXE_VERSION_NUM_DOT_STRING);
-
     int result = 0;
+    esys::repo::cli::App cli;
 
-    // exe.set_logger_mngr(logger_mngr);
+    cli.setup_terminal();
 
+    std::cout << termcolor::bold << ESYSREPOEXE_VERSION_STRING << termcolor::reset << std::endl
+              << std::endl;
+
+    cli.set_version(ESYSREPOEXE_VERSION_NUM_DOT_STRING);
     cli.set_os(std::cout);
     cli.set_args(argc, argv);
     result = cli.parse_and_configure();

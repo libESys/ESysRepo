@@ -5,6 +5,7 @@ find_package(Boost 1.66 REQUIRED QUIET COMPONENTS
 
 include_directories(
     ../../include
+    ${termcolor_DIR}/include
     )
 
 set(ESYSREPOEXE_CXX_SOURCES

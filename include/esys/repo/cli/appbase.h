@@ -64,6 +64,7 @@ public:
     int parse_args();
     int run();
     int setup_console_and_logs();
+    void setup_terminal();
 
     std::string get_cmd();
 

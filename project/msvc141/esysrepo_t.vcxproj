@@ -95,8 +95,8 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DebugDLL|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\include;$(ESYSMSVC)\include;$(ESYSTEST)\include;$(ESYSLOG)\include;$(ESYS_BOOST);$(ESYS_LIBSSH2)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;ESYSREPO_USE;ESYSLOG_USE;BOOST_ALL_DYN_LINK;_WINDLL;LIBSSH2_WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\include;$(ESYSMSVC)\include;$(ESYSTEST)\include;$(ESYSLOG)\include;$(ESYS_BOOST);$(ESYS_LIBSSH2)\include;$(TERMCOLOR)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;ESYSREPO_USE;ESYSLOG_USE;BOOST_ALL_DYN_LINK;_WINDLL;LIBSSH2_WIN32;TERMCOLOR_USE_ANSI_ESCAPE_SEQUENCES;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -128,8 +128,8 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DebugDLL|x64'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\include;$(ESYSMSVC)\include;$(ESYSTEST)\include;$(ESYSLOG)\include;$(ESYS_BOOST);$(ESYS_LIBSSH2)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;ESYSREPO_USE;ESYSLOG_USE;BOOST_ALL_DYN_LINK;_WINDLL;LIBSSH2_WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\include;$(ESYSMSVC)\include;$(ESYSTEST)\include;$(ESYSLOG)\include;$(ESYS_BOOST);$(ESYS_LIBSSH2)\include;$(TERMCOLOR)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;ESYSREPO_USE;ESYSLOG_USE;BOOST_ALL_DYN_LINK;_WINDLL;LIBSSH2_WIN32;TERMCOLOR_USE_ANSI_ESCAPE_SEQUENCES;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -159,8 +159,8 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseDLL|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\..\include;$(ESYSMSVC)\include;$(ESYSTEST)\include;$(ESYSLOG)\include;$(ESYS_BOOST);$(ESYS_LIBSSH2)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;ESYSREPO_USE;ESYSLOG_USE;BOOST_ALL_DYN_LINK;_WINDLL;LIBSSH2_WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\include;$(ESYSMSVC)\include;$(ESYSTEST)\include;$(ESYSLOG)\include;$(ESYS_BOOST);$(ESYS_LIBSSH2)\include;$(TERMCOLOR)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;ESYSREPO_USE;ESYSLOG_USE;BOOST_ALL_DYN_LINK;_WINDLL;LIBSSH2_WIN32;TERMCOLOR_USE_ANSI_ESCAPE_SEQUENCES;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>esys/repo/test/$(ProjectName)_prec.h</PrecompiledHeaderFile>
@@ -191,8 +191,8 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseDLL|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\..\include;$(ESYSMSVC)\include;$(ESYSTEST)\include;$(ESYSLOG)\include;$(ESYS_BOOST);$(ESYS_LIBSSH2)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;ESYSREPO_USE;ESYSLOG_USE;BOOST_ALL_DYN_LINK;_WINDLL;LIBSSH2_WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\include;$(ESYSMSVC)\include;$(ESYSTEST)\include;$(ESYSLOG)\include;$(ESYS_BOOST);$(ESYS_LIBSSH2)\include;$(TERMCOLOR)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;ESYSREPO_USE;ESYSLOG_USE;BOOST_ALL_DYN_LINK;_WINDLL;LIBSSH2_WIN32;TERMCOLOR_USE_ANSI_ESCAPE_SEQUENCES;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>esys/repo/test/$(ProjectName)_prec.h</PrecompiledHeaderFile>

@@ -25,6 +25,7 @@ include_directories(
     ..
     ../../../include
     ${git2_INCLUDE_DIRS}
+    ${termcolor_DIR}/include
 )
 
 set(ESYSREPO_CXX_SOURCES

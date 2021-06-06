@@ -23,6 +23,7 @@ pkg_check_modules(LIBSSH2 libssh2 REQUIRED)
 include_directories(
     ../../../../include
     ${LIBSSH2_INCLUDE_DIRS}
+    ${termcolor_DIR}/include
     )
 
 set(ESYSREPO_T_CXX_SOURCES
