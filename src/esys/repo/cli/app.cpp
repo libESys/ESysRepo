@@ -15,8 +15,6 @@
  *
  */
 
-#pragma once
-
 #include "esys/repo/esysrepo_prec.h"
 #include "esys/repo/cli/app.h"
 
