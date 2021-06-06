@@ -225,6 +225,7 @@
     <ClCompile Include="..\..\src\esys\repo\cli\test\app01.cpp" />
     <ClCompile Include="..\..\src\esys\repo\cli\test\app02.cpp" />
     <ClCompile Include="..\..\src\esys\repo\cli\test\appbase01.cpp" />
+    <ClCompile Include="..\..\src\esys\repo\cli\test\cmdhelp01_cli.cpp" />
     <ClCompile Include="..\..\src\esys\repo\cli\test\cmdinfo01_cli.cpp" />
     <ClCompile Include="..\..\src\esys\repo\cli\test\cmdinit01_cli.cpp" />
     <ClCompile Include="..\..\src\esys\repo\cli\test\cmdlist01_cli.cpp" />

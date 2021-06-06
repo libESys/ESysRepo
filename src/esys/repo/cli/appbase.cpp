@@ -127,7 +127,7 @@ void AppBase::set_args(int argc, char **argv)
     {
 #ifdef WIN32
         std::vector<std::string> temp_args = po::split_winmain(argv[i]);
-        args.insert(m_args.end(), temp_args.begin(), temp_args.end());
+        for (auto &temp_arg : temp_args) args.push_back(temp_arg);
 #else
         std::string temp = argv[i];
         args.push_back(temp);

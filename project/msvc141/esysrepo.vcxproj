@@ -229,6 +229,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\src\esys\repo\cli\app.cpp" />
     <ClCompile Include="..\..\src\esys\repo\cli\appbase.cpp" />
+    <ClCompile Include="..\..\src\esys\repo\cli\cmdhelp_cli.cpp" />
     <ClCompile Include="..\..\src\esys\repo\cli\cmdinfo_cli.cpp" />
     <ClCompile Include="..\..\src\esys\repo\cli\cmdinit_cli.cpp" />
     <ClCompile Include="..\..\src\esys\repo\cli\cmdlist_cli.cpp" />
@@ -249,6 +250,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseDLL|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="..\..\src\esys\repo\exe\cmd.cpp" />
+    <ClCompile Include="..\..\src\esys\repo\exe\cmdhelp.cpp" />
     <ClCompile Include="..\..\src\esys\repo\exe\cmdinfo.cpp" />
     <ClCompile Include="..\..\src\esys\repo\exe\cmdinit.cpp" />
     <ClCompile Include="..\..\src\esys\repo\exe\cmdlist.cpp" />
@@ -311,6 +313,7 @@
     <ClInclude Include="..\..\include\esys\repo\cli\app.h" />
     <ClInclude Include="..\..\include\esys\repo\cli\appbase.h" />
     <ClInclude Include="..\..\include\esys\repo\cli\cmd.h" />
+    <ClInclude Include="..\..\include\esys\repo\cli\cmdhelp.h" />
     <ClInclude Include="..\..\include\esys\repo\cli\cmdinfo.h" />
     <ClInclude Include="..\..\include\esys\repo\cli\cmdinit.h" />
     <ClInclude Include="..\..\include\esys\repo\cli\cmdlist.h" />
@@ -328,6 +331,7 @@
     <ClInclude Include="..\..\include\esys\repo\esysrepo_defs.h" />
     <ClInclude Include="..\..\include\esys\repo\esysrepo_prec.h" />
     <ClInclude Include="..\..\include\esys\repo\exe\cmd.h" />
+    <ClInclude Include="..\..\include\esys\repo\exe\cmdhelp.h" />
     <ClInclude Include="..\..\include\esys\repo\exe\cmdinfo.h" />
     <ClInclude Include="..\..\include\esys\repo\exe\cmdinit.h" />
     <ClInclude Include="..\..\include\esys\repo\exe\cmdlist.h" />

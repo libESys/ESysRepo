@@ -294,6 +294,12 @@
     <ClCompile Include="..\..\src\esys\repo\cli\cmdversion_cli.cpp">
       <Filter>Source Files\cli</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\exe\cmdhelp.cpp">
+      <Filter>Source Files\exe</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\cli\cmdhelp_cli.cpp">
+      <Filter>Source Files\cli</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\esys\repo\esysrepo_defs.h">
@@ -582,6 +588,12 @@
       <Filter>Header Files\cli</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\esys\repo\exe\cmdversion.h">
+      <Filter>Header Files\exe</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\cli\cmdhelp.h">
+      <Filter>Header Files\cli</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\exe\cmdhelp.h">
       <Filter>Header Files\exe</Filter>
     </ClInclude>
   </ItemGroup>

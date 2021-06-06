@@ -35,6 +35,12 @@ namespace esys
 namespace repo
 {
 
+namespace cli
+{
+class ESYSREPO_API Cmd;
+class ESYSREPO_API AppBase;
+} // namespace cli
+
 namespace exe
 {
 
@@ -194,6 +200,12 @@ public:
     void set_groups(const std::vector<std::string> &groups);
     const std::vector<std::string> &get_groups() const;
 
+    void set_cli_cmd(cli::Cmd *cli_cmd);
+    cli::Cmd *get_cli_cmd();
+
+    void set_app_base(cli::AppBase *app_base);
+    cli::AppBase *get_app_base();
+
     int process_sub_args_as_git_repo_path(const std::string &input_path);
     int process_sub_args_as_git_repo_paths();
     const std::vector<std::string> &get_input_git_repo_paths() const;
@@ -245,6 +257,8 @@ protected:
     int m_job_count = 1;
     bool m_time = false;
     bool m_delta_time = false;
+    cli::Cmd *m_cli_cmd = nullptr;
+    cli::AppBase *m_app_base = nullptr;
     //!< \endcond
 };
 

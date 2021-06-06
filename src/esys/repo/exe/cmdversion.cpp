@@ -5,7 +5,7 @@
  * \cond
  * __legal_b__
  *
- * Copyright (c) 2020 Michel Gillet
+ * Copyright (c) 2020-2021 Michel Gillet
  * Distributed under the wxWindows Library Licence, Version 3.1.
  * (See accompanying file LICENSE_3_1.txt or
  * copy at http://www.wxwidgets.org/about/licence)
@@ -55,7 +55,6 @@ int CmdVersion::impl_run()
 {
     std::ostringstream oss;
 
-    oss << "Version ..." << std::endl;
     oss << std::setw(15) << std::left << "ESysRepo ";
     oss << get_version() << std::endl;
 
@@ -68,7 +67,6 @@ int CmdVersion::impl_run()
     oss << esys::repo::libgit2::Git::s_get_ssh_version();
 
     info(oss.str());
-    info("Version done.");
     return 0;
 }
 

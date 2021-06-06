@@ -54,6 +54,8 @@ template<typename CMD>
 Cmd_t<CMD>::Cmd_t(AppBase *app, const std::string &name)
     : Cmd(app, name)
 {
+    m_cmd.set_cli_cmd(this);
+    m_cmd.set_app_base(app);
 }
 
 template<typename CMD>

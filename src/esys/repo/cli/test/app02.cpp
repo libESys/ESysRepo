@@ -56,6 +56,30 @@ ESYSTEST_AUTO_TEST_CASE(App02)
         result = app.run();
         ESYSTEST_REQUIRE_EQUAL(result, 0);
     }
+
+    {
+        App app;
+
+        args = {"help"};
+        app.set_args(args);
+        result = app.parse_and_configure();
+        ESYSTEST_REQUIRE_EQUAL(result, 0);
+
+        result = app.run();
+        ESYSTEST_REQUIRE_NE(result, 0);
+    }
+
+    {
+        App app;
+
+        args = {"help", "init", "sync"};
+        app.set_args(args);
+        result = app.parse_and_configure();
+        ESYSTEST_REQUIRE_EQUAL(result, 0);
+
+        result = app.run();
+        ESYSTEST_REQUIRE_EQUAL(result, 0);
+    }
 }
 
 } // namespace test

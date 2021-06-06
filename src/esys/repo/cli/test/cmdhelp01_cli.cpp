@@ -1,5 +1,5 @@
 /*!
- * \file esys/repo/cli/test/cmdversion01.cpp
+ * \file esys/repo/cli/test/cmdhelp01.cpp
  * \brief
  *
  * \cond
@@ -17,7 +17,7 @@
 
 #include "esys/repo/test/esysrepo_t_prec.h"
 
-#include <esys/repo/cli/cmdversion.h>
+#include <esys/repo/cli/cmdhelp.h>
 
 namespace esys
 {
@@ -31,25 +31,24 @@ namespace cli
 namespace test
 {
 
-/*! \class CmdVersion01Cli esys/repo/cli/test/cmdversion01_cli.cpp
- * "esys/repo/cli/test/cmdversion01_cli.cpp"
+/*! \class CmdHelp01Cli esys/repo/cli/test/cmdhelp01_cli.cpp "esys/repo/cli/test/cmdhelp01_cli.cpp"
  *
  *  \brief
  */
-ESYSTEST_AUTO_TEST_CASE(CmdVersion01Cli)
+ESYSTEST_AUTO_TEST_CASE(CmdHelp01Cli)
 {
-    CmdVersion cmd_version;
+    CmdHelp cmd_help;
     std::vector<std::string> args;
     int result = 0;
 
     args = {};
-    cmd_version.set_args(args);
-    result = cmd_version.parse_and_configure();
+    cmd_help.set_args(args);
+    result = cmd_help.parse_and_configure();
     ESYSTEST_REQUIRE_NE(result, 0);
 
-    args = {"version"};
-    cmd_version.set_args(args);
-    result = cmd_version.parse_and_configure();
+    args = {"help"};
+    cmd_help.set_args(args);
+    result = cmd_help.parse_and_configure();
     ESYSTEST_REQUIRE_EQUAL(result, 0);
 }
 

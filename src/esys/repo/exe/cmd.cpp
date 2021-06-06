@@ -234,6 +234,26 @@ const std::vector<std::string> &Cmd::get_groups() const
     return m_groups;
 }
 
+void Cmd::set_cli_cmd(cli::Cmd *cli_cmd)
+{
+    m_cli_cmd = cli_cmd;
+}
+
+cli::Cmd *Cmd::get_cli_cmd()
+{
+    return m_cli_cmd;
+}
+
+void Cmd::set_app_base(cli::AppBase *app_base)
+{
+    m_app_base = app_base;
+}
+
+cli::AppBase *Cmd::get_app_base()
+{
+    return m_app_base;
+}
+
 int Cmd::process_sub_args_as_git_repo_path(const std::string &input_path)
 {
     if (input_path.empty()) return 0;

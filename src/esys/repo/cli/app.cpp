@@ -44,6 +44,11 @@ void App::set_version(const std::string &version)
     get_cmd_version().get_cmd().set_version(version);
 }
 
+CmdHelp &App::get_cmd_help()
+{
+    return m_cmd_help;
+}
+
 CmdInfo &App::get_cmd_info()
 {
     return m_cmd_info;
