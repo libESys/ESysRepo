@@ -18,7 +18,13 @@
 #include "esys/repo/esysrepo_prec.h"
 #include "esys/repo/cli/cmdsync.h"
 
+#include <msword2md/cpp/string.h>
+
+#include <termcolor/termcolor.hpp>
+
 #include <boost/filesystem.hpp>
+
+#include <vector>
 
 namespace esys
 {
@@ -28,6 +34,8 @@ namespace repo
 
 namespace cli
 {
+
+#include "esys/repo/cli/cmdsync_doc.cpp"
 
 CmdSync::CmdSync(AppBase *app)
     : BaseType(app, "sync")
@@ -77,6 +85,12 @@ int CmdSync::configure_cmd(CmdType &cmd)
     }
     if (m_vm.count("branch")) cmd.set_branch(m_vm["branch"].as<std::string>());
 
+    return 0;
+}
+
+int CmdSync::print_help(std::ostream &os)
+{
+    os << cmdsync_doc_strings;
     return 0;
 }
 

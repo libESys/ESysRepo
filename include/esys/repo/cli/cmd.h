@@ -29,6 +29,7 @@
 #include <string>
 #include <memory>
 #include <vector>
+#include <ostream>
 
 namespace po = boost::program_options;
 
@@ -76,6 +77,11 @@ public:
 
     virtual int run() = 0;
 
+    virtual int print_help(std::ostream &os);
+
+    void set_console_os(std::ostream *console_os);
+    std::ostream *get_console_os();
+
     bool is_help();
     std::string get_command();
     bool get_time();
@@ -105,6 +111,7 @@ protected:
     std::shared_ptr<po::options_description> m_desc_all;
     po::variables_map m_vm;
     std::vector<std::string> m_to_parse_further;
+    std::ostream *m_console_os = nullptr;
 };
 
 } // namespace cli

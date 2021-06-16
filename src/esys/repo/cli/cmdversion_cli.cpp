@@ -18,6 +18,12 @@
 #include "esys/repo/esysrepo_prec.h"
 #include "esys/repo/cli/cmdversion.h"
 
+#include <msword2md/cpp/string.h>
+
+#include <termcolor/termcolor.hpp>
+
+#include <vector>
+
 namespace esys
 {
 
@@ -26,6 +32,8 @@ namespace repo
 
 namespace cli
 {
+
+#include "esys/repo/cli/cmdversion_doc.cpp"
 
 CmdVersion::CmdVersion(AppBase *app)
     : BaseType(app, "version")
@@ -43,6 +51,12 @@ std::shared_ptr<po::options_description> CmdVersion::get_desc()
 
 int CmdVersion::configure_cmd(CmdType &cmd)
 {
+    return 0;
+}
+
+int CmdVersion::print_help(std::ostream &os)
+{
+    os << cmdversion_doc_strings;
     return 0;
 }
 

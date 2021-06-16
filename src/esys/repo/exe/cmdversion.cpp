@@ -35,6 +35,7 @@ namespace exe
 CmdVersion::CmdVersion()
     : Cmd("Version")
 {
+    set_print_cmd_name_by_base(false);
 }
 
 CmdVersion::~CmdVersion()
@@ -55,6 +56,8 @@ int CmdVersion::impl_run()
 {
     std::ostringstream oss;
 
+    print_cmd_name(oss);
+    oss << std::endl;
     oss << std::setw(15) << std::left << "ESysRepo ";
     oss << get_version() << std::endl;
 

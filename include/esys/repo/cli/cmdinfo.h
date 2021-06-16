@@ -41,6 +41,8 @@ public:
     int configure_cmd(CmdType &cmd) override;
     std::shared_ptr<po::options_description> get_desc() override;
 
+    int print_help(std::ostream &os) override;
+
 protected:
 };
 

@@ -18,6 +18,12 @@
 #include "esys/repo/esysrepo_prec.h"
 #include "esys/repo/cli/cmdhelp.h"
 
+#include <msword2md/cpp/string.h>
+
+#include <termcolor/termcolor.hpp>
+
+#include <vector>
+
 namespace esys
 {
 
@@ -26,6 +32,8 @@ namespace repo
 
 namespace cli
 {
+
+#include "esys/repo/cli/cmdhelp_doc.cpp"
 
 CmdHelp::CmdHelp(AppBase *app)
     : BaseType(app, "help")
@@ -43,6 +51,12 @@ std::shared_ptr<po::options_description> CmdHelp::get_desc()
 
 int CmdHelp::configure_cmd(CmdType &cmd)
 {
+    return 0;
+}
+
+int CmdHelp::print_help(std::ostream &os)
+{
+    os << cmdhelp_doc_strings;
     return 0;
 }
 

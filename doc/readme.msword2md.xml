@@ -120,5 +120,64 @@
         </output_file>
       </output_files>
     </cfg>
+    <cfg name="cpp">
+      <conversion>
+        <parameters>
+          <parameter name="converter_name" value="cpp/termcolor"/>
+          <parameter name="offset_heading" value="-2"/>
+        </parameters>
+        <paths>
+            <path value="static/" action="remove"/>
+            <path value="web/static/" action="remove"/>
+        </paths>
+      </conversion>
+      <output_files>
+        <output_file path="../src/esys/repo/cli/usage_doc.cpp">
+          <headings>
+            <heading id="5.1" write_children="true"/>
+          </headings>
+        </output_file>
+        <output_file path="../src/esys/repo/cli/cmdinit_doc.cpp">
+          <headings>
+            <heading id="5.2.2" write_children="true"/>
+          </headings>
+        </output_file>
+        <output_file path="../src/esys/repo/cli/cmdinfo_doc.cpp">
+          <headings>
+            <heading id="5.2.3" write_children="true"/>
+          </headings>
+        </output_file>
+        <output_file path="../src/esys/repo/cli/cmdlist_doc.cpp">
+          <headings>
+            <heading id="5.2.4" write_children="true"/>
+          </headings>
+        </output_file>
+        <output_file path="../src/esys/repo/cli/cmdmanifest_doc.cpp">
+          <headings>
+            <heading id="5.2.5" write_children="true"/>
+          </headings>
+        </output_file>
+        <output_file path="../src/esys/repo/cli/cmdstatus_doc.cpp">
+          <headings>
+            <heading id="5.2.6" write_children="true"/>
+          </headings>
+        </output_file>
+        <output_file path="../src/esys/repo/cli/cmdsync_doc.cpp">
+          <headings>
+            <heading id="5.2.7" write_children="true"/>
+          </headings>
+        </output_file>
+        <output_file path="../src/esys/repo/cli/cmdversion_doc.cpp">
+          <headings>
+            <heading id="5.2.8" write_children="true"/>
+          </headings>
+        </output_file>
+        <output_file path="../src/esys/repo/cli/cmdhelp_doc.cpp">
+          <headings>
+            <heading id="5.2.1" write_children="true"/>
+          </headings>
+        </output_file>
+      </output_files>
+    </cfg>
   </cfgs>
 </mswordtomd_output_cfg>

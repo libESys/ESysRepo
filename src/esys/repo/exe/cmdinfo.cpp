@@ -152,9 +152,13 @@ void CmdInfo::print_repo(std::shared_ptr<manifest::Repository> repo)
         }
     }
     std::string manifest_rev;
+    boost::filesystem::path p;
 
     oss << "Repo : " << repo->get_name() << std::endl;
-    oss << "    Path           : " << m_rel_repo_path << std::endl;
+    p = m_rel_repo_path;
+    p = p.generic();
+
+    oss << "    Path           : " << p.string() << std::endl;
     if (m_last_commit)
         oss << "    Cur rev.       : " << m_last_commit->get_hash() << std::endl;
     else

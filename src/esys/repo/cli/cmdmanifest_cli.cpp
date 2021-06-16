@@ -18,7 +18,13 @@
 #include "esys/repo/esysrepo_prec.h"
 #include "esys/repo/cli/cmdmanifest.h"
 
+#include <msword2md/cpp/string.h>
+
+#include <termcolor/termcolor.hpp>
+
 #include <boost/filesystem.hpp>
+
+#include <vector>
 
 namespace esys
 {
@@ -28,6 +34,8 @@ namespace repo
 
 namespace cli
 {
+
+#include "esys/repo/cli/cmdmanifest_doc.cpp"
 
 CmdManifest::CmdManifest(AppBase *app)
     : BaseType(app, "manifest")
@@ -60,6 +68,12 @@ int CmdManifest::configure_cmd(CmdType &cmd)
     if (m_vm.count("revision-as-HEAD")) cmd.set_revision_as_head(true);
     if (m_vm.count("output-file")) cmd.set_output_file(m_vm["output-file"].as<std::string>());
 
+    return 0;
+}
+
+int CmdManifest::print_help(std::ostream &os)
+{
+    os << cmdmanifest_doc_strings;
     return 0;
 }
 

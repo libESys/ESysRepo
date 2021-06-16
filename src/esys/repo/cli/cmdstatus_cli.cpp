@@ -18,7 +18,13 @@
 #include "esys/repo/esysrepo_prec.h"
 #include "esys/repo/cli/cmdstatus.h"
 
+#include <msword2md/cpp/string.h>
+
+#include <termcolor/termcolor.hpp>
+
 #include <boost/filesystem.hpp>
+
+#include <vector>
 
 namespace esys
 {
@@ -28,6 +34,8 @@ namespace repo
 
 namespace cli
 {
+
+#include "esys/repo/cli/cmdstatus_doc.cpp"
 
 CmdStatus::CmdStatus(AppBase *app)
     : BaseType(app, "status")
@@ -58,6 +66,12 @@ int CmdStatus::configure_cmd(CmdType &cmd)
 {
     if (m_vm["quiet"].as<bool>()) cmd.set_quiet(true);
 
+    return 0;
+}
+
+int CmdStatus::print_help(std::ostream &os)
+{
+    os << cmdstatus_doc_strings;
     return 0;
 }
 

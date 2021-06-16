@@ -18,7 +18,13 @@
 #include "esys/repo/esysrepo_prec.h"
 #include "esys/repo/cli/cmdlist.h"
 
+#include <msword2md/cpp/string.h>
+
+#include <termcolor/termcolor.hpp>
+
 #include <boost/filesystem.hpp>
+
+#include <vector>
 
 namespace esys
 {
@@ -28,6 +34,8 @@ namespace repo
 
 namespace cli
 {
+
+#include "esys/repo/cli/cmdlist_doc.cpp"
 
 CmdList::CmdList(AppBase *app)
     : BaseType(app, "list")
@@ -64,6 +72,12 @@ int CmdList::configure_cmd(CmdType &cmd)
     if (m_vm["name-only"].as<bool>()) cmd.set_name_only(true);
     if (m_vm["path-only"].as<bool>()) cmd.set_path_only(true);
 
+    return 0;
+}
+
+int CmdList::print_help(std::ostream &os)
+{
+    os << cmdlist_doc_strings;
     return 0;
 }
 

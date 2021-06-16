@@ -18,7 +18,13 @@
 #include "esys/repo/esysrepo_prec.h"
 #include "esys/repo/cli/cmdinit.h"
 
+#include <msword2md/cpp/string.h>
+
+#include <termcolor/termcolor.hpp>
+
 #include <boost/filesystem.hpp>
+
+#include <vector>
 
 namespace esys
 {
@@ -28,6 +34,8 @@ namespace repo
 
 namespace cli
 {
+
+#include "esys/repo/cli/cmdinit_doc.cpp"
 
 CmdInit::CmdInit(AppBase *app)
     : BaseType(app, "init")
@@ -85,6 +93,12 @@ int CmdInit::configure_cmd(CmdType &cmd)
         get_cmd().set_workspace_path(boost::filesystem::current_path().normalize().make_preferred().string()); */
     get_cmd().set_google_manifest(m_vm["google"].as<bool>());
 
+    return 0;
+}
+
+int CmdInit::print_help(std::ostream &os)
+{
+    os << cmdinit_doc_strings;
     return 0;
 }
 

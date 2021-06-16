@@ -64,8 +64,7 @@ int Cmd::run()
 {
     m_start_time = std::chrono::steady_clock::now();
 
-    std::string msg = get_name() + " ...";
-    info(msg);
+    if (get_print_cmd_name_by_base()) print_cmd_name();
 
     if (get_git() == nullptr) set_git(GitMngr::new_ptr());
     if (get_logger_if() != nullptr) get_git()->set_logger_if(get_logger_if());
@@ -76,6 +75,8 @@ int Cmd::run()
     auto d_milli = std::chrono::duration_cast<std::chrono::milliseconds>(stop_time - m_start_time).count();
 
     std::ostringstream oss;
+    std::string msg;
+
     msg = get_name();
     oss << "    elapsed time (s): " << (d_milli / 1000) << "." << (d_milli % 1000);
     if (result == 0)
@@ -458,6 +459,16 @@ std::string Cmd::get_extra_start_msg()
     return "";
 }
 
+void Cmd::set_console_os(std::ostream *console_os)
+{
+    m_console_os = console_os;
+}
+
+std::ostream *Cmd::get_console_os()
+{
+    return m_console_os;
+}
+
 void Cmd::debug(int level, const std::string &msg)
 {
     clean_cout();
@@ -517,6 +528,29 @@ void Cmd::clean_cout()
     for (int idx = 0; idx < 8; ++idx)
         std::cout << s;
     std::cout << "\r"; */
+}
+
+void Cmd::set_print_cmd_name_by_base(bool print_cmd_name_by_base)
+{
+    m_print_cmd_name_by_base = print_cmd_name_by_base;
+}
+
+bool Cmd::get_print_cmd_name_by_base() const
+{
+    return m_print_cmd_name_by_base;
+}
+
+void Cmd::print_cmd_name()
+{
+    std::ostringstream oss;
+
+    print_cmd_name(oss);
+    info(oss.str());
+}
+
+void Cmd::print_cmd_name(std::ostream &os)
+{
+    os << get_name() + " ...";
 }
 
 } // namespace exe

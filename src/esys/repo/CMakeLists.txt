@@ -158,6 +158,7 @@ target_link_libraries(esysrepo PRIVATE
     esysfile
     esyslog
     esyslog_spdlog
+    msword2md
 )
 
 target_link_libraries(esysrepo PRIVATE nlohmann_json::nlohmann_json)

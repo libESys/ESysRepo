@@ -177,6 +177,21 @@ int Cmd::configure_cmd(exe::Cmd &cmd)
     return 0;
 }
 
+int Cmd::print_help(std::ostream &os)
+{
+    return -1;
+}
+
+void Cmd::set_console_os(std::ostream *console_os)
+{
+    m_console_os = console_os;
+}
+
+std::ostream *Cmd::get_console_os()
+{
+    return m_console_os;
+}
+
 bool Cmd::is_help()
 {
     return is_present("help");

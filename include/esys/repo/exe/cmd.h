@@ -212,6 +212,9 @@ public:
 
     virtual std::string get_extra_start_msg();
 
+    void set_console_os(std::ostream *console_os);
+    std::ostream *get_console_os();
+
     int default_handling_folder_workspace();
     int only_one_folder_or_workspace();
 
@@ -225,8 +228,14 @@ public:
 
     void clean_cout();
 
+    void print_cmd_name();
+    void print_cmd_name(std::ostream &os);
+
 protected:
     //!< \cond DOXY_IMPL
+
+    void set_print_cmd_name_by_base(bool print_cmd_name_by_base);
+    bool get_print_cmd_name_by_base() const;
 
     virtual int impl_run() = 0;
 
@@ -259,6 +268,8 @@ protected:
     bool m_delta_time = false;
     cli::Cmd *m_cli_cmd = nullptr;
     cli::AppBase *m_app_base = nullptr;
+    std::ostream *m_console_os = nullptr;
+    bool m_print_cmd_name_by_base = true;
     //!< \endcond
 };
 

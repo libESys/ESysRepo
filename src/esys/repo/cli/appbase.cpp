@@ -278,6 +278,7 @@ int AppBase::run()
             m_git = std::make_shared<esys::repo::libgit2::Git>();
             m_vm.clear();
             cmd_obj->set_logger_if(get_logger_if());
+            cmd_obj->set_console_os(get_os());
             return cmd_obj->run();
         }
         else

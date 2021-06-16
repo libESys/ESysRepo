@@ -102,6 +102,7 @@ int Cmd_t<CMD>::run()
     if (result < 0) return result;
 
     get_cmd().set_logger_if(this->get_logger_if());
+    get_cmd().set_console_os(get_console_os());
     return get_cmd().run();
 }
 
