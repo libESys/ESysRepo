@@ -56,7 +56,28 @@ ESYSTEST_AUTO_TEST_CASE(XMLFileRead01Manifest)
     std::shared_ptr<manifest::Location> location;
     std::shared_ptr<manifest::Repository> repo;
 
+    ESYSTEST_REQUIRE_EQUAL(boost::filesystem::exists(path), true);
     int result = xml_file.read(path.string());
+    if (result < 0)
+    {
+        std::cout << "ERROR : result = " << result << std::endl;
+        int err_idx = 0;
+
+        if (xml_file.get_errors().size() == 0)
+            std::cout << "No error logged." << std::endl;
+        else
+        {
+            for (auto err : xml_file.get_errors())
+            {
+                std::cout << "[" << err_idx << "]" << std::endl;
+                std::cout << "    value = " << err->get_value() << std::endl;
+                std::cout << "    msg = " << err->get_msg() << std::endl << std::endl;
+            }
+        }
+    }
+    else
+        std::cout << "No read error." << std::endl;
+
     ESYSTEST_REQUIRE_EQUAL(result, 0);
     ESYSTEST_REQUIRE_NE(xml_file.get_data(), nullptr);
 
@@ -83,6 +104,8 @@ ESYSTEST_AUTO_TEST_CASE(XMLFileRead01Manifest)
     location = xml_file.get_data()->find_location("origin");
     ESYSTEST_REQUIRE_NE(location, nullptr);
     test_fct(origin_repos, location);
+    ESYSTEST_REQUIRE_EQUAL(location->get_address(), "ssh://git@gitlab.com/libesys");
+    ESYSTEST_REQUIRE_EQUAL(location->get_alt_address(), "https://gitlab.com/libesys");
 
     std::vector<std::pair<std::string, std::string>> gerrit_repos = {
         {"esys", "src/esys"},
@@ -114,6 +137,8 @@ ESYSTEST_AUTO_TEST_CASE(XMLFileRead01Manifest)
     location = xml_file.get_data()->find_location("gerrit");
     ESYSTEST_REQUIRE_NE(location, nullptr);
     test_fct(gerrit_repos, location);
+    ESYSTEST_REQUIRE_EQUAL(location->get_address(), "ssh://git@gitlab.com/libesys/gerrit");
+    ESYSTEST_REQUIRE_EQUAL(location->get_alt_address(), "https://gitlab.com/libesys/gerrit");
 
     std::vector<std::pair<std::string, std::string>> extlib_repos = {
         {"esysc", "src/esysc"},
@@ -143,6 +168,24 @@ ESYSTEST_AUTO_TEST_CASE(XMLFileRead01Manifest)
     location = xml_file.get_data()->find_location("extlib");
     ESYSTEST_REQUIRE_NE(location, nullptr);
     test_fct(extlib_repos, location);
+    ESYSTEST_REQUIRE_EQUAL(location->get_address(), "ssh://git@gitlab.com/libesys/extlib");
+    ESYSTEST_REQUIRE_EQUAL(location->get_alt_address(), "https://gitlab.com/libesys/extlib");
+
+    auto &groups = xml_file.get_data()->get_groups();
+    ESYSTEST_REQUIRE_EQUAL(groups.get_groups().size(), 2);
+
+    std::vector<std::pair<std::string, std::vector<std::string>>> group_defs = {
+        {"vhw", {"src/esys", "src/esysc"}}, {"hw", {"extlib/stm32h7", "extlib/segger_rtt"}}};
+
+    for (std::size_t idx = 0; idx < group_defs.size(); ++idx)
+    {
+        auto group_def = group_defs[idx];
+        auto group = groups.get_groups()[idx];
+        ESYSTEST_REQUIRE_EQUAL(group_def.first, group->get_name());
+        ESYSTEST_REQUIRE_EQUAL(group_def.second.size(), group->get_repos().size());
+        for (std::size_t repo_idx = 0; repo_idx < group_def.second.size(); ++repo_idx)
+            ESYSTEST_REQUIRE_EQUAL(group_def.second[repo_idx], group->get_repos()[repo_idx]->get_path());
+    }
 }
 
 } // namespace test

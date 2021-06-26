@@ -5,7 +5,7 @@
  * \cond
  * __legal_b__
  *
- * Copyright (c) 2020 Michel Gillet
+ * Copyright (c) 2020-2021 Michel Gillet
  * Distributed under the wxWindows Library Licence, Version 3.1.
  * (See accompanying file LICENSE_3_1.txt or
  * copy at http://www.wxwidgets.org/about/licence)
@@ -43,6 +43,26 @@ void Manifest::set_type(manifest::Type type)
 manifest::Type Manifest::get_type() const
 {
     return m_type;
+}
+
+void Manifest::set_kind(manifest::Kind kind)
+{
+    m_kind = kind;
+}
+
+manifest::Kind Manifest::get_kind() const
+{
+    return m_kind;
+}
+
+void Manifest::set_format(manifest::Format format)
+{
+    m_format = format;
+}
+
+manifest::Format Manifest::get_format() const
+{
+    return m_format;
 }
 
 int Manifest::add_location(std::shared_ptr<manifest::Location> location, bool is_default)

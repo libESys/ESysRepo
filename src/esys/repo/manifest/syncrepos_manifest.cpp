@@ -140,6 +140,8 @@ int SyncRepos::run()
 
             if (!get_branch().empty()) sync_repo->set_branch(get_branch());
 
+            sync_repo->set_alt_address(get_alt_address());
+
             get_run_tasks().add(sync_repo);
 
             ++get_repo_idx();
@@ -257,6 +259,16 @@ void SyncRepos::set_branch(const std::string &branch)
 const std::string &SyncRepos::get_branch() const
 {
     return m_branch;
+}
+
+void SyncRepos::set_alt_address(bool alt_address)
+{
+    m_alt_address = alt_address;
+}
+
+bool SyncRepos::get_alt_address() const
+{
+    return m_alt_address;
 }
 
 RunTasks &SyncRepos::get_run_tasks()

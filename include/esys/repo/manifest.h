@@ -19,6 +19,8 @@
 
 #include "esys/repo/esysrepo_defs.h"
 #include "esys/repo/manifest/type.h"
+#include "esys/repo/manifest/kind.h"
+#include "esys/repo/manifest/format.h"
 #include "esys/repo/manifest/location.h"
 #include "esys/repo/manifest/groups.h"
 
@@ -58,6 +60,30 @@ public:
      * \return the type of manifest
      */
     manifest::Type get_type() const;
+
+    //! Set the kind of manifest
+    /*!
+     * \param[in] kind the kind of manifest
+     */
+    void set_kind(manifest::Kind kind);
+
+    //! Get the kind of manifest
+    /*!
+     * \return the kind of manifest
+     */
+    manifest::Kind get_kind() const;
+
+    //! Set the format of manifest
+    /*!
+     * \param[in] format the format of manifest
+     */
+    void set_format(manifest::Format format);
+
+    //! Get the format of manifest
+    /*!
+     * \return the format of manifest
+     */
+    manifest::Format get_format() const;
 
     //! Add a location to the manifest
     /*!
@@ -179,11 +205,14 @@ public:
 protected:
     //!< \cond DOXY_IMPL
     manifest::Type m_type = manifest::Type::NOT_SET;                            //!< The type of repository
+    manifest::Kind m_kind = manifest::Kind::NOT_SET;                            //!< The kind of repository
+    manifest::Format m_format = manifest::Format::NOT_SET;                      //!< The format of repository
     std::vector<std::shared_ptr<manifest::Location>> m_locations;               //!< All the locations
     std::map<std::string, std::shared_ptr<manifest::Location>> m_map_locations; //!< The map of all locations by name
-    std::map<std::string, std::shared_ptr<manifest::Location>> m_map_locations_by_path;
+    std::map<std::string, std::shared_ptr<manifest::Location>>
+        m_map_locations_by_path;                            //!< The map of all locations by path
     std::shared_ptr<manifest::Location> m_default_location; //!< The default location
-    manifest::Groups m_groups;
+    manifest::Groups m_groups;                              //!< The groups defiend in the manifest
     std::string m_default_location_str;                     //!< The name of the default location
     std::string m_default_revision = "master";              //!< The default revision
     int m_default_job_count = 1;                            //!< The default number of concurrent jobs

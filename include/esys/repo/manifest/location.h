@@ -5,7 +5,7 @@
  * \cond
  * __legal_b__
  *
- * Copyright (c) 2020 Michel Gillet
+ * Copyright (c) 2020-2021 Michel Gillet
  * Distributed under the wxWindows Library Licence, Version 3.1.
  * (See accompanying file LICENSE_3_1.txt or
  * copy at http://www.wxwidgets.org/about/licence)
@@ -74,6 +74,18 @@ public:
      */
     const std::string &get_address() const;
 
+    //! Set the address of the location
+    /*!
+     * \param[in] address the alternative address of the location
+     */
+    void set_alt_address(const std::string &alt_address);
+
+    //! Get the alternative address of the location
+    /*!
+     * \return the alternative address of the location
+     */
+    const std::string &get_alt_address() const;
+
     //! Add a repository to this location
     /*!
      * \param[in] name the name of the repository
@@ -112,6 +124,7 @@ protected:
     //!< \cond DOXY_IMPL
     std::string m_name;                               //!< The name of this location
     std::string m_address;                            //!< The address of this location
+    std::string m_alt_address;                        //!< The alternative address of this location
     std::vector<std::shared_ptr<Repository>> m_repos; //!< All repositories of this location
     std::map<std::string, std::shared_ptr<Repository>> m_map_repos_by_path;
     std::map<std::string, std::shared_ptr<Repository>> m_map_repos_by_name;

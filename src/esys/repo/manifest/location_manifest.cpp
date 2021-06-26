@@ -5,7 +5,7 @@
  * \cond
  * __legal_b__
  *
- * Copyright (c) 2020 Michel Gillet
+ * Copyright (c) 2020-2021 Michel Gillet
  * Distributed under the wxWindows Library Licence, Version 3.1.
  * (See accompanying file LICENSE_3_1.txt or
  * copy at http://www.wxwidgets.org/about/licence)
@@ -64,6 +64,16 @@ void Location::set_address(const std::string &address)
 const std::string &Location::get_address() const
 {
     return m_address;
+}
+
+void Location::set_alt_address(const std::string &alt_address)
+{
+    m_alt_address = alt_address;
+}
+
+const std::string &Location::get_alt_address() const
+{
+    return m_alt_address;
 }
 
 std::shared_ptr<Repository> Location::add_repo(const std::string &name, const std::string &path)

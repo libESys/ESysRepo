@@ -93,8 +93,7 @@ int SyncRepo::clone()
 {
     GitHelper git_helper(get_git(), get_logger_if(), static_cast<int>(get_repo_idx()));
     int result;
-    std::string url = get_repo()->get_location()->get_address();
-    url += "/" + get_repo()->get_name();
+    std::string url = get_repo_url();
 
     std::string branch_to_checkout;
 
@@ -312,6 +311,22 @@ std::size_t &SyncRepo::get_repo_idx()
     return m_repo_idx;
 }
 
+std::string SyncRepo::get_repo_url()
+{
+    assert(get_repo() != nullptr);
+    assert(get_repo()->get_location() != nullptr);
+
+    std::string url;
+    if (!get_alt_address())
+        url = get_repo()->get_location()->get_address();
+    else
+        url = get_repo()->get_location()->get_alt_address();
+
+    url += "/" + get_repo()->get_name();
+
+    return url;
+}
+
 void SyncRepo::set_branch(const std::string &branch)
 {
     m_branch = branch;
@@ -320,6 +335,16 @@ void SyncRepo::set_branch(const std::string &branch)
 const std::string &SyncRepo::get_branch() const
 {
     return m_branch;
+}
+
+void SyncRepo::set_alt_address(bool alt_address)
+{
+    m_alt_address = alt_address;
+}
+
+bool SyncRepo::get_alt_address() const
+{
+    return m_alt_address;
 }
 
 void SyncRepo::set_force(bool force)

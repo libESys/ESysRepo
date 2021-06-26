@@ -47,7 +47,11 @@ int XMLFileImpl::read(const std::string &path)
 
     xml_file.set_root_node_name("esysrepo_manifest");
     int result = xml_file.read(path);
-    if (result < 0) return result;
+    if (result < 0) 
+    {
+        self()->add_error(result, "XML parsing failed.");
+        return result;
+    }
 
     if (self()->get_data() == nullptr) self()->set_data(std::make_shared<Manifest>());
 
@@ -60,16 +64,55 @@ int XMLFileImpl::read(std::shared_ptr<esysfile::xml::Data> data)
 {
     int result = 0;
 
+    if (data->get_attrs().size() != 0)
+    {
+        result = read_root_attributes(data);
+        if (result < 0) 
+        {
+            self()->add_error(result, "read_root_attributes failed.");
+            return result;
+        }
+    }
+
     for (auto el : data->get_elements())
     {
         if (el->get_name() == "location")
             result = read_location(el);
         else if ((el->get_name() == "default"))
             result = read_default(el);
+        else if ((el->get_name() == "group"))
+            result = read_group(el);
         else
             result = -1;
+        if (result < 0)
+            {
+            self()->add_error(result, "Reading XML element failed : " + el->get_name());
+            return result;
+            }
+    }
+    return 0;
+}
+
+int XMLFileImpl::read_root_attributes(std::shared_ptr<esysfile::xml::Element> root_el)
+{
+    int result = 0;
+
+    for (auto attr : root_el->get_attrs())
+    {
+        result = read_root_attribute(attr);
         if (result < 0) return result;
     }
+    return 0;
+}
+
+int XMLFileImpl::read_root_attribute(std::shared_ptr<esysfile::xml::Attr> attr)
+{
+    if (attr->get_name() != "kind") return -1;
+
+    manifest::Kind kind;
+    int result = convert(attr->get_value(), kind);
+    if (result < 0) return -1;
+    self()->get_data()->set_kind(kind);
     return 0;
 }
 
@@ -90,6 +133,9 @@ int XMLFileImpl::read_location(std::shared_ptr<esysfile::xml::Element> el)
         location->set_address(attr->get_value());
     else
         return -1;
+
+    attr = el->get_attr("alt_addr");
+    if (attr != nullptr) location->set_alt_address(attr->get_value());
 
     int result;
 
@@ -131,7 +177,60 @@ int XMLFileImpl::read_repository(std::shared_ptr<esysfile::xml::Element> el, std
 
 int XMLFileImpl::read_default(std::shared_ptr<esysfile::xml::Element> el)
 {
-    return -1;
+    if (el->get_name() != "default") return -1;
+
+    int result = 0;
+    for (auto attr : el->get_attrs())
+    {
+        result = read_default_attr(attr);
+        if (result < 0) return result;
+    }
+    return 0;
+}
+
+int XMLFileImpl::read_default_attr(std::shared_ptr<esysfile::xml::Attr> attr)
+{
+    if (attr->get_name() == "revision")
+        self()->get_data()->set_default_revision(attr->get_value());
+    else if (attr->get_name() == "sync-j")
+        self()->get_data()->set_default_job_count(atoi(attr->get_value().c_str()));
+    else
+        return -1;
+    return 0;
+}
+
+int XMLFileImpl::read_group(std::shared_ptr<esysfile::xml::Element> el)
+{
+    auto attr = el->get_attr("name");
+    if (attr == nullptr) return -1;
+
+    std::shared_ptr<Group> group = std::make_shared<Group>();
+    group->set_name(attr->get_value());
+
+    int result = 0;
+    for (auto child : el->get_elements())
+    {
+        result = read_group_repo(child, group);
+        if (result < 0) return result;
+    }
+
+    self()->get_data()->get_groups().add_group(group);
+
+    return 0;
+}
+
+int XMLFileImpl::read_group_repo(std::shared_ptr<esysfile::xml::Element> el, std::shared_ptr<Group> group)
+{
+    if (el->get_name() != "repo") return -1;
+
+    auto attr = el->get_attr("path");
+    if (attr == nullptr) return -2;
+
+    auto repo = self()->get_data()->find_repo_by_path(attr->get_value());
+    if (repo == nullptr) return -3;
+
+    group->add_repo(repo);
+    return 0;
 }
 
 int XMLFileImpl::write_xml()
@@ -140,12 +239,26 @@ int XMLFileImpl::write_xml()
 
     m_xml_data = std::make_shared<esysfile::xml::Data>();
     m_xml_data->set_root_node_name("esysrepo_manifest");
+    
+    if (self()->get_data()->get_kind() != manifest::Kind::ISOLATED)
+    {
+        std::string kind;
+        int result = convert(self()->get_data()->get_kind(), kind);
+        if (result < 0) return result;
+        m_xml_data->add_attr("kind", kind);
+    }
 
     int result;
 
     for (auto location : self()->get_data()->get_locations())
     {
         result = write(m_xml_data, location);
+        if (result < 0) return result;
+    }
+
+    for (auto group : self()->get_data()->get_groups().get_groups())
+    {
+        result = write(m_xml_data, group);
         if (result < 0) return result;
     }
     return 0;
@@ -201,6 +314,25 @@ int XMLFileImpl::write(std::shared_ptr<esysfile::xml::Element> parent_el, std::s
     if (!repository->get_revision().empty()) repo_el->add_attr("revision", repository->get_revision());
 
     parent_el->add_element(repo_el);
+    return 0;
+}
+
+int XMLFileImpl::write(std::shared_ptr<esysfile::xml::Element> parent_el, std::shared_ptr<Group> group)
+{
+    std::shared_ptr<esysfile::xml::Element> grp_el = std::make_shared<esysfile::xml::Element>();
+
+    grp_el->set_name("group");
+    grp_el->add_attr("name", group->get_name());
+    for (auto repo : group->get_repos())
+    {
+        std::shared_ptr<esysfile::xml::Element> repo_el = std::make_shared<esysfile::xml::Element>();
+
+        repo_el->set_name("repo");
+        repo_el->add_attr("path", repo->get_path());
+        grp_el->add_element(repo_el);
+    }
+    
+    parent_el->add_element(grp_el);
     return 0;
 }
 

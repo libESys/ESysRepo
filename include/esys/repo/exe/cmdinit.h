@@ -19,6 +19,7 @@
 
 #include "esys/repo/esysrepo_defs.h"
 #include "esys/repo/exe/cmd.h"
+#include "esys/repo/githelper.h"
 
 #include <string>
 #include <vector>
@@ -121,7 +122,12 @@ public:
     /*!
      *  \return 0 if successdful, < 0 otherwise
      */
-    int fetch_esysrepo_manifest();
+    int fetch_esysrepo_manifest(GitHelper &git_helper, const std::string &git_repo_path,
+                                const std::string &manifest_filename);
+
+    int read_esysrepo_manifest(std::shared_ptr<Manifest> manifest, const std::string &filename);
+    int read_esysrepo_manifest_xml(std::shared_ptr<Manifest> manifest, const std::string &filename);
+    int read_esysrepo_manifest_json(std::shared_ptr<Manifest> manifest, const std::string &filename);
 
     //! Fetch the "manifest" equivalent from a git super project
     /*!

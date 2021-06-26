@@ -18,7 +18,8 @@
 #include "esys/repo/esysrepo_prec.h"
 #include "esys/repo/exe/cmdinit.h"
 #include "esys/repo/filesystem.h"
-#include "esys/repo/githelper.h"
+#include "esys/repo/manifest/file.h"
+#include "esys/repo/manifest/xmlfile.h"
 
 #include <boost/filesystem.hpp>
 
@@ -134,9 +135,123 @@ int CmdInit::fetch_google_manifest()
     return -1;
 }
 
-int CmdInit::fetch_esysrepo_manifest()
+int CmdInit::read_esysrepo_manifest(std::shared_ptr<Manifest> manifest, const std::string &filename)
 {
+    manifest::File manifest_file;
+
+    manifest_file.set_data(manifest);
+
+    return manifest_file.read(filename);
+}
+
+int CmdInit::read_esysrepo_manifest_xml(std::shared_ptr<Manifest> manifest, const std::string &filename)
+{
+    manifest::XMLFile manifest_file;
+
+    manifest_file.set_data(manifest);
+
+    return manifest_file.read(filename);
+}
+
+int CmdInit::read_esysrepo_manifest_json(std::shared_ptr<Manifest> manifest, const std::string &filename)
+{
+    //! \TODO
     return -1;
+}
+
+int CmdInit::fetch_esysrepo_manifest(GitHelper &git_helper, const std::string &git_repo_path,
+                                     const std::string &manifest_filename)
+{
+    std::string manifest_path;
+    boost::filesystem::path manifest_filename_path = manifest_filename;
+    std::string manifest_filename_ext = manifest_filename_path.extension().string();
+
+    info("ESysRepo manifest detected.");
+    auto config_file = get_config_folder()->get_or_new_config();
+
+    config_file->set_manifest_type(manifest::Type::ESYSREPO_MANIFEST);
+
+    boost::filesystem::path source = git_repo_path;
+    boost::filesystem::path rel_source = boost::filesystem::relative(source);
+    boost::filesystem::path target;
+    boost::filesystem::path file_path = git_repo_path;
+    file_path /= manifest_filename;
+
+    std::shared_ptr<Manifest> manifest = std::make_shared<Manifest>();
+
+    int result = 0;
+    if (manifest_filename_ext == ".manifest")
+    {
+        result = read_esysrepo_manifest(manifest, file_path.string());
+        if (result < 0) return -1;
+    }
+    else if (manifest_filename_ext == ".xml")
+    {
+        result = read_esysrepo_manifest_xml(manifest, file_path.string());
+        if (result < 0) return -1;
+        manifest->set_format(manifest::Format::XML);
+        config_file->set_manifest_format(manifest::Format::XML);
+    }
+    else if (manifest_filename_ext == ".json")
+    {
+        result = read_esysrepo_manifest_json(manifest, file_path.string());
+        if (result < 0) return -1;
+        manifest->set_format(manifest::Format::JSON);
+        config_file->set_manifest_format(manifest::Format::JSON);
+    }
+    else
+    {
+        return -2;
+    }
+
+    config_file->set_manifest_format(manifest->get_format());
+
+    if (manifest->get_kind() == manifest::Kind::NOT_SET)
+        manifest->set_kind(manifest::Kind::ISOLATED);
+
+    if (manifest->get_kind() == manifest::Kind::EMBEDDED)
+    {
+        info("Embedded kind.");
+        config_file->set_manifest_kind(manifest::Kind::EMBEDDED);
+        target = get_config_folder()->get_workspace_path();
+        result = git_helper.move(source.string(), target.string(), true, log::Level::DEBUG);
+        if (result == -1) return result;
+        if (result == -2) warn("While moving folder " + rel_source.string() + " some files were left behind.");
+        target = "..";
+        target /= manifest_filename;
+        manifest_path = target.string();
+    }
+    else if (manifest->get_kind() == manifest::Kind::ISOLATED)
+    {
+        info("Isolated kind.");
+        config_file->set_manifest_kind(manifest::Kind::ISOLATED);
+        target = get_config_folder()->get_path();
+
+        target /= "esysrepo";
+        boost::filesystem::path rel_target;
+        rel_target = boost::filesystem::relative(target);
+
+        bool result_bool = boost::filesystem::create_directory(target);
+        if (!result_bool)
+        {
+            error("Couldn't create the folder : " + rel_target.string());
+            return -1;
+        }
+        else
+            debug(0, "Created folder : " + rel_target.string());
+
+        result = git_helper.move(source.string(), target.string(), true, log::Level::DEBUG);
+        if (result == -1) return result;
+        if (result == -2) warn("While moving folder " + rel_source.string() + " some files were left behind.");
+        target = "esysrepo";
+        target /= ".esysrepo.manifest";
+        manifest_path = target.generic().string();
+    }
+    else
+        return -1;
+
+    config_file->set_manifest_path(manifest_path);
+    return get_config_folder()->write_config_file();
 }
 
 int CmdInit::fetch_git_super_project()
@@ -178,20 +293,27 @@ int CmdInit::fetch_unknown_manifest()
 
     if (boost::filesystem::exists(file_path))
     {
-        info("ESysRepo manifest detected.");
-        get_config_folder()->get_or_new_config()->set_manifest_type(manifest::Type::ESYSREPO_MANIFEST);
-
-        boost::filesystem::path source = path.string();
-        boost::filesystem::path rel_source = boost::filesystem::relative(source);
-        boost::filesystem::path target = get_config_folder()->get_workspace_path();
-
-        result = git_helper.move(source.string(), target.string(), true, log::Level::DEBUG);
-        if (result == -1) return result;
-        if (result == -2) warn("While moving folder " + rel_source.string() + " some files were left behind.");
-
-        return 0;
+        result = fetch_esysrepo_manifest(git_helper, path.string(), ".esysrepo.manifest");
+        return result;
     }
 
+    file_path = path;
+    file_path /= ".esysrepo.manifest.xml";
+
+    if (boost::filesystem::exists(file_path))
+    {
+        result = fetch_esysrepo_manifest(git_helper, path.string(), ".esysrepo.manifest.xml");
+        return result;
+    }
+
+    file_path = path;
+    file_path /= ".esysrepo.manifest.json";
+
+    if (boost::filesystem::exists(file_path))
+    {
+        result = fetch_esysrepo_manifest(git_helper, path.string(), ".esysrepo.manifest.json");
+        return result;
+    }
     file_path = path;
     if (!get_manifest_name().empty())
         file_path /= get_manifest_name();
@@ -201,7 +323,9 @@ int CmdInit::fetch_unknown_manifest()
     if (boost::filesystem::exists(file_path))
     {
         info("Google repo tool manifest detected.");
-        get_config_folder()->get_or_new_config()->set_manifest_type(manifest::Type::GOOGLE_MANIFEST);
+        auto config = get_config_folder()->get_or_new_config();
+        config->set_manifest_type(manifest::Type::GOOGLE_MANIFEST);
+        config->set_manifest_format(manifest::Format::XML);
 
         boost::filesystem::path source = path.string();
         boost::filesystem::path rel_source = boost::filesystem::relative(source);

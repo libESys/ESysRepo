@@ -339,8 +339,12 @@
     <ClCompile Include="..\..\src\esys\repo\libssh2\sshimpl_libssh2.cpp" />
     <ClCompile Include="..\..\src\esys\repo\libssh2\ssh_libssh2.cpp" />
     <ClCompile Include="..\..\src\esys\repo\manifest.cpp" />
+    <ClCompile Include="..\..\src\esys\repo\manifest\fileerror_manifest.cpp" />
+    <ClCompile Include="..\..\src\esys\repo\manifest\file_manifest.cpp" />
+    <ClCompile Include="..\..\src\esys\repo\manifest\format_manifest.cpp" />
     <ClCompile Include="..\..\src\esys\repo\manifest\groups_manifest.cpp" />
     <ClCompile Include="..\..\src\esys\repo\manifest\group_manifest.cpp" />
+    <ClCompile Include="..\..\src\esys\repo\manifest\kind_manifest.cpp" />
     <ClCompile Include="..\..\src\esys\repo\manifest\runtasks_manifest.cpp" />
     <ClCompile Include="..\..\src\esys\repo\manifest\syncrepos_manifest.cpp" />
     <ClCompile Include="..\..\src\esys\repo\manifest\loaderbase_manifest.cpp" />
@@ -348,7 +352,7 @@
     <ClCompile Include="..\..\src\esys\repo\manifest\loadergitsuper_manifest.cpp" />
     <ClCompile Include="..\..\src\esys\repo\manifest\loadergrepo_manifest.cpp" />
     <ClCompile Include="..\..\src\esys\repo\manifest\loader_manifest.cpp" />
-    <ClCompile Include="..\..\src\esys\repo\manifest\file_manifest.cpp" />
+    <ClCompile Include="..\..\src\esys\repo\manifest\filebase_manifest.cpp" />
     <ClCompile Include="..\..\src\esys\repo\manifest\location_manifest.cpp" />
     <ClCompile Include="..\..\src\esys\repo\manifest\repository_manifest.cpp" />
     <ClCompile Include="..\..\src\esys\repo\manifest\syncrepo_manifest.cpp" />
@@ -422,8 +426,12 @@
     <ClInclude Include="..\..\include\esys\repo\libgit2\git.h" />
     <ClInclude Include="..\..\include\esys\repo\libssh2\ssh.h" />
     <ClInclude Include="..\..\include\esys\repo\manifest.h" />
+    <ClInclude Include="..\..\include\esys\repo\manifest\file.h" />
+    <ClInclude Include="..\..\include\esys\repo\manifest\fileerror.h" />
+    <ClInclude Include="..\..\include\esys\repo\manifest\format.h" />
     <ClInclude Include="..\..\include\esys\repo\manifest\group.h" />
     <ClInclude Include="..\..\include\esys\repo\manifest\groups.h" />
+    <ClInclude Include="..\..\include\esys\repo\manifest\kind.h" />
     <ClInclude Include="..\..\include\esys\repo\manifest\runtasks.h" />
     <ClInclude Include="..\..\include\esys\repo\manifest\sync.h" />
     <ClInclude Include="..\..\include\esys\repo\manifest\syncrepo.h" />
@@ -432,7 +440,7 @@
     <ClInclude Include="..\..\include\esys\repo\manifest\loaderesysrepo.h" />
     <ClInclude Include="..\..\include\esys\repo\manifest\loadergitsuper.h" />
     <ClInclude Include="..\..\include\esys\repo\manifest\loadergrepo.h" />
-    <ClInclude Include="..\..\include\esys\repo\manifest\file.h" />
+    <ClInclude Include="..\..\include\esys\repo\manifest\filebase.h" />
     <ClInclude Include="..\..\include\esys\repo\manifest\jsonfile.h" />
     <ClInclude Include="..\..\include\esys\repo\manifest\loaderbase.h" />
     <ClInclude Include="..\..\include\esys\repo\manifest\location.h" />

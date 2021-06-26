@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<esysrepo_manifest>
-    <location name="origin" addr="ssh://git@gitlab.com/libesys">
+<esysrepo_manifest kind="isolated">
+    <default revision="refs/heads/master" sync-j="4" />
+
+    <location name="origin" addr="ssh://git@gitlab.com/libesys" alt_addr="https://gitlab.com/libesys">
         <repository path="src/esysos" name="esysos"/>
         <repository path="src/esysdep" name="esysdep"/>
         <repository path="src/esysfile" name="esysfile"/>
         <repository path="src/esysres" name="esysres"/>
     </location>
 
-    <location name="gerrit" addr="ssh://git@gitlab.com/libesys/gerrit">
+    <location name="gerrit" addr="ssh://git@gitlab.com/libesys/gerrit" alt_addr="https://gitlab.com/libesys/gerrit">
         <repository path="src/esys" name="esys"/>
         <repository path="src/esysdoc" name="esysdoc"/>
         <repository path="src/esyssdk" name="esyssdk"/>
@@ -34,7 +36,7 @@
         <repository path="src/dfuprog" name="dfuprog"/>
     </location>
 
-    <location name="extlib" addr="ssh://git@gitlab.com/libesys/extlib">
+    <location name="extlib" addr="ssh://git@gitlab.com/libesys/extlib" alt_addr="https://gitlab.com/libesys/extlib">
         <repository path="src/esysc" name="esysc"/>
         <repository path="extlib/arduino1710" name="arduino1710"/>
         <repository path="extlib/asf" name="asf"/>
@@ -58,4 +60,14 @@
         <repository path="extlib/segger_rtt" name="segger_rtt"/>
         <repository path="extlib/cryptoauthlib" name="cryptoauthlib"/>
     </location>
+
+    <group name="vhw">
+        <repo path="src/esys"/>
+        <repo path="src/esysc"/>
+    </group>
+
+    <group name="hw">
+        <repo path="extlib/stm32h7"/>
+        <repo path="extlib/segger_rtt"/>
+    </group>
 </esysrepo_manifest>

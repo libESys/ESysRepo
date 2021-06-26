@@ -141,9 +141,6 @@
     <ClCompile Include="..\..\src\esys\repo\manifest\type_manifest.cpp">
       <Filter>Source Files\manifest</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\esys\repo\manifest\file_manifest.cpp">
-      <Filter>Source Files\manifest</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\esys\repo\manifest\xmlfile.cpp">
       <Filter>Source Files\manifest</Filter>
     </ClCompile>
@@ -327,6 +324,21 @@
     <ClCompile Include="..\..\src\esys\repo\cli\usage_doc.cpp">
       <Filter>Source Files\cli</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\manifest\kind_manifest.cpp">
+      <Filter>Source Files\manifest</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\manifest\format_manifest.cpp">
+      <Filter>Source Files\manifest</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\manifest\filebase_manifest.cpp">
+      <Filter>Source Files\manifest</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\manifest\file_manifest.cpp">
+      <Filter>Source Files\manifest</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\manifest\fileerror_manifest.cpp">
+      <Filter>Source Files\manifest</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\esys\repo\esysrepo_defs.h">
@@ -411,9 +423,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\esys\repo\manifest\xmlfile.h">
-      <Filter>Header Files\manifest</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\esys\repo\manifest\file.h">
       <Filter>Header Files\manifest</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\esys\repo\manifest\jsonfile.h">
@@ -622,6 +631,21 @@
     </ClInclude>
     <ClInclude Include="..\..\include\esys\repo\exe\cmdhelp.h">
       <Filter>Header Files\exe</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\manifest\kind.h">
+      <Filter>Header Files\manifest</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\manifest\format.h">
+      <Filter>Header Files\manifest</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\manifest\filebase.h">
+      <Filter>Header Files\manifest</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\manifest\file.h">
+      <Filter>Header Files\manifest</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\manifest\fileerror.h">
+      <Filter>Header Files\manifest</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

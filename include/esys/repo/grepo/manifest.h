@@ -19,7 +19,7 @@
 
 #include "esys/repo/esysrepo_defs.h"
 #include "esys/repo/manifest.h"
-#include "esys/repo/manifest/file.h"
+#include "esys/repo/manifest/filebase.h"
 
 #include <memory>
 
@@ -37,7 +37,7 @@ class ESYSREPO_API ManifestImpl;
 /*! \class Manifest esys/repo/grepo/manifest.h "esys/repo/grepo/manifest.h"
  * \brief Hold information about a google repo tool manifest
  */
-class ESYSREPO_API Manifest : public manifest::File
+class ESYSREPO_API Manifest : public manifest::FileBase
 {
 public:
     //! Default constructor

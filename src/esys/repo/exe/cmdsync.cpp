@@ -60,6 +60,16 @@ const std::string &CmdSync::get_branch() const
     return m_branch;
 }
 
+void CmdSync::set_alt_address(bool alt_address)
+{
+    m_alt_address = alt_address;
+
+}
+bool CmdSync::get_alt_address() const
+{
+    return m_alt_address;
+}
+
 int CmdSync::sync_manifest()
 {
     manifest::Sync sync;

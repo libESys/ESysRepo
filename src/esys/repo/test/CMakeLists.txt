@@ -60,6 +60,7 @@ set(ESYSREPO_T_EXE_CXX_SOURCES
     ../exe/test/cmdsync06.cpp
     ../exe/test/cmdsync07.cpp
     ../exe/test/cmdsync08.cpp
+    ../exe/test/esysbuildcmdsync01.cpp
     ../exe/test/fixcmd.cpp
 )
 

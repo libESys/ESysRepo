@@ -19,6 +19,8 @@
 
 #include "esys/repo/esysrepo_defs.h"
 #include "esys/repo/manifest/type.h"
+#include "esys/repo/manifest/kind.h"
+#include "esys/repo/manifest/format.h"
 
 #include <string>
 
@@ -52,6 +54,30 @@ public:
      */
     manifest::Type get_manifest_type() const;
 
+    //! Set the manifest kind
+    /*!
+     * \param[in] manifest_kind the manifest kind
+     */
+    void set_manifest_kind(manifest::Kind manifest_kind);
+
+    //! Get the manifest kind
+    /*!
+     * \return the manifest kind
+     */
+    manifest::Kind get_manifest_kind() const;
+
+    //! Set the manifest format
+    /*!
+     * \param[in] manifest_format the manifest format
+     */
+    void set_manifest_format(manifest::Format manifest_format);
+
+    //! Get the manifest format
+    /*!
+     * \return the manifest format
+     */
+    manifest::Format get_manifest_format() const;
+
     //! Set the manifest path
     /*!
      * \param[in] manifest_path the manifest path
@@ -75,8 +101,10 @@ public:
 
 protected:
     //!< \cond DOXY_IMPL
-    manifest::Type m_manifest_type = manifest::Type::NOT_SET; //!< The manifest type
-    std::string m_manifest_path;                              //!< The manifest path
+    manifest::Type m_manifest_type = manifest::Type::NOT_SET;       //!< The manifest type
+    manifest::Kind m_manifest_kind = manifest::Kind::ISOLATED;      //!< The manifest kind
+    manifest::Format m_manifest_format = manifest::Format::NOT_SET; //!< The manifest format
+    std::string m_manifest_path;                                    //!< The manifest path
     //!< \endcond
 };
 

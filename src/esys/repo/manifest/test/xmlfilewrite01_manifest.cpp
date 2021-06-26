@@ -157,6 +157,23 @@ ESYSTEST_AUTO_TEST_CASE(XMLFileWrite01Manifest)
 
     manifest->add_location(location);
 
+    std::vector<std::pair<std::string, std::vector<std::string>>> groups = {
+        {"vhw", {"src/esys", "src/esysboard", "extlib/mysystemc-232"}},
+        {"hw", {"extlib/stm32f7", "extlib/segger_rtt", "extlib/freertos"}}};
+
+    for (auto &group : groups)
+    {
+        std::shared_ptr<manifest::Group> grp = std::make_shared<manifest::Group>();
+        grp->set_name(group.first);
+
+        for (auto &repo : group.second) grp->add_repo(manifest->find_repo_by_path(repo));
+
+        manifest->get_groups().add_group(grp);
+    }
+
+    manifest->set_format(manifest::Format::XML);
+    manifest->set_kind(manifest::Kind::ISOLATED);
+
     xml_file.set_data(manifest);
 
     path /= ".esysrepo.manifest.xml";

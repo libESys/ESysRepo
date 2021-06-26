@@ -46,12 +46,18 @@ public:
     int write(std::ostream &os);
 
     int read(std::shared_ptr<esysfile::xml::Data> data);
+    int read_root_attributes(std::shared_ptr<esysfile::xml::Element> root_el);
+    int read_root_attribute(std::shared_ptr<esysfile::xml::Attr> attr);
     int read_location(std::shared_ptr<esysfile::xml::Element> el);
     int read_repository(std::shared_ptr<esysfile::xml::Element> el, std::shared_ptr<Location> location);
     int read_default(std::shared_ptr<esysfile::xml::Element> el);
+    int read_default_attr(std::shared_ptr<esysfile::xml::Attr> attr);
+    int read_group(std::shared_ptr<esysfile::xml::Element> el);
+    int read_group_repo(std::shared_ptr<esysfile::xml::Element> el, std::shared_ptr<Group> group);
 
     int write(std::shared_ptr<esysfile::xml::Element> parent_el, std::shared_ptr<Location> location);
     int write(std::shared_ptr<esysfile::xml::Element> parent_el, std::shared_ptr<Repository> repository);
+    int write(std::shared_ptr<esysfile::xml::Element> parent_el, std::shared_ptr<Group> group);
 
     XMLFile *self();
     const XMLFile *self() const;

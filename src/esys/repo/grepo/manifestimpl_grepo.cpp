@@ -58,6 +58,7 @@ int ManifestImpl::read(const std::string &filename)
     if (result < 0) return result;
 
     self()->get_data()->set_type(manifest::Type::GOOGLE_MANIFEST);
+    self()->get_data()->set_kind(manifest::Kind::ISOLATED);
 
     return read(m_file->get_data());
 }

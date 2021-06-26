@@ -62,6 +62,7 @@ std::shared_ptr<po::options_description> CmdSync::get_desc()
         ("job,j", po::value<int>()->default_value(1), "projects to fetch simultaneously (default 1)")
         ("groups,g", po::value<std::string>(), "the groups to synchronize")
         ("branch,b", po::value<std::string>(), "the branch to synchronize across repos")
+        ("alt,a", "use alternative address for git repos")
         ;
     // clang-format on
     Cmd::set_desc(desc);

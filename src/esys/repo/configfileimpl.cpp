@@ -68,6 +68,26 @@ int ConfigFileImpl::open(const std::string &path)
     {
         self()->get_config()->set_manifest_path(obj["manifest_path"]);
     }
+
+    if (obj.contains("manifest_kind"))
+    {
+        manifest::Kind kind;
+
+        result = convert(obj["manifest_kind"], kind);
+        if (result < 0) return result;
+
+        self()->get_config()->set_manifest_kind(kind);
+    }
+
+    if (obj.contains("manifest_format"))
+    {
+        manifest::Format format;
+
+        result = convert(obj["manifest_format"], format);
+        if (result < 0) return result;
+
+        self()->get_config()->set_manifest_format(format);
+    }
     return 0;
 }
 
@@ -86,6 +106,16 @@ int ConfigFileImpl::write(const std::string &path)
 
     cfg_json["manifest_type"] = text;
     if (!cfg->get_manifest_path().empty()) cfg_json["manifest_path"] = cfg->get_manifest_path();
+
+    std::string kind;
+    result = convert(cfg->get_manifest_kind(), kind);
+    if (result < 0) return result;
+    cfg_json["manifest_kind"] = kind;
+
+    std::string format;
+    result = convert(cfg->get_manifest_format(), format);
+    if (result < 0) return result;
+    cfg_json["manifest_format"] = format;
 
     std::ofstream ofs;
 

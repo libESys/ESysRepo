@@ -176,6 +176,9 @@ public:
     void set_branch(const std::string &branch);
     const std::string &get_branch() const;
 
+    void set_alt_address(bool alt_address);
+    bool get_alt_address() const;
+
     RunTasks &get_run_tasks();
     const RunTasks &get_run_tasks() const;
 
@@ -193,6 +196,7 @@ protected:
     std::vector<std::string> m_folders_to_sync;        //!< The list of folders to sync
     std::map<std::string, bool> m_map_folders_to_sync; //!< The map of folders to sync
     std::string m_branch;                              //!< The branch to checkout if found
+    bool m_alt_address = false;                        //!< Use the alternative address for git repo
     //!< \endcond
 };
 

@@ -144,7 +144,7 @@ int CmdManifest::impl_run()
         os = fos.get();
     }
 
-    std::shared_ptr<manifest::File> file;
+    std::shared_ptr<manifest::FileBase> file;
 
     switch (get_manifest()->get_type())
     {

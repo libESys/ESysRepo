@@ -5,7 +5,7 @@
  * \cond
  * __legal_b__
  *
- * Copyright (c) 2020-2021 Michel Gillet
+ * Copyright (c) 2021 Michel Gillet
  * Distributed under the wxWindows Library Licence, Version 3.1.
  * (See accompanying file LICENSE_3_1.txt or
  * copy at http://www.wxwidgets.org/about/licence)
@@ -19,8 +19,8 @@
 
 #include "esys/repo/esysrepo_defs.h"
 #include "esys/repo/manifest.h"
+#include "esys/repo/manifest/filebase.h"
 
-#include <string>
 #include <memory>
 
 namespace esys
@@ -33,9 +33,9 @@ namespace manifest
 {
 
 /*! \class File esys/repo/manifest/file.h "esys/repo/manifest/file.h"
- * \brief Base class for all ESysRepo manifest file format
+ * \brief Read and write the ESysRepo manifest file
  */
-class ESYSREPO_API File
+class ESYSREPO_API File : public FileBase
 {
 public:
     //! Default constructor
@@ -44,47 +44,42 @@ public:
     //! Destructor
     virtual ~File();
 
-    //! Set the manifest data
+    //! Read a ESysRepo manifest file
     /*!
-     * \param[in] manifest the manifest data
-     */
-    void set_data(std::shared_ptr<Manifest> manifest);
-
-    //! Get the manifest data
-    /*!
-     * \return the manifest data
-     */
-    std::shared_ptr<Manifest> get_data();
-
-    //! Get the manifest data
-    /*!
-     * \return the manifest data
-     */
-    const std::shared_ptr<Manifest> get_data() const;
-
-    //! Read the manifest
-    /*!
-     * \param[in] path the path of the manifest
+     * \param[in] path the path of the ESysRepo manifest file to read
      * \return 0 if successful, < 0 otherwise
      */
-    virtual int read(const std::string &path) = 0;
+    int read(const std::string &path) override;
 
-    //! Write this manifest to a file
+    //! Write a ESysRepo manifest file
     /*!
-     * \param[in] path the path of the ESysRepo manifest
+     * \param[in] path the path of the ESysRepo manifest file to write
      * \return 0 if successful, < 0 otherwise
      */
-    virtual int write(const std::string &path) = 0;
+    int write(const std::string &path) override;
 
-    //! Write the manifest to a stream
+    //! Write a ESysRepo manifest to a stream
     /*!
      * \param[in] os the stream
+     * \return 0 if successful, < 0 otherwise
      */
-    virtual int write(std::ostream &os) = 0;
+    int write(std::ostream &os) override;
+
+    //! Get the PIMPL
+    /*!
+     * \return the PIMPL
+     */
+    FileBase *get_impl();
+
+    //! Get the PIMPL
+    /*!
+     * \return the PIMPL
+     */
+    const FileBase *get_impl() const;
 
 protected:
     //!< \cond DOXY_IMPL
-    std::shared_ptr<Manifest> m_data; //!< The abstract data of a manifest
+    std::unique_ptr<FileBase> m_impl; //!< The PIMPL
     //!< \endcond
 };
 

@@ -108,8 +108,12 @@ set(ESYSREPO_LIBSSH2_CXX_SOURCES
 
 set(ESYSREPO_MANIFEST_CXX_SOURCES
     manifest/file_manifest.cpp
+    manifest/filebase_manifest.cpp
+    manifest/fileerror_manifest.cpp
+    manifest/format_manifest.cpp
     manifest/group_manifest.cpp
     manifest/groups_manifest.cpp
+    manifest/kind_manifest.cpp
     manifest/loader_manifest.cpp
     manifest/loaderbase_manifest.cpp
     manifest/loaderesysrepo_manifest.cpp

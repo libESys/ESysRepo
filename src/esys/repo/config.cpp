@@ -38,6 +38,26 @@ manifest::Type Config::get_manifest_type() const
     return m_manifest_type;
 }
 
+void Config::set_manifest_kind(manifest::Kind manifest_kind)
+{
+    m_manifest_kind = manifest_kind;
+}
+
+manifest::Kind Config::get_manifest_kind() const
+{
+    return m_manifest_kind;
+}
+
+void Config::set_manifest_format(manifest::Format manifest_format)
+{
+    m_manifest_format = manifest_format;
+}
+
+manifest::Format Config::get_manifest_format() const
+{
+    return m_manifest_format;
+}
+
 void Config::set_manifest_path(const std::string &manifest_path)
 {
     m_manifest_path = manifest_path;

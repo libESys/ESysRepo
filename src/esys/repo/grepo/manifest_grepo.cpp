@@ -29,7 +29,7 @@ namespace grepo
 {
 
 Manifest::Manifest()
-    : manifest::File()
+    : manifest::FileBase()
 {
     m_impl = std::make_unique<ManifestImpl>(this);
 }

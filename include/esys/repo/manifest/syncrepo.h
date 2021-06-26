@@ -101,8 +101,13 @@ public:
      */
     std::size_t &get_repo_idx();
 
+    std::string get_repo_url();
+
     void set_branch(const std::string &branch);
     const std::string &get_branch() const;
+
+    void set_alt_address(bool alt_address);
+    bool get_alt_address() const;
 
     void set_force(bool force);
     bool get_force() const;
@@ -122,6 +127,7 @@ protected:
     std::size_t m_repo_idx = 0;                    //!< The repo index
     std::string m_branch;                          //!< The branch to checkout if existing
     bool m_force = false;                          //!< Force the operation
+    bool m_alt_address = false;                    //!< Use alternative address of the git repo
 
     //!< \endcond
 };

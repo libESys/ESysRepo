@@ -67,6 +67,8 @@ ESYSTEST_AUTO_TEST_CASE(ConfigFileWrite01)
     std::shared_ptr<Config> cfg = std::make_shared<Config>();
 
     cfg->set_manifest_type(manifest::Type::GOOGLE_MANIFEST);
+    cfg->set_manifest_kind(manifest::Kind::ISOLATED);
+    cfg->set_manifest_format(manifest::Format::XML);
     cfg->set_manifest_path("grepo/default.xml");
 
     path /= "config.json";
