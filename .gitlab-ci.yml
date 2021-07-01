@@ -46,6 +46,13 @@ unit_tests:ubuntu18_04:
   rules:
     - when: always
 
+unit_tests:rasppi4:
+  <<: *unit_test 
+  tags:
+    - rasppi4
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+
 merge_request:
   <<: *merge_request
   rules:
