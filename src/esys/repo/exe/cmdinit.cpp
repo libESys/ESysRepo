@@ -167,6 +167,8 @@ int CmdInit::fetch_esysrepo_manifest(GitHelper &git_helper, const std::string &g
     std::string manifest_filename_ext = manifest_filename_path.extension().string();
 
     info("ESysRepo manifest detected.");
+    debug(0, "Manifest filename : " + manifest_filename);
+
     auto config_file = get_config_folder()->get_or_new_config();
 
     config_file->set_manifest_type(manifest::Type::ESYSREPO_MANIFEST);
@@ -206,8 +208,7 @@ int CmdInit::fetch_esysrepo_manifest(GitHelper &git_helper, const std::string &g
 
     config_file->set_manifest_format(manifest->get_format());
 
-    if (manifest->get_kind() == manifest::Kind::NOT_SET)
-        manifest->set_kind(manifest::Kind::ISOLATED);
+    if (manifest->get_kind() == manifest::Kind::NOT_SET) manifest->set_kind(manifest::Kind::ISOLATED);
 
     if (manifest->get_kind() == manifest::Kind::EMBEDDED)
     {

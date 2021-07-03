@@ -67,12 +67,14 @@ int XMLFileImpl::read(std::shared_ptr<esysfile::xml::Data> data)
     if (data->get_attrs().size() != 0)
     {
         result = read_root_attributes(data);
-        if (result < 0) 
+        if (result < 0)
         {
             self()->add_error(result, "read_root_attributes failed.");
             return result;
         }
     }
+    else
+        self()->get_data()->set_kind(manifest::Kind::ISOLATED);
 
     for (auto el : data->get_elements())
     {
