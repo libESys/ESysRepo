@@ -110,7 +110,12 @@ ESYSREPO_API int copy(const std::string &src, const std::string &dst, bool recur
                 if (result < 0) return result;
             }
             else
-                boost::filesystem::copy(*it, copy_to);
+            {
+                boost::system::error_code ec;
+                
+                boost::filesystem::copy(*it, copy_to, ec);
+                if (ec) return -1;
+            }
 
             *it++;
         }

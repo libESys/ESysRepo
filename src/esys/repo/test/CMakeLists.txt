@@ -20,6 +20,7 @@ include(FindPkgConfig)
 add_definitions(-DESYSTEST_MULTIOS -DESYSTEST_USE_BOOST)
 set(ESYSTEST_USE_BOOST 1)
 
+# pkg_check_modules(LIBSSL libssl REQUIRED)
 pkg_check_modules(LIBSSH2 libssh2 REQUIRED)
 
 include_directories(../../../../include ${LIBSSH2_INCLUDE_DIRS}

@@ -82,7 +82,7 @@ int Cmd_t<CMD>::parse_and_configure()
     if (result < 0) return result;
 
     if (get_vm().count("command") == 0) return -1;
-    std::string cmd_txt = get_vm()["command"].as<std::string>();
+    std::string cmd_txt = get_vm()["command"].template as<std::string>();
     if (cmd_txt != get_name())
     {
         //! \TODO add log
