@@ -60,7 +60,9 @@ set(ESYSREPO_T_EXE_CXX_SOURCES
     ../exe/test/cmdsync06.cpp
     ../exe/test/cmdsync07.cpp
     ../exe/test/cmdsync08.cpp
-    ../exe/test/esysbuildcmdsync01.cpp
+    #../exe/test/esysbuildcmdsync01.cpp # not stable because of cloning json git repo?!
+    ../exe/test/esysmodbuscmdsync01.cpp
+    ../exe/test/esysmodbuscmdsync02.cpp
     ../exe/test/fixcmd.cpp
 )
 

@@ -244,7 +244,7 @@ int CmdInit::fetch_esysrepo_manifest(GitHelper &git_helper, const std::string &g
         if (result == -1) return result;
         if (result == -2) warn("While moving folder " + rel_source.string() + " some files were left behind.");
         target = "esysrepo";
-        target /= ".esysrepo.manifest";
+        target /= manifest_filename;
         manifest_path = target.generic().string();
     }
     else

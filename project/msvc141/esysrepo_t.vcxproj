@@ -246,6 +246,8 @@
     <ClCompile Include="..\..\src\esys\repo\exe\test\cmdsync08.cpp" />
     <ClCompile Include="..\..\src\esys\repo\exe\test\esysbuildcmdsync01.cpp" />
     <ClCompile Include="..\..\src\esys\repo\exe\test\esysbuildcmdsync02.cpp" />
+    <ClCompile Include="..\..\src\esys\repo\exe\test\esysmodbuscmdsync01.cpp" />
+    <ClCompile Include="..\..\src\esys\repo\exe\test\esysmodbuscmdsync02.cpp" />
     <ClCompile Include="..\..\src\esys\repo\exe\test\fixcmd.cpp" />
     <ClCompile Include="..\..\src\esys\repo\git\test\sortbranches01.cpp" />
     <ClCompile Include="..\..\src\esys\repo\grepo\test\readmanifest01_grepo.cpp" />

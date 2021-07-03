@@ -186,6 +186,12 @@
     <ClCompile Include="..\..\src\esys\repo\exe\test\esysbuildcmdsync02.cpp">
       <Filter>Source Files\exe</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\exe\test\esysmodbuscmdsync01.cpp">
+      <Filter>Source Files\exe</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\exe\test\esysmodbuscmdsync02.cpp">
+      <Filter>Source Files\exe</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\esys\repo\test\esysrepo_t_prec.h">
