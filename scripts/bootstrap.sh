@@ -9,9 +9,23 @@ cd build_dev
 cd src
 cd esysrepo
 
-git checkout ${CI_COMMIT_BRANCH}
+if [ ! -z ${CI_COMMIT_BRANCH+x} ];
+then
+    echo "Commit branch : ${CI_COMMIT_BRANCH}"
+    TO_CHECKOUT=${CI_COMMIT_BRANCH}
+elif [ ! -z ${CI_MERGE_REQUEST_REF_PATH+x} ];
+then
+    echo "Merge request : ${CI_MERGE_REQUEST_REF_PATH}"
+    TO_CHECKOUT=${CI_COMMIT_SHA}
+else
+    echo "${TXT_E}Neither a branch commit nor a merge request?!${TXT_CLEAR}"
+    exit 1
+fi
+
+echo "Checking out : ${TO_CHECKOUT}"
+git checkout ${TO_CHECKOUT}
 if [ ! $? -eq 0 ]; then
-   echo "${TXT_E}Git checkout failed..${TXT_CLEAR}"
+   echo "${TXT_E}Git checkout failed.${TXT_CLEAR}"
    exit 1
 fi
 cd ../..
