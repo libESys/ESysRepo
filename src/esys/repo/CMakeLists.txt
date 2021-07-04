@@ -18,16 +18,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(Boost 1.66 REQUIRED COMPONENTS filesystem program_options system)
 
-find_package(PkgConfig REQUIRED)
-
-if(ESYSREPO_USE_CONAN)
-  find_package(libgit2 REQUIRED)
-  find_package(Libssh2 REQUIRED)
-else()
-  pkg_search_module(git2 libgit2 REQUIRED)
-  pkg_search_module(ssh2 libssh2 REQUIRED)
-endif()
-
 find_package(nlohmann_json 3.6.1 REQUIRED)
 
 include_directories(.. ../../../include ${git2_INCLUDE_DIRS}
@@ -312,14 +302,26 @@ target_link_libraries(
   PRIVATE Boost::filesystem
           Boost::program_options
           Boost::system
-          git2
-          ssh2
           esysfile
           esyslog
           esyslog_spdlog
           msword2md)
 
 target_link_libraries(esysrepo PRIVATE nlohmann_json::nlohmann_json)
+
+if(ESYSREPO_USE_CONAN)
+  find_package(libgit2 REQUIRED)
+  find_package(Libssh2 REQUIRED)
+
+  target_link_libraries(esysrepo PRIVATE git2 ssh2)
+else()
+  find_package(PkgConfig REQUIRED)
+
+  pkg_search_module(GIT2 REQUIRED IMPORTED_TARGET libgit2>=1.1.0)
+  pkg_search_module(SSH2 REQUIRED IMPORTED_TARGET libssh2)
+
+  target_link_libraries(esysrepo PRIVATE PkgConfig::GIT2 PkgConfig::SSH2)
+endif()
 
 install(TARGETS esysrepo LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
 

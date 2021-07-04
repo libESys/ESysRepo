@@ -20,9 +20,6 @@ include(FindPkgConfig)
 add_definitions(-DESYSTEST_MULTIOS -DESYSTEST_USE_BOOST)
 set(ESYSTEST_USE_BOOST 1)
 
-# pkg_check_modules(LIBSSL libssl REQUIRED)
-pkg_check_modules(LIBSSH2 libssh2 REQUIRED)
-
 include_directories(../../../../include ${LIBSSH2_INCLUDE_DIRS}
                     ${termcolor_DIR}/include)
 
@@ -95,6 +92,18 @@ add_executable(
 find_package(Boost 1.66 REQUIRED QUIET
              COMPONENTS date_time filesystem iostreams program_options thread)
 
+if(ESYSREPO_USE_CONAN)
+  find_package(Libssh2 REQUIRED)
+
+  target_link_libraries(esysrepo_t PRIVATE ssh2)
+else()
+  find_package(PkgConfig REQUIRED)
+
+  pkg_search_module(SSH2 REQUIRED IMPORTED_TARGET libssh2)
+
+  target_link_libraries(esysrepo_t PRIVATE PkgConfig::SSH2)
+endif()
+
 target_link_libraries(
   esysrepo_t
   PUBLIC Boost::date_time
@@ -102,7 +111,6 @@ target_link_libraries(
          Boost::iostreams
          Boost::program_options
          Boost::thread
-         ${LIBSSH2_LIBRARIES}
          esysrepo
          esyslog)
 
