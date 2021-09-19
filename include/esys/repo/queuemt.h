@@ -89,6 +89,8 @@ public:
 
     void for_each(std::function<void(const T &val)> fct);
 
+    void clear();
+
 protected:
     //!< \cond DOXY_IMPL
     std::mutex m_mutex;    //!< The mutex to use
@@ -104,6 +106,7 @@ QueueMT<T>::QueueMT()
 template<typename T>
 QueueMT<T>::~QueueMT()
 {
+    m_queue.clear();
 }
 
 template<typename T>
@@ -180,7 +183,7 @@ int QueueMT<T>::remove_if(std::function<bool(const T &val)> fct)
     it = m_queue.begin();
 
     while (it != m_queue.end())
-    {      
+    {
         remove = fct(*it);
         if (remove)
         {
@@ -199,6 +202,14 @@ void QueueMT<T>::for_each(std::function<void(const T &val)> fct)
     std::lock_guard lock(m_mutex);
 
     for (auto item : m_queue) fct(item);
+}
+
+template<typename T>
+void QueueMT<T>::clear()
+{
+    std::lock_guard lock(m_mutex);
+
+    m_queue.clear();
 }
 
 } // namespace repo

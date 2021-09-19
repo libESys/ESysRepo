@@ -40,6 +40,7 @@ RunTasks::RunTasks()
 
 RunTasks::~RunTasks()
 {
+    m_tasks.clear();
 }
 
 void RunTasks::add(std::shared_ptr<TaskBase> task)

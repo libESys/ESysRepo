@@ -454,7 +454,7 @@ void GitHelper::set_git(std::shared_ptr<GitBase> git)
 
 std::shared_ptr<GitBase> GitHelper::get_git()
 {
-    return m_git;
+    return m_git.lock();
 }
 
 void GitHelper::set_auto_close(bool auto_close)

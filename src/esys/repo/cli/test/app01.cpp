@@ -19,6 +19,8 @@
 
 #include <esys/repo/cli/app.h>
 
+#include <iostream>
+
 namespace esys
 {
 
@@ -51,6 +53,9 @@ ESYSTEST_AUTO_TEST_CASE(App01)
     {
         App app;
 
+        std::cout << "App 1" << std::endl;
+        std::cout << "===========" << std::endl;
+
         args = {};
         app.set_args(args);
         result = app.parse_and_configure();
@@ -69,6 +74,9 @@ ESYSTEST_AUTO_TEST_CASE(App01)
     {
         App app;
 
+        std::cout << "App 2" << std::endl;
+        std::cout << "===========" << std::endl;
+
         args = {"sync", "-j", "4", "--folder", file_path.string()};
         app.set_args(args);
         result = app.parse_and_configure();
@@ -80,6 +88,9 @@ ESYSTEST_AUTO_TEST_CASE(App01)
 
     {
         App app;
+
+        std::cout << "App 3" << std::endl;
+        std::cout << "===========" << std::endl;
 
         args = {"info", "--folder", file_path.string()};
         app.set_args(args);
@@ -93,6 +104,9 @@ ESYSTEST_AUTO_TEST_CASE(App01)
     {
         App app;
 
+        std::cout << "App 4" << std::endl;
+        std::cout << "===========" << std::endl;
+
         args = {"list", "--folder", file_path.string()};
         app.set_args(args);
         result = app.parse_and_configure();
@@ -105,6 +119,9 @@ ESYSTEST_AUTO_TEST_CASE(App01)
     {
         App app;
 
+        std::cout << "App 5" << std::endl;
+        std::cout << "===========" << std::endl;
+
         args = {"manifest", "--folder", file_path.string()};
         app.set_args(args);
         result = app.parse_and_configure();
@@ -116,6 +133,9 @@ ESYSTEST_AUTO_TEST_CASE(App01)
 
     {
         App app;
+
+        std::cout << "App 6" << std::endl;
+        std::cout << "===========" << std::endl;
 
         args = {"status", "--folder", file_path.string()};
         app.set_args(args);

@@ -125,7 +125,7 @@ public:
 
 protected:
     //!< \cond DOXY_IMPL
-    std::shared_ptr<GitBase> m_git; //!< The GitBase instance to use
+    std::weak_ptr<GitBase> m_git; //!< The GitBase instance to use
     int m_repo_idx = -1;            //!< The index of the repository worked on
     bool m_display_repo_idx = true;
     bool m_auto_close = false;
