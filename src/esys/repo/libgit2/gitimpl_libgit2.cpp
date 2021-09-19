@@ -256,14 +256,14 @@ int GitImpl::get_hash(const std::string &revision, std::string &hash, git::Branc
 
 int GitImpl::clone(const std::string &url, const std::string &path, const std::string &branch)
 {
-    self()->cmd_start();
-    self()->open_time();
-
     std::string new_ref;
     int result = 0;
 
     if (url.find("https:") == 0)
     {
+        self()->cmd_start();
+        self()->open_time();
+
         if (branch.empty())
             result = git_clone(&m_repo, url.c_str(), path.c_str(), nullptr);
         else
@@ -277,6 +277,9 @@ int GitImpl::clone(const std::string &url, const std::string &path, const std::s
     else if ((url.find("ssh:") == 0))
     {
         if (!is_ssh_agent_running()) return check_error(-1, "Only authentication via an ssh agent is supported", false);
+
+        self()->cmd_start();
+        self()->open_time();
 
         git_clone_options opts = GIT_CLONE_OPTIONS_INIT;
         if (!branch.empty()) opts.checkout_branch = new_ref.c_str();
