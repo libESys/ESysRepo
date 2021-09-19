@@ -114,6 +114,24 @@ std::shared_ptr<GitBase> SyncRepos::new_git()
     return Git::new_ptr();
 }
 
+bool SyncRepos::check_if_ssh_auth_needed_and_ok()
+{
+    for (auto location : get_manifest()->get_locations())
+    {
+        for (auto repo : location->get_repos())
+        {
+            if (!is_repo_to_be_synced(repo)) continue;
+
+            if (location->is_address_ssh())
+            {
+                if (!get_alt_address()) return false;
+                if (location->is_alt_address_ssh()) return false;
+            }
+        }
+    }
+    return true;
+}
+
 int SyncRepos::run()
 {
     if (get_manifest() == nullptr) return -1;
@@ -121,6 +139,9 @@ int SyncRepos::run()
     if (get_git() == nullptr) return -1;
 
     int result = 0;
+
+    if (!check_if_ssh_auth_needed_and_ok() && !get_git()->is_ssh_agent_running())
+        warn("SSH authentication is only supported with a SSH agent. Git repos with SSH access won't be synced.");
 
     set_repo_idx(0);
     for (auto location : get_manifest()->get_locations())

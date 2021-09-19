@@ -57,6 +57,8 @@ public:
     int normal_sync();
     int branch_sync();
 
+    int is_manifest_modified(bool &modified);
+
     //! Process one repository
     /*!
      * \return 0 if successful, < 0 otherwise

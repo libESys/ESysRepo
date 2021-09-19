@@ -74,6 +74,8 @@ public:
      */
     const std::string &get_address() const;
 
+    bool is_address_ssh() const;
+
     //! Set the address of the location
     /*!
      * \param[in] address the alternative address of the location
@@ -85,6 +87,8 @@ public:
      * \return the alternative address of the location
      */
     const std::string &get_alt_address() const;
+
+    bool is_alt_address_ssh() const;
 
     //! Add a repository to this location
     /*!

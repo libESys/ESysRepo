@@ -66,6 +66,11 @@ const std::string &Location::get_address() const
     return m_address;
 }
 
+bool Location::is_address_ssh() const
+{
+    return get_address().find("ssh://") != get_address().npos;
+}
+
 void Location::set_alt_address(const std::string &alt_address)
 {
     m_alt_address = alt_address;
@@ -74,6 +79,11 @@ void Location::set_alt_address(const std::string &alt_address)
 const std::string &Location::get_alt_address() const
 {
     return m_alt_address;
+}
+
+bool Location::is_alt_address_ssh() const
+{
+    return get_alt_address().find("ssh://") != get_alt_address().npos;
 }
 
 std::shared_ptr<Repository> Location::add_repo(const std::string &name, const std::string &path)

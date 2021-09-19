@@ -166,6 +166,8 @@ public:
      */
     std::size_t &get_repo_idx();
 
+    bool check_if_ssh_auth_needed_and_ok();
+
     bool is_repo_to_be_synced(std::shared_ptr<manifest::Repository> repo) const;
     void set_folders_to_sync(std::vector<std::string> folders_to_sync);
     const std::vector<std::string> &get_folders_to_sync() const;

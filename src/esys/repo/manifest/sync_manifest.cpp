@@ -56,6 +56,37 @@ bool Sync::get_force() const
     return m_force;
 }
 
+int Sync::is_manifest_modified(bool &modified)
+{
+    bool dirty;
+    modified = false;
+
+    if (get_git()->is_dirty(dirty) < 0) return -4;
+
+    if (!dirty) return 0;
+    
+    git::RepoStatus status;
+
+    int result = get_git()->get_status(status);
+    if (result < 0) return -5;
+    
+    std::string manifest_rel_path;
+
+    if (get_config_folder() == nullptr) return -6;
+    auto config = get_config_folder()->get_config();
+    if (config == nullptr) return -7;
+    
+    auto rel_file_name = get_config_folder()->get_manifest_rel_file_name();
+
+    auto file_status_it = status.get_map_file_status().find(rel_file_name);
+    if (file_status_it == status.get_map_file_status().end()) return 0;
+
+    auto file_status = file_status_it->second;
+
+    warn("The manifest file has local changes!");
+    return 0;
+}
+
 int Sync::run()
 {
     if (get_git() == nullptr) return -1;
@@ -74,7 +105,7 @@ int Sync::run()
     {
         warn("Sync manifest aborted: found changes in the git repo.");
         get_git()->close();
-        return -5;
+        return 0;
     }
 
     result = get_git()->fetch();
