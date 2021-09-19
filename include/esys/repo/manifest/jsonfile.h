@@ -19,7 +19,7 @@
 
 #include "esys/repo/esysrepo_defs.h"
 #include "esys/repo/manifest.h"
-#include "esys/repo/manifest/filebase.h"
+#include "esys/repo/manifest/base.h"
 
 #include <memory>
 
@@ -35,7 +35,7 @@ namespace manifest
 /*! \class JSONFile esys/repo/manifest/jsonfile.h "esys/repo/manifest/jsonfile.h"
  * \brief Read and write the ESysRepo manifest in JSON format
  */
-class ESYSREPO_API JSONFile : public FileBase
+class ESYSREPO_API JSONFile : public Base
 {
 public:
     //! Default constructor

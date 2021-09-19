@@ -62,9 +62,13 @@ public:
      */
     ManifestImpl *get_impl();
 
+    static const std::string &get_folder_name();
+
 protected:
     //!< \cond DOXY_IMPL
-    std::unique_ptr<ManifestImpl> m_impl;   //!< The PIMPL
+    static const std::string s_folder_name;
+
+    std::unique_ptr<ManifestImpl> m_impl; //!< The PIMPL
     //!< \endcond
 };
 

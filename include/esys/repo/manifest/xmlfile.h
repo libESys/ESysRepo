@@ -19,7 +19,7 @@
 
 #include "esys/repo/esysrepo_defs.h"
 #include "esys/repo/manifest.h"
-#include "esys/repo/manifest/filebase.h"
+#include "esys/repo/manifest/base.h"
 
 #include <memory>
 
@@ -37,7 +37,7 @@ class ESYSREPO_API XMLFileImpl;
 /*! \class XMLFile esys/repo/manifest/xmlfile.h "esys/repo/manifest/xmlfile.h"
  * \brief Read and write the ESysRepo manifest in XML format
  */
-class ESYSREPO_API XMLFile : public FileBase
+class ESYSREPO_API XMLFile : public Base
 {
 public:
     //! Default constructor

@@ -339,6 +339,9 @@
     <ClCompile Include="..\..\src\esys\repo\manifest\fileerror_manifest.cpp">
       <Filter>Source Files\manifest</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\manifest\base_manifest.cpp">
+      <Filter>Source Files\manifest</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\esys\repo\esysrepo_defs.h">
@@ -645,6 +648,9 @@
       <Filter>Header Files\manifest</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\esys\repo\manifest\fileerror.h">
+      <Filter>Header Files\manifest</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\manifest\base.h">
       <Filter>Header Files\manifest</Filter>
     </ClInclude>
   </ItemGroup>

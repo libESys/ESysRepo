@@ -339,6 +339,7 @@
     <ClCompile Include="..\..\src\esys\repo\libssh2\sshimpl_libssh2.cpp" />
     <ClCompile Include="..\..\src\esys\repo\libssh2\ssh_libssh2.cpp" />
     <ClCompile Include="..\..\src\esys\repo\manifest.cpp" />
+    <ClCompile Include="..\..\src\esys\repo\manifest\base_manifest.cpp" />
     <ClCompile Include="..\..\src\esys\repo\manifest\fileerror_manifest.cpp" />
     <ClCompile Include="..\..\src\esys\repo\manifest\file_manifest.cpp" />
     <ClCompile Include="..\..\src\esys\repo\manifest\format_manifest.cpp" />
@@ -426,6 +427,7 @@
     <ClInclude Include="..\..\include\esys\repo\libgit2\git.h" />
     <ClInclude Include="..\..\include\esys\repo\libssh2\ssh.h" />
     <ClInclude Include="..\..\include\esys\repo\manifest.h" />
+    <ClInclude Include="..\..\include\esys\repo\manifest\base.h" />
     <ClInclude Include="..\..\include\esys\repo\manifest\file.h" />
     <ClInclude Include="..\..\include\esys\repo\manifest\fileerror.h" />
     <ClInclude Include="..\..\include\esys\repo\manifest\format.h" />

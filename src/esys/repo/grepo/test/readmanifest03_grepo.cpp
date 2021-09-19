@@ -46,7 +46,7 @@ ESYSTEST_AUTO_TEST_CASE(ReadManifest03GRepo)
 
     auto &ctrl = repo::test::TestCaseCtrl::get();
     file_path = ctrl.GetTestFilesFolder();
-    file_path /= "grepo";
+    file_path /= grepo::Manifest::get_folder_name();
     file_path /= "default03.xml";
 
     Manifest manifest;

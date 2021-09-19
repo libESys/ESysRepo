@@ -17,6 +17,8 @@
 
 #include "esys/repo/esysrepo_prec.h"
 #include "esys/repo/configfolder.h"
+#include "esys/repo/manifest/base.h"
+#include "esys/repo/grepo/manifest.h"
 
 #include <boost/filesystem.hpp>
 
@@ -181,6 +183,24 @@ std::string ConfigFolder::get_manifest_repo_path() const
     repo_path = repo_path.parent_path().normalize().make_preferred();
 
     return repo_path.string();
+}
+
+std::string ConfigFolder::get_manifest_rel_file_name() const
+{
+    assert(get_config() != nullptr);
+
+    std::string folder_name;
+
+    switch (get_config()->get_manifest_type())
+    {
+        case manifest::Type::ESYSREPO_MANIFEST: folder_name = manifest::Base::get_folder_name(); break;
+        case manifest::Type::GOOGLE_MANIFEST: folder_name = grepo::Manifest::get_folder_name(); break;
+    }
+
+    boost::filesystem::path manifest_path = get_config()->get_manifest_path();
+
+    auto rel_folder_path = boost::filesystem::relative(manifest_path, folder_name);
+    return rel_folder_path.string();
 }
 
 std::shared_ptr<Config> ConfigFolder::get_config()

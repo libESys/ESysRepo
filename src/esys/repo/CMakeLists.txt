@@ -91,6 +91,8 @@ set(ESYSREPO_LIBSSH2_CXX_SOURCES libssh2/ssh_libssh2.cpp
                                  libssh2/sshimpl_libssh2.cpp)
 
 set(ESYSREPO_MANIFEST_CXX_SOURCES
+    manifest/base_manifest.cpp
+    manifest/base_manifest.cpp
     manifest/file_manifest.cpp
     manifest/filebase_manifest.cpp
     manifest/fileerror_manifest.cpp

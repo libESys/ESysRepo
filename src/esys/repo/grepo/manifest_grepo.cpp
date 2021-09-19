@@ -28,6 +28,13 @@ namespace repo
 namespace grepo
 {
 
+const std::string Manifest::s_folder_name = "grepo";
+
+const std::string &Manifest::get_folder_name()
+{
+    return s_folder_name;
+}
+
 Manifest::Manifest()
     : manifest::FileBase()
 {

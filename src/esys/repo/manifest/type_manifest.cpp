@@ -17,6 +17,8 @@
 
 #include "esys/repo/esysrepo_prec.h"
 #include "esys/repo/manifest/type.h"
+#include "esys/repo/grepo/manifest.h"
+#include "esys/repo/manifest/base.h"
 
 namespace esys
 {
@@ -41,11 +43,11 @@ int convert(Type type, std::string &text)
 
 int convert(const std::string &text, Type &type)
 {
-    if (text == "esysrepo")
+    if (text == manifest::Base::get_folder_name())
         type = Type::ESYSREPO_MANIFEST;
     else if (text == "git_super_project")
         type = Type::GIT_SUPER_PROJECT;
-    else if (text == "grepo")
+    else if (text == grepo::Manifest::get_folder_name())
         type = Type::GOOGLE_MANIFEST;
     else
     {

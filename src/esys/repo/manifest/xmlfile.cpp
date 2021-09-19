@@ -29,7 +29,7 @@ namespace manifest
 {
 
 XMLFile::XMLFile()
-    : FileBase()
+    : Base()
 {
     m_impl = std::make_unique<XMLFileImpl>(this);
 }

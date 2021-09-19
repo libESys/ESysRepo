@@ -46,7 +46,7 @@ ESYSTEST_AUTO_TEST_CASE(ReadManifest01GRepo)
     boost::filesystem::path file_path;
 
     file_path = repo::test::TestCaseCtrl::get().GetTestFilesFolder();
-    file_path /= "grepo";
+    file_path /= grepo::Manifest::get_folder_name();
     file_path /= "default01.xml";
 
     Manifest manifest;

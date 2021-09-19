@@ -20,6 +20,8 @@
 #include "esys/repo/filesystem.h"
 #include "esys/repo/manifest/file.h"
 #include "esys/repo/manifest/xmlfile.h"
+#include "esys/repo/grepo/manifest.h"
+
 
 #include <boost/filesystem.hpp>
 
@@ -228,7 +230,7 @@ int CmdInit::fetch_esysrepo_manifest(GitHelper &git_helper, const std::string &g
         config_file->set_manifest_kind(manifest::Kind::ISOLATED);
         target = get_config_folder()->get_path();
 
-        target /= "esysrepo";
+        target /= manifest::Base::get_folder_name();
         boost::filesystem::path rel_target;
         rel_target = boost::filesystem::relative(target);
 
@@ -244,7 +246,7 @@ int CmdInit::fetch_esysrepo_manifest(GitHelper &git_helper, const std::string &g
         result = git_helper.move(source.string(), target.string(), true, log::Level::DEBUG);
         if (result == -1) return result;
         if (result == -2) warn("While moving folder " + rel_source.string() + " some files were left behind.");
-        target = "esysrepo";
+        target = manifest::Base::get_folder_name();
         target /= manifest_filename;
         manifest_path = target.generic().string();
     }
@@ -332,7 +334,7 @@ int CmdInit::fetch_unknown_manifest()
         boost::filesystem::path rel_source = boost::filesystem::relative(source);
         boost::filesystem::path target = get_config_folder()->get_path();
         boost::filesystem::path rel_target = boost::filesystem::relative(target);
-        target /= "grepo";
+        target /= grepo::Manifest::get_folder_name();
         rel_target = boost::filesystem::relative(target);
 
         bool result_bool = boost::filesystem::create_directory(target);

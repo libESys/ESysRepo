@@ -92,7 +92,17 @@ public:
      */
     const std::string &get_config_file_path() const;
 
+    //! Get the absolute path of the git repo holding the manifest
+    /*!
+     * \return the absolute path of the git repo holding the manifest
+     */
     std::string get_manifest_repo_path() const;
+
+    //! Get the path to the manifest file but relative to the git repo where it is located
+    /*!
+     * \return the reltive path to the manifest file
+     */
+    std::string get_manifest_rel_file_name() const;
 
     //! Get the ESysRepo configuration stored in the git repo
     /*!
