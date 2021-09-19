@@ -142,6 +142,9 @@ int SyncRepos::run()
 
     if (!check_if_ssh_auth_needed_and_ok() && !get_git()->is_ssh_agent_running())
         warn("SSH authentication is only supported with a SSH agent. Git repos with SSH access won't be synced.");
+    bool display_repo_idx = true;
+
+    if (get_run_tasks().get_job_count() == 1) display_repo_idx = false;
 
     set_repo_idx(0);
     for (auto location : get_manifest()->get_locations())
@@ -154,6 +157,7 @@ int SyncRepos::run()
 
             sync_repo->set_repo(repo);
             sync_repo->set_repo_idx(get_repo_idx());
+            sync_repo->set_display_repo_idx(display_repo_idx);
             sync_repo->set_config_folder(get_config_folder());
             sync_repo->set_git(new_git());
             sync_repo->get_git()->set_logger_if(get_logger_if());

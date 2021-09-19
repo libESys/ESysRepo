@@ -223,6 +223,11 @@ int GitBase::decode_sideband_progress(const std::string &txt, git::Progress &pro
 void GitBase::cmd_start()
 {
     m_last_cmd_start_time = std::chrono::steady_clock::now();
+    git::Progress progress;
+    progress.set_started(true);
+    set_progress(progress);
+
+    if (get_progress_callback()) get_progress_callback()->git_progress_notif(progress);
 }
 
 void GitBase::cmd_end()

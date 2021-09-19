@@ -42,7 +42,7 @@ GitHelper::GitHelper(std::shared_ptr<GitBase> git, std::shared_ptr<Logger_if> lo
 
 GitHelper::~GitHelper()
 {
-    if (get_auto_close() && get_git()->is_open()) close(log::Level::DEBUG);
+    if (get_auto_close() && get_git() && get_git()->is_open()) close(log::Level::DEBUG);
 }
 
 void GitHelper::debug(int level, const std::string &msg)
@@ -53,6 +53,7 @@ void GitHelper::debug(int level, const std::string &msg)
 
     clean_cout();
     log::User::debug(level, oss.str());
+    init_oss_clear();
 }
 
 void GitHelper::info(const std::string &msg)
@@ -63,6 +64,7 @@ void GitHelper::info(const std::string &msg)
 
     clean_cout();
     log::User::info(oss.str());
+    init_oss_clear();
 }
 
 void GitHelper::warn(const std::string &msg)
@@ -73,6 +75,7 @@ void GitHelper::warn(const std::string &msg)
 
     clean_cout();
     log::User::warn(oss.str());
+    init_oss_clear();
 }
 
 void GitHelper::error(const std::string &msg)
@@ -83,6 +86,7 @@ void GitHelper::error(const std::string &msg)
 
     clean_cout();
     log::User::error(oss.str());
+    init_oss_clear();
 }
 
 void GitHelper::critical(const std::string &msg)
@@ -93,6 +97,7 @@ void GitHelper::critical(const std::string &msg)
 
     clean_cout();
     log::User::critical(oss.str());
+    init_oss_clear();
 }
 
 void GitHelper::log(log::Level level, const std::string &msg)
@@ -103,6 +108,7 @@ void GitHelper::log(log::Level level, const std::string &msg)
 
     clean_cout();
     log::User::log(level, oss.str());
+    init_oss_clear();
 }
 
 void GitHelper::log(const std::string &msg, log::Level level, int debug_level)
@@ -113,6 +119,7 @@ void GitHelper::log(const std::string &msg, log::Level level, int debug_level)
 
     clean_cout();
     log::User::log(oss.str(), level, debug_level);
+    init_oss_clear();
 }
 
 void GitHelper::error(const std::string &msg, int result)
@@ -123,6 +130,7 @@ void GitHelper::error(const std::string &msg, int result)
 
     clean_cout();
     log::User::error(oss.str(), result);
+    init_oss_clear();
 }
 
 void GitHelper::done(const std::string &msg, uint64_t elapsed_time)
@@ -181,10 +189,10 @@ int GitHelper::clone_branch(const std::string &url, const std::string &branch, c
     log(msg, log_level, debug_level);
 
     int result = get_git()->clone(url, path);
-    if (result < 0)
-        error("Failed with error ", result);
-    else
-        done("Cloning", get_git()->get_last_cmd_elapsed_time());
+    if (result == 0) done("Cloning", get_git()->get_last_cmd_elapsed_time());
+    /*else
+        error("Failed with error ", result); */
+
     if (!do_close) return result;
     return close(log::Level::DEBUG);
 }
@@ -274,11 +282,13 @@ int GitHelper::clone(const std::string &url, const std::string &temp_path, const
 
 int GitHelper::close(log::Level log_level, int debug_level)
 {
+    if (!get_git()->is_open()) return 0;
+
     log("Closing ...", log_level, debug_level);
 
     int result = get_git()->close();
     if (result < 0)
-        error("Failed with error ", result);
+        error("Close git repo failed with error ", result);
     else
         log("Closed.", log_level, debug_level);
 
@@ -350,8 +360,7 @@ int GitHelper::get_hash(const std::string &revision, std::string &hash, log::Lev
     return result;
 }
 
-int GitHelper::get_hash_local(const std::string &revision, std::string &hash, log::Level log_level,
-    int debug_level)
+int GitHelper::get_hash_local(const std::string &revision, std::string &hash, log::Level log_level, int debug_level)
 {
     log("Check local hash for " + revision + " ...", log::Level::DEBUG);
     int result = get_git()->get_hash(revision, hash, git::BranchType::LOCAL);
@@ -468,10 +477,38 @@ int GitHelper::get_repo_idx() const
     return m_repo_idx;
 }
 
+void GitHelper::set_display_repo_idx(bool display_repo_idx)
+{
+    m_display_repo_idx = display_repo_idx;
+}
+
+bool GitHelper::get_display_repo_idx() const
+{
+    return m_display_repo_idx;
+}
+
+void GitHelper::init_oss_done()
+{
+    m_init_oss_done = true;
+}
+
+void GitHelper::init_oss_clear()
+{
+    m_init_oss_done = false;
+}
+
+bool GitHelper::is_init_oss_done()
+{
+    return m_init_oss_done;
+}
+
 void GitHelper::init_oss(std::ostringstream &oss)
 {
+    if (is_init_oss_done()) return;
+
     oss.str("");
-    if (get_repo_idx() != -1) oss << "[" << get_repo_idx() << "] ";
+    if ((get_repo_idx() != -1) && (get_display_repo_idx())) oss << "[" << get_repo_idx() << "] ";
+    init_oss_done();
 }
 
 void GitHelper::init_oss(std::ostringstream &oss, const std::string &msg)

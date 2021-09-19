@@ -83,7 +83,7 @@ int CmdManifest::update_revision_as_head()
 
 int CmdManifest::update_revision_as_head(std::shared_ptr<manifest::Repository> repo)
 {
-    GitHelper git_helper(get_git(), get_logger_if());
+    auto git_helper = new_git_helper();
 
     boost::filesystem::path rel_repo_path;
     boost::filesystem::path repo_path = get_config_folder()->get_workspace_path();
@@ -94,22 +94,22 @@ int CmdManifest::update_revision_as_head(std::shared_ptr<manifest::Repository> r
     std::string revision = repo->get_revision();
     if (revision.empty()) revision = get_manifest()->get_default_revision();
 
-    int result = git_helper.open(repo_path.string(), log::Level::DEBUG);
+    int result = git_helper->open(repo_path.string(), log::Level::DEBUG);
     if (result < 0) return result;
 
-    result = git_helper.fetch(log::Level::DEBUG);
+    result = git_helper->fetch(log::Level::DEBUG);
     if (result < 0) return result;
 
     std::string hash;
-    result = git_helper.get_hash(revision, hash, log::Level::DEBUG);
+    result = git_helper->get_hash(revision, hash, log::Level::DEBUG);
     if (result < 0)
     {
-        git_helper.close(log::Level::DEBUG);
+        git_helper->close(log::Level::DEBUG);
         return result;
     }
     repo->set_revision(hash);
 
-    return git_helper.close(log::Level::DEBUG);
+    return git_helper->close(log::Level::DEBUG);
 }
 
 int CmdManifest::impl_run()

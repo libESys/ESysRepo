@@ -23,6 +23,7 @@
 #include "esys/repo/manifest/type.h"
 #include "esys/repo/manifest/loader.h"
 #include "esys/repo/configfolder.h"
+#include "esys/repo/githelper.h"
 
 #include <esys/log/user.h>
 
@@ -236,6 +237,7 @@ protected:
 
     void set_print_cmd_name_by_base(bool print_cmd_name_by_base);
     bool get_print_cmd_name_by_base() const;
+    std::shared_ptr<GitHelper> new_git_helper();
 
     virtual int impl_run() = 0;
 

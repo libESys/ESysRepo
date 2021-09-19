@@ -112,9 +112,14 @@ public:
 
     void set_repo_idx(int repo_idx);
     int get_repo_idx() const;
+    void set_display_repo_idx(bool display_repo_idx);
+    bool get_display_repo_idx() const;
 
     void init_oss(std::ostringstream &oss);
     void init_oss(std::ostringstream &oss, const std::string &msg);
+    void init_oss_done();
+    void init_oss_clear();
+    bool is_init_oss_done();
 
     void clean_cout();
 
@@ -122,7 +127,9 @@ protected:
     //!< \cond DOXY_IMPL
     std::shared_ptr<GitBase> m_git; //!< The GitBase instance to use
     int m_repo_idx = -1;            //!< The index of the repository worked on
+    bool m_display_repo_idx = true;
     bool m_auto_close = false;
+    bool m_init_oss_done = false;
     //!< \endcond
 };
 

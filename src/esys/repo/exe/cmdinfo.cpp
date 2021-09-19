@@ -109,7 +109,7 @@ int CmdInfo::impl_run()
 
 int CmdInfo::open_repo(std::shared_ptr<manifest::Repository> repo)
 {
-    GitHelper git_helper(get_git(), get_logger_if());
+    auto git_helper = new_git_helper();
 
     boost::filesystem::path rel_repo_path;
     boost::filesystem::path repo_path = get_config_folder()->get_workspace_path();
@@ -120,7 +120,7 @@ int CmdInfo::open_repo(std::shared_ptr<manifest::Repository> repo)
     m_rel_repo_path = rel_repo_path.string();
     m_repo_path = repo_path.string();
 
-    int result = git_helper.open(repo_path.string(), log::Level::DEBUG);
+    int result = git_helper->open(repo_path.string(), log::Level::DEBUG);
     if (result < 0) return result;
 
     m_last_commit = std::make_shared<git::Commit>();
@@ -129,13 +129,13 @@ int CmdInfo::open_repo(std::shared_ptr<manifest::Repository> repo)
 
     m_branches.clear();
 
-    result = git_helper.get_branches(m_branches, git::BranchType::LOCAL, log::Level::DEBUG);
+    result = git_helper->get_branches(m_branches, git::BranchType::LOCAL, log::Level::DEBUG);
     if (result < 0)
     {
-        git_helper.close(log::Level::DEBUG);
+        git_helper->close(log::Level::DEBUG);
         return result;
     }
-    return git_helper.close(log::Level::DEBUG);
+    return git_helper->close(log::Level::DEBUG);
 }
 
 void CmdInfo::print_repo(std::shared_ptr<manifest::Repository> repo)

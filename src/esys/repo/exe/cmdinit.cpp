@@ -277,9 +277,9 @@ int CmdInit::fetch_unknown_manifest()
         return -1;
     }
 
-    GitHelper git_helper(get_git(), get_logger_if());
+    auto git_helper = new_git_helper();
 
-    int result = git_helper.clone(get_url(), path.normalize().make_preferred().string(), false, log::DEBUG);
+    int result = git_helper->clone(get_url(), path.normalize().make_preferred().string(), false, log::DEBUG);
     if (result < 0) return -1;
 
     if (!get_branch().empty())
@@ -288,7 +288,7 @@ int CmdInit::fetch_unknown_manifest()
         if (result < 0) return -1;
     }
 
-    result = git_helper.close(log::DEBUG);
+    result = git_helper->close(log::DEBUG);
     if (result < 0) return -1;
 
     boost::filesystem::path file_path = path;
@@ -296,7 +296,7 @@ int CmdInit::fetch_unknown_manifest()
 
     if (boost::filesystem::exists(file_path))
     {
-        result = fetch_esysrepo_manifest(git_helper, path.string(), ".esysrepo.manifest");
+        result = fetch_esysrepo_manifest(*git_helper.get(), path.string(), ".esysrepo.manifest");
         return result;
     }
 
@@ -305,7 +305,7 @@ int CmdInit::fetch_unknown_manifest()
 
     if (boost::filesystem::exists(file_path))
     {
-        result = fetch_esysrepo_manifest(git_helper, path.string(), ".esysrepo.manifest.xml");
+        result = fetch_esysrepo_manifest(*git_helper.get(), path.string(), ".esysrepo.manifest.xml");
         return result;
     }
 
@@ -314,7 +314,7 @@ int CmdInit::fetch_unknown_manifest()
 
     if (boost::filesystem::exists(file_path))
     {
-        result = fetch_esysrepo_manifest(git_helper, path.string(), ".esysrepo.manifest.json");
+        result = fetch_esysrepo_manifest(*git_helper.get(), path.string(), ".esysrepo.manifest.json");
         return result;
     }
     file_path = path;
@@ -346,7 +346,7 @@ int CmdInit::fetch_unknown_manifest()
         else
             debug(0, "Created folder : " + rel_target.string());
 
-        result = git_helper.move(source.string(), target.string(), true, log::Level::DEBUG);
+        result = git_helper->move(source.string(), target.string(), true, log::Level::DEBUG);
         if (result == -1) return result;
         if (result == -2) warn("While moving folder " + rel_source.string() + " some files were left behind.");
 
@@ -371,7 +371,7 @@ int CmdInit::fetch_unknown_manifest()
         boost::filesystem::path source = path.string();
         boost::filesystem::path target = get_config_folder()->get_workspace_path();
 
-        result = git_helper.move(source.string(), target.string(), true, log::Level::DEBUG);
+        result = git_helper->move(source.string(), target.string(), true, log::Level::DEBUG);
         if (result < -1) return -1;
         return 0;
     }

@@ -89,12 +89,19 @@ std::string SyncRepo::get_checkout_revision(GitHelper &git_helper)
     return get_repo()->get_revision();
 }
 
+std::shared_ptr<GitHelper> SyncRepo::new_git_helper()
+{
+    auto git_helper = std::make_shared<GitHelper>(get_git(), get_logger_if(), static_cast<int>(get_repo_idx()));
+    
+    get_git()->set_logger_if(git_helper);
+    return git_helper;
+}
+
 int SyncRepo::clone()
 {
-    GitHelper git_helper(get_git(), get_logger_if(), static_cast<int>(get_repo_idx()));
-    int result;
+    std::shared_ptr<GitHelper> git_helper = new_git_helper();
     std::string url = get_repo_url();
-
+    int result;
     std::string branch_to_checkout;
 
     boost::filesystem::path path = get_config_folder()->get_workspace_path();
@@ -102,29 +109,29 @@ int SyncRepo::clone()
     {
         // A simple clone can be made
         path /= get_repo()->get_path();
-        result = git_helper.clone(url, path.string(), false, log::Level::INFO);
+        result = git_helper->clone(url, path.string(), false, log::Level::INFO);
         if (result < 0)
         {
-            git_helper.close(log::Level::DEBUG);
+            git_helper->close(log::Level::DEBUG);
             return result;
         }
 
         if (!get_branch().empty())
         {
-            result = git_helper.fetch(get_log_level());
+            result = git_helper->fetch(get_log_level());
             if (result < 0)
             {
-                git_helper.close(log::Level::DEBUG);
+                git_helper->close(log::Level::DEBUG);
                 return result;
             }
         }
 
-        branch_to_checkout = get_checkout_revision(git_helper);
-        git_helper.debug(0, "branch_to_checkout = " + branch_to_checkout);
+        branch_to_checkout = get_checkout_revision(*git_helper.get());
+        git_helper->debug(0, "branch_to_checkout = " + branch_to_checkout);
         if (branch_to_checkout.empty()) return 0;
 
-        result = git_helper.checkout(branch_to_checkout, false, log::Level::INFO);
-        git_helper.close(log::Level::DEBUG);
+        result = git_helper->checkout(branch_to_checkout, false, log::Level::INFO);
+        git_helper->close(log::Level::DEBUG);
         return result;
     }
 
@@ -134,14 +141,14 @@ int SyncRepo::clone()
     oss << "repo_temp" << get_repo_idx();
     temp_path /= oss.str();
 
-    result = git_helper.clone(url, temp_path.string(), path.string(), true, get_log_level());
+    result = git_helper->clone(url, temp_path.string(), path.string(), true, get_log_level());
     if (result < 0)
     {
-        git_helper.close(log::Level::DEBUG);
+        git_helper->close(log::Level::DEBUG);
         return result;
     }
 
-    result = git_helper.open(path.string(), esys::log::INFO);
+    result = git_helper->open(path.string(), esys::log::INFO);
     if (result < 0)
     {
         return result;
@@ -149,47 +156,49 @@ int SyncRepo::clone()
 
     if (!get_branch().empty())
     {
-        result = git_helper.fetch(get_log_level());
+        result = git_helper->fetch(get_log_level());
         if (result < 0)
         {
-            git_helper.close(log::Level::DEBUG);
+            git_helper->close(log::Level::DEBUG);
             return result;
         }
     }
 
-    branch_to_checkout = get_checkout_revision(git_helper);
-    git_helper.debug(0, "branch_to_checkout = " + branch_to_checkout);
+    branch_to_checkout = get_checkout_revision(*git_helper.get());
+    git_helper->debug(0, "branch_to_checkout = " + branch_to_checkout);
     if (branch_to_checkout.empty()) return 0;
 
-    result = git_helper.checkout(branch_to_checkout, get_force(), log::Level::INFO);
-    git_helper.close(log::Level::DEBUG);
+    result = git_helper->checkout(branch_to_checkout, get_force(), log::Level::INFO);
+    git_helper->close(log::Level::DEBUG);
 
     return result;
 }
 
 int SyncRepo::fetch_update()
 {
-    GitHelper git_helper(get_git(), get_logger_if(), static_cast<int>(get_repo_idx()));
+    std::shared_ptr<GitHelper> git_helper = new_git_helper();
+    git_helper->set_display_repo_idx(get_display_repo_idx());
+
     boost::filesystem::path path = get_config_folder()->get_workspace_path();
     if (get_repo()->get_path() != ".") path /= get_repo()->get_path();
 
-    int result = git_helper.open(path.string(), log::Level::INFO);
+    int result = git_helper->open(path.string(), log::Level::INFO);
     if (result < 0) return result;
 
     bool dirty = false;
-    result = git_helper.is_dirty(dirty, log::Level::DEBUG);
+    result = git_helper->is_dirty(dirty, log::Level::DEBUG);
     if (result < 0) return result;
 
     if (dirty)
     {
-        git_helper.info("Changes detected in repo, no sync.");
+        git_helper->warn("Changes detected in repo, no sync.");
         return 0;
     }
 
     if (get_branch().empty())
-        return normal_sync(git_helper);
+        return normal_sync(*git_helper.get());
     else
-        return branch_sync(git_helper);
+        return branch_sync(*git_helper.get());
 }
 
 int SyncRepo::normal_sync(GitHelper &git_helper)
@@ -309,6 +318,16 @@ std::size_t SyncRepo::get_repo_idx() const
 std::size_t &SyncRepo::get_repo_idx()
 {
     return m_repo_idx;
+}
+
+void SyncRepo::set_display_repo_idx(bool display_repo_idx)
+{
+    m_display_repo_idx = display_repo_idx;
+}
+
+bool SyncRepo::get_display_repo_idx() const
+{
+    return m_display_repo_idx;
 }
 
 std::string SyncRepo::get_repo_url()

@@ -540,6 +540,14 @@ bool Cmd::get_print_cmd_name_by_base() const
     return m_print_cmd_name_by_base;
 }
 
+std::shared_ptr<GitHelper> Cmd::new_git_helper()
+{
+    auto git_helper = std::make_shared<GitHelper>(get_git(), get_logger_if());
+
+    get_git()->set_logger_if(git_helper);
+    return git_helper;
+}
+
 void Cmd::print_cmd_name()
 {
     std::ostringstream oss;

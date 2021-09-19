@@ -204,6 +204,7 @@ public:
 
 protected:
     //!< \cond DOXY_IMPL
+    
     manifest::Type m_type = manifest::Type::NOT_SET;                            //!< The type of repository
     manifest::Kind m_kind = manifest::Kind::NOT_SET;                            //!< The kind of repository
     manifest::Format m_format = manifest::Format::NOT_SET;                      //!< The format of repository

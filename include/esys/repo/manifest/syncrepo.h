@@ -101,6 +101,9 @@ public:
      */
     std::size_t &get_repo_idx();
 
+    void set_display_repo_idx(bool display_repo_idx);
+    bool get_display_repo_idx() const;
+
     std::string get_repo_url();
 
     void set_branch(const std::string &branch);
@@ -119,12 +122,14 @@ protected:
     //!< \cond DOXY_IMPL
     bool has_branch(GitHelper &git_helper, const std::string &branch);
     std::string get_checkout_revision(GitHelper &git_helper);
+    std::shared_ptr<GitHelper> new_git_helper();
 
     std::shared_ptr<ConfigFolder> m_config_folder; //!< The config folder
     std::shared_ptr<GitBase> m_git;                //!< The git instance
     std::shared_ptr<manifest::Repository> m_repo;  //!< The git repository to process
     log::Level m_log_level = log::Level::INFO;     //!< The log level
     std::size_t m_repo_idx = 0;                    //!< The repo index
+    bool m_display_repo_idx = true;                //!< Tells if the repo idx should be displayed
     std::string m_branch;                          //!< The branch to checkout if existing
     bool m_force = false;                          //!< Force the operation
     bool m_alt_address = false;                    //!< Use alternative address of the git repo
