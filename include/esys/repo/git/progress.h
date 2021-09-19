@@ -47,6 +47,10 @@ public:
     int get_percentage() const;
     int &get_percentage();
 
+    void set_started(bool started);
+    bool get_started() const;
+    bool &get_started();
+
     void set_done(bool done);
     bool get_done() const;
     bool &get_done();
@@ -58,6 +62,7 @@ protected:
     FetchStep m_fetch_step = FetchStep::NOT_SET;
     int m_percentage = -1;
     bool m_done = false;
+    bool m_started = false;
 };
 
 } // namespace git

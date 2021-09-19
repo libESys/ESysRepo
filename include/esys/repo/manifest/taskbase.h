@@ -104,6 +104,9 @@ public:
 
     void get_progress(git::Progress &progress);
 
+    void set_running(bool running);
+    bool get_running();
+
     virtual int run() = 0;
 
 protected:
@@ -117,6 +120,7 @@ protected:
     git::Progress m_progress;
     ProgressCallback_t<TaskBase> m_progress_callback{this, &TaskBase::git_progress_notif};
     std::mutex m_progress_mutex;
+    bool m_running = false;
     //!< \endcond
 };
 

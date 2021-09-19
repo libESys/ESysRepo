@@ -59,16 +59,21 @@ std::size_t RunTasks::get_job_count() const
     return m_job_count;
 }
 
-int RunTasks::run()
+std::size_t RunTasks::get_worker_thread_count()
 {
-    if (m_tasks.size() == 0) return -1;
-
     m_worker_thread_count = get_job_count();
-    if (static_cast<int>(get_job_count()) < 0) return -2;
 
     if (m_tasks.size() < m_worker_thread_count) m_worker_thread_count = m_tasks.size();
 
-    for (int idx = 0; idx < m_worker_thread_count; ++idx)
+    return m_worker_thread_count;
+}
+
+int RunTasks::run()
+{
+    if (m_tasks.size() == 0) return -1;
+    if (static_cast<int>(get_job_count()) < 0) return -2;
+
+    for (int idx = 0; idx < get_worker_thread_count(); ++idx)
     {
         std::shared_ptr<WorkerThread> worker = std::make_shared<WorkerThread>(idx);
 
@@ -132,9 +137,12 @@ void RunTasks::cout_thread()
     auto print_fct = [&oss](const std::shared_ptr<TaskBase> &task) {
         git::Progress progress;
 
-        task->get_progress(progress);
+        if (task->get_running())
+        {
+            task->get_progress(progress);
 
-        progress.print(oss, task->get_id());
+            progress.print(oss, task->get_id());
+        }
     };
 
     while (!m_done)

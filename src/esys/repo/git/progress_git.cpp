@@ -63,6 +63,21 @@ int &Progress::get_percentage()
     return m_percentage;
 }
 
+void Progress::set_started(bool started)
+{
+    m_started = started;
+}
+
+bool Progress::get_started() const
+{
+    return m_started;
+}
+
+bool &Progress::get_started()
+{
+    return m_started;
+}
+
 void Progress::set_done(bool done)
 {
     m_done = done;

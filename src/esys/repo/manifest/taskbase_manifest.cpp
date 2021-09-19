@@ -121,6 +121,9 @@ void TaskBase::git_progress_notif(const git::Progress &progress)
 {
     std::lock_guard lock(m_progress_mutex);
 
+    if (m_progress.get_started()) set_running(true);
+    if (m_progress.get_done()) set_running(false);
+
     m_progress = progress;
 }
 
@@ -129,6 +132,18 @@ void TaskBase::get_progress(git::Progress &progress)
     std::lock_guard lock(m_progress_mutex);
 
     progress = m_progress;
+}
+
+void TaskBase::set_running(bool running)
+{
+    m_running = running;
+}
+
+bool TaskBase::get_running()
+{
+    std::lock_guard lock(m_progress_mutex);
+
+    return m_running;
 }
 
 } // namespace manifest

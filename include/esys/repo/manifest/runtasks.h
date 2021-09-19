@@ -76,6 +76,8 @@ public:
      */
     int run();
 
+    std::size_t get_worker_thread_count();
+
     void worker_thread(std::shared_ptr<WorkerThread> work_thread);
     void cout_thread();
     void wait_done();
