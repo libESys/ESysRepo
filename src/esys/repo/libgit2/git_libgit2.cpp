@@ -28,6 +28,9 @@ namespace repo
 namespace libgit2
 {
 
+bool Git::s_detect_ssh_agent_done = false;
+bool Git::s_ssh_agent_running = false;
+
 std::shared_ptr<GitBase> Git::new_ptr()
 {
     return std::make_shared<Git>();
@@ -113,9 +116,21 @@ int Git::get_status(git::RepoStatus &repo_status)
     return m_impl->get_status(repo_status);
 }
 
-bool Git::is_ssh_agent_running()
+bool Git::is_ssh_agent_running(bool log_once)
 {
-    return m_impl->is_ssh_agent_running();
+    if (!s_detect_ssh_agent_done) detect_ssh_agent(log_once);
+
+    return s_ssh_agent_running;
+}
+
+void Git::detect_ssh_agent(bool log_once)
+{
+    if (s_detect_ssh_agent_done) return;
+
+    s_detect_ssh_agent_done = true;
+    s_ssh_agent_running = m_impl->is_ssh_agent_running();
+
+    if (s_ssh_agent_running && log_once) info("SSH agent detected");
 }
 
 int Git::merge_analysis(const std::vector<std::string> &refs, git::MergeAnalysisResult &merge_analysis_result,

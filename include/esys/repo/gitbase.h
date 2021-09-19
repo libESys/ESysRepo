@@ -168,9 +168,16 @@ public:
 
     //! Tells if a SSH agent is running or not
     /*!
+     * \param[in] log_once if true, log only once if the SSH is detected
      * \return true if a SSH agent is running, false otherwise
      */
-    virtual bool is_ssh_agent_running() = 0;
+    virtual bool is_ssh_agent_running(bool log_once = true) = 0;
+
+    //! Detect and optionally log if a SSH agent is found
+    /*!
+     * \param[in] log_once if true, log only once if the SSH is detected
+     */
+    virtual void detect_ssh_agent(bool log_once = true) = 0;
 
     //! Check what kind of merge would required to merge the given branch to the git repo
     /*!

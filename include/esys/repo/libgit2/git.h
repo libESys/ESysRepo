@@ -67,7 +67,8 @@ public:
 
     int get_status(git::RepoStatus &repo_status) override;
 
-    bool is_ssh_agent_running() override;
+    bool is_ssh_agent_running(bool log_once = true) override;
+    void detect_ssh_agent(bool log_once = true) override;
 
     int merge_analysis(const std::vector<std::string> &refs, git::MergeAnalysisResult &merge_analysis_result,
                        std::vector<git::Commit> &commits) override;
@@ -125,6 +126,8 @@ protected:
     std::unique_ptr<GitImpl> m_impl; //!< the PIMPL
     std::string m_url;
     std::string m_folder;
+    static bool s_detect_ssh_agent_done;
+    static bool s_ssh_agent_running;
     //!< \endcond
 };
 

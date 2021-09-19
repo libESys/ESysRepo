@@ -137,7 +137,7 @@ int CmdSync::impl_run()
     sync_repos.set_git(get_git());
     sync_repos.set_manifest(get_manifest());
 
-    if (get_git()->is_ssh_agent_running()) info("SSH agent detected");
+    get_git()->detect_ssh_agent(true);
 
     result = sync_repos.run();
     if (result < 0) return result;
