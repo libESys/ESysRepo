@@ -78,7 +78,7 @@ public:
     int from_to(const git_diff_delta *delta, git::DiffDelta &diff_delta);
     int from_to(const git_diff_file &file, git::DiffFile &diff_file);
 
-    int check_error(int result, const std::string &action = "");
+    int check_error(int result, const std::string &action = "", bool show_result = true);
 
     const std::string &get_version();
     const std::string &get_lib_name();

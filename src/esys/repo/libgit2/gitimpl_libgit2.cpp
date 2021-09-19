@@ -276,7 +276,7 @@ int GitImpl::clone(const std::string &url, const std::string &path, const std::s
     }
     else if ((url.find("ssh:") == 0))
     {
-        if (!is_ssh_agent_running()) return check_error(result, "Only authentication via an ssh agent is supported.");
+        if (!is_ssh_agent_running()) return check_error(-1, "Only authentication via an ssh agent is supported", false);
 
         git_clone_options opts = GIT_CLONE_OPTIONS_INIT;
         if (!branch.empty()) opts.checkout_branch = new_ref.c_str();
@@ -295,7 +295,7 @@ int GitImpl::clone(const std::string &url, const std::string &path, const std::s
         result = git_clone(&m_repo, url.c_str(), path.c_str(), &opts);
     }
     else
-        result = -1;
+        return check_error(-1, "Unknown protocol.");
 
     return check_error(result);
 }
@@ -702,7 +702,7 @@ int GitImpl::from_to(const git_diff_file &file, git::DiffFile &diff_file)
     return result;
 }
 
-int GitImpl::check_error(int result, const std::string &action)
+int GitImpl::check_error(int result, const std::string &action, bool show_result)
 {
     self()->cmd_end();
 
@@ -711,9 +711,16 @@ int GitImpl::check_error(int result, const std::string &action)
     const git_error *error = git_error_last();
 
     std::ostringstream oss;
-    oss << "ERROR " << result << " : " << action << " - ";
-    oss << ((error && error->message) ? error->message : "???") << std::endl;
-
+    // oss << "ERROR " << result << " : " << action;
+    oss << action;
+    if (show_result)
+    {
+        oss << " (" << result << ").";
+        if (error && error->message)
+        {
+            oss << " - " << error->message;
+        }
+    }
     self()->error(oss.str());
 
     return result;
