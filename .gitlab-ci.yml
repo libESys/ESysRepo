@@ -24,7 +24,7 @@ variables:
   script:
     - scripts/bootstrap.sh
     - scripts/build_ci_merge.sh
-    - scripts/valgrind_unittests.sh 
+    - scripts/valgrind_unittests.sh
   artifacts:
     paths:
       - public
@@ -34,28 +34,28 @@ variables:
       junit: build_dev/*_junit.txt
 
 unit_tests:ubuntu20_04:
-  <<: *unit_test 
+  <<: *unit_test
   tags:
     - ubuntu20.04
   rules:
     - if: '$CI_PIPELINE_SOURCE == "push"'
 
 unit_tests:ubuntu18_04:
-  <<: *unit_test 
+  <<: *unit_test
   tags:
     - ubuntu18.04
   rules:
     - when: always
 
 unit_tests:rasppi4:
-  <<: *unit_test 
+  <<: *unit_test
   tags:
     - rasppi4
   rules:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
 
 unit_tests:rasppi3:
-  <<: *unit_test 
+  <<: *unit_test
   tags:
     - rasppi3
   rules:
@@ -92,4 +92,3 @@ pages:
   needs: ["webpage"]
   only:
     - master
-  
