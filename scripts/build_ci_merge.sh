@@ -10,7 +10,7 @@ mkdir cmake
 cd cmake
 pwd
 
-cmake ../.. -DESYSREPO_BUILD_DOC=On
+cmake ../.. -DESYSREPO_BUILD_DOC=On -DESYSREPO_COVERAGE=On -DCMAKE_BUILD_TYPE=Debug
 if [ ! $? -eq 0 ]; then
    echo "${TXT_E}Build failed: cmake failed.${TXT_CLEAR}"
    exit 1

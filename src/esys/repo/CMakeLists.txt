@@ -1,4 +1,5 @@
 #
+# cmake-format: off
 # __legal_b__
 #
 # Copyright (c) 2020-2021 Michel Gillet
@@ -7,9 +8,10 @@
 # copy at http://www.wxwidgets.org/about/licence)
 #
 # __legal_e__
+# cmake-format: on
 #
 
-project (esysrepo CXX)
+project(esysrepo CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -21,12 +23,8 @@ pkg_search_module(git2 libgit2 REQUIRED)
 
 find_package(nlohmann_json 3.6.1 REQUIRED)
 
-include_directories(
-    ..
-    ../../../include
-    ${git2_INCLUDE_DIRS}
-    ${termcolor_DIR}/include
-)
+include_directories(.. ../../../include ${git2_INCLUDE_DIRS}
+                    ${termcolor_DIR}/include)
 
 set(ESYSREPO_CXX_SOURCES
     config.cpp
@@ -40,8 +38,7 @@ set(ESYSREPO_CXX_SOURCES
     gitmngr.cpp
     manifest.cpp
     progresscallbackbase.cpp
-    sshbase.cpp
-)
+    sshbase.cpp)
 
 set(ESYSREPO_CLI_CXX_SOURCES
     cli/app.cpp
@@ -54,8 +51,7 @@ set(ESYSREPO_CLI_CXX_SOURCES
     cli/cmdmanifest_cli.cpp
     cli/cmdsync_cli.cpp
     cli/cmdstatus_cli.cpp
-    cli/cmdversion_cli.cpp
-)
+    cli/cmdversion_cli.cpp)
 
 set(ESYSREPO_EXE_CXX_SOURCES
     exe/cmd.cpp
@@ -66,8 +62,7 @@ set(ESYSREPO_EXE_CXX_SOURCES
     exe/cmdmanifest.cpp
     exe/cmdstatus.cpp
     exe/cmdsync.cpp
-    exe/cmdversion.cpp
-)
+    exe/cmdversion.cpp)
 
 set(ESYSREPO_GIT_CXX_SOURCES
     git/branch_git.cpp
@@ -80,31 +75,20 @@ set(ESYSREPO_GIT_CXX_SOURCES
     git/remote_git.cpp
     git/repostatus_git.cpp
     git/status_git.cpp
-    git/updatetip_git.cpp
-)
+    git/updatetip_git.cpp)
 
-set(ESYSREPO_GITCMDLINE_CXX_SOURCES
-    gitcmdline/git_cmdline.cpp
-)
+set(ESYSREPO_GITCMDLINE_CXX_SOURCES gitcmdline/git_cmdline.cpp)
 
-set(ESYSREPO_GREPO_CXX_SOURCES
-    grepo/manifest_grepo.cpp
-    grepo/manifestimpl_grepo.cpp
-)
+set(ESYSREPO_GREPO_CXX_SOURCES grepo/manifest_grepo.cpp
+                               grepo/manifestimpl_grepo.cpp)
 
 set(ESYSREPO_LIBGIT2_CXX_SOURCES
-    libgit2/git_libgit2.cpp
-    libgit2/gitimpl_libgit2.cpp
-    libgit2/guardassign_libgit2.cpp
-    libgit2/guardrelease_libgit2.cpp
-    libgit2/guardsrelease_libgit2.cpp
-    libgit2/libgit2.cpp
-)
+    libgit2/git_libgit2.cpp libgit2/gitimpl_libgit2.cpp
+    libgit2/guardassign_libgit2.cpp libgit2/guardrelease_libgit2.cpp
+    libgit2/guardsrelease_libgit2.cpp libgit2/libgit2.cpp)
 
-set(ESYSREPO_LIBSSH2_CXX_SOURCES
-    libssh2/ssh_libssh2.cpp
-    libssh2/sshimpl_libssh2.cpp
-)
+set(ESYSREPO_LIBSSH2_CXX_SOURCES libssh2/ssh_libssh2.cpp
+                                 libssh2/sshimpl_libssh2.cpp)
 
 set(ESYSREPO_MANIFEST_CXX_SOURCES
     manifest/file_manifest.cpp
@@ -129,58 +113,79 @@ set(ESYSREPO_MANIFEST_CXX_SOURCES
     manifest/type_manifest.cpp
     manifest/workerthread_manifest.cpp
     manifest/xmlfile.cpp
-    manifest/xmlfileimpl_manifest.cpp
-)
+    manifest/xmlfileimpl_manifest.cpp)
 
-add_library (esysrepo SHARED
-    ${ESYSREPO_CXX_SOURCES}
-    ${ESYSREPO_CLI_CXX_SOURCES}
-    ${ESYSREPO_EXE_CXX_SOURCES}
-    ${ESYSREPO_GIT_CXX_SOURCES}
-    ${ESYSREPO_GITCMDLINE_CXX_SOURCES}
-    ${ESYSREPO_GREPO_CXX_SOURCES}
-    ${ESYSREPO_LIBGIT2_CXX_SOURCES}
-    ${ESYSREPO_LIBSSH2_CXX_SOURCES}
-    ${ESYSREPO_MANIFEST_CXX_SOURCES}
-)
+add_library(
+  esysrepo SHARED
+  ${ESYSREPO_CXX_SOURCES}
+  ${ESYSREPO_CLI_CXX_SOURCES}
+  ${ESYSREPO_EXE_CXX_SOURCES}
+  ${ESYSREPO_GIT_CXX_SOURCES}
+  ${ESYSREPO_GITCMDLINE_CXX_SOURCES}
+  ${ESYSREPO_GREPO_CXX_SOURCES}
+  ${ESYSREPO_LIBGIT2_CXX_SOURCES}
+  ${ESYSREPO_LIBSSH2_CXX_SOURCES}
+  ${ESYSREPO_MANIFEST_CXX_SOURCES})
 
 set_property(TARGET esysrepo PROPERTY VERSION ${ESYSREPO_VERSION})
 set_property(TARGET esysrepo PROPERTY SOVERSION ${ESYSREPO_VERSION_MAJOR})
 
 target_compile_features(esysrepo PRIVATE cxx_std_17)
 
-target_include_directories (esysrepo PUBLIC
-    ../..
-    ../../../include
-)
+target_include_directories(esysrepo PUBLIC ../.. ../../../include)
 
-target_link_libraries(esysrepo PRIVATE
-    Boost::filesystem
-    Boost::program_options
-    Boost::system
-    git2
-    esysfile
-    esyslog
-    esyslog_spdlog
-    msword2md
-)
+target_link_libraries(
+  esysrepo
+  PRIVATE Boost::filesystem
+          Boost::program_options
+          Boost::system
+          git2
+          esysfile
+          esyslog
+          esyslog_spdlog
+          msword2md)
 
 target_link_libraries(esysrepo PRIVATE nlohmann_json::nlohmann_json)
 
 install(TARGETS esysrepo LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
 
 install(
-    DIRECTORY ../../../include/esys/repo/
-    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/esys/repo
-    FILES_MATCHING PATTERN "*.h*"
-)
+  DIRECTORY ../../../include/esys/repo/
+  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/esys/repo
+  FILES_MATCHING
+  PATTERN "*.h*")
 
-if (COMMAND add_clang_format_target)
-add_clang_format_target(esysrepo)
+if(COMMAND add_clang_format_target)
+  add_clang_format_target(esysrepo)
 endif()
 
-if (COMMAND add_clang_tidy_target)
-add_clang_tidy_target(esysrepo)
+if(COMMAND add_clang_tidy_target)
+  add_clang_tidy_target(esysrepo)
 endif()
 
 add_subdirectory(test)
+
+if(ESYSREPO_COVERAGE)
+  setup_target_for_coverage_lcov(
+    NAME
+    esysrepo_coverage
+    BASE_DIRECTORY
+    "../"
+    EXECUTABLE
+    esysrepo_t
+    EXECUTABLE_ARGS
+    -f
+    JUNIT
+    -k
+    report.junit
+    --no_result_code
+    DEPENDENCIES
+    esysrepo_t
+    EXCLUDE
+    "/usr/*include/*"
+    "/*/extlib/*"
+    "/*/test/*"
+    "/*/esyslog/*"
+    "/*/esystest/*"
+    ${CMAKE_BINARY_DIR}/*)
+endif()

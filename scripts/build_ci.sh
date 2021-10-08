@@ -10,7 +10,12 @@ mkdir cmake
 cd cmake
 pwd
 
-cmake ../..
+if [ -z "${SKIP_CODE_COVERAGE}" ]; then
+   cmake ../.. -DESYSREPO_COVERAGE=On -DCMAKE_BUILD_TYPE=Debug
+else
+   cmake ../.. -DCMAKE_BUILD_TYPE=Debug
+fi
+
 if [ ! $? -eq 0 ]; then
    echo "${TXT_E}Build failed: cmake failed.${TXT_CLEAR}"
    exit 1

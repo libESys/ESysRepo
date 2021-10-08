@@ -8,15 +8,17 @@ variables:
   script:
     - scripts/bootstrap.sh
     - scripts/build_ci.sh
-    - scripts/run_unittests.sh
+    - if [ -z "${SKIP_CODE_COVERAGE}" ]; then scripts/run_code_coverage.sh; else scripts/run_unittests.sh; fi
   rules:
     - if: $CI_COMMIT_MESSAGE =~ /WIP$/
       when: never
   artifacts:
     paths:
-      - build_dev/*_junit.txt
+      - public
     reports:
-      junit: build_dev/*_junit.txt
+      junit:
+        - build_dev/*_junit.txt
+        - public/logs/*_junit.txt
 
 .merge_request: &merge_request
   tags:
@@ -25,6 +27,7 @@ variables:
     - scripts/bootstrap.sh
     - scripts/build_ci_merge.sh
     - scripts/valgrind_unittests.sh
+    - if [ -z "${SKIP_CODE_COVERAGE}" ]; then scripts/run_code_coverage.sh; else scripts/run_unittests.sh; fi
   artifacts:
     paths:
       - public
@@ -49,6 +52,8 @@ unit_tests:ubuntu18_04:
 
 unit_tests:rasppi4:
   <<: *unit_test
+  variables:
+    SKIP_CODE_COVERAGE: "yes"
   tags:
     - rasppi4
   rules:
@@ -56,6 +61,8 @@ unit_tests:rasppi4:
 
 unit_tests:rasppi3:
   <<: *unit_test
+  variables:
+    SKIP_CODE_COVERAGE: "yes"
   tags:
     - rasppi3
   rules:
