@@ -1,5 +1,5 @@
 #!/bin/bash
 
 cd doc/web
-git clone https://github.com/matcornic/hugo-theme-learn.git themes/hugo-theme-learn
+git clone --branch develop --single-branch https://gitlab.com/libesys/esys_hugo_theme.git themes/esys_hugo_theme
 hugo  -b /  --gc --minify -d ../../public
