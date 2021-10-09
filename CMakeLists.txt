@@ -26,6 +26,8 @@ set(ESYSREPO_VERSION
     ${ESYSREPO_VERSION_MAJOR}.${ESYSREPO_VERSION_MINOR}.${ESYSREPO_VERSION_PATCH}
 )
 
+include(clang_tidy OPTIONAL)
+
 if(ESYSREPO_BUILD_DOC)
   add_subdirectory(doc)
 endif()

@@ -9,6 +9,7 @@ variables:
     - scripts/bootstrap.sh
     - scripts/build_ci.sh
     - if [ -z "${SKIP_CODE_COVERAGE}" ]; then scripts/run_code_coverage.sh; else scripts/run_unittests.sh; fi
+    - if [ -z "${SKIP_CLANG_TIDY}" ]; then scripts/run_clang_tidy.sh; fi
   rules:
     - if: $CI_COMMIT_MESSAGE =~ /WIP$/
       when: never
@@ -28,6 +29,7 @@ variables:
     - scripts/build_ci_merge.sh
     - scripts/valgrind_unittests.sh
     - if [ -z "${SKIP_CODE_COVERAGE}" ]; then scripts/run_code_coverage.sh; else scripts/run_unittests.sh; fi
+    - if [ -z "${SKIP_CLANG_TIDY}" ]; then scripts/run_clang_tidy.sh; fi
   artifacts:
     paths:
       - public
@@ -45,6 +47,9 @@ unit_tests:ubuntu20_04:
 
 unit_tests:ubuntu18_04:
   <<: *unit_test
+  variables:
+    SKIP_CODE_COVERAGE: "yes"
+    SKIP_CLANG_TIDY: "yes"
   tags:
     - ubuntu18.04
   rules:
@@ -54,6 +59,7 @@ unit_tests:rasppi4:
   <<: *unit_test
   variables:
     SKIP_CODE_COVERAGE: "yes"
+    SKIP_CLANG_TIDY: "yes"
   tags:
     - rasppi4
   rules:
@@ -63,6 +69,7 @@ unit_tests:rasppi3:
   <<: *unit_test
   variables:
     SKIP_CODE_COVERAGE: "yes"
+    SKIP_CLANG_TIDY: "yes"
   tags:
     - rasppi3
   rules:
