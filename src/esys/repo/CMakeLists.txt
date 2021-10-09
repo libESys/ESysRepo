@@ -165,6 +165,10 @@ endif()
 
 add_subdirectory(test)
 
+if(COMMAND add_valgrind_target)
+  add_valgrind_target(esysrepo_t)
+endif()
+
 if(ESYSREPO_COVERAGE)
   setup_target_for_coverage_lcov(
     NAME

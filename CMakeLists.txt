@@ -27,6 +27,7 @@ set(ESYSREPO_VERSION
 )
 
 include(clang_tidy OPTIONAL)
+include(valgrind OPTIONAL)
 
 if(ESYSREPO_BUILD_DOC)
   add_subdirectory(doc)
