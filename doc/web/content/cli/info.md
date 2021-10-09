@@ -33,9 +33,4 @@ Currently, there is none.
 
 When ran while working on the ESysRepo SW, it looked like this, and for conciseness, we will show
 only the first few lines:
-
-![alt text]({{< image_src "images/info_example01.png" >}} "The text")
-
-
-
-
+{{< img_class "images/info_example01.png" "esysexample" >}}

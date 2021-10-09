@@ -1,7 +1,7 @@
 ---
-title: Own format
+title: CI
 weight: 20
-pre: "5.2. "
+pre: "6.2. "
 ---
 
 Coming soon!

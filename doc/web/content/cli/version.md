@@ -21,9 +21,4 @@ Currently, there is none.
 ## Examples
 
 The output from the first released version of ESysRepo is shown below.
-
-![alt text]({{< image_src "images/version_example01.png" >}} "The text")
-
-
-
-
+{{< img_class "images/version_example01.png" "esysexample" >}}

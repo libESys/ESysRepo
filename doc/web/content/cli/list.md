@@ -23,9 +23,4 @@ All available options are:
 ## Examples
 
 Still on an ESysRepo SW development workspace:
-
-![alt text]({{< image_src "images/list_example01.png" >}} "The text")
-
-
-
-
+{{< img_class "images/list_example01.png" "esysexample" >}}

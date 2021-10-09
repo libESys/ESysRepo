@@ -1,4 +1,11 @@
-![alt text]({{< image_src "images/esysrepo_landscape_title.svg" >}} "The text")
+---
+title: Home
+---
+
+{{< img_class "images/esysrepo_landscape_title.svg" "esyslogo" >}}
+
+[![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
+
 
 With any sizeable SW project, working with several git repositories is usually inevitable.
 Typically, this leads to the debate about the mono-repo vs. multi-repo pattern. ESysRepo is a tool
@@ -9,4 +16,3 @@ those are great tools but lacking some features or essential characteristics.
 
 So ESysRepo was created to make it simpler and more efficient to use the multi-repo pattern for the
 SW developer and to define CI pipelines.
-
