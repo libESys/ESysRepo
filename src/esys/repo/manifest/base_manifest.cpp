@@ -43,8 +43,8 @@ Base::~Base()
 {
 }
 
-} // namespace repo
+} // namespace manifest
 
-} // namespace esys
+} // namespace repo
 
 } // namespace esys

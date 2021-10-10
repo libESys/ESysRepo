@@ -92,7 +92,7 @@ std::string SyncRepo::get_checkout_revision(GitHelper &git_helper)
 std::shared_ptr<GitHelper> SyncRepo::new_git_helper()
 {
     auto git_helper = std::make_shared<GitHelper>(get_git(), get_logger_if(), static_cast<int>(get_repo_idx()));
-    
+
     get_git()->set_logger_if(git_helper);
     return git_helper;
 }

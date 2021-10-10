@@ -22,7 +22,6 @@
 #include "esys/repo/manifest/xmlfile.h"
 #include "esys/repo/grepo/manifest.h"
 
-
 #include <boost/filesystem.hpp>
 
 #include <iostream>

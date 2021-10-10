@@ -63,7 +63,6 @@ const std::string &CmdSync::get_branch() const
 void CmdSync::set_alt_address(bool alt_address)
 {
     m_alt_address = alt_address;
-
 }
 bool CmdSync::get_alt_address() const
 {

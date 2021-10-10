@@ -64,18 +64,18 @@ int Sync::is_manifest_modified(bool &modified)
     if (get_git()->is_dirty(dirty) < 0) return -4;
 
     if (!dirty) return 0;
-    
+
     git::RepoStatus status;
 
     int result = get_git()->get_status(status);
     if (result < 0) return -5;
-    
+
     std::string manifest_rel_path;
 
     if (get_config_folder() == nullptr) return -6;
     auto config = get_config_folder()->get_config();
     if (config == nullptr) return -7;
-    
+
     auto rel_file_name = get_config_folder()->get_manifest_rel_file_name();
 
     auto file_status_it = status.get_map_file_status().find(rel_file_name);
@@ -214,7 +214,7 @@ int Sync::branch_sync()
     }
 
     bool has_branch = get_git()->has_branch(get_branch());
-    
+
     if (!has_branch) return normal_sync();
 
     result = get_git()->checkout(get_branch(), get_force());

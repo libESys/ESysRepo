@@ -40,6 +40,7 @@ public:
 
     void set_id(int id);
     int get_id() const;
+
 protected:
     int m_id = -1;
 };
