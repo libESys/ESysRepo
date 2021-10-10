@@ -8,7 +8,7 @@ source scripts/start_ssh_agent
 cd build_dev
 cd build
 cd cmake
-make tidy-esysrepo-html -j`nproc --all`
+make tidy-esysrepo-cleanup -j`nproc --all`
 RESULT_TIDY=$?
 
 mkdir -p ../../../public/clang_tidy

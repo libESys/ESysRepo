@@ -94,6 +94,7 @@ if(HUGO_BIN)
     STATUS
       "cd ${CMAKE_CURRENT_SOURCE_DIR}/web && ${HUGO_BIN} --themesDir ${ESYS_HUGO_THEME_DIR} -d ${ESYSREPO_HUGO_PUBLIC_DIR}"
   )
+
   add_custom_target(
     esysrepo_hugo ALL
     COMMAND cd ${CMAKE_CURRENT_SOURCE_DIR}/web && ${HUGO_BIN} --themesDir
@@ -109,6 +110,7 @@ if(HUGO_BIN)
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/web
     COMMENT "esysrepo: start Hugo server"
     VERBATIM)
+
 else()
   message(WARNING "Hugo not found")
 endif(HUGO_BIN)

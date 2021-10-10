@@ -16,6 +16,8 @@ cmake_minimum_required(VERSION 3.10)
 option(ESYSREPO_BUILD_DOC "Build the documentation" OFF)
 option(ESYSREPO_COVERAGE "Generate code coverage for unit tests" OFF)
 
+get_filename_component(ESYSREPO_DEV "${CMAKE_CURRENT_LIST_DIR}" REALPATH)
+
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
