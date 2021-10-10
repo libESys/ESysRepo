@@ -2,7 +2,7 @@
 title: Home
 ---
 
-{{< img_class "images/esysrepo_landscape_title.svg" "esyslogo" >}}
+{{< svg_class "images/esysrepo_landscape_title.svg" "esyslogo" >}}
 
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
 
