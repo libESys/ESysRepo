@@ -65,15 +65,15 @@ unit_tests:rasppi4:
   rules:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
 
-unit_tests:rasppi3:
-  <<: *unit_test
-  variables:
-    SKIP_CODE_COVERAGE: "yes"
-    SKIP_CLANG_TIDY: "yes"
-  tags:
-    - rasppi3
-  rules:
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+# unit_tests:rasppi3:
+#   <<: *unit_test
+#   variables:
+#     SKIP_CODE_COVERAGE: "yes"
+#     SKIP_CLANG_TIDY: "yes"
+#   tags:
+#     - rasppi3
+#   rules:
+#     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
 
 merge_request:
   <<: *merge_request
