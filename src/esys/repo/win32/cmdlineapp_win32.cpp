@@ -20,13 +20,7 @@
 
 #include <iostream>
 
-namespace esys
-{
-
-namespace repo
-{
-
-namespace win32
+namespace esys::rpeo::win32
 {
 
 std::unique_ptr<CmdLineApp> CmdLineApp::s_cmd_line_app;
@@ -68,13 +62,9 @@ BOOL WINAPI CtrlHandler(DWORD fdwCtrlType)
     }
 }
 
-CmdLineApp::CmdLineApp()
-{
-}
+CmdLineApp::CmdLineApp() = default;
 
-CmdLineApp::~CmdLineApp()
-{
-}
+CmdLineApp::~CmdLineApp() = default;
 
 int CmdLineApp::init()
 {
@@ -88,8 +78,4 @@ int CmdLineApp::init()
     return -1;
 }
 
-} // namespace win32
-
-} // namespace repo
-
-} // namespace esys
+} // namespace esys::rpeo::win32

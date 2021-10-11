@@ -37,6 +37,8 @@ namespace git
 class ESYSREPO_API Progress
 {
 public:
+    static const int MAX_PERCENTAGE = 100;
+
     Progress();
 
     void set_fetch_step(FetchStep fetch_step);

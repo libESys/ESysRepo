@@ -22,13 +22,7 @@
 
 #include <boost/filesystem.hpp>
 
-namespace esys
-{
-
-namespace repo
-{
-
-namespace exe
+namespace esys::repo::exe
 {
 
 CmdSync::CmdSync()
@@ -36,9 +30,7 @@ CmdSync::CmdSync()
 {
 }
 
-CmdSync::~CmdSync()
-{
-}
+CmdSync::~CmdSync() = default;
 
 void CmdSync::set_force(bool force)
 {
@@ -85,11 +77,9 @@ int CmdSync::sync_manifest()
 
 int CmdSync::impl_run()
 {
-    int result;
-
     if (get_force()) warn("Option --force-sync is not implemented yet");
 
-    result = default_handling_folder_workspace();
+    int result = default_handling_folder_workspace();
     if (result < 0) return result;
 
     result = open_esysrepo_folder();
@@ -143,8 +133,4 @@ int CmdSync::impl_run()
     return 0;
 }
 
-} // namespace exe
-
-} // namespace repo
-
-} // namespace esys
+} // namespace esys::repo::exe

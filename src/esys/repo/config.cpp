@@ -18,10 +18,7 @@
 #include "esys/repo/esysrepo_prec.h"
 #include "esys/repo/config.h"
 
-namespace esys
-{
-
-namespace repo
+namespace esys::repo
 {
 
 Config::Config() = default;
@@ -81,12 +78,14 @@ bool Config::operator!=(const Config &cfg) const
     return !operator==(cfg);
 }
 
-void Config::operator=(const Config &cfg)
+Config &Config::operator=(const Config &cfg)
 {
+    if (cfg == *this) return *this;
+
     set_manifest_type(cfg.get_manifest_type());
     set_manifest_path(cfg.get_manifest_path());
+
+    return *this;
 }
 
-} // namespace repo
-
-} // namespace esys
+} // namespace esys::repo

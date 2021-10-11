@@ -21,18 +21,10 @@
 
 #include <boost/filesystem.hpp>
 
-namespace esys
+namespace esys::repo::manifest
 {
 
-namespace repo
-{
-
-namespace manifest
-{
-
-Repository::Repository()
-{
-}
+Repository::Repository() = default;
 
 Repository::Repository(const std::string &name, const std::string &path)
     : m_name(name)
@@ -40,9 +32,7 @@ Repository::Repository(const std::string &name, const std::string &path)
 {
 }
 
-Repository::~Repository()
-{
-}
+Repository::~Repository() = default;
 
 void Repository::set_name(const std::string &name)
 {
@@ -128,8 +118,4 @@ bool Repository::operator!=(const Repository &repository) const
     return !operator==(repository);
 }
 
-} // namespace manifest
-
-} // namespace repo
-
-} // namespace esys
+} // namespace esys::repo::manifest

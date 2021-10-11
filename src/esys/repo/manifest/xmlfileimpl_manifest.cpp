@@ -23,13 +23,7 @@
 #include <esysfile/xml/file.h>
 #include <esysfile/xml/attr.h>
 
-namespace esys
-{
-
-namespace repo
-{
-
-namespace manifest
+namespace esys::repo::manifest
 {
 
 XMLFileImpl::XMLFileImpl(XMLFile *self)
@@ -37,9 +31,7 @@ XMLFileImpl::XMLFileImpl(XMLFile *self)
 {
 }
 
-XMLFileImpl::~XMLFileImpl()
-{
-}
+XMLFileImpl::~XMLFileImpl() = default;
 
 int XMLFileImpl::read(const std::string &path)
 {
@@ -47,7 +39,7 @@ int XMLFileImpl::read(const std::string &path)
 
     xml_file.set_root_node_name("esysrepo_manifest");
     int result = xml_file.read(path);
-    if (result < 0) 
+    if (result < 0)
     {
         self()->add_error(result, "XML parsing failed.");
         return result;
@@ -87,10 +79,10 @@ int XMLFileImpl::read(std::shared_ptr<esysfile::xml::Data> data)
         else
             result = -1;
         if (result < 0)
-            {
+        {
             self()->add_error(result, "Reading XML element failed : " + el->get_name());
             return result;
-            }
+        }
     }
     return 0;
 }
@@ -139,7 +131,7 @@ int XMLFileImpl::read_location(std::shared_ptr<esysfile::xml::Element> el)
     attr = el->get_attr("alt_addr");
     if (attr != nullptr) location->set_alt_address(attr->get_value());
 
-    int result;
+    int result = 0;
 
     for (auto child_el : el->get_elements())
     {
@@ -241,7 +233,7 @@ int XMLFileImpl::write_xml()
 
     m_xml_data = std::make_shared<esysfile::xml::Data>();
     m_xml_data->set_root_node_name("esysrepo_manifest");
-    
+
     if (self()->get_data()->get_kind() != manifest::Kind::ISOLATED)
     {
         std::string kind;
@@ -250,7 +242,7 @@ int XMLFileImpl::write_xml()
         m_xml_data->add_attr("kind", kind);
     }
 
-    int result;
+    int result = 0;
 
     for (auto location : self()->get_data()->get_locations())
     {
@@ -294,7 +286,7 @@ int XMLFileImpl::write(std::shared_ptr<esysfile::xml::Element> parent_el, std::s
     location_el->add_attr("name", location->get_name());
     location_el->add_attr("addr", location->get_address());
 
-    int result;
+    int result = 0;
 
     for (auto repo : location->get_repos())
     {
@@ -333,7 +325,7 @@ int XMLFileImpl::write(std::shared_ptr<esysfile::xml::Element> parent_el, std::s
         repo_el->add_attr("path", repo->get_path());
         grp_el->add_element(repo_el);
     }
-    
+
     parent_el->add_element(grp_el);
     return 0;
 }
@@ -348,8 +340,4 @@ const XMLFile *XMLFileImpl::self() const
     return m_self;
 }
 
-} // namespace manifest
-
-} // namespace repo
-
-} // namespace esys
+} // namespace esys::repo::manifest

@@ -19,13 +19,7 @@
 #include "esys/repo/manifest/xmlfile.h"
 #include "esys/repo/manifest/xmlfileimpl.h"
 
-namespace esys
-{
-
-namespace repo
-{
-
-namespace manifest
+namespace esys::repo::manifest
 {
 
 XMLFile::XMLFile()
@@ -34,9 +28,7 @@ XMLFile::XMLFile()
     m_impl = std::make_unique<XMLFileImpl>(this);
 }
 
-XMLFile::~XMLFile()
-{
-}
+XMLFile::~XMLFile() = default;
 
 int XMLFile::read(const std::string &path)
 {
@@ -63,8 +55,4 @@ const XMLFileImpl *XMLFile::get_impl() const
     return m_impl.get();
 }
 
-} // namespace manifest
-
-} // namespace repo
-
-} // namespace esys
+} // namespace esys::repo::manifest

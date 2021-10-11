@@ -41,6 +41,9 @@ namespace repo
 class ESYSREPO_API GitHelper : public log::User
 {
 public:
+    static const int THOUSAND = 1000;
+    static const int CLEAN_OUT_REPETITION = 8;
+
     //! Constructor
     GitHelper(std::shared_ptr<GitBase> git = nullptr, std::shared_ptr<log::Logger_if> log_if = nullptr,
               int repo_idx = -1);

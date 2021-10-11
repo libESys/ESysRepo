@@ -23,10 +23,7 @@
 
 #include <iostream>
 
-namespace esys
-{
-
-namespace repo
+namespace esys::repo
 {
 
 GitBase::GitBase()
@@ -155,7 +152,7 @@ int GitBase::decode_sideband_progress(const std::string &txt, git::Progress &pro
 
     std::size_t percentage_idx = std::string::npos;
     progress.set_percentage(-1);
-    bool percentage_error;
+    bool percentage_error = false;
     progress.set_fetch_step(git::FetchStep::NOT_SET);
 
     for (auto &line : lines)
@@ -264,6 +261,4 @@ uint64_t GitBase::get_last_cmd_elapsed_time()
     return static_cast<uint64_t>(d_milli);
 }
 
-} // namespace repo
-
-} // namespace esys
+} // namespace esys::repo

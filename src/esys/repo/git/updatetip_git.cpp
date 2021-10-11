@@ -18,22 +18,12 @@
 #include "esys/repo/esysrepo_prec.h"
 #include "esys/repo/git/updatetip.h"
 
-namespace esys
+namespace esys::repo::git
 {
 
-namespace repo
-{
+UpdateTip::UpdateTip() = default;
 
-namespace git
-{
-
-UpdateTip::UpdateTip()
-{
-}
-
-UpdateTip::~UpdateTip()
-{
-}
+UpdateTip::~UpdateTip() = default;
 
 void UpdateTip::set_type(UpdateTipType type)
 {
@@ -80,8 +70,4 @@ const std::string &UpdateTip::get_old_oid() const
     return m_old_oid;
 }
 
-} // namespace git
-
-} // namespace repo
-
-} // namespace esys
+} // namespace esys::repo::git

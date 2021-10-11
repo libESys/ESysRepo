@@ -54,6 +54,8 @@ class ESYSREPO_API Cmd;
 class ESYSREPO_API AppBase : public esys::log::User
 {
 public:
+    static const int DFT_LOGGER_DEBUG_LEVEL = 10;
+
     AppBase();
     virtual ~AppBase();
 
@@ -91,7 +93,7 @@ public:
     int parse(const std::vector<std::string> &args, po::options_description &desc,
               po::positional_options_description &p, po::variables_map &vm, bool strict = true);
 
-    //CmdFctType find_cmd_fct(const std::string &cmd);
+    // CmdFctType find_cmd_fct(const std::string &cmd);
 
     const std::string &get_log_file_path();
 

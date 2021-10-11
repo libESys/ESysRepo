@@ -21,13 +21,7 @@
 
 #include <boost/filesystem.hpp>
 
-namespace esys
-{
-
-namespace repo
-{
-
-namespace manifest
+namespace esys::repo::manifest
 {
 
 Location::Location()
@@ -42,9 +36,7 @@ Location::Location(const std::string &name, const std::string &address)
 {
 }
 
-Location::~Location()
-{
-}
+Location::~Location() = default;
 
 void Location::set_name(const std::string &name)
 {
@@ -155,8 +147,4 @@ ESYSREPO_API std::ostream &operator<<(std::ostream &os, const Location &location
     return os;
 }
 
-} // namespace manifest
-
-} // namespace repo
-
-} // namespace esys
+} // namespace esys::repo::manifest

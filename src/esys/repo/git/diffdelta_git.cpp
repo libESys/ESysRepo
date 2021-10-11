@@ -18,22 +18,12 @@
 #include "esys/repo/esysrepo_prec.h"
 #include "esys/repo/git/diffdelta.h"
 
-namespace esys
+namespace esys::repo::git
 {
 
-namespace repo
-{
+DiffDelta::DiffDelta() = default;
 
-namespace git
-{
-
-DiffDelta::DiffDelta()
-{
-}
-
-DiffDelta::~DiffDelta()
-{
-}
+DiffDelta::~DiffDelta() = default;
 
 void DiffDelta::set_type(DiffDeltaType type)
 {
@@ -85,8 +75,4 @@ const DiffFile &DiffDelta::get_new_file() const
     return m_new_file;
 }
 
-} // namespace git
-
-} // namespace repo
-
-} // namespace esys
+} // namespace esys::repo::git

@@ -19,13 +19,7 @@
 #include "esys/repo/libssh2/ssh.h"
 #include "esys/repo/libssh2/sshimpl.h"
 
-namespace esys
-{
-
-namespace repo
-{
-
-namespace libssh2
+namespace esys::repo::libssh2
 {
 
 SSH::SSH()
@@ -34,24 +28,19 @@ SSH::SSH()
     m_impl = std::make_unique<SSHImpl>();
 }
 
-SSH::~SSH()
-{
-}
+SSH::~SSH() = default;
 
 bool SSH::is_agent_present()
 {
     if (_get_agent_present() == AgentPresent::NOT_CHECKED)
     {
         bool present = m_impl->is_agent_present();
-        if (present) _set_agent_present(AgentPresent::PRESENT);
+        if (present)
+            _set_agent_present(AgentPresent::PRESENT);
         else
             _set_agent_present(AgentPresent::NOT_PRESENT);
     }
     return (_get_agent_present() == AgentPresent::PRESENT);
 }
 
-} // namespace libssh2
-
-} // namespace repo
-
-} // namespace esys
+} // namespace esys::repo::libssh2

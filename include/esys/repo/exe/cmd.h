@@ -51,6 +51,8 @@ namespace exe
 class ESYSREPO_API Cmd : public log::User
 {
 public:
+    static const int THOUSAND = 1000;
+
     //! Default constructor
     Cmd(const std::string &name);
 

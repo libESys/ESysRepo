@@ -26,13 +26,7 @@
 
 #include <iostream>
 
-namespace esys
-{
-
-namespace repo
-{
-
-namespace exe
+namespace esys::repo::exe
 {
 
 CmdInit::CmdInit()
@@ -40,9 +34,7 @@ CmdInit::CmdInit()
 {
 }
 
-CmdInit::~CmdInit()
-{
-}
+CmdInit::~CmdInit() = default;
 
 void CmdInit::set_url(const std::string &url)
 {
@@ -103,12 +95,10 @@ std::string CmdInit::get_extra_start_msg()
 
 int CmdInit::impl_run()
 {
-    int result;
-
     if (get_google_manifest()) warn("The option --google is not implemented yet");
     if (get_git_super_project()) warn("The option --git-super is not implemented yet");
 
-    result = only_one_folder_or_workspace();
+    int result = only_one_folder_or_workspace();
     if (result < 0) return 0;
 
     result = create_esysrepo_folder();
@@ -394,8 +384,4 @@ int CmdInit::create_esysrepo_folder()
     return result;
 }
 
-} // namespace exe
-
-} // namespace repo
-
-} // namespace esys
+} // namespace esys::repo::exe

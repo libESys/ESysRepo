@@ -31,10 +31,7 @@
 #define ESYSREPO_BOOST_FILESYSTEM_HAS_RECUR 1
 #endif
 
-namespace esys
-{
-
-namespace repo
+namespace esys::repo
 {
 
 namespace stdcpp
@@ -244,6 +241,4 @@ ESYSREPO_API int move(const std::string &src, const std::string &dst, bool recur
     return 0;
 }
 
-} // namespace repo
-
-} // namespace esys
+} // namespace esys::repo

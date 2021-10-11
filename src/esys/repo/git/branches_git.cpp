@@ -20,18 +20,10 @@
 
 #include <algorithm>
 
-namespace esys
+namespace esys::repo::git
 {
 
-namespace repo
-{
-
-namespace git
-{
-
-Branches::Branches()
-{
-}
+Branches::Branches() = default;
 
 Branches::Branches(const std::vector<Branch> &branches)
 {
@@ -43,9 +35,7 @@ Branches::Branches(const std::vector<Branch> &branches)
     }
 }
 
-Branches::~Branches()
-{
-}
+Branches::~Branches() = default;
 
 void Branches::add(std::shared_ptr<Branch> branch)
 {
@@ -71,7 +61,9 @@ std::size_t Branches::size() const
 
 void Branches::sort()
 {
-    auto head_first = [](const std::shared_ptr<git::Branch> b0, const std::shared_ptr<git::Branch> b1) -> bool { return b0->get_is_head(); };
+    auto head_first = [](const std::shared_ptr<git::Branch> b0, const std::shared_ptr<git::Branch> b1) -> bool {
+        return b0->get_is_head();
+    };
 
     std::sort(get().begin(), get().end(), head_first);
 }
@@ -95,8 +87,4 @@ std::shared_ptr<Branch> Branches::find(const std::string &name)
     return nullptr;
 }
 
-} // namespace git
-
-} // namespace repo
-
-} // namespace esys
+} // namespace esys::repo::git

@@ -18,13 +18,7 @@
 #include "esys/repo/esysrepo_prec.h"
 #include "esys/repo/manifest/groups.h"
 
-namespace esys
-{
-
-namespace repo
-{
-
-namespace manifest
+namespace esys::repo::manifest
 {
 
 Groups::Groups()
@@ -32,9 +26,7 @@ Groups::Groups()
 {
 }
 
-Groups::~Groups()
-{
-}
+Groups::~Groups() = default;
 
 void Groups::add_group(std::shared_ptr<Group> group)
 {
@@ -77,8 +69,4 @@ void Groups::clear()
     m_map_groups_by_name.clear();
 }
 
-} // namespace manifest
-
-} // namespace repo
-
-} // namespace esys
+} // namespace esys::repo::manifest

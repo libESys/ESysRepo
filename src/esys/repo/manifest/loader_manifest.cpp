@@ -21,23 +21,12 @@
 #include "esys/repo/manifest/loaderesysrepo.h"
 #include "esys/repo/manifest/loadergitsuper.h"
 
-namespace esys
+namespace esys::repo::manifest
 {
 
-namespace repo
-{
+Loader::Loader() = default;
 
-namespace manifest
-{
-
-Loader::Loader()
-    : LoaderBase()
-{
-}
-
-Loader::~Loader()
-{
-}
+Loader::~Loader() = default;
 
 int Loader::run()
 {
@@ -73,8 +62,4 @@ const std::shared_ptr<LoaderBase> Loader::get_loader() const
     return m_loader;
 }
 
-} // namespace manifest
-
-} // namespace repo
-
-} // namespace esys
+} // namespace esys::repo::manifest

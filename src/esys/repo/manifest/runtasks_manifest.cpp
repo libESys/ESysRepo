@@ -24,13 +24,7 @@
 #include <sstream>
 #include <iostream>
 
-namespace esys
-{
-
-namespace repo
-{
-
-namespace manifest
+namespace esys::repo::manifest
 {
 
 RunTasks::RunTasks()
@@ -101,9 +95,8 @@ void RunTasks::worker_thread(std::shared_ptr<WorkerThread> thread)
 {
     RemoveWorkerThreadGuard remove_guard(this, thread);
     std::shared_ptr<TaskBase> task;
-    int result;
 
-    result = m_tasks.pop_front(task);
+    int result = m_tasks.pop_front(task);
     while (result == 0)
     {
         m_tasks_running.push_back(task);
@@ -178,8 +171,4 @@ void RunTasks::remove(std::shared_ptr<WorkerThread> rem_worker_thread)
     m_done_cond.notify_one();
 }
 
-} // namespace manifest
-
-} // namespace repo
-
-} // namespace esys
+} // namespace esys::repo::manifest

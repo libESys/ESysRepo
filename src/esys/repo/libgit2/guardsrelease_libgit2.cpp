@@ -18,13 +18,7 @@
 #include "esys/repo/esysrepo_prec.h"
 #include "esys/repo/libgit2/guardsrelease.h"
 
-namespace esys
-{
-
-namespace repo
-{
-
-namespace libgit2
+namespace esys::repo::libgit2
 {
 
 template<>
@@ -34,8 +28,4 @@ ESYSREPO_API void guards_release<git_strarray>(git_strarray *data)
     git_strarray_dispose(data);
 }
 
-} // namespace libgit2
-
-} // namespace repo
-
-} // namespace esys
+} // namespace esys::repo::libgit2

@@ -18,23 +18,12 @@
 #include "esys/repo/esysrepo_prec.h"
 #include "esys/repo/cli/app.h"
 
-namespace esys
+namespace esys::repo::cli
 {
 
-namespace repo
-{
+App::App() = default;
 
-namespace cli
-{
-
-App::App()
-    : AppBase()
-{
-}
-
-App::~App()
-{
-}
+App::~App() = default;
 
 void App::set_version(const std::string &version)
 {
@@ -82,8 +71,4 @@ CmdVersion &App::get_cmd_version()
     return m_cmd_version;
 }
 
-} // namespace cli
-
-} // namespace repo
-
-} // namespace esys
+} // namespace esys::repo::cli

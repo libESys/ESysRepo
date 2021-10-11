@@ -18,13 +18,7 @@
 #include "esys/repo/esysrepo_prec.h"
 #include "esys/repo/manifest/sync.h"
 
-namespace esys
-{
-
-namespace repo
-{
-
-namespace manifest
+namespace esys::repo::manifest
 {
 
 Sync::Sync()
@@ -32,9 +26,7 @@ Sync::Sync()
 {
 }
 
-Sync::~Sync()
-{
-}
+Sync::~Sync() = default;
 
 void Sync::set_branch(const std::string &branch)
 {
@@ -58,23 +50,23 @@ bool Sync::get_force() const
 
 int Sync::is_manifest_modified(bool &modified)
 {
-    bool dirty;
+    bool dirty = false;
     modified = false;
 
-    if (get_git()->is_dirty(dirty) < 0) return -4;
+    if (get_git()->is_dirty(dirty) < 0) return GIT_IS_DIRTY_FAILED;
 
     if (!dirty) return 0;
 
     git::RepoStatus status;
 
     int result = get_git()->get_status(status);
-    if (result < 0) return -5;
+    if (result < 0) return GIT_GET_STATUS_FAILED;
 
     std::string manifest_rel_path;
 
-    if (get_config_folder() == nullptr) return -6;
+    if (get_config_folder() == nullptr) return CONFIG_FOLDER_IS_NULL;
     auto config = get_config_folder()->get_config();
-    if (config == nullptr) return -7;
+    if (config == nullptr) return CONFIG_IS_NULL;
 
     auto rel_file_name = get_config_folder()->get_manifest_rel_file_name();
 
@@ -89,18 +81,17 @@ int Sync::is_manifest_modified(bool &modified)
 
 int Sync::run()
 {
-    if (get_git() == nullptr) return -1;
-    if (get_git()->is_open()) return -2;
+    if (get_git() == nullptr) return GIT_IS_NULL;
+    if (get_git()->is_open()) return GIT_IS_NOT_OPENED;
 
-    int result;
-    result = get_git()->open(get_config_folder()->get_manifest_repo_path());
+    int result = get_git()->open(get_config_folder()->get_manifest_repo_path());
     if (result < 0)
     {
         error("Couldn't open the manifest git repo");
-        return -3;
+        return GIT_OPEN_FAILED;
     }
-    bool dirty;
-    if (get_git()->is_dirty(dirty) < 0) return -4;
+    bool dirty = false;
+    if (get_git()->is_dirty(dirty) < 0) return GIT_IS_DIRTY_FAILED;
     if (dirty)
     {
         warn("Sync manifest aborted: found changes in the git repo.");
@@ -113,7 +104,7 @@ int Sync::run()
     {
         error("Fetch failed on the manifest git repo");
         get_git()->close();
-        return -6;
+        return GIT_FETCH_FAILED;
     }
 
     if (get_branch().empty()) return normal_sync();
@@ -144,14 +135,14 @@ int Sync::normal_sync()
     if (result < 0)
     {
         get_git()->close();
-        return -9;
+        return GIT_GET_BRANCHES_FAILED;
     }
 
     if (branches.get_head() == nullptr)
     {
         error("Couldn't get the HEAD.");
         get_git()->close();
-        return -10;
+        return GIT_GET_HEAD_FAILED;
     }
 
     std::vector<std::string> refs;
@@ -165,7 +156,7 @@ int Sync::normal_sync()
     {
         error("Merge analysis failed.");
         get_git()->close();
-        return -11;
+        return GIT_MERGE_ANALYSIS_FAILED;
     }
 
     if (merge_analysis_result == git::MergeAnalysisResult::UP_TO_DATE)
@@ -178,7 +169,7 @@ int Sync::normal_sync()
     {
         warn("Sync manifest aborted: can't be fastforwarded.");
         get_git()->close();
-        return -12;
+        return GIT_CAN_NOT_BE_FAST_FORWARDED;
     }
 
     // For a fastforward, there should be only one commit
@@ -186,7 +177,7 @@ int Sync::normal_sync()
     {
         error("fastforward failed.");
         get_git()->close();
-        return -13;
+        return GIT_MORE_THAN_ONE_COMMIT;
     }
 
     info("Fastforward manifest ...");
@@ -196,7 +187,7 @@ int Sync::normal_sync()
     {
         error("Fastforward failed.");
         get_git()->close();
-        return -14;
+        return GIT_FAST_FORWARD_FAILED;
     }
     info("Fastforward manifest completed.");
     get_git()->close();
@@ -210,7 +201,7 @@ int Sync::branch_sync()
     if (result < 0)
     {
         get_git()->close();
-        return -9;
+        return GIT_FETCH_FAILED;
     }
 
     bool has_branch = get_git()->has_branch(get_branch());
@@ -228,12 +219,12 @@ int Sync::branch_sync()
 
 int Sync::process_repo()
 {
-    return -1;
+    return NOT_IMPLEMENTED;
 }
 
 int Sync::fetch_update()
 {
-    return -1;
+    return NOT_IMPLEMENTED;
 }
 
 void Sync::set_git(std::shared_ptr<GitBase> git)
@@ -276,8 +267,4 @@ log::Level Sync::get_log_level() const
     return m_log_level;
 }
 
-} // namespace manifest
-
-} // namespace repo
-
-} // namespace esys
+} // namespace esys::repo::manifest

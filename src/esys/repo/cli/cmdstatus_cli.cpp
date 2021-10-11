@@ -26,13 +26,7 @@
 
 #include <vector>
 
-namespace esys
-{
-
-namespace repo
-{
-
-namespace cli
+namespace esys::repo::cli
 {
 
 #include "esys/repo/cli/cmdstatus_doc.cpp"
@@ -42,9 +36,7 @@ CmdStatus::CmdStatus(AppBase *app)
 {
 }
 
-CmdStatus::~CmdStatus()
-{
-}
+CmdStatus::~CmdStatus() = default;
 
 std::shared_ptr<po::options_description> CmdStatus::get_desc()
 {
@@ -75,8 +67,4 @@ int CmdStatus::print_help(std::ostream &os)
     return 0;
 }
 
-} // namespace cli
-
-} // namespace repo
-
-} // namespace esys
+} // namespace esys::repo::cli

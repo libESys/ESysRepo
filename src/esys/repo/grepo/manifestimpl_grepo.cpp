@@ -25,13 +25,7 @@
 
 #include <boost/tokenizer.hpp>
 
-namespace esys
-{
-
-namespace repo
-{
-
-namespace grepo
+namespace esys::repo::grepo
 {
 
 ManifestImpl::ManifestImpl(Manifest *self)
@@ -39,9 +33,7 @@ ManifestImpl::ManifestImpl(Manifest *self)
 {
 }
 
-ManifestImpl::~ManifestImpl()
-{
-}
+ManifestImpl::~ManifestImpl() = default;
 
 int ManifestImpl::read(const std::string &filename)
 {
@@ -92,7 +84,7 @@ int ManifestImpl::write(std::ostream &os)
     if (write_xml() < 0) return -1;
 
     esysfile::xml::Writer writer;
-    
+
     writer.set_indent(4);
     writer.set_data(m_xml_data);
     return writer.write(os);
@@ -353,8 +345,4 @@ Manifest *ManifestImpl::self() const
     return m_self;
 }
 
-} // namespace grepo
-
-} // namespace repo
-
-} // namespace esys
+} // namespace esys::repo::grepo

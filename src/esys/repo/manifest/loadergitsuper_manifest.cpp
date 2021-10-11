@@ -18,13 +18,7 @@
 #include "esys/repo/esysrepo_prec.h"
 #include "esys/repo/manifest/loadergitsuper.h"
 
-namespace esys
-{
-
-namespace repo
-{
-
-namespace manifest
+namespace esys::repo::manifest
 {
 
 LoaderGitSuper::LoaderGitSuper()
@@ -32,17 +26,11 @@ LoaderGitSuper::LoaderGitSuper()
 {
 }
 
-LoaderGitSuper::~LoaderGitSuper()
-{
-}
+LoaderGitSuper::~LoaderGitSuper() = default;
 
 int LoaderGitSuper::run()
 {
     return -1;
 }
 
-} // namespace manifest
-
-} // namespace repo
-
-} // namespace esys
+} // namespace esys::repo::manifest

@@ -18,10 +18,7 @@
 #include "esys/repo/esysrepo_prec.h"
 #include "esys/repo/sshbase.h"
 
-namespace esys
-{
-
-namespace repo
+namespace esys::repo
 {
 
 SSHBase::SSHBase()
@@ -29,9 +26,7 @@ SSHBase::SSHBase()
 {
 }
 
-SSHBase::~SSHBase()
-{
-}
+SSHBase::~SSHBase() = default;
 
 void SSHBase::_set_agent_present(AgentPresent agent_present)
 {
@@ -43,6 +38,4 @@ SSHBase::AgentPresent SSHBase::_get_agent_present() const
     return m_agent_present;
 }
 
-} // namespace repo
-
-} // namespace esys
+} // namespace esys::repo

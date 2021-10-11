@@ -28,13 +28,7 @@
 #include <iostream>
 #include <fstream>
 
-namespace esys
-{
-
-namespace repo
-{
-
-namespace exe
+namespace esys::repo::exe
 {
 
 CmdManifest::CmdManifest()
@@ -42,9 +36,7 @@ CmdManifest::CmdManifest()
 {
 }
 
-CmdManifest::~CmdManifest()
-{
-}
+CmdManifest::~CmdManifest() = default;
 
 void CmdManifest::set_revision_as_head(bool revision_as_head)
 {
@@ -160,8 +152,4 @@ int CmdManifest::impl_run()
     return result;
 }
 
-} // namespace exe
-
-} // namespace repo
-
-} // namespace esys
+} // namespace esys::repo::exe

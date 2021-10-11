@@ -20,22 +20,12 @@
 
 #include <algorithm>
 
-namespace esys
+namespace esys::repo::git
 {
 
-namespace repo
-{
+RepoStatus::RepoStatus() = default;
 
-namespace git
-{
-
-RepoStatus::RepoStatus()
-{
-}
-
-RepoStatus::~RepoStatus()
-{
-}
+RepoStatus::~RepoStatus() = default;
 
 void RepoStatus::add(std::shared_ptr<Status> status)
 {
@@ -158,8 +148,4 @@ const std::map<std::string, std::shared_ptr<FileStatus>> &RepoStatus::get_map_fi
     return m_map_file_status;
 }
 
-} // namespace git
-
-} // namespace repo
-
-} // namespace esys
+} // namespace esys::repo::git

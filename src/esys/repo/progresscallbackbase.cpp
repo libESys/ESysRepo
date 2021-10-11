@@ -18,16 +18,11 @@
 #include "esys/repo/esysrepo_prec.h"
 #include "esys/repo/progresscallbackbase.h"
 
-namespace esys
-{
-
-namespace repo
+namespace esys::repo
 {
 
 ProgressCallbackBase::ProgressCallbackBase() = default;
 
 ProgressCallbackBase::~ProgressCallbackBase() = default;
 
-} // namespace repo
-
-} // namespace esys
+} // namespace esys::repo

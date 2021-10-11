@@ -18,22 +18,12 @@
 #include "esys/repo/esysrepo_prec.h"
 #include "esys/repo/git/commit.h"
 
-namespace esys
+namespace esys::repo::git
 {
 
-namespace repo
-{
+Commit::Commit() = default;
 
-namespace git
-{
-
-Commit::Commit()
-{
-}
-
-Commit::~Commit()
-{
-}
+Commit::~Commit() = default;
 
 void Commit::set_hash(const std::string &hash)
 {
@@ -44,8 +34,4 @@ const std::string &Commit::get_hash() const
     return m_hash;
 }
 
-} // namespace git
-
-} // namespace repo
-
-} // namespace esys
+} // namespace esys::repo::git

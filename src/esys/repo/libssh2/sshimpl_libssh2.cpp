@@ -21,13 +21,7 @@
 
 #include <sstream>
 
-namespace esys
-{
-
-namespace repo
-{
-
-namespace libssh2
+namespace esys::repo::libssh2
 {
 
 std::unique_ptr<SSHImpl::InitRelease> SSHImpl::s_init_release;
@@ -37,9 +31,7 @@ SSHImpl::SSHImpl()
     if (s_init_release == nullptr) s_init_release = std::make_unique<SSHImpl::InitRelease>();
 }
 
-SSHImpl::~SSHImpl()
-{
-}
+SSHImpl::~SSHImpl() = default;
 
 bool SSHImpl::is_agent_present()
 {
@@ -51,14 +43,14 @@ bool SSHImpl::is_agent_present()
     int error = libssh2_agent_connect(agent);
     if (error != LIBSSH2_ERROR_NONE)
     {
-        char *msg;
+        char *msg = nullptr;
         libssh2_session_last_error(session, &msg, nullptr, 0);
 
         std::ostringstream oss;
         oss << "agent error (" << error << ") : " << msg << std::endl;
-        //self()->error(oss.str());
+        // self()->error(oss.str());
     }
-    //else
+    // else
     //    self()->debug(0, "SSH agent detected");
 
     libssh2_agent_disconnect(agent);
@@ -68,8 +60,4 @@ bool SSHImpl::is_agent_present()
     return (error == LIBSSH2_ERROR_NONE);
 }
 
-} // namespace libssh2
-
-} // namespace repo
-
-} // namespace esys
+} // namespace esys::repo::libssh2

@@ -22,10 +22,7 @@
 
 #include <boost/filesystem.hpp>
 
-namespace esys
-{
-
-namespace repo
+namespace esys::repo
 {
 
 ConfigFolder::ConfigFolder()
@@ -33,9 +30,7 @@ ConfigFolder::ConfigFolder()
 {
 }
 
-ConfigFolder::~ConfigFolder()
-{
-}
+ConfigFolder::~ConfigFolder() = default;
 
 void ConfigFolder::set_workspace_path(const std::string &parent_path)
 {
@@ -195,6 +190,7 @@ std::string ConfigFolder::get_manifest_rel_file_name() const
     {
         case manifest::Type::ESYSREPO_MANIFEST: folder_name = manifest::Base::get_folder_name(); break;
         case manifest::Type::GOOGLE_MANIFEST: folder_name = grepo::Manifest::get_folder_name(); break;
+        default: return "";
     }
 
     boost::filesystem::path manifest_path = get_config()->get_manifest_path();
@@ -249,6 +245,4 @@ bool ConfigFolder::is_config_folder(const std::string &path)
     return boost::filesystem::exists(folder);
 }
 
-} // namespace repo
-
-} // namespace esys
+} // namespace esys::repo

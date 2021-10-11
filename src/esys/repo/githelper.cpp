@@ -26,10 +26,7 @@
 #include <sstream>
 #include <iostream>
 
-namespace esys
-{
-
-namespace repo
+namespace esys::repo
 {
 
 GitHelper::GitHelper(std::shared_ptr<GitBase> git, std::shared_ptr<Logger_if> log_if, int repo_idx)
@@ -140,7 +137,7 @@ void GitHelper::done(const std::string &msg, uint64_t elapsed_time)
     init_oss(oss, msg);
 
     oss << " done.\n";
-    oss << "    elapsed time (s): " << (elapsed_time / 1000) << "." << (elapsed_time % 1000);
+    oss << "    elapsed time (s): " << (elapsed_time / THOUSAND) << "." << (elapsed_time % THOUSAND);
     clean_cout();
     log::User::info(oss.str());
 }
@@ -525,10 +522,8 @@ void GitHelper::clean_cout()
     std::string s = "             ";
     std::cout << "\r";
 
-    for (int idx = 0; idx < 8; ++idx) std::cout << s;
+    for (int idx = 0; idx < CLEAN_OUT_REPETITION; ++idx) std::cout << s;
     std::cout << "\r";
 }
 
-} // namespace repo
-
-} // namespace esys
+} // namespace esys::repo

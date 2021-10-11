@@ -21,13 +21,7 @@
 
 #include <boost/filesystem.hpp>
 
-namespace esys
-{
-
-namespace repo
-{
-
-namespace manifest
+namespace esys::repo::manifest
 {
 
 LoaderESysRepo::LoaderESysRepo()
@@ -35,9 +29,7 @@ LoaderESysRepo::LoaderESysRepo()
 {
 }
 
-LoaderESysRepo::~LoaderESysRepo()
-{
-}
+LoaderESysRepo::~LoaderESysRepo() = default;
 
 int LoaderESysRepo::run()
 {
@@ -68,8 +60,4 @@ int LoaderESysRepo::run()
     return result;
 }
 
-} // namespace manifest
-
-} // namespace repo
-
-} // namespace esys
+} // namespace esys::repo::manifest

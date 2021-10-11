@@ -24,13 +24,7 @@
 
 #include <vector>
 
-namespace esys
-{
-
-namespace repo
-{
-
-namespace cli
+namespace esys::repo::cli
 {
 
 #include "esys/repo/cli/cmdhelp_doc.cpp"
@@ -40,9 +34,7 @@ CmdHelp::CmdHelp(AppBase *app)
 {
 }
 
-CmdHelp::~CmdHelp()
-{
-}
+CmdHelp::~CmdHelp() = default;
 
 std::shared_ptr<po::options_description> CmdHelp::get_desc()
 {
@@ -60,8 +52,4 @@ int CmdHelp::print_help(std::ostream &os)
     return 0;
 }
 
-} // namespace cli
-
-} // namespace repo
-
-} // namespace esys
+} // namespace esys::repo::cli

@@ -26,13 +26,7 @@
 
 #include <vector>
 
-namespace esys
-{
-
-namespace repo
-{
-
-namespace cli
+namespace esys::repo::cli
 {
 
 #include "esys/repo/cli/cmdinit_doc.cpp"
@@ -42,9 +36,7 @@ CmdInit::CmdInit(AppBase *app)
 {
 }
 
-CmdInit::~CmdInit()
-{
-}
+CmdInit::~CmdInit() = default;
 
 std::shared_ptr<po::options_description> CmdInit::get_desc()
 {
@@ -102,8 +94,4 @@ int CmdInit::print_help(std::ostream &os)
     return 0;
 }
 
-} // namespace cli
-
-} // namespace repo
-
-} // namespace esys
+} // namespace esys::repo::cli

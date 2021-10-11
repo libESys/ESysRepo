@@ -26,13 +26,7 @@
 
 #include <vector>
 
-namespace esys
-{
-
-namespace repo
-{
-
-namespace cli
+namespace esys::repo::cli
 {
 
 #include "esys/repo/cli/cmdsync_doc.cpp"
@@ -42,9 +36,7 @@ CmdSync::CmdSync(AppBase *app)
 {
 }
 
-CmdSync::~CmdSync()
-{
-}
+CmdSync::~CmdSync() = default;
 
 std::shared_ptr<po::options_description> CmdSync::get_desc()
 {
@@ -95,8 +87,4 @@ int CmdSync::print_help(std::ostream &os)
     return 0;
 }
 
-} // namespace cli
-
-} // namespace repo
-
-} // namespace esys
+} // namespace esys::repo::cli

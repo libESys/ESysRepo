@@ -24,13 +24,7 @@
 
 #include <cassert>
 
-namespace esys
-{
-
-namespace repo
-{
-
-namespace cli
+namespace esys::repo::cli
 {
 
 Cmd::Cmd(AppBase *app, const std::string &name)
@@ -43,9 +37,7 @@ Cmd::Cmd(AppBase *app, const std::string &name)
     if (app != nullptr) app->register_cmd(this);
 }
 
-Cmd::~Cmd()
-{
-}
+Cmd::~Cmd() = default;
 
 void Cmd::set_name(const std::string &name)
 {
@@ -285,8 +277,4 @@ int Cmd::groups_str_to_groups(const std::string &groups_str, std::vector<std::st
     return 0;
 }
 
-} // namespace cli
-
-} // namespace repo
-
-} // namespace esys
+} // namespace esys::repo::cli

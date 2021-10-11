@@ -25,13 +25,7 @@
 
 #include <sstream>
 
-namespace esys
-{
-
-namespace repo
-{
-
-namespace manifest
+namespace esys::repo::manifest
 {
 
 SyncRepo::SyncRepo()
@@ -39,9 +33,7 @@ SyncRepo::SyncRepo()
 {
 }
 
-SyncRepo::~SyncRepo()
-{
-}
+SyncRepo::~SyncRepo() = default;
 
 int SyncRepo::run()
 {
@@ -101,7 +93,7 @@ int SyncRepo::clone()
 {
     std::shared_ptr<GitHelper> git_helper = new_git_helper();
     std::string url = get_repo_url();
-    int result;
+    int result = 0;
     std::string branch_to_checkout;
 
     boost::filesystem::path path = get_config_folder()->get_workspace_path();
@@ -203,7 +195,7 @@ int SyncRepo::fetch_update()
 
 int SyncRepo::normal_sync(GitHelper &git_helper)
 {
-    bool detached;
+    bool detached = false;
     int result = git_helper.is_detached(detached, log::Level::DEBUG);
     if (result < 0)
     {
@@ -376,8 +368,4 @@ bool SyncRepo::get_force() const
     return m_force;
 }
 
-} // namespace manifest
-
-} // namespace repo
-
-} // namespace esys
+} // namespace esys::repo::manifest

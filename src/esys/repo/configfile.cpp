@@ -19,10 +19,7 @@
 #include "esys/repo/configfile.h"
 #include "esys/repo/configfileimpl.h"
 
-namespace esys
-{
-
-namespace repo
+namespace esys::repo
 {
 
 ConfigFile::ConfigFile()
@@ -30,9 +27,7 @@ ConfigFile::ConfigFile()
     m_impl = std::make_unique<ConfigFileImpl>(this);
 }
 
-ConfigFile::~ConfigFile()
-{
-}
+ConfigFile::~ConfigFile() = default;
 
 void ConfigFile::set_path(const std::string &path)
 {
@@ -79,6 +74,4 @@ const ConfigFileImpl *ConfigFile::get_impl() const
     return m_impl.get();
 }
 
-} // namespace repo
-
-} // namespace esys
+} // namespace esys::repo

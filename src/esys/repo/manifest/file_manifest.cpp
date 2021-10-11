@@ -21,31 +21,19 @@
 
 #include <fstream>
 
-namespace esys
+namespace esys::repo::manifest
 {
 
-namespace repo
-{
+File::File() = default;
 
-namespace manifest
-{
-
-File::File()
-    : FileBase()
-{
-}
-
-File::~File()
-{
-}
+File::~File() = default;
 
 int File::read(const std::string &path)
 {
     std::ifstream ifs;
 
     ifs.open(path);
-    if (!ifs.is_open())
-        return -1;
+    if (!ifs.is_open()) return -1;
 
     std::string line;
     std::getline(ifs, line);
@@ -54,11 +42,11 @@ int File::read(const std::string &path)
     if (line.find("<?xml") != std::string::npos)
     {
         manifest::XMLFile xml_file;
-        
+
         xml_file.set_data(get_data());
         int result = xml_file.read(path);
         if (result < 0) return result;
-        
+
         xml_file.get_data()->set_format(manifest::Format::XML);
         set_data(xml_file.get_data());
         return 0;
@@ -112,8 +100,4 @@ const FileBase *File::get_impl() const
     return m_impl.get();
 }
 
-} // namespace manifest
-
-} // namespace repo
-
-} // namespace esys
+} // namespace esys::repo::manifest

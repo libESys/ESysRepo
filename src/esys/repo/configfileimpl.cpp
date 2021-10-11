@@ -23,10 +23,7 @@
 #include <fstream>
 #include <iomanip>
 
-namespace esys
-{
-
-namespace repo
+namespace esys::repo
 {
 
 ConfigFileImpl::ConfigFileImpl(ConfigFile *self)
@@ -34,9 +31,7 @@ ConfigFileImpl::ConfigFileImpl(ConfigFile *self)
 {
 }
 
-ConfigFileImpl::~ConfigFileImpl()
-{
-}
+ConfigFileImpl::~ConfigFileImpl() = default;
 
 int ConfigFileImpl::open(const std::string &path)
 {
@@ -58,7 +53,8 @@ int ConfigFileImpl::open(const std::string &path)
 
     if (!obj.contains("manifest_type")) return -1;
 
-    manifest::Type type;
+    manifest::Type type = manifest::Type::NOT_SET;
+
     int result = manifest::convert(obj["manifest_type"], type);
     if (result < 0) return result;
 
@@ -145,6 +141,4 @@ const ConfigFile *ConfigFileImpl::self() const
     return m_self;
 }
 
-} // namespace repo
-
-} // namespace esys
+} // namespace esys::repo

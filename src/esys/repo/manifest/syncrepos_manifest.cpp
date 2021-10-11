@@ -27,13 +27,7 @@
 
 #include <sstream>
 
-namespace esys
-{
-
-namespace repo
-{
-
-namespace manifest
+namespace esys::repo::manifest
 {
 
 SyncRepos::SyncRepos()
@@ -41,9 +35,7 @@ SyncRepos::SyncRepos()
 {
 }
 
-SyncRepos::~SyncRepos()
-{
-}
+SyncRepos::~SyncRepos() = default;
 
 void SyncRepos::set_manifest(std::shared_ptr<Manifest> manifest)
 {
@@ -306,8 +298,4 @@ const RunTasks &SyncRepos::get_run_tasks() const
     return m_run_tasks;
 }
 
-} // namespace manifest
-
-} // namespace repo
-
-} // namespace esys
+} // namespace esys::repo::manifest

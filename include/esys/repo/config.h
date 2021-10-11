@@ -97,7 +97,7 @@ public:
     bool operator!=(const Config &cfg) const;
 
     //! Assignement operator
-    void operator=(const Config &cfg);
+    Config &operator=(const Config &cfg);
 
 protected:
     //!< \cond DOXY_IMPL

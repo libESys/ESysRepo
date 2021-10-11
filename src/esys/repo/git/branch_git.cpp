@@ -18,18 +18,10 @@
 #include "esys/repo/esysrepo_prec.h"
 #include "esys/repo/git/branch.h"
 
-namespace esys
+namespace esys::repo::git
 {
 
-namespace repo
-{
-
-namespace git
-{
-
-Branch::Branch()
-{
-}
+Branch::Branch() = default;
 
 Branch::Branch(const std::string &name, bool is_head)
     : m_name(name)
@@ -44,9 +36,7 @@ Branch::Branch(const std::string &name, BranchType type, bool is_head)
 {
 }
 
-Branch::~Branch()
-{
-}
+Branch::~Branch() = default;
 
 void Branch::set_name(const std::string &name)
 {
@@ -108,8 +98,4 @@ const std::string &Branch::get_remote_name() const
     return m_remote_name;
 }
 
-} // namespace git
-
-} // namespace repo
-
-} // namespace esys
+} // namespace esys::repo::git

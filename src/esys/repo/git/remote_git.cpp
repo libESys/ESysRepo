@@ -18,22 +18,12 @@
 #include "esys/repo/esysrepo_prec.h"
 #include "esys/repo/git/remote.h"
 
-namespace esys
+namespace esys::repo::git
 {
 
-namespace repo
-{
+Remote::Remote() = default;
 
-namespace git
-{
-
-Remote::Remote()
-{
-}
-
-Remote::~Remote()
-{
-}
+Remote::~Remote() = default;
 
 void Remote::set_name(const std::string &name)
 {
@@ -55,8 +45,4 @@ const std::string &Remote::get_url() const
     return m_url;
 }
 
-} // namespace git
-
-} // namespace repo
-
-} // namespace esys
+} // namespace esys::repo::git

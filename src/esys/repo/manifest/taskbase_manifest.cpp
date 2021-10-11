@@ -18,22 +18,12 @@
 #include "esys/repo/esysrepo_prec.h"
 #include "esys/repo/manifest/taskbase.h"
 
-namespace esys
+namespace esys::repo::manifest
 {
 
-namespace repo
-{
+TaskBase::TaskBase() = default;
 
-namespace manifest
-{
-
-TaskBase::TaskBase()
-{
-}
-
-TaskBase::~TaskBase()
-{
-}
+TaskBase::~TaskBase() = default;
 
 void TaskBase::set_git(std::shared_ptr<GitBase> git)
 {
@@ -146,8 +136,4 @@ bool TaskBase::get_running()
     return m_running;
 }
 
-} // namespace manifest
-
-} // namespace repo
-
-} // namespace esys
+} // namespace esys::repo::manifest

@@ -18,23 +18,14 @@
 #include "esys/repo/esysrepo_prec.h"
 #include "esys/repo/gitcmdline/git.h"
 
-namespace esys
-{
-
-namespace repo
-{
-
-namespace gitcmdline
+namespace esys::repo::gitcmdline
 {
 
 Git::Git()
     : GitBase()
 {
 }
+
 Git::~Git() = default;
 
-} // namespace gitcmdline
-
-} // namespace repo
-
-} // namespace esys
+} // namespace esys::repo::gitcmdline

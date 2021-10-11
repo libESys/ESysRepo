@@ -28,13 +28,7 @@
 #include <sstream>
 #include <iostream>
 
-namespace esys
-{
-
-namespace repo
-{
-
-namespace exe
+namespace esys::repo::exe
 {
 
 Cmd::Cmd(const std::string &name)
@@ -78,7 +72,7 @@ int Cmd::run()
     std::string msg;
 
     msg = get_name();
-    oss << "    elapsed time (s): " << (d_milli / 1000) << "." << (d_milli % 1000);
+    oss << "    elapsed time (s): " << (d_milli / THOUSAND) << "." << (d_milli % THOUSAND);
     if (result == 0)
     {
         msg += " done.\n";
@@ -315,7 +309,7 @@ int Cmd::process_sub_args_as_git_repo_paths()
     if (get_manifest() == nullptr) return -1;
 
     int result = 0;
-    int local_result;
+    int local_result = 0;
 
     for (auto &input_path : get_sub_args())
     {
@@ -394,8 +388,6 @@ int Cmd::load_manifest()
 
 int Cmd::default_handling_folder_workspace()
 {
-    int result;
-
     if (!get_folder().empty() && get_workspace_path().empty())
     {
         boost::filesystem::path path = exe::Cmd::find_workspace_path(get_folder());
@@ -561,8 +553,4 @@ void Cmd::print_cmd_name(std::ostream &os)
     os << get_name() + " ...";
 }
 
-} // namespace exe
-
-} // namespace repo
-
-} // namespace esys
+} // namespace esys::repo::exe

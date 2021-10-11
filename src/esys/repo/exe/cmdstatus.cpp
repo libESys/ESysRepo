@@ -25,13 +25,7 @@
 #include <sstream>
 #include <iomanip>
 
-namespace esys
-{
-
-namespace repo
-{
-
-namespace exe
+namespace esys::repo::exe
 {
 
 CmdStatus::CmdStatus()
@@ -39,9 +33,7 @@ CmdStatus::CmdStatus()
 {
 }
 
-CmdStatus::~CmdStatus()
-{
-}
+CmdStatus::~CmdStatus() = default;
 
 void CmdStatus::set_quiet(bool quiet)
 {
@@ -55,11 +47,9 @@ bool CmdStatus::get_quiet() const
 
 int CmdStatus::impl_run()
 {
-    int result;
-
     if (get_quiet()) warn("The option --quiet is not implemented yet");
 
-    result = process_sub_args_to_find_parent_path();
+    int result = process_sub_args_to_find_parent_path();
     if (result < 0)
     {
         error("No ESysRepo folder found");
@@ -258,8 +248,4 @@ int CmdStatus::process_sub_args_to_find_parent_path()
     return 0;
 }
 
-} // namespace exe
-
-} // namespace repo
-
-} // namespace esys
+} // namespace esys::repo::exe

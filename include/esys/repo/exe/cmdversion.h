@@ -38,6 +38,8 @@ namespace exe
 class ESYSREPO_API CmdVersion : public Cmd
 {
 public:
+    static const int NAME_SIZE = 15;
+
     CmdVersion();
     virtual ~CmdVersion();
 

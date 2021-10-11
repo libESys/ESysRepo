@@ -26,13 +26,7 @@
 #include <cassert>
 #include <iostream>
 
-namespace esys
-{
-
-namespace repo
-{
-
-namespace exe
+namespace esys::repo::exe
 {
 
 CmdHelp::CmdHelp()
@@ -40,9 +34,7 @@ CmdHelp::CmdHelp()
 {
 }
 
-CmdHelp::~CmdHelp()
-{
-}
+CmdHelp::~CmdHelp() = default;
 
 int CmdHelp::impl_run()
 {
@@ -53,8 +45,6 @@ int CmdHelp::impl_run()
 
     assert(get_app_base() != nullptr);
 
-    cli::Cmd *cmd;
-
     if (get_sub_args().size() == 0)
     {
         error("At least one command should be given.");
@@ -64,7 +54,7 @@ int CmdHelp::impl_run()
     for (auto &cmd_txt : get_sub_args())
     {
         oss.str("");
-        cmd = get_app_base()->find_cmd(cmd_txt);
+        cli::Cmd *cmd = get_app_base()->find_cmd(cmd_txt);
         if (cmd == nullptr)
         {
             error("Unknown command '" + cmd_txt + "'.");
@@ -90,8 +80,4 @@ int CmdHelp::impl_run()
     return 0;
 }
 
-} // namespace exe
-
-} // namespace repo
-
-} // namespace esys
+} // namespace esys::repo::exe

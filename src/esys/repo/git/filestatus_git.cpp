@@ -18,13 +18,7 @@
 #include "esys/repo/esysrepo_prec.h"
 #include "esys/repo/git/filestatus.h"
 
-namespace esys
-{
-
-namespace repo
-{
-
-namespace git
+namespace esys::repo::git
 {
 
 FileStatus::FileStatus(const std::string &old_name)
@@ -32,9 +26,7 @@ FileStatus::FileStatus(const std::string &old_name)
 {
 }
 
-FileStatus::~FileStatus()
-{
-}
+FileStatus::~FileStatus() = default;
 
 void FileStatus::set_old_name(const std::string &old_name)
 {
@@ -86,8 +78,4 @@ const std::vector<std::shared_ptr<Status>> &FileStatus::get_status() const
     return m_status;
 }
 
-} // namespace git
-
-} // namespace repo
-
-} // namespace esys
+} // namespace esys::repo::git

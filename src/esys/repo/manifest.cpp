@@ -21,19 +21,12 @@
 
 #include <cassert>
 
-namespace esys
+namespace esys::repo
 {
 
-namespace repo
-{
+Manifest::Manifest() = default;
 
-Manifest::Manifest()
-{
-}
-
-Manifest::~Manifest()
-{
-}
+Manifest::~Manifest() = default;
 
 void Manifest::set_type(manifest::Type type)
 {
@@ -223,6 +216,4 @@ ESYSREPO_API std::ostream &operator<<(std::ostream &os, const Manifest &manifest
     return os;
 }
 
-} // namespace repo
-
-} // namespace esys
+} // namespace esys::repo

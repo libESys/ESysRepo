@@ -24,13 +24,7 @@
 
 #include <vector>
 
-namespace esys
-{
-
-namespace repo
-{
-
-namespace cli
+namespace esys::repo::cli
 {
 
 #include "esys/repo/cli/cmdversion_doc.cpp"
@@ -40,9 +34,7 @@ CmdVersion::CmdVersion(AppBase *app)
 {
 }
 
-CmdVersion::~CmdVersion()
-{
-}
+CmdVersion::~CmdVersion() = default;
 
 std::shared_ptr<po::options_description> CmdVersion::get_desc()
 {
@@ -60,8 +52,4 @@ int CmdVersion::print_help(std::ostream &os)
     return 0;
 }
 
-} // namespace cli
-
-} // namespace repo
-
-} // namespace esys
+} // namespace esys::repo::cli

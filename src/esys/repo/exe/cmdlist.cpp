@@ -21,13 +21,7 @@
 
 #include <sstream>
 
-namespace esys
-{
-
-namespace repo
-{
-
-namespace exe
+namespace esys::repo::exe
 {
 
 CmdList::CmdList()
@@ -35,9 +29,7 @@ CmdList::CmdList()
 {
 }
 
-CmdList::~CmdList()
-{
-}
+CmdList::~CmdList() = default;
 
 void CmdList::set_fullpath(bool fullpath)
 {
@@ -71,13 +63,11 @@ bool CmdList::get_path_only() const
 
 int CmdList::impl_run()
 {
-    int result;
-
     if (get_fullpath()) warn("Option --fullpath is not implemented yet.");
     if (get_name_only()) warn("Option --name-only is not implemented yet.");
     if (get_path_only()) warn("Option --path-only is not implemtented yet.");
 
-    result = default_handling_folder_workspace();
+    int result = default_handling_folder_workspace();
     if (result < 0) return result;
 
     result = open_esysrepo_folder();
@@ -107,8 +97,4 @@ void CmdList::print_info(std::ostream &os, std::shared_ptr<manifest::Repository>
     os << std::endl << repo->get_path() << " : " << repo->get_name();
 }
 
-} // namespace exe
-
-} // namespace repo
-
-} // namespace esys
+} // namespace esys::repo::exe

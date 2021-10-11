@@ -19,13 +19,7 @@
 #include "esys/repo/grepo/manifest.h"
 #include "esys/repo/grepo/manifestimpl.h"
 
-namespace esys
-{
-
-namespace repo
-{
-
-namespace grepo
+namespace esys::repo::grepo
 {
 
 const std::string Manifest::s_folder_name = "grepo";
@@ -41,9 +35,7 @@ Manifest::Manifest()
     m_impl = std::make_unique<ManifestImpl>(this);
 }
 
-Manifest::~Manifest()
-{
-}
+Manifest::~Manifest() = default;
 
 int Manifest::read(const std::string &filename)
 {
@@ -80,8 +72,4 @@ ESYSREPO_API std::ostream &operator<<(std::ostream &os, const Manifest &manifest
     return os;
 }
 
-} // namespace grepo
-
-} // namespace repo
-
-} // namespace esys
+} // namespace esys::repo::grepo

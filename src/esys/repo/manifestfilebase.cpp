@@ -18,19 +18,12 @@
 #include "esys/repo/esysrepo_prec.h"
 #include "esys/repo/manifestfilebase.h"
 
-namespace esys
+namespace esys::repo
 {
 
-namespace repo
-{
+ManifestFileBase::ManifestFileBase() = default;
 
-ManifestFileBase::ManifestFileBase()
-{
-}
-
-ManifestFileBase::~ManifestFileBase()
-{
-}
+ManifestFileBase::~ManifestFileBase() = default;
 
 void ManifestFileBase::set_data(std::shared_ptr<repo::Manifest> data)
 {
@@ -47,6 +40,4 @@ const std::shared_ptr<repo::Manifest> ManifestFileBase::get_data() const
     return m_data;
 }
 
-} // namespace repo
-
-} // namespace esys
+} // namespace esys::repo

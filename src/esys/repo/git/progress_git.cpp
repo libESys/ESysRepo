@@ -20,18 +20,10 @@
 
 #include <iomanip>
 
-namespace esys
+namespace esys::repo::git
 {
 
-namespace repo
-{
-
-namespace git
-{
-
-Progress::Progress()
-{
-}
+Progress::Progress() = default;
 
 void Progress::set_fetch_step(FetchStep fetch_step)
 {
@@ -114,15 +106,11 @@ void Progress::print(std::ostream &os, int id)
         default: os << "?"; break;
     }
     os << "/6 ";
-    if ((m_done) || (get_percentage() == 100) || (get_percentage() < 0))
+    if ((m_done) || (get_percentage() == MAX_PERCENTAGE) || (get_percentage() < 0))
         os << "  ";
     else
         os << std::setw(2) << get_percentage();
     os << "]";
 }
 
-} // namespace git
-
-} // namespace repo
-
-} // namespace esys
+} // namespace esys::repo::git

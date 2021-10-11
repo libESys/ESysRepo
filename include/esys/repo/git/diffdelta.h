@@ -68,7 +68,7 @@ protected:
     DiffDeltaType m_type = DiffDeltaType::NOT_SET;
 
     // uint32_t flags;      /**< git_diff_flag_t values */
-    std::size_t m_similarity;     //!< for RENAMED and COPIED, value 0-100
+    std::size_t m_similarity = 0; //!< for RENAMED and COPIED, value 0-100
     std::size_t m_file_count = 0; //!< the number of files in this delta
     DiffFile m_old_file;
     DiffFile m_new_file;

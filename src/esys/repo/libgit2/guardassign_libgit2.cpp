@@ -19,13 +19,7 @@
 #include "esys/repo/libgit2/guardassign.h"
 #include "esys/repo/libgit2/guard.h"
 
-namespace esys
-{
-
-namespace repo
-{
-
-namespace libgit2
+namespace esys::repo::libgit2
 {
 
 template<>
@@ -37,8 +31,4 @@ ESYSREPO_API int guard_assign<git_commit>(Guard<git_commit> *dest, const Guard<g
     return git_commit_dup(dest->get_p(), src.get());
 }
 
-} // namespace libgit2
-
-} // namespace repo
-
-} // namespace esys
+} // namespace esys::repo::libgit2

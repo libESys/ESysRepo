@@ -18,13 +18,7 @@
 #include "esys/repo/esysrepo_prec.h"
 #include "esys/repo/libgit2/guardrelease.h"
 
-namespace esys
-{
-
-namespace repo
-{
-
-namespace libgit2
+namespace esys::repo::libgit2
 {
 
 template<>
@@ -83,8 +77,4 @@ ESYSREPO_API void guard_release<git_annotated_commit>(git_annotated_commit *anno
     git_annotated_commit_free(annotated_commit);
 }
 
-} // namespace libgit2
-
-} // namespace repo
-
-} // namespace esys
+} // namespace esys::repo::libgit2

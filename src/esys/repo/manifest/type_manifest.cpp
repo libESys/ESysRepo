@@ -20,13 +20,7 @@
 #include "esys/repo/grepo/manifest.h"
 #include "esys/repo/manifest/base.h"
 
-namespace esys
-{
-
-namespace repo
-{
-
-namespace manifest
+namespace esys::repo::manifest
 {
 
 int convert(Type type, std::string &text)
@@ -57,8 +51,4 @@ int convert(const std::string &text, Type &type)
     return 0;
 }
 
-} // namespace manifest
-
-} // namespace repo
-
-} // namespace esys
+} // namespace esys::repo::manifest

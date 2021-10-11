@@ -18,22 +18,12 @@
 #include "esys/repo/esysrepo_prec.h"
 #include "esys/repo/git/status.h"
 
-namespace esys
+namespace esys::repo::git
 {
 
-namespace repo
-{
+Status::Status() = default;
 
-namespace git
-{
-
-Status::Status()
-{
-}
-
-Status::~Status()
-{
-}
+Status::~Status() = default;
 
 void Status::set_type(StatusType type)
 {
@@ -75,8 +65,4 @@ const DiffDelta &Status::get_diff_delta() const
     return m_diff_delta;
 }
 
-} // namespace git
-
-} // namespace repo
-
-} // namespace esys
+} // namespace esys::repo::git

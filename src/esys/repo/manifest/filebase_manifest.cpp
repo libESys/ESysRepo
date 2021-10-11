@@ -18,13 +18,7 @@
 #include "esys/repo/esysrepo_prec.h"
 #include "esys/repo/manifest/filebase.h"
 
-namespace esys
-{
-
-namespace repo
-{
-
-namespace manifest
+namespace esys::repo::manifest
 {
 
 FileBase::FileBase() = default;
@@ -76,8 +70,4 @@ void FileBase::add_error(int value, const std::string &msg, int line_number)
     m_errors.push_back(error);
 }
 
-} // namespace manifest
-
-} // namespace repo
-
-} // namespace esys
+} // namespace esys::repo::manifest

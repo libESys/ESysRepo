@@ -21,13 +21,7 @@
 
 #include <boost/filesystem.hpp>
 
-namespace esys
-{
-
-namespace repo
-{
-
-namespace manifest
+namespace esys::repo::manifest
 {
 
 Group::Group()
@@ -41,9 +35,7 @@ Group::Group(const std::string &name)
 {
 }
 
-Group::~Group()
-{
-}
+Group::~Group() = default;
 
 void Group::set_name(const std::string &name)
 {
@@ -90,8 +82,4 @@ std::shared_ptr<Repository> Group::find_repo_by_name(const std::string &name)
     return it->second;
 }
 
-} // namespace manifest
-
-} // namespace repo
-
-} // namespace esys
+} // namespace esys::repo::manifest

@@ -34,13 +34,7 @@
 
 #include <iostream>
 
-namespace esys
-{
-
-namespace repo
-{
-
-namespace libgit2
+namespace esys::repo::libgit2
 {
 
 std::unique_ptr<LibGit2> GitImpl::s_libgt2 = nullptr;
@@ -117,8 +111,9 @@ int GitImpl::get_remotes(std::vector<git::Remote> &remotes)
     {
         Guard<git_remote> remote; // This will automically release the git_remote
 
-        const git_remote_head **refs;
-        size_t refs_len, i;
+        const git_remote_head **refs = nullptr;
+        size_t refs_len = 0;
+        size_t i = 0;
         git_remote_callbacks callbacks = GIT_REMOTE_CALLBACKS_INIT;
 
         // Find the remote by name
@@ -142,7 +137,7 @@ int GitImpl::get_branches(git::Branches &branches, git::BranchType branch_type)
     self()->cmd_start();
 
     Guard<git_branch_iterator> branch_it;
-    git_branch_t list_flags;
+    git_branch_t list_flags = GIT_BRANCH_ALL;
 
     convert(branch_type, list_flags);
 
@@ -152,14 +147,14 @@ int GitImpl::get_branches(git::Branches &branches, git::BranchType branch_type)
     while (true)
     {
         Guard<git_reference> ref;
-        git_branch_t git_branch_type;
+        git_branch_t git_branch_type = GIT_BRANCH_ALL;
 
         result = git_branch_next(ref.get_p(), &git_branch_type, branch_it.get());
         if (result == GIT_ITEROVER) return check_error(0);
         if (result < 0) return check_error(result);
 
         std::shared_ptr<git::Branch> branch = std::make_shared<git::Branch>();
-        const char *branch_name;
+        const char *branch_name = nullptr;
         result = git_branch_name(&branch_name, ref.get());
         if (result < 0) return check_error(result);
 
@@ -183,7 +178,7 @@ int GitImpl::get_branches(git::Branches &branches, git::BranchType branch_type)
 
         if (branch_type == git::BranchType::LOCAL)
         {
-            git_buf buf_out = {0};
+            git_buf buf_out = {nullptr};
             result = git_branch_upstream_remote(&buf_out, m_repo, ref_name.c_str());
             if (result == 0)
             {
@@ -209,7 +204,7 @@ int GitImpl::get_branches(git::Branches &branches, git::BranchType branch_type)
 bool GitImpl::has_branch(const std::string &name, git::BranchType branch_type)
 {
     Guard<git_reference> ref;
-    git_branch_t git_branch_type;
+    git_branch_t git_branch_type = GIT_BRANCH_ALL;
     Guard<git_annotated_commit> annotated_commit;
     // Guard<git_reference> branch_ref;
     Guard<git_reference> input_branch_ref;
@@ -337,12 +332,13 @@ int GitImpl::checkout(const std::string &branch, bool force)
     else
         opts.checkout_strategy = GIT_CHECKOUT_SAFE;
 
-    result = git_checkout_tree(m_repo, (const git_object *)target_commit.get(), &opts);
+    auto t_commit = static_cast<git_object *>(static_cast<void *>(target_commit.get()));
+    result = git_checkout_tree(m_repo, t_commit, &opts);
     if (result < 0) return check_error(result);
 
     if (git_annotated_commit_ref(annotated_commit.get()))
     {
-        const char *target_head;
+        const char *target_head = nullptr;
 
         result = git_reference_lookup(ref.get_p(), m_repo, git_annotated_commit_ref(annotated_commit.get()));
         if (result < 0) return check_error(result);
@@ -357,7 +353,7 @@ int GitImpl::checkout(const std::string &branch, bool force)
 
             // if (git_reference_is_branch(input_branch_ref.get()))
             // git_
-            const char *branch_name;
+            const char *branch_name = nullptr;
             result = git_branch_name(&branch_name, input_branch_ref.get());
             if (result < 0)
                 check_error(result, "can't get the name of the branch");
@@ -386,8 +382,8 @@ int GitImpl::reset(const git::Commit &commit, git::ResetType type)
 {
     if (m_repo == nullptr) return -1;
 
-    int result;
-    git_reset_t reset_type;
+    int result = 0;
+    git_reset_t reset_type = GIT_RESET_SOFT;
 
     switch (type)
     {
@@ -408,7 +404,8 @@ int GitImpl::reset(const git::Commit &commit, git::ResetType type)
     result = git_commit_lookup(g_commit.get_p(), m_repo, &oid_commit);
     if (result < 0) return check_error(result);
 
-    return git_reset(m_repo, (const git_object *)g_commit.get(), reset_type, nullptr);
+    auto t_commit = static_cast<git_object *>(static_cast<void *>(g_commit.get()));
+    return git_reset(m_repo, t_commit, reset_type, nullptr);
 }
 
 int GitImpl::fastforward(const git::Commit &commit)
@@ -449,7 +446,7 @@ int GitImpl::get_last_commit(git::Commit &commit)
 {
     if (m_repo == nullptr) return -1;
 
-    int result;
+    int result = 0;
     Guard<git_commit> g_commit;
     git_oid oid_last_commit;
 
@@ -474,7 +471,6 @@ int GitImpl::get_parent_commit(const git::Commit &commit, git::Commit &parent, i
 {
     if (m_repo == nullptr) return -1;
 
-    int result;
     Guard<git_commit> g_commit;
     Guard<git_commit> cur_commit;
     Guard<git_commit> parent_commit;
@@ -488,14 +484,14 @@ int GitImpl::get_parent_commit(const git::Commit &commit, git::Commit &parent, i
         return check_error(0);
     }
 
-    result = convert_hex_bin(commit.get_hash(), oid_commit);
+    int result = convert_hex_bin(commit.get_hash(), oid_commit);
     if (result < 0) return check_error(0);
 
     // get the actual commit structure
     result = git_commit_lookup(cur_commit.get_p(), m_repo, &oid_commit);
     if (result < 0) return check_error(result);
 
-    unsigned int count;
+    unsigned int count = 0;
 
     for (int idx = 0; idx < nth_parent; ++idx)
     {
@@ -557,7 +553,7 @@ int GitImpl::get_status(git::RepoStatus &repo_status)
 {
     if (m_repo == nullptr) return -1;
 
-    const git_status_entry *status_entry;
+    const git_status_entry *status_entry = nullptr;
     Guard<git_status_list> status_list;
     git_status_options statusopt = GIT_STATUS_OPTIONS_INIT;
 
@@ -740,7 +736,7 @@ int GitImpl::libgit2_credentials_cb(git_credential **out, const char *url, const
     const git_error *error = git_error_last();
     if (error && error->klass == GIT_ERROR_SSH) return -1;
 
-    GitImpl *self = reinterpret_cast<GitImpl *>(payload);
+    auto self = static_cast<GitImpl *>(payload);
 
     if (self->is_ssh_agent_running()) return git_credential_ssh_key_from_agent(out, name);
 
@@ -749,7 +745,7 @@ int GitImpl::libgit2_credentials_cb(git_credential **out, const char *url, const
 
 int GitImpl::libgit2_sideband_progress_cb(const char *str, int len, void *data)
 {
-    GitImpl *impl = reinterpret_cast<GitImpl *>(data);
+    auto impl = static_cast<GitImpl *>(data);
 
     if (impl == nullptr) return 0;
 
@@ -761,7 +757,7 @@ int GitImpl::libgit2_sideband_progress_cb(const char *str, int len, void *data)
 
 int GitImpl::libgit2_transfer_progress_cb(const git_indexer_progress *stats, void *payload)
 {
-    GitImpl *impl = reinterpret_cast<GitImpl *>(payload);
+    auto impl = static_cast<GitImpl *>(payload);
 
     if (impl == nullptr) return 0;
 
@@ -776,14 +772,14 @@ int GitImpl::libgit2_transfer_progress_cb(const git_indexer_progress *stats, voi
         if (stats->indexed_deltas == stats->total_deltas)
         {
             progress.set_done(true);
-            progress.set_percentage(100);
+            progress.set_percentage(git::Progress::MAX_PERCENTAGE);
         }
         else
         {
             double percentage = (100.0 * stats->indexed_deltas) / stats->total_deltas;
 
             progress.set_done(false);
-            progress.set_percentage(percentage);
+            progress.set_percentage(static_cast<int>(percentage));
         }
         // std::cout << "Resolving deltas " << stats->indexed_deltas << "/" << stats->total_deltas << std::endl;
     }
@@ -795,14 +791,14 @@ int GitImpl::libgit2_transfer_progress_cb(const git_indexer_progress *stats, voi
         if (stats->received_objects == stats->total_objects)
         {
             progress.set_done(true);
-            progress.set_percentage(100);
+            progress.set_percentage(git::Progress::MAX_PERCENTAGE);
         }
         else
         {
             double percentage = (100.0 * stats->received_objects) / stats->total_objects;
 
             progress.set_done(false);
-            progress.set_percentage(percentage);
+            progress.set_percentage(static_cast<int>(percentage));
         }
     }
 
@@ -816,7 +812,7 @@ int GitImpl::libgit2_update_tips_cb(const char *refname, const git_oid *a, const
 {
     std::string a_str;
     std::string b_str;
-    GitImpl *self = reinterpret_cast<GitImpl *>(data);
+    auto self = static_cast<GitImpl *>(data);
     std::ostringstream oss;
     git::UpdateTip update_tip;
 
@@ -860,10 +856,10 @@ bool GitImpl::is_ssh_agent_running()
 int GitImpl::merge_analysis(const std::vector<std::string> &refs, git::MergeAnalysisResult &merge_analysis_result,
                             std::vector<git::Commit> &commits)
 {
-    git_repository_state_t state;
-    git_merge_analysis_t analysis;
-    git_merge_preference_t preference;
-    git_annotated_commit *annotated;
+    git_repository_state_t state = GIT_REPOSITORY_STATE_NONE;
+    git_merge_analysis_t analysis = GIT_MERGE_ANALYSIS_NONE;
+    git_merge_preference_t preference = GIT_MERGE_PREFERENCE_NONE;
+    git_annotated_commit *annotated = nullptr;
     git::Commit commit;
     int result = 0;
 
@@ -877,7 +873,7 @@ int GitImpl::merge_analysis(const std::vector<std::string> &refs, git::MergeAnal
 
     std::vector<git_annotated_commit *> annotated_vec;
     std::vector<git_oid> oids;
-    const git_oid *target_oid;
+    const git_oid *target_oid = nullptr;
     std::string hash;
 
     for (auto &ref : refs)
@@ -927,7 +923,7 @@ int GitImpl::fetch(const std::string &remote_str)
 
     Guard<git_remote> remote;
     std::string remote_name;
-    int result;
+    int result = 0;
 
     if (!remote_str.empty())
     {
@@ -980,7 +976,7 @@ int GitImpl::fetch(const std::string &remote_str)
     fetch_opts.callbacks.credentials = &GitImpl::libgit2_credentials_cb;
     fetch_opts.callbacks.payload = this;
 
-    result = git_remote_fetch(remote.get(), NULL, &fetch_opts, "fetch");
+    result = git_remote_fetch(remote.get(), nullptr, &fetch_opts, "fetch");
     if (result < 0)
     {
         self()->error("Fetch failed");
@@ -1013,8 +1009,8 @@ int GitImpl::resolve_ref(git_reference **ref, const std::string &ref_str)
 
 int GitImpl::resolve_ref(git_annotated_commit **commit, const std::string &ref)
 {
-    git_reference *git_ref;
-    git_object *git_obj;
+    git_reference *git_ref = nullptr;
+    git_object *git_obj = nullptr;
     int result = 0;
 
     assert(commit != nullptr);
@@ -1026,7 +1022,7 @@ int GitImpl::resolve_ref(git_annotated_commit **commit, const std::string &ref)
         const char *name = git_reference_name(git_ref);
 
         //! \TODO remote this
-        const char *branch_name;
+        const char *branch_name = nullptr;
         git_branch_name(&branch_name, git_ref);
 
         git_annotated_commit_from_ref(commit, m_repo, git_ref);
@@ -1177,8 +1173,4 @@ const std::string &GitImpl::s_get_ssh_lib_name()
     return s_lib_name;
 }
 
-} // namespace libgit2
-
-} // namespace repo
-
-} // namespace esys
+} // namespace esys::repo::libgit2

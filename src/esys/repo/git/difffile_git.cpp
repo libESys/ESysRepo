@@ -18,22 +18,12 @@
 #include "esys/repo/esysrepo_prec.h"
 #include "esys/repo/git/difffile.h"
 
-namespace esys
+namespace esys::repo::git
 {
 
-namespace repo
-{
+DiffFile::DiffFile() = default;
 
-namespace git
-{
-
-DiffFile::DiffFile()
-{
-}
-
-DiffFile::~DiffFile()
-{
-}
+DiffFile::~DiffFile() = default;
 
 void DiffFile::set_id(const std::string &id)
 {
@@ -80,8 +70,4 @@ uint64_t DiffFile::get_size() const
     return m_size;
 }
 
-} // namespace git
-
-} // namespace repo
-
-} // namespace esys
+} // namespace esys::repo::git

@@ -40,6 +40,25 @@ namespace manifest
 class ESYSREPO_API Sync : public log::User
 {
 public:
+    enum
+    {
+        NOT_IMPLEMENTED = -127,
+        GIT_IS_NULL = -1,
+        GIT_IS_NOT_OPENED = -2,
+        GIT_OPEN_FAILED = -3,
+        GIT_IS_DIRTY_FAILED = -4,
+        GIT_GET_STATUS_FAILED = -5,
+        CONFIG_FOLDER_IS_NULL = -6,
+        CONFIG_IS_NULL = -7,
+        GIT_FETCH_FAILED = -8,
+        GIT_GET_BRANCHES_FAILED = -9,
+        GIT_GET_HEAD_FAILED = -10,
+        GIT_MERGE_ANALYSIS_FAILED = -11,
+        GIT_CAN_NOT_BE_FAST_FORWARDED = -12,
+        GIT_MORE_THAN_ONE_COMMIT = -13,
+        GIT_FAST_FORWARD_FAILED = -14,
+    };
+
     //! Default constructor
     Sync();
 

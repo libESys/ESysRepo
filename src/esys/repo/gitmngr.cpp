@@ -19,10 +19,7 @@
 #include "esys/repo/gitmngr.h"
 #include "esys/repo/libgit2/git.h"
 
-namespace esys
-{
-
-namespace repo
+namespace esys::repo
 {
 
 GitMngr::NewPtrFct GitMngr::m_new_ptr_fct = nullptr;
@@ -32,9 +29,7 @@ GitMngr::GitMngr()
 {
 }
 
-GitMngr::~GitMngr()
-{
-}
+GitMngr::~GitMngr() = default;
 
 void GitMngr::set_new_ptr(NewPtrFct new_ptr_fct)
 {
@@ -53,6 +48,4 @@ std::shared_ptr<GitBase> GitMngr::new_ptr()
     return (*get_new_ptr())();
 }
 
-} // namespace repo
-
-} // namespace esys
+} // namespace esys::repo

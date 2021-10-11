@@ -18,13 +18,7 @@
 #include "esys/repo/esysrepo_prec.h"
 #include "esys/repo/manifest/base.h"
 
-namespace esys
-{
-
-namespace repo
-{
-
-namespace manifest
+namespace esys::repo::manifest
 {
 
 const std::string Base::s_folder_name = "esysrepo";
@@ -34,17 +28,8 @@ const std::string &Base::get_folder_name()
     return s_folder_name;
 }
 
-Base::Base()
-    : FileBase()
-{
-}
+Base::Base() = default;
 
-Base::~Base()
-{
-}
+Base::~Base() = default;
 
-} // namespace manifest
-
-} // namespace repo
-
-} // namespace esys
+} // namespace esys::repo::manifest

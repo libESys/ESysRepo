@@ -23,13 +23,7 @@
 #include <sstream>
 #include <iomanip>
 
-namespace esys
-{
-
-namespace repo
-{
-
-namespace exe
+namespace esys::repo::exe
 {
 
 CmdVersion::CmdVersion()
@@ -38,9 +32,7 @@ CmdVersion::CmdVersion()
     set_print_cmd_name_by_base(false);
 }
 
-CmdVersion::~CmdVersion()
-{
-}
+CmdVersion::~CmdVersion() = default;
 
 void CmdVersion::set_version(const std::string &version)
 {
@@ -58,23 +50,19 @@ int CmdVersion::impl_run()
 
     print_cmd_name(oss);
     oss << std::endl;
-    oss << std::setw(15) << std::left << "ESysRepo ";
+    oss << std::setw(NAME_SIZE) << std::left << "ESysRepo ";
     oss << get_version() << std::endl;
 
-    oss << std::setw(15) << std::left << "ESysRepo lib" << ESYSREPO_VERSION_NUM_DOT_STRING << std::endl;
+    oss << std::setw(NAME_SIZE) << std::left << "ESysRepo lib" << ESYSREPO_VERSION_NUM_DOT_STRING << std::endl;
 
-    oss << std::setw(15) << std::left << esys::repo::libgit2::Git::s_get_lib_name();
+    oss << std::setw(NAME_SIZE) << std::left << esys::repo::libgit2::Git::s_get_lib_name();
     oss << esys::repo::libgit2::Git::s_get_version() << std::endl;
 
-    oss << std::setw(15) << std::left << esys::repo::libgit2::Git::s_get_ssh_lib_name();
+    oss << std::setw(NAME_SIZE) << std::left << esys::repo::libgit2::Git::s_get_ssh_lib_name();
     oss << esys::repo::libgit2::Git::s_get_ssh_version();
 
     info(oss.str());
     return 0;
 }
 
-} // namespace exe
-
-} // namespace repo
-
-} // namespace esys
+} // namespace esys::repo::exe

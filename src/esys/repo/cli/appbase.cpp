@@ -44,23 +44,12 @@
 #include <iomanip>
 #include <cassert>
 
-namespace esys
+namespace esys::repo::cli
 {
 
-namespace repo
-{
+AppBase::AppBase() = default;
 
-namespace cli
-{
-
-AppBase::AppBase()
-    : esys::log::User()
-{
-}
-
-AppBase::~AppBase()
-{
-}
+AppBase::~AppBase() = default;
 
 void AppBase::set_os(std::ostream &os)
 {
@@ -109,8 +98,6 @@ const std::vector<std::string> &AppBase::get_args() const
 
 void AppBase::set_args(int argc, char **argv)
 {
-    int i;
-
     std::vector<std::string> args;
 
     m_argc = argc;
@@ -123,7 +110,7 @@ void AppBase::set_args(int argc, char **argv)
     m_executable = boost::process::search_path(temp_path.filename());
 #endif
 
-    for (i = 1; i < argc; ++i)
+    for (int i = 1; i < argc; ++i)
     {
 #ifdef WIN32
         std::vector<std::string> temp_args = po::split_winmain(argv[i]);
@@ -224,7 +211,7 @@ int AppBase::setup_console_and_logs()
             m_logger->add_console("[%^%l%$] %v", esys::log::Level::DEBUG);
             if (!get_log_file_path().empty()) m_logger->add_basic_file(get_log_file_path());
             m_logger->set_log_level(esys::log::Level::DEBUG);
-            m_logger->set_debug_level(10);
+            m_logger->set_debug_level(DFT_LOGGER_DEBUG_LEVEL);
             m_logger->set_flush_log_level(esys::log::Level::DEBUG);
         }
         else
@@ -437,8 +424,4 @@ std::vector<std::string> AppBase::get_sub_args()
     return m_vm["subargs"].as<std::vector<std::string>>();
 }
 
-} // namespace cli
-
-} // namespace repo
-
-} // namespace esys
+} // namespace esys::repo::cli

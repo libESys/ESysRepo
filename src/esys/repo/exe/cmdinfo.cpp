@@ -25,13 +25,7 @@
 #include <sstream>
 #include <iomanip>
 
-namespace esys
-{
-
-namespace repo
-{
-
-namespace exe
+namespace esys::repo::exe
 {
 
 CmdInfo::CmdInfo()
@@ -39,9 +33,7 @@ CmdInfo::CmdInfo()
 {
 }
 
-CmdInfo::~CmdInfo()
-{
-}
+CmdInfo::~CmdInfo() = default;
 
 void CmdInfo::set_diff(bool diff)
 {
@@ -187,8 +179,4 @@ void CmdInfo::print_repo(std::shared_ptr<manifest::Repository> repo)
     info(oss.str());
 }
 
-} // namespace exe
-
-} // namespace repo
-
-} // namespace esys
+} // namespace esys::repo::exe

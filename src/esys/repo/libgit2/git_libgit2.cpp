@@ -19,13 +19,7 @@
 #include "esys/repo/libgit2/git.h"
 #include "esys/repo/libgit2/gitimpl.h"
 
-namespace esys
-{
-
-namespace repo
-{
-
-namespace libgit2
+namespace esys::repo::libgit2
 {
 
 bool Git::s_detect_ssh_agent_done = false;
@@ -217,8 +211,4 @@ GitImpl *Git::get_impl() const
     return m_impl.get();
 }
 
-} // namespace libgit2
-
-} // namespace repo
-
-} // namespace esys
+} // namespace esys::repo::libgit2

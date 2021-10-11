@@ -18,13 +18,7 @@
 #include "esys/repo/esysrepo_prec.h"
 #include "esys/repo/manifest/loaderbase.h"
 
-namespace esys
-{
-
-namespace repo
-{
-
-namespace manifest
+namespace esys::repo::manifest
 {
 
 LoaderBase::LoaderBase()
@@ -79,8 +73,4 @@ const std::shared_ptr<ConfigFolder> LoaderBase::get_config_folder() const
     return m_config_folder;
 }
 
-} // namespace manifest
-
-} // namespace repo
-
-} // namespace esys
+} // namespace esys::repo::manifest

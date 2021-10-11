@@ -26,13 +26,7 @@
 
 #include <vector>
 
-namespace esys
-{
-
-namespace repo
-{
-
-namespace cli
+namespace esys::repo::cli
 {
 
 #include "esys/repo/cli/cmdmanifest_doc.cpp"
@@ -42,9 +36,7 @@ CmdManifest::CmdManifest(AppBase *app)
 {
 }
 
-CmdManifest::~CmdManifest()
-{
-}
+CmdManifest::~CmdManifest() = default;
 
 std::shared_ptr<po::options_description> CmdManifest::get_desc()
 {
@@ -77,8 +69,4 @@ int CmdManifest::print_help(std::ostream &os)
     return 0;
 }
 
-} // namespace cli
-
-} // namespace repo
-
-} // namespace esys
+} // namespace esys::repo::cli

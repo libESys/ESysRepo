@@ -22,13 +22,7 @@
 
 #include <iostream>
 
-namespace esys
-{
-
-namespace repo
-{
-
-namespace libgit2
+namespace esys::repo::libgit2
 {
 
 LibGit2::LibGit2()
@@ -41,8 +35,4 @@ LibGit2::~LibGit2()
     git_libgit2_shutdown();
 }
 
-} // namespace libgit2
-
-} // namespace repo
-
-} // namespace esys
+} // namespace esys::repo::libgit2

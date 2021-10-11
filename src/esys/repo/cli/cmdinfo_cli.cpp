@@ -26,13 +26,7 @@
 
 #include <vector>
 
-namespace esys
-{
-
-namespace repo
-{
-
-namespace cli
+namespace esys::repo::cli
 {
 
 #include "esys/repo/cli/cmdinfo_doc.cpp"
@@ -42,9 +36,7 @@ CmdInfo::CmdInfo(AppBase *app)
 {
 }
 
-CmdInfo::~CmdInfo()
-{
-}
+CmdInfo::~CmdInfo() = default;
 
 std::shared_ptr<po::options_description> CmdInfo::get_desc()
 {
@@ -83,8 +75,4 @@ int CmdInfo::print_help(std::ostream &os)
     return 0;
 }
 
-} // namespace cli
-
-} // namespace repo
-
-} // namespace esys
+} // namespace esys::repo::cli
