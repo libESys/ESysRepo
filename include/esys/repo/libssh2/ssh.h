@@ -45,7 +45,7 @@ public:
     SSH();
 
     //! Destructor
-    virtual ~SSH();
+    ~SSH() override;
 
     bool is_agent_present() override;
 

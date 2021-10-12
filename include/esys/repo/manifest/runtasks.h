@@ -50,7 +50,7 @@ public:
     RunTasks();
 
     //! Destructor
-    virtual ~RunTasks();
+    ~RunTasks() override;
 
     //! Add a task to do
     /*!

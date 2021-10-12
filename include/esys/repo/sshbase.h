@@ -41,7 +41,7 @@ public:
     SSHBase();
 
     //! Destructor
-    virtual ~SSHBase();
+    ~SSHBase() override;
 
     //! Open a git repository for inspection
     /*!

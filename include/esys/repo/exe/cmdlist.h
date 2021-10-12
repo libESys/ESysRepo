@@ -38,7 +38,7 @@ class ESYSREPO_API CmdList : public Cmd
 {
 public:
     CmdList();
-    virtual ~CmdList();
+    ~CmdList() override;
 
     void set_fullpath(bool fullpath);
     bool get_fullpath() const;

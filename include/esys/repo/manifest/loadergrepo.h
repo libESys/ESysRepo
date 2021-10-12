@@ -39,7 +39,7 @@ public:
     LoaderGRepo();
 
     //! Destructor
-    virtual ~LoaderGRepo();
+    ~LoaderGRepo() override;
 
     int run() override;
 };

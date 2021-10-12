@@ -45,7 +45,7 @@ public:
     LoaderBase();
 
     //! Destructor
-    virtual ~LoaderBase();
+    ~LoaderBase() override;
 
     //! Set the manifest data
     /*!

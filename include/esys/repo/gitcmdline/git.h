@@ -33,7 +33,7 @@ class ESYSREPO_API Git : public GitBase
 {
 public:
     Git();
-    virtual ~Git();
+    ~Git() override;
 };
 
 } // namespace gitcmdline

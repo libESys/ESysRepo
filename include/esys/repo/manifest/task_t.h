@@ -39,7 +39,7 @@ public:
     Task_t(std::shared_ptr<OBJ> obj, F &&raw_fct, ARGS &&... args);
     Task_t(std::shared_ptr<OBJ> obj, F &&raw_fct, std::shared_ptr<Repository> repo, ARGS &&... args);
 
-    virtual ~Task_t();
+    ~Task_t() override;
 
     int run() override;
 

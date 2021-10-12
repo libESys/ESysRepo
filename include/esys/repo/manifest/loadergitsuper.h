@@ -39,7 +39,7 @@ public:
     LoaderGitSuper();
 
     //! Destructor
-    virtual ~LoaderGitSuper();
+    ~LoaderGitSuper() override;
 
     int run() override;
 };

@@ -42,7 +42,7 @@ public:
     JSONFile();
 
     //! Destructor
-    virtual ~JSONFile();
+    ~JSONFile() override;
 
     int read(const std::string &path) override;
     int write(const std::string &path) override;

@@ -43,7 +43,7 @@ public:
     Git();
 
     //! Destructor
-    virtual ~Git();
+    ~Git() override;
 
     static std::shared_ptr<GitBase> new_ptr();
 

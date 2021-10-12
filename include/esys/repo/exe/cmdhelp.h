@@ -33,7 +33,7 @@ class ESYSREPO_API CmdHelp : public Cmd
 {
 public:
     CmdHelp();
-    virtual ~CmdHelp();
+    ~CmdHelp() override;
 
 protected:
     //!< \cond DOXY_IMPL

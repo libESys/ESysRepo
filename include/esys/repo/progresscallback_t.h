@@ -36,7 +36,7 @@ public:
 
     ProgressCallback_t();
     ProgressCallback_t(OBJ *callee, CallbackType callback);
-    virtual ~ProgressCallback_t();
+    ~ProgressCallback_t() override;
 
     void set_callee(OBJ *callee);
     OBJ *get_callee();

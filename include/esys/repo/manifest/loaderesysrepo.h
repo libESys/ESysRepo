@@ -39,7 +39,7 @@ public:
     LoaderESysRepo();
 
     //! Destructor
-    virtual ~LoaderESysRepo();
+    ~LoaderESysRepo() override;
 
     int run() override;
 };

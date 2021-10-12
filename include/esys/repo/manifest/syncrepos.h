@@ -50,7 +50,7 @@ public:
     SyncRepos();
 
     //! Destructor
-    virtual ~SyncRepos();
+    ~SyncRepos() override;
 
     //! Set the manifest
     /*!
