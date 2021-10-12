@@ -63,7 +63,7 @@ public:
     DiffFile &get_new_file();
     const DiffFile &get_new_file() const;
 
-protected:
+private:
     //!< \cond DOXY_IMPL
     DiffDeltaType m_type = DiffDeltaType::NOT_SET;
 

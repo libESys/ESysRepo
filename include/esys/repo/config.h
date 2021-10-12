@@ -99,7 +99,7 @@ public:
     //! Assignement operator
     Config &operator=(const Config &cfg);
 
-protected:
+private:
     //!< \cond DOXY_IMPL
     manifest::Type m_manifest_type = manifest::Type::NOT_SET;       //!< The manifest type
     manifest::Kind m_manifest_kind = manifest::Kind::ISOLATED;      //!< The manifest kind

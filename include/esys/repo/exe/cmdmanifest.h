@@ -59,6 +59,7 @@ protected:
     //!< \cond DOXY_IMPL
     int impl_run() override;
 
+private:
     bool m_revision_as_head = false;
     std::string m_output_file;
     //!< \endcond

@@ -83,7 +83,7 @@ public:
     std::shared_ptr<Repository> find_repo_by_path(const std::string &path);
     std::shared_ptr<Repository> find_repo_by_name(const std::string &name);
 
-protected:
+private:
     //!< \cond DOXY_IMPL
     std::string m_name;                               //!< The name of this location
     std::vector<std::shared_ptr<Repository>> m_repos; //!< All repositories of this location

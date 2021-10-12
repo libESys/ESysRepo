@@ -272,7 +272,7 @@ public:
     virtual uint64_t get_open_time();
     virtual uint64_t get_last_cmd_elapsed_time();
 
-protected:
+private:
     //!< \cond DOXY_IMPL
     std::size_t m_id = 0; //!< The id of the git repository handled
     bool m_debug = false; //!< Trus if debug information should be printed

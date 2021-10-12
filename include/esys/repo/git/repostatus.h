@@ -77,7 +77,7 @@ public:
     std::map<std::string, std::shared_ptr<FileStatus>> &get_map_file_status();
     const std::map<std::string, std::shared_ptr<FileStatus>> &get_map_file_status() const;
 
-protected:
+private:
     //!< \cond DOXY_IMPL
     std::vector<std::shared_ptr<Status>> m_all;               //!< All status information
     std::vector<std::shared_ptr<Status>> m_current;           //!< All files with current status

@@ -97,7 +97,7 @@ public:
      */
     const ConfigFileImpl *get_impl() const;
 
-protected:
+private:
     //!< \cond DOXY_IMPL
     std::unique_ptr<ConfigFileImpl> m_impl; //!< the PIMPL
     std::shared_ptr<Config> m_config;       //!< The configuration data

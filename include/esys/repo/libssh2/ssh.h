@@ -49,7 +49,7 @@ public:
 
     bool is_agent_present() override;
 
-protected:
+private:
     //!< \cond DOXY_IMPL
     std::unique_ptr<SSHImpl> m_impl;
     //!< \endcond

@@ -264,6 +264,16 @@ int Cmd::get_int(const std::string &name, int dflt)
     return dflt;
 }
 
+po::variables_map &Cmd::get_vm()
+{
+    return m_vm;
+}
+
+const po::variables_map &Cmd::get_vm() const
+{
+    return m_vm;
+}
+
 int Cmd::groups_str_to_groups(const std::string &groups_str, std::vector<std::string> &groups)
 {
     typedef boost::tokenizer<boost::char_separator<char>> tokenizer;

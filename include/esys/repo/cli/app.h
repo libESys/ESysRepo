@@ -55,7 +55,7 @@ public:
     CmdSync &get_cmd_sync();
     CmdVersion &get_cmd_version();
 
-protected:
+private:
     CmdHelp m_cmd_help{this};
     CmdInfo m_cmd_info{this};
     CmdInit m_cmd_init{this};

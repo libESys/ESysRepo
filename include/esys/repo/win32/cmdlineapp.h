@@ -46,10 +46,9 @@ public:
 
     int init();
 
-
     static CmdLineApp &get();
 
-protected:
+private:
     //!< \cond DOXY_IMPL
     static std::unique_ptr<CmdLineApp> s_cmd_line_app;
     //!< \endcond

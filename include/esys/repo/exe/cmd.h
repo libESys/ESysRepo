@@ -255,6 +255,7 @@ protected:
      */
     int load_manifest();
 
+private:
     std::string m_name;
     std::shared_ptr<Manifest> m_manifest;          //!< The manifest to use
     std::shared_ptr<GitBase> m_git;                //!< The git instance to use

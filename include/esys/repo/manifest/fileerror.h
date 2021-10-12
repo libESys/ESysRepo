@@ -78,7 +78,7 @@ public:
      */
     int get_line_number() const;
 
-protected:
+private:
     //!< \cond DOXY_IMPL
     int m_value = 0;        //!< The error value
     std::string m_msg;      //!< The error message

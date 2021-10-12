@@ -124,6 +124,7 @@ protected:
     std::string get_checkout_revision(GitHelper &git_helper);
     std::shared_ptr<GitHelper> new_git_helper();
 
+private:
     std::shared_ptr<ConfigFolder> m_config_folder; //!< The config folder
     std::shared_ptr<GitBase> m_git;                //!< The git instance
     std::shared_ptr<manifest::Repository> m_repo;  //!< The git repository to process

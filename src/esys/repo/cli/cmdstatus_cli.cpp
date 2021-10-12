@@ -56,7 +56,7 @@ std::shared_ptr<po::options_description> CmdStatus::get_desc()
 
 int CmdStatus::configure_cmd(CmdType &cmd)
 {
-    if (m_vm["quiet"].as<bool>()) cmd.set_quiet(true);
+    if (get_vm()["quiet"].as<bool>()) cmd.set_quiet(true);
 
     return 0;
 }

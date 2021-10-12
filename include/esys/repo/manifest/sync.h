@@ -138,7 +138,7 @@ public:
      */
     log::Level get_log_level() const;
 
-protected:
+private:
     //!< \cond DOXY_IMPL
     std::shared_ptr<ConfigFolder> m_config_folder; //!< The config folder
     std::shared_ptr<GitBase> m_git;                //!< The git instance

@@ -40,7 +40,7 @@ namespace repo
 class ESYSREPO_API GitMngr : public log::User
 {
 public:
-    typedef std::shared_ptr<GitBase>(*NewPtrFct)();
+    typedef std::shared_ptr<GitBase> (*NewPtrFct)();
 
     //! Constructor
     GitMngr();
@@ -51,8 +51,8 @@ public:
     static void set_new_ptr(NewPtrFct new_ptr_fct);
     static NewPtrFct get_new_ptr();
     static std::shared_ptr<GitBase> new_ptr();
-    
-protected:
+
+private:
     //!< \cond DOXY_IMPL
     static NewPtrFct m_new_ptr_fct;
     //!< \endcond

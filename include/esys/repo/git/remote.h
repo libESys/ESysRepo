@@ -68,7 +68,7 @@ public:
      */
     const std::string &get_url() const;
 
-protected:
+private:
     //!< \cond DOXY_IMPL
     std::string m_name; //!< The name of the remote
     std::string m_url;  //!< The url of the remote

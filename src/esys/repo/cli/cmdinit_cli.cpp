@@ -60,11 +60,11 @@ std::shared_ptr<po::options_description> CmdInit::get_desc()
 
 int CmdInit::configure_cmd(CmdType &cmd)
 {
-    get_cmd().set_url(m_vm["manifest-url"].as<std::string>());
-    if (m_vm.count("manifest-branch")) get_cmd().set_branch(m_vm["manifest-branch"].as<std::string>());
-    if (m_vm.count("manifest-name")) get_cmd().set_manifest_name(m_vm["manifest-name"].as<std::string>());
-    if (m_vm.count("google")) get_cmd().set_google_manifest(m_vm["google"].as<bool>());
-    if (m_vm.count("git-super")) get_cmd().set_google_manifest(m_vm["git-super"].as<bool>());
+    get_cmd().set_url(get_vm()["manifest-url"].as<std::string>());
+    if (get_vm().count("manifest-branch")) get_cmd().set_branch(get_vm()["manifest-branch"].as<std::string>());
+    if (get_vm().count("manifest-name")) get_cmd().set_manifest_name(get_vm()["manifest-name"].as<std::string>());
+    if (get_vm().count("google")) get_cmd().set_google_manifest(get_vm()["google"].as<bool>());
+    if (get_vm().count("git-super")) get_cmd().set_google_manifest(get_vm()["git-super"].as<bool>());
 
     /*if (!get_folder().empty() && !get_workspace().empty())
     {
@@ -83,7 +83,7 @@ int CmdInit::configure_cmd(CmdType &cmd)
     }
     else
         get_cmd().set_workspace_path(boost::filesystem::current_path().normalize().make_preferred().string()); */
-    get_cmd().set_google_manifest(m_vm["google"].as<bool>());
+    get_cmd().set_google_manifest(get_vm()["google"].as<bool>());
 
     return 0;
 }

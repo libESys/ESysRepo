@@ -79,7 +79,7 @@ public:
      */
     const XMLFileImpl *get_impl() const;
 
-protected:
+private:
     //!< \cond DOXY_IMPL
     std::unique_ptr<XMLFileImpl> m_impl; //!< The PIMPL
     //!< \endcond

@@ -58,7 +58,7 @@ public:
     DiffDelta &get_diff_delta();
     const DiffDelta &get_diff_delta() const;
 
-protected:
+private:
     //!< \cond DOXY_IMPL
     StatusType m_type = StatusType::NOT_SET;
     StatusSubType m_sub_type = StatusSubType::NOT_SET;
