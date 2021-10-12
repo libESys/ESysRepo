@@ -56,7 +56,7 @@ public:
     GitBase();
 
     //! Destructor
-    virtual ~GitBase();
+    ~GitBase() override;
 
     //! Open a git repository for inspection
     /*!

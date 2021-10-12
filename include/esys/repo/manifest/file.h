@@ -42,7 +42,7 @@ public:
     File();
 
     //! Destructor
-    virtual ~File();
+    ~File() override;
 
     //! Read a ESysRepo manifest file
     /*!

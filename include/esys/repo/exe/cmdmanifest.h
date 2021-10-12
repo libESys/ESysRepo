@@ -44,7 +44,7 @@ public:
     CmdManifest();
 
     //! Destructor
-    virtual ~CmdManifest();
+    ~CmdManifest() override;
 
     void set_revision_as_head(bool revision_as_head);
     bool get_revision_as_head() const;

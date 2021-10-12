@@ -42,7 +42,7 @@ public:
     ConfigFolder();
 
     //! Destructor
-    virtual ~ConfigFolder();
+    ~ConfigFolder() override;
 
     //! Set the parent path of the ConfigFolder
     /*!

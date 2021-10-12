@@ -44,7 +44,7 @@ public:
     Manifest();
 
     //! Destructor
-    virtual ~Manifest();
+    ~Manifest() override;
 
     int read(const std::string &filename) override;
     int write(const std::string &filename) override;

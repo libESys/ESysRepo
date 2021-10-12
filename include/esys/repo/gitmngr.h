@@ -46,7 +46,7 @@ public:
     GitMngr();
 
     //! Destructor
-    virtual ~GitMngr();
+    ~GitMngr() override;
 
     static void set_new_ptr(NewPtrFct new_ptr_fct);
     static NewPtrFct get_new_ptr();

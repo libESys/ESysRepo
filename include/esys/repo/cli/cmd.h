@@ -48,7 +48,7 @@ class ESYSREPO_API Cmd : public esys::log::User
 {
 public:
     Cmd(AppBase *app, const std::string &name);
-    virtual ~Cmd();
+    ~Cmd() override;
 
     void set_name(const std::string &name);
     const std::string &get_name() const;

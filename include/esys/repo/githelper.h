@@ -49,7 +49,7 @@ public:
               int repo_idx = -1);
 
     //! Destructor
-    virtual ~GitHelper();
+    ~GitHelper() override;
 
     void debug(int level, const std::string &msg) override;
     void info(const std::string &msg) override;

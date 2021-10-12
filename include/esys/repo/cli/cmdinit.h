@@ -36,7 +36,7 @@ public:
     typedef Cmd_t<exe::CmdInit> BaseType;
 
     CmdInit(AppBase *app = nullptr);
-    virtual ~CmdInit();
+    ~CmdInit() override;
 
     int configure_cmd(CmdType &cmd) override;
     std::shared_ptr<po::options_description> get_desc() override;

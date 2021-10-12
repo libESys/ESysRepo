@@ -57,7 +57,7 @@ public:
     Cmd(const std::string &name);
 
     //! Destructor
-    virtual ~Cmd();
+    ~Cmd() override;
 
     const std::string &get_name() const;
 

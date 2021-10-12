@@ -36,7 +36,7 @@ public:
     typedef CMD CmdType;
 
     Cmd_t(AppBase *app, const std::string &name);
-    virtual ~Cmd_t();
+    ~Cmd_t() override;
 
     CMD &get_cmd();
 

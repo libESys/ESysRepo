@@ -44,7 +44,7 @@ public:
     CmdStatus();
 
     //! Destructor
-    virtual ~CmdStatus();
+    ~CmdStatus() override;
 
     void set_quiet(bool quiet);
     bool get_quiet() const;

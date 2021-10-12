@@ -36,7 +36,7 @@ public:
     typedef Cmd_t<exe::CmdVersion> BaseType;
 
     CmdVersion(AppBase *app = nullptr);
-    virtual ~CmdVersion();
+    ~CmdVersion() override;
 
     int configure_cmd(CmdType &cmd) override;
     std::shared_ptr<po::options_description> get_desc() override;

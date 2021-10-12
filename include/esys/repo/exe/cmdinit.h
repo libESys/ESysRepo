@@ -44,7 +44,7 @@ public:
     CmdInit();
 
     //! Destructor
-    virtual ~CmdInit();
+    ~CmdInit() override;
 
     //! Set the url of the git repo with the manifest
     /*!

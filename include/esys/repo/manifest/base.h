@@ -41,7 +41,7 @@ public:
     Base();
 
     //! Destructor
-    virtual ~Base();
+    ~Base() override;
 
     static const std::string &get_folder_name();
 

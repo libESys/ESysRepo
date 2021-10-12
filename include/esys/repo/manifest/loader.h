@@ -41,7 +41,7 @@ public:
     Loader();
 
     //! Destructor
-    virtual ~Loader();
+    ~Loader() override;
 
     int run() override;
 

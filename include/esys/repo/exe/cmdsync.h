@@ -39,7 +39,7 @@ class ESYSREPO_API CmdSync : public Cmd
 {
 public:
     CmdSync();
-    virtual ~CmdSync();
+    ~CmdSync() override;
 
     //! Set if the manifest is known to be a git super project
     /*!

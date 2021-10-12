@@ -41,7 +41,7 @@ public:
     static const int NAME_SIZE = 15;
 
     CmdVersion();
-    virtual ~CmdVersion();
+    ~CmdVersion() override;
 
     void set_version(const std::string &version);
     const std::string &get_version() const;

@@ -44,7 +44,7 @@ public:
     XMLFile();
 
     //! Destructor
-    virtual ~XMLFile();
+    ~XMLFile() override;
 
     //! Read a XML ESysRepo manifest file
     /*!

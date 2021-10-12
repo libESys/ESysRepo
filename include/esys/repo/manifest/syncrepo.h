@@ -49,7 +49,7 @@ public:
     SyncRepo();
 
     //! Destructor
-    virtual ~SyncRepo();
+    ~SyncRepo() override;
 
     int run() override;
 

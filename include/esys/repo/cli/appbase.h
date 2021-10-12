@@ -57,7 +57,7 @@ public:
     static const int DFT_LOGGER_DEBUG_LEVEL = 10;
 
     AppBase();
-    virtual ~AppBase();
+    ~AppBase() override;
 
     void set_args(const std::vector<std::string> &args);
     const std::vector<std::string> &get_args() const;

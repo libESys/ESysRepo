@@ -36,7 +36,7 @@ public:
     typedef Cmd_t<exe::CmdSync> BaseType;
 
     CmdSync(AppBase *app = nullptr);
-    virtual ~CmdSync();
+    ~CmdSync() override;
 
     int configure_cmd(CmdType &cmd) override;
     std::shared_ptr<po::options_description> get_desc() override;

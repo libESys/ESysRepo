@@ -63,7 +63,7 @@ public:
     Sync();
 
     //! Destructor
-    virtual ~Sync();
+    ~Sync() override;
 
     void set_branch(const std::string &branch);
     const std::string &get_branch() const;

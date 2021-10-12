@@ -42,7 +42,7 @@ class ESYSREPO_API App : public AppBase
 {
 public:
     App();
-    ~App();
+    ~App() override;
 
     void set_version(const std::string &version) override;
 

@@ -44,7 +44,7 @@ public:
     CmdInfo();
 
     //! Destructor
-    virtual ~CmdInfo();
+    ~CmdInfo() override;
 
     void set_diff(bool diff);
     bool get_diff() const;
