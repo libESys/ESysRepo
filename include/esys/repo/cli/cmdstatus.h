@@ -35,7 +35,7 @@ class ESYSREPO_API CmdStatus : public Cmd_t<exe::CmdStatus>
 public:
     typedef Cmd_t<exe::CmdStatus> BaseType;
 
-    CmdStatus(AppBase *app = nullptr);
+    explicit CmdStatus(AppBase *app = nullptr);
     ~CmdStatus() override;
 
     int configure_cmd(CmdType &cmd) override;

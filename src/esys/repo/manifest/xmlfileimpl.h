@@ -38,7 +38,7 @@ namespace manifest
 class ESYSREPO_API XMLFileImpl
 {
 public:
-    XMLFileImpl(XMLFile *self);
+    explicit XMLFileImpl(XMLFile *self);
     virtual ~XMLFileImpl();
 
     int read(const std::string &path);

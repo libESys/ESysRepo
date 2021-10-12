@@ -44,7 +44,7 @@ public:
     Branches();
 
     //! Constructor
-    Branches(const std::vector<Branch> &branches);
+    explicit Branches(const std::vector<Branch> &branches);
 
     //! Destructor
     virtual ~Branches();

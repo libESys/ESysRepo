@@ -45,7 +45,7 @@ public:
     Group();
 
     //! Constructor
-    Group(const std::string &name);
+    explicit Group(const std::string &name);
 
     //! Destructor
     virtual ~Group();

@@ -54,7 +54,7 @@ public:
     static const int THOUSAND = 1000;
 
     //! Default constructor
-    Cmd(const std::string &name);
+    explicit Cmd(const std::string &name);
 
     //! Destructor
     ~Cmd() override;
