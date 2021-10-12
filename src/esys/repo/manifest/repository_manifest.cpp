@@ -61,7 +61,7 @@ void Repository::set_revision(const std::string &revision)
     m_revision = revision;
 }
 
-const std::string Repository::get_revision() const
+const std::string &Repository::get_revision() const
 {
     return m_revision;
 }

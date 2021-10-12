@@ -129,13 +129,11 @@ void ManifestImpl::write_default(std::shared_ptr<esysfile::xml::Element> parent,
 
 int ManifestImpl::write_projects()
 {
-    int result = 0;
-
     for (auto &remote : self()->get_data()->get_locations())
     {
         for (auto &project : remote->get_repos())
         {
-            result = write_project(m_xml_data, project);
+            int result = write_project(m_xml_data, project);
             if (result < 0) return result;
         }
     }
@@ -191,12 +189,11 @@ int ManifestImpl::write_project(std::shared_ptr<esysfile::xml::Element> parent,
 
 int ManifestImpl::read(std::shared_ptr<esysfile::xml::Data> data)
 {
-    int result = 0;
     std::shared_ptr<manifest::Location> location;
 
     for (auto element : data->get_elements())
     {
-        result = read(element);
+        int result = read(element);
         if (result < 0) return result;
     }
 

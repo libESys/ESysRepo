@@ -32,12 +32,7 @@ void TaskBase::set_git(std::shared_ptr<GitBase> git)
     if (git != nullptr) git->set_progress_callback(&m_progress_callback);
 }
 
-std::shared_ptr<GitBase> TaskBase::get_git()
-{
-    return m_git;
-}
-
-const std::shared_ptr<GitBase> TaskBase::get_git() const
+std::shared_ptr<GitBase> TaskBase::get_git() const
 {
     return m_git;
 }
@@ -48,11 +43,6 @@ void TaskBase::set_config_folder(std::shared_ptr<ConfigFolder> config_folder)
 }
 
 std::shared_ptr<ConfigFolder> TaskBase::get_config_folder()
-{
-    return m_config_folder;
-}
-
-const std::shared_ptr<ConfigFolder> TaskBase::get_config_folder() const
 {
     return m_config_folder;
 }

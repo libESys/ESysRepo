@@ -62,13 +62,7 @@ public:
     /*!
      * \return the manifest
      */
-    std::shared_ptr<Manifest> get_manifest();
-
-    //! Get the manifest
-    /*!
-     * \return the manifest
-     */
-    const std::shared_ptr<Manifest> get_manifest() const;
+    std::shared_ptr<Manifest> get_manifest() const;
 
     //! Set the config folder
     /*!
@@ -82,12 +76,6 @@ public:
      */
     std::shared_ptr<ConfigFolder> get_config_folder();
 
-    //! Get the config folder
-    /*!
-     * \return the config folder
-     */
-    const std::shared_ptr<ConfigFolder> get_config_folder() const;
-
     //! Set the git instance to use
     /*!
      * \param[in] git the git instance
@@ -98,13 +86,7 @@ public:
     /*!
      * \retrun the git instance
      */
-    std::shared_ptr<GitBase> get_git();
-
-    //! Get the git instance to use
-    /*!
-     * \retrun the git instance
-     */
-    const std::shared_ptr<GitBase> get_git() const;
+    std::shared_ptr<GitBase> get_git() const;
 
     //! Get the git instance to use, create one if needed
     /*!
@@ -146,7 +128,7 @@ public:
     /*!
      * \return the log level
      */
-    log::Level get_log_level() const;
+    log::Level get_log_level();
 
     //! Set the repo index
     /*!

@@ -292,7 +292,7 @@ void SyncRepo::set_log_level(log::Level log_level)
     m_log_level = log_level;
 }
 
-log::Level SyncRepo::get_log_level() const
+log::Level SyncRepo::get_log_level()
 {
     return m_log_level;
 }

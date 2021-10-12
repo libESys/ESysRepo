@@ -172,22 +172,21 @@ int CmdInit::fetch_esysrepo_manifest(GitHelper &git_helper, const std::string &g
 
     std::shared_ptr<Manifest> manifest = std::make_shared<Manifest>();
 
-    int result = 0;
     if (manifest_filename_ext == ".manifest")
     {
-        result = read_esysrepo_manifest(manifest, file_path.string());
+        int result = read_esysrepo_manifest(manifest, file_path.string());
         if (result < 0) return -1;
     }
     else if (manifest_filename_ext == ".xml")
     {
-        result = read_esysrepo_manifest_xml(manifest, file_path.string());
+        int result = read_esysrepo_manifest_xml(manifest, file_path.string());
         if (result < 0) return -1;
         manifest->set_format(manifest::Format::XML);
         config_file->set_manifest_format(manifest::Format::XML);
     }
     else if (manifest_filename_ext == ".json")
     {
-        result = read_esysrepo_manifest_json(manifest, file_path.string());
+        int result = read_esysrepo_manifest_json(manifest, file_path.string());
         if (result < 0) return -1;
         manifest->set_format(manifest::Format::JSON);
         config_file->set_manifest_format(manifest::Format::JSON);
@@ -206,7 +205,7 @@ int CmdInit::fetch_esysrepo_manifest(GitHelper &git_helper, const std::string &g
         info("Embedded kind.");
         config_file->set_manifest_kind(manifest::Kind::EMBEDDED);
         target = get_config_folder()->get_workspace_path();
-        result = git_helper.move(source.string(), target.string(), true, log::Level::DEBUG);
+        int result = git_helper.move(source.string(), target.string(), true, log::Level::DEBUG);
         if (result == -1) return result;
         if (result == -2) warn("While moving folder " + rel_source.string() + " some files were left behind.");
         target = "..";
@@ -232,7 +231,7 @@ int CmdInit::fetch_esysrepo_manifest(GitHelper &git_helper, const std::string &g
         else
             debug(0, "Created folder : " + rel_target.string());
 
-        result = git_helper.move(source.string(), target.string(), true, log::Level::DEBUG);
+        int result = git_helper.move(source.string(), target.string(), true, log::Level::DEBUG);
         if (result == -1) return result;
         if (result == -2) warn("While moving folder " + rel_source.string() + " some files were left behind.");
         target = manifest::Base::get_folder_name();

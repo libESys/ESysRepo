@@ -101,7 +101,7 @@ protected:
             m_run_tasks->remove(m_work_thread);
         }
 
-    protected:
+    private:
         RunTasks *m_run_tasks = nullptr;
         std::shared_ptr<WorkerThread> m_work_thread;
     };

@@ -65,13 +65,7 @@ public:
     /*!
      * \return the configuration data of the config file
      */
-    std::shared_ptr<Config> get_config();
-
-    //! Get the configuration data of the config file
-    /*!
-     * \return the configuration data of the config file
-     */
-    const std::shared_ptr<Config> get_config() const;
+    std::shared_ptr<Config> get_config() const;
 
     //! Open and read a config file
     /*!

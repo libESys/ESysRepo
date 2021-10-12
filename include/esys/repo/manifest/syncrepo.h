@@ -81,7 +81,7 @@ public:
     /*!
      * \return the log level
      */
-    log::Level get_log_level() const;
+    log::Level get_log_level();
 
     //! Set the repo index
     /*!
@@ -115,12 +115,12 @@ public:
     void set_force(bool force);
     bool get_force() const;
 
-    int normal_sync(GitHelper &git_helper);
+    static int normal_sync(GitHelper &git_helper);
     int branch_sync(GitHelper &git_helper);
 
 protected:
     //!< \cond DOXY_IMPL
-    bool has_branch(GitHelper &git_helper, const std::string &branch);
+    static bool has_branch(GitHelper &git_helper, const std::string &branch);
     std::string get_checkout_revision(GitHelper &git_helper);
     std::shared_ptr<GitHelper> new_git_helper();
 

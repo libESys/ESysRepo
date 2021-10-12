@@ -83,7 +83,7 @@ public:
     /*!
      * \return the revision of the repository
      */
-    const std::string get_revision() const;
+    const std::string &get_revision() const;
 
     //! Set the name of the location
     /*!
@@ -126,6 +126,10 @@ public:
 
     //! Not equal to comparison operator
     bool operator!=(const Repository &repository) const;
+
+    Repository(const Repository &) = delete;
+    Repository(Repository &&) = delete;
+    Repository &operator=(const Repository &other) = delete;
 
 private:
     //!< \cond DOXY_IMPL

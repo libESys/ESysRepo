@@ -35,7 +35,7 @@ class ESYSREPO_API CmdInfo : public Cmd_t<exe::CmdInfo>
 public:
     typedef Cmd_t<exe::CmdInfo> BaseType;
 
-    CmdInfo(AppBase *app = nullptr);
+    explicit CmdInfo(AppBase *app = nullptr);
     ~CmdInfo() override;
 
     int configure_cmd(CmdType &cmd) override;

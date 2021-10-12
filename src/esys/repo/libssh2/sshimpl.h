@@ -34,7 +34,7 @@ namespace libssh2
 {
 
 /*! \class SSHImpl esys/repo/libssh2/sshimpl.h "esys/repo/libssh2/sshimpl.h"
- * \brief 
+ * \brief
  */
 class ESYSREPO_API SSHImpl
 {
@@ -47,9 +47,9 @@ public:
 
     bool is_agent_present();
 
-protected:
+private:
     //!< \cond DOXY_IMPL
-    
+
     class InitRelease
     {
     public:
@@ -58,7 +58,7 @@ protected:
             m_result = libssh2_init(0);
             m_init = true;
         }
-        
+
         int get_result()
         {
             return m_result;
@@ -69,7 +69,7 @@ protected:
             if (m_init) libssh2_exit();
         }
 
-    protected:
+    private:
         bool m_init = false;
         int m_result = 0;
     };

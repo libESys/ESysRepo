@@ -199,11 +199,6 @@ std::string ConfigFolder::get_manifest_rel_file_name() const
     return rel_folder_path.string();
 }
 
-std::shared_ptr<Config> ConfigFolder::get_config()
-{
-    return m_config;
-}
-
 std::shared_ptr<Config> ConfigFolder::get_config() const
 {
     return m_config;

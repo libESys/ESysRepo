@@ -33,12 +33,7 @@ void LoaderBase::set_manifest(std::shared_ptr<Manifest> manifest)
     m_manifest = manifest;
 }
 
-std::shared_ptr<Manifest> LoaderBase::get_manifest()
-{
-    return m_manifest;
-}
-
-const std::shared_ptr<Manifest> LoaderBase::get_manifest() const
+std::shared_ptr<Manifest> LoaderBase::get_manifest() const
 {
     return m_manifest;
 }
@@ -53,22 +48,12 @@ std::shared_ptr<Config> LoaderBase::get_config()
     return m_config;
 }
 
-const std::shared_ptr<Config> LoaderBase::get_config() const
-{
-    return m_config;
-}
-
 void LoaderBase::set_config_folder(std::shared_ptr<ConfigFolder> config_folder)
 {
     m_config_folder = config_folder;
 }
 
 std::shared_ptr<ConfigFolder> LoaderBase::get_config_folder()
-{
-    return m_config_folder;
-}
-
-const std::shared_ptr<ConfigFolder> LoaderBase::get_config_folder() const
 {
     return m_config_folder;
 }

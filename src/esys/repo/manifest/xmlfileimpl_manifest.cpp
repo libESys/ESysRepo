@@ -54,11 +54,9 @@ int XMLFileImpl::read(const std::string &path)
 
 int XMLFileImpl::read(std::shared_ptr<esysfile::xml::Data> data)
 {
-    int result = 0;
-
     if (data->get_attrs().size() != 0)
     {
-        result = read_root_attributes(data);
+        int result = read_root_attributes(data);
         if (result < 0)
         {
             self()->add_error(result, "read_root_attributes failed.");
@@ -67,6 +65,8 @@ int XMLFileImpl::read(std::shared_ptr<esysfile::xml::Data> data)
     }
     else
         self()->get_data()->set_kind(manifest::Kind::ISOLATED);
+
+    int result = 0;
 
     for (auto el : data->get_elements())
     {
@@ -89,11 +89,9 @@ int XMLFileImpl::read(std::shared_ptr<esysfile::xml::Data> data)
 
 int XMLFileImpl::read_root_attributes(std::shared_ptr<esysfile::xml::Element> root_el)
 {
-    int result = 0;
-
     for (auto attr : root_el->get_attrs())
     {
-        result = read_root_attribute(attr);
+        int result = read_root_attribute(attr);
         if (result < 0) return result;
     }
     return 0;
@@ -173,10 +171,9 @@ int XMLFileImpl::read_default(std::shared_ptr<esysfile::xml::Element> el)
 {
     if (el->get_name() != "default") return -1;
 
-    int result = 0;
     for (auto attr : el->get_attrs())
     {
-        result = read_default_attr(attr);
+        int result = read_default_attr(attr);
         if (result < 0) return result;
     }
     return 0;
@@ -201,10 +198,9 @@ int XMLFileImpl::read_group(std::shared_ptr<esysfile::xml::Element> el)
     std::shared_ptr<Group> group = std::make_shared<Group>();
     group->set_name(attr->get_value());
 
-    int result = 0;
     for (auto child : el->get_elements())
     {
-        result = read_group_repo(child, group);
+        int result = read_group_repo(child, group);
         if (result < 0) return result;
     }
 
@@ -242,17 +238,15 @@ int XMLFileImpl::write_xml()
         m_xml_data->add_attr("kind", kind);
     }
 
-    int result = 0;
-
     for (auto location : self()->get_data()->get_locations())
     {
-        result = write(m_xml_data, location);
+        int result = write(m_xml_data, location);
         if (result < 0) return result;
     }
 
     for (auto group : self()->get_data()->get_groups().get_groups())
     {
-        result = write(m_xml_data, group);
+        int result = write(m_xml_data, group);
         if (result < 0) return result;
     }
     return 0;
@@ -286,11 +280,9 @@ int XMLFileImpl::write(std::shared_ptr<esysfile::xml::Element> parent_el, std::s
     location_el->add_attr("name", location->get_name());
     location_el->add_attr("addr", location->get_address());
 
-    int result = 0;
-
     for (auto repo : location->get_repos())
     {
-        result = write(location_el, repo);
+        int result = write(location_el, repo);
         if (result < 0) return result;
     }
 
@@ -317,6 +309,7 @@ int XMLFileImpl::write(std::shared_ptr<esysfile::xml::Element> parent_el, std::s
 
     grp_el->set_name("group");
     grp_el->add_attr("name", group->get_name());
+
     for (auto repo : group->get_repos())
     {
         std::shared_ptr<esysfile::xml::Element> repo_el = std::make_shared<esysfile::xml::Element>();

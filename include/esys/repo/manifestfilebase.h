@@ -72,13 +72,7 @@ public:
     /*!
      * \return the abstract data of a manifest
      */
-    virtual std::shared_ptr<repo::Manifest> get_data();
-
-    //! Get the abstract data of a manifest
-    /*!
-     * \return the abstract data of a manifest
-     */
-    virtual const std::shared_ptr<repo::Manifest> get_data() const;
+    virtual std::shared_ptr<repo::Manifest> get_data() const;
 
 private:
     //!< \cond DOXY_IMPL

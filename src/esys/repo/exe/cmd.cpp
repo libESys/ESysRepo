@@ -93,12 +93,7 @@ void Cmd::set_manifest(std::shared_ptr<Manifest> manifest)
     m_manifest = manifest;
 }
 
-std::shared_ptr<Manifest> Cmd::get_manifest()
-{
-    return m_manifest;
-}
-
-const std::shared_ptr<Manifest> Cmd::get_manifest() const
+std::shared_ptr<Manifest> Cmd::get_manifest() const
 {
     return m_manifest;
 }
@@ -108,12 +103,7 @@ void Cmd::set_git(std::shared_ptr<GitBase> git)
     m_git = git;
 }
 
-std::shared_ptr<GitBase> Cmd::get_git()
-{
-    return m_git;
-}
-
-const std::shared_ptr<GitBase> Cmd::get_git() const
+std::shared_ptr<GitBase> Cmd::get_git() const
 {
     return m_git;
 }
@@ -309,11 +299,10 @@ int Cmd::process_sub_args_as_git_repo_paths()
     if (get_manifest() == nullptr) return -1;
 
     int result = 0;
-    int local_result = 0;
 
     for (auto &input_path : get_sub_args())
     {
-        local_result = process_sub_args_as_git_repo_path(input_path);
+        int local_result = process_sub_args_as_git_repo_path(input_path);
         if (local_result < 0) --result;
     }
     return result;
@@ -334,22 +323,12 @@ std::shared_ptr<ConfigFolder> Cmd::get_config_folder()
     return m_config_folder;
 }
 
-const std::shared_ptr<ConfigFolder> Cmd::get_config_folder() const
-{
-    return m_config_folder;
-}
-
 void Cmd::set_loader(std::shared_ptr<manifest::Loader> loader)
 {
     m_loader = loader;
 }
 
 std::shared_ptr<manifest::Loader> Cmd::get_loader()
-{
-    return m_loader;
-}
-
-const std::shared_ptr<manifest::Loader> Cmd::get_loader() const
 {
     return m_loader;
 }
