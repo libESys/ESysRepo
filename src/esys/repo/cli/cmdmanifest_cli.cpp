@@ -57,8 +57,8 @@ std::shared_ptr<po::options_description> CmdManifest::get_desc()
 
 int CmdManifest::configure_cmd(CmdType &cmd)
 {
-    if (m_vm.count("revision-as-HEAD")) cmd.set_revision_as_head(true);
-    if (m_vm.count("output-file")) cmd.set_output_file(m_vm["output-file"].as<std::string>());
+    if (get_vm().count("revision-as-HEAD")) cmd.set_revision_as_head(true);
+    if (get_vm().count("output-file")) cmd.set_output_file(get_vm()["output-file"].as<std::string>());
 
     return 0;
 }

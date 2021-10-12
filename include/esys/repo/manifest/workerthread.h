@@ -41,7 +41,7 @@ public:
     void set_id(int id);
     int get_id() const;
 
-protected:
+private:
     int m_id = -1;
 };
 

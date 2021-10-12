@@ -144,7 +144,7 @@ public:
      */
     static bool is_config_folder(const std::string &path);
 
-protected:
+private:
     //!< \cond DOXY_IMPL
     std::string m_parent_path;                 //!< The parent path
     std::string m_path;                        //!< The actual path of the ESysRepo config folder

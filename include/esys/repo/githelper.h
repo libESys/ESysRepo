@@ -126,7 +126,7 @@ public:
 
     void clean_cout();
 
-protected:
+private:
     //!< \cond DOXY_IMPL
     std::weak_ptr<GitBase> m_git; //!< The GitBase instance to use
     int m_repo_idx = -1;          //!< The index of the repository worked on

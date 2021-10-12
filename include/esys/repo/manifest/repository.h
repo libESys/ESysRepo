@@ -127,7 +127,7 @@ public:
     //! Not equal to comparison operator
     bool operator!=(const Repository &repository) const;
 
-protected:
+private:
     //!< \cond DOXY_IMPL
     std::string m_name;             //!< The name of the repository
     std::string m_path;             //!< The path of the repository

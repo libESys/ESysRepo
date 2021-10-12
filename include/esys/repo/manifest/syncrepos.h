@@ -186,7 +186,7 @@ public:
 
     static bool globly_match(const std::string &text, const std::string &glob);
 
-protected:
+private:
     //!< \cond DOXY_IMPL
     std::shared_ptr<Manifest> m_manifest;              //!< The manifest
     std::shared_ptr<ConfigFolder> m_config_folder;     //!< The config folder

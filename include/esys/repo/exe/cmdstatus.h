@@ -65,6 +65,7 @@ protected:
     //!< \cond DOXY_IMPL
     int impl_run() override;
 
+private:
     bool m_quiet = false;
     std::string m_rel_repo_path;
     std::string m_repo_path;

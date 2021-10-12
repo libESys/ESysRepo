@@ -109,7 +109,7 @@ public:
 
     virtual int run() = 0;
 
-protected:
+private:
     //!< \cond DOXY_IMPL
     std::shared_ptr<ConfigFolder> m_config_folder; //!< The config folder
     std::shared_ptr<GitBase> m_git;                //!< The git instance

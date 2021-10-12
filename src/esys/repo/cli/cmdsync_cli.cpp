@@ -63,20 +63,20 @@ std::shared_ptr<po::options_description> CmdSync::get_desc()
 
 int CmdSync::configure_cmd(CmdType &cmd)
 {
-    if (m_vm.count("job")) cmd.set_job_count(m_vm["job"].as<int>());
+    if (get_vm().count("job")) cmd.set_job_count(get_vm()["job"].as<int>());
     cmd.set_sub_args(get_sub_args());
-    if (m_vm.count("groups"))
+    if (get_vm().count("groups"))
     {
         std::vector<std::string> groups;
 
-        int result = groups_str_to_groups(m_vm["groups"].as<std::string>(), groups);
+        int result = groups_str_to_groups(get_vm()["groups"].as<std::string>(), groups);
         if (result < 0)
         {
             return -1;
         }
         cmd.set_groups(groups);
     }
-    if (m_vm.count("branch")) cmd.set_branch(m_vm["branch"].as<std::string>());
+    if (get_vm().count("branch")) cmd.set_branch(get_vm()["branch"].as<std::string>());
 
     return 0;
 }

@@ -91,7 +91,7 @@ public:
 
     void clear();
 
-protected:
+private:
     //!< \cond DOXY_IMPL
     std::mutex m_mutex;    //!< The mutex to use
     std::deque<T> m_queue; //!< The actual queue

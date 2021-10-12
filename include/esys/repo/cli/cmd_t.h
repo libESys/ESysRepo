@@ -46,7 +46,7 @@ public:
     int parse_and_configure() override;
     int run() override;
 
-protected:
+private:
     CMD m_cmd;
 };
 
@@ -81,8 +81,8 @@ int Cmd_t<CMD>::parse_and_configure()
     int result = parse();
     if (result < 0) return result;
 
-    if (m_vm.count("command") == 0) return -1;
-    std::string cmd_txt = m_vm["command"].as<std::string>();
+    if (get_vm().count("command") == 0) return -1;
+    std::string cmd_txt = get_vm()["command"].as<std::string>();
     if (cmd_txt != get_name())
     {
         //! \TODO add log

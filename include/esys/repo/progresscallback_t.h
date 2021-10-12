@@ -46,7 +46,7 @@ public:
 
     void git_progress_notif(const git::Progress &progress) override;
 
-protected:
+private:
     OBJ *m_callee = nullptr;
     CallbackType m_callback = nullptr;
 };

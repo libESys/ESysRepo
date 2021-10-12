@@ -107,7 +107,7 @@ public:
      */
     virtual int run() = 0;
 
-protected:
+private:
     //!< \cond DOXY_IMPL
     std::shared_ptr<Manifest> m_manifest;          //!< The manifest data
     std::shared_ptr<Config> m_config;              //!< The ESysRepo configuration

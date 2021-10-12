@@ -121,7 +121,7 @@ public:
      */
     GitImpl *get_impl() const;
 
-protected:
+private:
     //!< \cond DOXY_IMPL
     std::unique_ptr<GitImpl> m_impl; //!< the PIMPL
     std::string m_url;

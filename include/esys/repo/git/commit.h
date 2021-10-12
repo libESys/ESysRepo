@@ -56,7 +56,7 @@ public:
      */
     const std::string &get_hash() const;
 
-protected:
+private:
     //!< \cond DOXY_IMPL
     std::string m_hash;
     //!< \endcond

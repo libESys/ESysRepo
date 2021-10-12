@@ -60,7 +60,7 @@ public:
     void print(std::ostream &os);
     void print(std::ostream &os, int id);
 
-protected:
+private:
     FetchStep m_fetch_step = FetchStep::NOT_SET;
     int m_percentage = -1;
     bool m_done = false;

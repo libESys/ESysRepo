@@ -61,10 +61,10 @@ std::shared_ptr<po::options_description> CmdInfo::get_desc()
 
 int CmdInfo::configure_cmd(CmdType &cmd)
 {
-    if (m_vm["diff"].as<bool>()) cmd.set_diff(true);
-    if (m_vm["overview"].as<bool>()) cmd.set_overview(true);
-    if (m_vm["current-branch"].as<bool>()) cmd.set_current_branch(true);
-    if (m_vm["local-only"].as<bool>()) cmd.set_local_only(true);
+    if (get_vm()["diff"].as<bool>()) cmd.set_diff(true);
+    if (get_vm()["overview"].as<bool>()) cmd.set_overview(true);
+    if (get_vm()["current-branch"].as<bool>()) cmd.set_current_branch(true);
+    if (get_vm()["local-only"].as<bool>()) cmd.set_local_only(true);
 
     return 0;
 }

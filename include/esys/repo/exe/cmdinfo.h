@@ -65,6 +65,7 @@ protected:
     //!< \cond DOXY_IMPL
     int impl_run() override;
 
+private:
     bool m_diff = false;
     bool m_overview = false;
     bool m_current_branch = false;

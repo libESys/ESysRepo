@@ -109,7 +109,7 @@ public:
 
     static int groups_str_to_groups(const std::string &groups_str, std::vector<std::string> &groups);
 
-protected:
+private:
     std::ostream *m_os = nullptr;
     int m_argc = 0;
     char **m_argv = nullptr;

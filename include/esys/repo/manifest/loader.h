@@ -63,7 +63,7 @@ public:
      */
     const std::shared_ptr<LoaderBase> get_loader() const;
 
-protected:
+private:
     //!< \cond DOXY_IMPL
     std::shared_ptr<LoaderBase> m_loader;
     //!< \endcond

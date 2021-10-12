@@ -50,6 +50,7 @@ protected:
     //!< \cond DOXY_IMPL
     int impl_run() override;
 
+private:
     std::string m_version;
     //!< \endcond
 };

@@ -101,7 +101,10 @@ protected:
     bool is_present(const std::string &name);
     bool get_bool(const std::string &name);
     int get_int(const std::string &name, int dflt = -1);
+    po::variables_map &get_vm();
+    const po::variables_map &get_vm() const;
 
+private:
     std::string m_name;
     AppBase *m_app = nullptr;
     std::vector<std::string> m_args;

@@ -45,7 +45,7 @@ public:
 
     static const std::string &get_folder_name();
 
-protected:
+private:
     //!< \cond DOXY_IMPL
     static const std::string s_folder_name;
     //!< \endcond

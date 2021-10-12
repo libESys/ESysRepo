@@ -153,6 +153,7 @@ protected:
     //!< \cond DOXY_IMPL
     int impl_run() override;
 
+private:
     std::string m_url;                                        //!< The url for the git repo with the manifest
     std::string m_branch;                                     //!< The branch of the git
     std::string m_manifest_name;                              //!< The name of the manifest file

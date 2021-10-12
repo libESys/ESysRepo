@@ -54,6 +54,7 @@ public:
 protected:
     int impl_run() override;
 
+private:
     bool m_fullpath = false;
     bool m_name_only = false;
     bool m_path_only = false;

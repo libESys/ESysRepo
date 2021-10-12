@@ -124,7 +124,7 @@ public:
     //! Not equal to comparison operator
     bool operator!=(const Location &location) const;
 
-protected:
+private:
     //!< \cond DOXY_IMPL
     std::string m_name;                               //!< The name of this location
     std::string m_address;                            //!< The address of this location

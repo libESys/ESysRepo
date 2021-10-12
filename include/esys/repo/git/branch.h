@@ -116,7 +116,7 @@ public:
 
     const std::string &get_remote_name() const;
 
-protected:
+private:
     //!< \cond DOXY_IMPL
     std::string m_name;                      //!< The name of the branch
     std::string m_ref_name;                  //!< The reference name of the branch

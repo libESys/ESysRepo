@@ -43,7 +43,7 @@ public:
 
     int run() override;
 
-protected:
+private:
     std::shared_ptr<OBJ> m_obj;
     F m_raw_fct;
     std::function<int()> m_fct;

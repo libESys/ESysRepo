@@ -60,9 +60,9 @@ std::shared_ptr<po::options_description> CmdList::get_desc()
 
 int CmdList::configure_cmd(CmdType &cmd)
 {
-    if (m_vm["fullpath"].as<bool>()) cmd.set_fullpath(true);
-    if (m_vm["name-only"].as<bool>()) cmd.set_name_only(true);
-    if (m_vm["path-only"].as<bool>()) cmd.set_path_only(true);
+    if (get_vm()["fullpath"].as<bool>()) cmd.set_fullpath(true);
+    if (get_vm()["name-only"].as<bool>()) cmd.set_name_only(true);
+    if (get_vm()["path-only"].as<bool>()) cmd.set_path_only(true);
 
     return 0;
 }

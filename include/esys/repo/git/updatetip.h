@@ -58,7 +58,7 @@ public:
     void set_old_oid(const std::string &old_oid);
     const std::string &get_old_oid() const;
 
-protected:
+private:
     //!< \cond DOXY_IMPL
     UpdateTipType m_type = UpdateTipType::NOT_SET;
     std::string m_ref_name;

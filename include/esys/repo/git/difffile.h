@@ -58,7 +58,7 @@ public:
     uint64_t &get_size();
     uint64_t get_size() const;
 
-protected:
+private:
     //!< \cond DOXY_IMPL
     std::string m_id;
     std::string m_path;

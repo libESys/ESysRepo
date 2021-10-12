@@ -56,7 +56,7 @@ public:
     std::vector<std::shared_ptr<Status>> &get_status();
     const std::vector<std::shared_ptr<Status>> &get_status() const;
 
-protected:
+private:
     //!< \cond DOXY_IMPL
     std::string m_old_name;
     std::shared_ptr<Status> m_head_to_index;

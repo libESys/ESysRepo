@@ -106,6 +106,7 @@ protected:
         std::shared_ptr<WorkerThread> m_work_thread;
     };
 
+private:
     std::atomic_bool m_done{false};
     std::condition_variable m_done_cond;
     std::mutex m_done_mutex;

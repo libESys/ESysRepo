@@ -89,7 +89,7 @@ public:
     void add_error(int value, const std::string &msg);
     void add_error(int value, const std::string &msg, int line_number);
 
-protected:
+private:
     //!< \cond DOXY_IMPL
     std::shared_ptr<Manifest> m_data; //!< The abstract data of a manifest
     std::vector<std::shared_ptr<FileError>> m_errors;

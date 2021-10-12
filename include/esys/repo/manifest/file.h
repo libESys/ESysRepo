@@ -77,7 +77,7 @@ public:
      */
     const FileBase *get_impl() const;
 
-protected:
+private:
     //!< \cond DOXY_IMPL
     std::unique_ptr<FileBase> m_impl; //!< The PIMPL
     //!< \endcond

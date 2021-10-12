@@ -60,6 +60,7 @@ protected:
     //!< \cond DOXY_IMPL
     int impl_run() override;
 
+private:
     bool m_force = false;
     std::string m_branch;
     bool m_alt_address = false;

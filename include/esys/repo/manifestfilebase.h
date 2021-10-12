@@ -80,7 +80,7 @@ public:
      */
     virtual const std::shared_ptr<repo::Manifest> get_data() const;
 
-protected:
+private:
     //!< \cond DOXY_IMPL
     std::shared_ptr<repo::Manifest> m_data; //!< The abstract data of a manifest
     //!< \endcond
