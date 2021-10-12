@@ -143,7 +143,7 @@ void CmdInfo::print_repo(std::shared_ptr<manifest::Repository> repo)
             break;
         }
     }
-    std::string manifest_rev;
+
     boost::filesystem::path p;
 
     oss << "Repo : " << repo->get_name() << std::endl;

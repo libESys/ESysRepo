@@ -74,13 +74,7 @@ public:
     /*!
      * \retrun the manifest
      */
-    std::shared_ptr<Manifest> get_manifest();
-
-    //! Get the manifest
-    /*!
-     * \retrun the manifest
-     */
-    const std::shared_ptr<Manifest> get_manifest() const;
+    std::shared_ptr<Manifest> get_manifest() const;
 
     //! Set the git instance
     /*!
@@ -92,13 +86,7 @@ public:
     /*!
      * \return the git instance
      */
-    std::shared_ptr<GitBase> get_git();
-
-    //! Get the git instance
-    /*!
-     * \return the git instance
-     */
-    const std::shared_ptr<GitBase> get_git() const;
+    std::shared_ptr<GitBase> get_git() const;
 
     //! Set the parent path
     /*!
@@ -124,12 +112,6 @@ public:
      */
     std::shared_ptr<ConfigFolder> get_config_folder();
 
-    //! Get the config folder
-    /*!
-     * \retrun the config folder
-     */
-    const std::shared_ptr<ConfigFolder> get_config_folder() const;
-
     //! Set the manifest loader to use
     /*!
      * \param[in] loader the manifest loader to use
@@ -141,12 +123,6 @@ public:
      * \return the manifest loader to use
      */
     std::shared_ptr<manifest::Loader> get_loader();
-
-    //! Get the manifest loader to use
-    /*!
-     * \return the manifest loader to use
-     */
-    const std::shared_ptr<manifest::Loader> get_loader() const;
 
     //! Find the workspace path if any given a child path
     /*!

@@ -44,12 +44,7 @@ void ConfigFile::set_config(std::shared_ptr<Config> config)
     m_config = config;
 }
 
-std::shared_ptr<Config> ConfigFile::get_config()
-{
-    return m_config;
-}
-
-const std::shared_ptr<Config> ConfigFile::get_config() const
+std::shared_ptr<Config> ConfigFile::get_config() const
 {
     return m_config;
 }

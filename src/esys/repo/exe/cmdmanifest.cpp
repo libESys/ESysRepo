@@ -60,13 +60,11 @@ const std::string &CmdManifest::get_output_file() const
 
 int CmdManifest::update_revision_as_head()
 {
-    int result = 0;
-
     for (auto location : get_manifest()->get_locations())
     {
         for (auto repo : location->get_repos())
         {
-            result = update_revision_as_head(repo);
+            int result = update_revision_as_head(repo);
             if (result < 0) return -1;
         }
     }
@@ -77,11 +75,9 @@ int CmdManifest::update_revision_as_head(std::shared_ptr<manifest::Repository> r
 {
     auto git_helper = new_git_helper();
 
-    boost::filesystem::path rel_repo_path;
     boost::filesystem::path repo_path = get_config_folder()->get_workspace_path();
     repo_path /= repo->get_path();
     repo_path = boost::filesystem::absolute(repo_path).normalize().make_preferred();
-    rel_repo_path = boost::filesystem::relative(repo_path);
 
     std::string revision = repo->get_revision();
     if (revision.empty()) revision = get_manifest()->get_default_revision();

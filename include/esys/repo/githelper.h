@@ -108,7 +108,7 @@ public:
     /*!
      * \return the GitBase instance to use
      */
-    std::shared_ptr<GitBase> get_git();
+    std::shared_ptr<GitBase> get_git() const;
 
     void set_auto_close(bool auto_close = true);
     bool get_auto_close() const;

@@ -42,7 +42,11 @@ public:
     ConfigFile *self();
     const ConfigFile *self() const;
 
-protected:
+    ConfigFileImpl(const ConfigFileImpl &) = delete;
+    ConfigFileImpl(ConfigFileImpl &&) = delete;
+    ConfigFileImpl &operator=(const ConfigFileImpl &other) = delete;
+
+private:
     ConfigFile *m_self = nullptr;
 };
 

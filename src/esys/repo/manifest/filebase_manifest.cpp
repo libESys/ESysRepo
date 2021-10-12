@@ -30,12 +30,7 @@ void FileBase::set_data(std::shared_ptr<Manifest> data)
     m_data = data;
 }
 
-std::shared_ptr<Manifest> FileBase::get_data()
-{
-    return m_data;
-}
-
-const std::shared_ptr<Manifest> FileBase::get_data() const
+std::shared_ptr<Manifest> FileBase::get_data() const
 {
     return m_data;
 }

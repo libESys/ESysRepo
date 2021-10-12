@@ -106,7 +106,7 @@ std::shared_ptr<manifest::Repository> Manifest::find_repo_by_path(const std::str
 {
     std::shared_ptr<manifest::Repository> repo;
 
-    for (auto location : get_locations())
+    for (auto &location : get_locations())
     {
         repo = location->find_repo_by_path(path);
         if (repo != nullptr) return repo;
@@ -128,11 +128,6 @@ std::shared_ptr<manifest::Location> Manifest::get_default_location()
     return find_location(m_default_location_str);
 }
 
-const std::shared_ptr<manifest::Location> Manifest::get_default_location() const
-{
-    return m_default_location;
-}
-
 void Manifest::set_default_location(const std::string &default_location_str)
 {
     m_default_location_str = default_location_str;
@@ -148,7 +143,7 @@ void Manifest::set_default_revision(const std::string &default_revision)
     m_default_revision = default_revision;
 }
 
-const std::string Manifest::get_default_revision() const
+const std::string &Manifest::get_default_revision() const
 {
     return m_default_revision;
 }

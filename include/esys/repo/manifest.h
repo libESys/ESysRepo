@@ -142,12 +142,6 @@ public:
      */
     std::shared_ptr<manifest::Location> get_default_location();
 
-    //! Get the default location
-    /*!
-     * \return the default location
-     */
-    const std::shared_ptr<manifest::Location> get_default_location() const;
-
     //! Set the name of the default location
     /*!
      * \param[in] default_location_str the name of the default location
@@ -170,7 +164,7 @@ public:
     /*!
      * \return the default revision
      */
-    const std::string get_default_revision() const;
+    const std::string &get_default_revision() const;
 
     //! Set the default job count
     /*!

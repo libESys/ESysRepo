@@ -60,13 +60,7 @@ public:
     /*!
      * \retrun the git instance
      */
-    std::shared_ptr<GitBase> get_git();
-
-    //! Get the git instance to use
-    /*!
-     * \retrun the git instance
-     */
-    const std::shared_ptr<GitBase> get_git() const;
+    std::shared_ptr<GitBase> get_git() const;
 
     //! Set the config folder
     /*!
@@ -79,12 +73,6 @@ public:
      * \return the config folder
      */
     std::shared_ptr<ConfigFolder> get_config_folder();
-
-    //! Get the config folder
-    /*!
-     * \return the config folder
-     */
-    const std::shared_ptr<ConfigFolder> get_config_folder() const;
 
     void set_repo(std::shared_ptr<Repository> repo);
     std::shared_ptr<Repository> get_repo();

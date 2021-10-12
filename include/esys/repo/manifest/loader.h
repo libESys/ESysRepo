@@ -57,12 +57,6 @@ public:
      */
     std::shared_ptr<LoaderBase> get_loader();
 
-    //! Get the actual loader to use
-    /*!
-     * \return the actual loader to use
-     */
-    const std::shared_ptr<LoaderBase> get_loader() const;
-
 private:
     //!< \cond DOXY_IMPL
     std::shared_ptr<LoaderBase> m_loader;

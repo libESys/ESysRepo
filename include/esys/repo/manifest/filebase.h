@@ -55,13 +55,7 @@ public:
     /*!
      * \return the manifest data
      */
-    std::shared_ptr<Manifest> get_data();
-
-    //! Get the manifest data
-    /*!
-     * \return the manifest data
-     */
-    const std::shared_ptr<Manifest> get_data() const;
+    std::shared_ptr<Manifest> get_data() const;
 
     //! Read the manifest
     /*!

@@ -57,13 +57,7 @@ public:
     /*!
      * \return the manifest data
      */
-    std::shared_ptr<Manifest> get_manifest();
-
-    //! Get the manifest data
-    /*!
-     * \return the manifest data
-     */
-    const std::shared_ptr<Manifest> get_manifest() const;
+    std::shared_ptr<Manifest> get_manifest() const;
 
     //! Set the ESysRepo configuration
     /*!
@@ -77,12 +71,6 @@ public:
      */
     std::shared_ptr<Config> get_config();
 
-    //! Get the ESysRepo configuration
-    /*!
-     * \return the ESysRepo configuration
-     */
-    const std::shared_ptr<Config> get_config() const;
-
     //! Set the ESysRepo configuration folder
     /*!
      * \param[in] config the ESysRepo configuration folder
@@ -94,12 +82,6 @@ public:
      * \return the ESysRepo configuration folder
      */
     std::shared_ptr<ConfigFolder> get_config_folder();
-
-    //! Get the ESysRepo configuration folder
-    /*!
-     * \return the ESysRepo configuration folder
-     */
-    const std::shared_ptr<ConfigFolder> get_config_folder() const;
 
     //! Load the manifest
     /*!

@@ -449,7 +449,7 @@ void GitHelper::set_git(std::shared_ptr<GitBase> git)
     m_git = git;
 }
 
-std::shared_ptr<GitBase> GitHelper::get_git()
+std::shared_ptr<GitBase> GitHelper::get_git() const
 {
     return m_git.lock();
 }

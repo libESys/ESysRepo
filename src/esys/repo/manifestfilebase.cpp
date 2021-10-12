@@ -30,12 +30,7 @@ void ManifestFileBase::set_data(std::shared_ptr<repo::Manifest> data)
     m_data = data;
 }
 
-std::shared_ptr<repo::Manifest> ManifestFileBase::get_data()
-{
-    return m_data;
-}
-
-const std::shared_ptr<repo::Manifest> ManifestFileBase::get_data() const
+std::shared_ptr<repo::Manifest> ManifestFileBase::get_data() const
 {
     return m_data;
 }

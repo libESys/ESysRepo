@@ -45,8 +45,9 @@ public:
     int write(std::ostream &os);
 
     void write_remotes();
-    void write_remote(std::shared_ptr<esysfile::xml::Element> parent, std::shared_ptr<manifest::Location> location);
-    void write_default(std::shared_ptr<esysfile::xml::Element> parent, std::shared_ptr<repo::Manifest> manifest);
+    static void write_remote(std::shared_ptr<esysfile::xml::Element> parent,
+                             std::shared_ptr<manifest::Location> location);
+    static void write_default(std::shared_ptr<esysfile::xml::Element> parent, std::shared_ptr<repo::Manifest> manifest);
     int write_projects();
     int write_project(std::shared_ptr<esysfile::xml::Element> parent, std::shared_ptr<manifest::Repository> repository);
 
@@ -62,6 +63,7 @@ public:
 protected:
     int write_xml();
 
+private:
     Manifest *m_self = nullptr;
     std::shared_ptr<esysfile::xml::Data> m_xml_data;
     std::shared_ptr<esysfile::xml::File> m_file;

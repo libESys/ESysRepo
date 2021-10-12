@@ -108,12 +108,6 @@ public:
     /*!
      * \return the ESysRepo configuration stored in the git repo
      */
-    std::shared_ptr<Config> get_config();
-
-    //! Get the ESysRepo configuration stored in the git repo
-    /*!
-     * \return the ESysRepo configuration stored in the git repo
-     */
     std::shared_ptr<Config> get_config() const;
 
     //! Set the ESysRepo configuration stored in the git repo

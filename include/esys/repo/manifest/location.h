@@ -124,6 +124,9 @@ public:
     //! Not equal to comparison operator
     bool operator!=(const Location &location) const;
 
+    Location(const Location &) = delete;
+    Location(Location &&) = delete;
+
 private:
     //!< \cond DOXY_IMPL
     std::string m_name;                               //!< The name of this location

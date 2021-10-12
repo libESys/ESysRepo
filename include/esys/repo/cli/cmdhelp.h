@@ -35,7 +35,7 @@ class ESYSREPO_API CmdHelp : public Cmd_t<exe::CmdHelp>
 public:
     typedef Cmd_t<exe::CmdHelp> BaseType;
 
-    CmdHelp(AppBase *app = nullptr);
+    explicit CmdHelp(AppBase *app = nullptr);
     ~CmdHelp() override;
 
     int configure_cmd(CmdType &cmd) override;

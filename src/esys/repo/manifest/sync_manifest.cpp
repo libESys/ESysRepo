@@ -62,8 +62,6 @@ int Sync::is_manifest_modified(bool &modified)
     int result = get_git()->get_status(status);
     if (result < 0) return GIT_GET_STATUS_FAILED;
 
-    std::string manifest_rel_path;
-
     if (get_config_folder() == nullptr) return CONFIG_FOLDER_IS_NULL;
     auto config = get_config_folder()->get_config();
     if (config == nullptr) return CONFIG_IS_NULL;
@@ -232,12 +230,7 @@ void Sync::set_git(std::shared_ptr<GitBase> git)
     m_git = git;
 }
 
-std::shared_ptr<GitBase> Sync::get_git()
-{
-    return m_git;
-}
-
-const std::shared_ptr<GitBase> Sync::get_git() const
+std::shared_ptr<GitBase> Sync::get_git() const
 {
     return m_git;
 }
@@ -252,17 +245,12 @@ std::shared_ptr<ConfigFolder> Sync::get_config_folder()
     return m_config_folder;
 }
 
-const std::shared_ptr<ConfigFolder> Sync::get_config_folder() const
-{
-    return m_config_folder;
-}
-
 void Sync::set_log_level(log::Level log_level)
 {
     m_log_level = log_level;
 }
 
-log::Level Sync::get_log_level() const
+log::Level Sync::get_log_level()
 {
     return m_log_level;
 }

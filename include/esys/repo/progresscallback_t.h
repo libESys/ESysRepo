@@ -46,6 +46,10 @@ public:
 
     void git_progress_notif(const git::Progress &progress) override;
 
+    ProgressCallback_t(const ProgressCallback_t &) = delete;
+    ProgressCallback_t(ProgressCallback_t &&) = delete;
+    ProgressCallback_t &operator=(const ProgressCallback_t &other) = delete;
+
 private:
     OBJ *m_callee = nullptr;
     CallbackType m_callback = nullptr;

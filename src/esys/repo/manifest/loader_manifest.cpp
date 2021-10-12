@@ -57,9 +57,4 @@ std::shared_ptr<LoaderBase> Loader::get_loader()
     return m_loader;
 }
 
-const std::shared_ptr<LoaderBase> Loader::get_loader() const
-{
-    return m_loader;
-}
-
 } // namespace esys::repo::manifest

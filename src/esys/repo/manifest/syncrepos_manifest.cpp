@@ -42,12 +42,7 @@ void SyncRepos::set_manifest(std::shared_ptr<Manifest> manifest)
     m_manifest = manifest;
 }
 
-std::shared_ptr<Manifest> SyncRepos::get_manifest()
-{
-    return m_manifest;
-}
-
-const std::shared_ptr<Manifest> SyncRepos::get_manifest() const
+std::shared_ptr<Manifest> SyncRepos::get_manifest() const
 {
     return m_manifest;
 }
@@ -62,22 +57,12 @@ std::shared_ptr<ConfigFolder> SyncRepos::get_config_folder()
     return m_config_folder;
 }
 
-const std::shared_ptr<ConfigFolder> SyncRepos::get_config_folder() const
-{
-    return m_config_folder;
-}
-
 void SyncRepos::set_git(std::shared_ptr<GitBase> git)
 {
     m_git = git;
 }
 
-std::shared_ptr<GitBase> SyncRepos::get_git()
-{
-    return m_git;
-}
-
-const std::shared_ptr<GitBase> SyncRepos::get_git() const
+std::shared_ptr<GitBase> SyncRepos::get_git() const
 {
     return m_git;
 }
@@ -172,7 +157,7 @@ void SyncRepos::set_log_level(log::Level log_level)
     m_log_level = log_level;
 }
 
-log::Level SyncRepos::get_log_level() const
+log::Level SyncRepos::get_log_level()
 {
     return m_log_level;
 }
