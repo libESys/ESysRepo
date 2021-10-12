@@ -37,7 +37,7 @@ namespace grepo
 class ESYSREPO_API ManifestImpl
 {
 public:
-    ManifestImpl(Manifest *self);
+    explicit ManifestImpl(Manifest *self);
     virtual ~ManifestImpl();
 
     int read(const std::string &filename);

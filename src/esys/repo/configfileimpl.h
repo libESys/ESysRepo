@@ -33,7 +33,7 @@ namespace repo
 class ESYSREPO_API ConfigFileImpl
 {
 public:
-    ConfigFileImpl(ConfigFile *self);
+    explicit ConfigFileImpl(ConfigFile *self);
     virtual ~ConfigFileImpl();
 
     int open(const std::string &path = "");

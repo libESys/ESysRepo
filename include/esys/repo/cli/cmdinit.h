@@ -35,7 +35,7 @@ class ESYSREPO_API CmdInit : public Cmd_t<exe::CmdInit>
 public:
     typedef Cmd_t<exe::CmdInit> BaseType;
 
-    CmdInit(AppBase *app = nullptr);
+    explicit CmdInit(AppBase *app = nullptr);
     ~CmdInit() override;
 
     int configure_cmd(CmdType &cmd) override;

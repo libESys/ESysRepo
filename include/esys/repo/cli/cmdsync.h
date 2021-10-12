@@ -35,7 +35,7 @@ class ESYSREPO_API CmdSync : public Cmd_t<exe::CmdSync>
 public:
     typedef Cmd_t<exe::CmdSync> BaseType;
 
-    CmdSync(AppBase *app = nullptr);
+    explicit CmdSync(AppBase *app = nullptr);
     ~CmdSync() override;
 
     int configure_cmd(CmdType &cmd) override;

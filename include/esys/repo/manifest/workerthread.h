@@ -36,7 +36,7 @@ namespace manifest
 class ESYSREPO_API WorkerThread
 {
 public:
-    WorkerThread(int id);
+    explicit WorkerThread(int id);
 
     void set_id(int id);
     int get_id() const;

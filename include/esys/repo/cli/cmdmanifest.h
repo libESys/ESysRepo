@@ -35,7 +35,7 @@ class ESYSREPO_API CmdManifest : public Cmd_t<exe::CmdManifest>
 public:
     typedef Cmd_t<exe::CmdManifest> BaseType;
 
-    CmdManifest(AppBase *app = nullptr);
+    explicit CmdManifest(AppBase *app = nullptr);
     ~CmdManifest() override;
 
     int configure_cmd(CmdType &cmd) override;

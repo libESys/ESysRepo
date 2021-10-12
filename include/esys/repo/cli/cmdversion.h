@@ -35,7 +35,7 @@ class ESYSREPO_API CmdVersion : public Cmd_t<exe::CmdVersion>
 public:
     typedef Cmd_t<exe::CmdVersion> BaseType;
 
-    CmdVersion(AppBase *app = nullptr);
+    explicit CmdVersion(AppBase *app = nullptr);
     ~CmdVersion() override;
 
     int configure_cmd(CmdType &cmd) override;
