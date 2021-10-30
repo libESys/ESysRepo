@@ -26,6 +26,34 @@ find_package(nlohmann_json 3.6.1 REQUIRED)
 include_directories(.. ../../../include ${git2_INCLUDE_DIRS}
                     ${termcolor_DIR}/include)
 
+set(ESYSREPO_PUB_HEADERS
+    autolink.h
+    cmdlineapp.h
+    config_defs.h
+    configfile.h
+    configfolder.h
+    config.h
+    esysrepo_defs.h
+    esysrepo_prec.h
+    filesystem.h
+    gitbase.h
+    git.h
+    githelper.h
+    gitmngr.h
+    manifestfilebase.h
+    manifest.h
+    progresscallbackbase.h
+    progresscallback_t.h
+    queuemt.h
+    sshbase.h
+    ssh.h
+    version.h)
+list(TRANSFORM ESYSREPO_PUB_HEADERS
+     PREPEND ${CMAKE_CURRENT_SOURCE_DIR}/../../../include/esys/repo/)
+
+set(ESYSREPO_PRIV_HEADERS configfileimpl.h)
+list(TRANSFORM ESYSREPO_PRIV_HEADERS PREPEND ${CMAKE_CURRENT_SOURCE_DIR}/)
+
 set(ESYSREPO_CXX_SOURCES
     config.cpp
     configfile.cpp
@@ -40,6 +68,23 @@ set(ESYSREPO_CXX_SOURCES
     progresscallbackbase.cpp
     sshbase.cpp)
 
+set(ESYSREPO_CLI_PUB_HEADERS
+    cli/appbase.h
+    cli/app.h
+    cli/cmd.h
+    cli/cmdhelp.h
+    cli/cmdinfo.h
+    cli/cmdinit.h
+    cli/cmdlist.h
+    cli/cmdmanifest.h
+    cli/cmdstatus.h
+    cli/cmdsync.h
+    cli/cmd_t.h
+    cli/cmdversion.h)
+
+list(TRANSFORM ESYSREPO_CLI_PUB_HEADERS
+     PREPEND ${CMAKE_CURRENT_SOURCE_DIR}/../../../include/esys/repo/)
+
 set(ESYSREPO_CLI_CXX_SOURCES
     cli/app.cpp
     cli/appbase.cpp
@@ -53,6 +98,20 @@ set(ESYSREPO_CLI_CXX_SOURCES
     cli/cmdstatus_cli.cpp
     cli/cmdversion_cli.cpp)
 
+set(ESYSREPO_EXE_PUB_HEADERS
+    exe/cmd.h
+    exe/cmdhelp.h
+    exe/cmdinfo.h
+    exe/cmdinit.h
+    exe/cmdlist.h
+    exe/cmdmanifest.h
+    exe/cmdstatus.h
+    exe/cmdsync.h
+    exe/cmdversion.h)
+
+list(TRANSFORM ESYSREPO_EXE_PUB_HEADERS
+     PREPEND ${CMAKE_CURRENT_SOURCE_DIR}/../../../include/esys/repo/)
+
 set(ESYSREPO_EXE_CXX_SOURCES
     exe/cmd.cpp
     exe/cmdhelp.cpp
@@ -63,6 +122,29 @@ set(ESYSREPO_EXE_CXX_SOURCES
     exe/cmdstatus.cpp
     exe/cmdsync.cpp
     exe/cmdversion.cpp)
+
+set(ESYSREPO_GIT_PUB_HEADERS
+    git/branches.h
+    git/branch.h
+    git/branchtype.h
+    git/commit.h
+    git/diffdelta.h
+    git/diffdeltatype.h
+    git/difffile.h
+    git/fetchstep.h
+    git/filestatus.h
+    git/mergeanalysisresult.h
+    git/progress.h
+    git/remote.h
+    git/repostatus.h
+    git/resettype.h
+    git/status.h
+    git/statussubtype.h
+    git/statustype.h
+    git/updatetip.h
+    git/updatetiptype.h)
+list(TRANSFORM ESYSREPO_GIT_PUB_HEADERS
+     PREPEND ${CMAKE_CURRENT_SOURCE_DIR}/../../../include/esys/repo/)
 
 set(ESYSREPO_GIT_CXX_SOURCES
     git/branch_git.cpp
@@ -77,18 +159,86 @@ set(ESYSREPO_GIT_CXX_SOURCES
     git/status_git.cpp
     git/updatetip_git.cpp)
 
+set(ESYSREPO_GITCMDLINE_PUB_HEADERS gitcmdline/git.h)
+
+list(TRANSFORM ESYSREPO_GITCMDLINE_PUB_HEADERS
+     PREPEND ${CMAKE_CURRENT_SOURCE_DIR}/../../../include/esys/repo/)
+
 set(ESYSREPO_GITCMDLINE_CXX_SOURCES gitcmdline/git_cmdline.cpp)
+
+set(ESYSREPO_GREPO_PUB_HEADERS grepo/manifest.h)
+list(TRANSFORM ESYSREPO_GREPO_PUB_HEADERS
+     PREPEND ${CMAKE_CURRENT_SOURCE_DIR}/../../../include/esys/repo/)
+
+set(ESYSREPO_GREPO_PRIV_HEADERS grepo/manifestimpl.h)
+list(TRANSFORM ESYSREPO_GREPO_PRIV_HEADERS PREPEND ${CMAKE_CURRENT_SOURCE_DIR}/)
 
 set(ESYSREPO_GREPO_CXX_SOURCES grepo/manifest_grepo.cpp
                                grepo/manifestimpl_grepo.cpp)
+
+set(ESYSREPO_LIBGIT2_PUB_HEADERS libgit2/git.h)
+list(TRANSFORM ESYSREPO_LIBGIT2_PUB_HEADERS
+     PREPEND ${CMAKE_CURRENT_SOURCE_DIR}/../../../include/esys/repo/)
+
+set(ESYSREPO_LIBGIT2_PRIV_HEADERS
+    libgit2/gitimpl.h
+    libgit2/guardassign.h
+    libgit2/guard.h
+    libgit2/guardrelease.h
+    libgit2/guards.h
+    libgit2/guardsrelease.h
+    libgit2/libgit2.h)
+list(TRANSFORM ESYSREPO_LIBGIT2_PRIV_HEADERS
+     PREPEND ${CMAKE_CURRENT_SOURCE_DIR}/)
 
 set(ESYSREPO_LIBGIT2_CXX_SOURCES
     libgit2/git_libgit2.cpp libgit2/gitimpl_libgit2.cpp
     libgit2/guardassign_libgit2.cpp libgit2/guardrelease_libgit2.cpp
     libgit2/guardsrelease_libgit2.cpp libgit2/libgit2.cpp)
 
+set(ESYSREPO_LIBSSH2_PUB_HEADERS libssh2/ssh.h)
+list(TRANSFORM ESYSREPO_LIBSSH2_PUB_HEADERS
+     PREPEND ${CMAKE_CURRENT_SOURCE_DIR}/../../../include/esys/repo/)
+
+set(ESYSREPO_LIBSSH2_PRIV_HEADERS libssh2/sshimpl.h)
+list(TRANSFORM ESYSREPO_LIBSSH2_PRIV_HEADERS
+     PREPEND ${CMAKE_CURRENT_SOURCE_DIR}/)
+
 set(ESYSREPO_LIBSSH2_CXX_SOURCES libssh2/ssh_libssh2.cpp
                                  libssh2/sshimpl_libssh2.cpp)
+
+set(ESYSREPO_MANIFEST_PUB_HEADERS
+    manifest/base.h
+    manifest/filebase.h
+    manifest/fileerror.h
+    manifest/file.h
+    manifest/format.h
+    manifest/group.h
+    manifest/groups.h
+    manifest/jsonfile.h
+    manifest/kind.h
+    manifest/loaderbase.h
+    manifest/loaderesysrepo.h
+    manifest/loadergitsuper.h
+    manifest/loadergrepo.h
+    manifest/loader.h
+    manifest/location.h
+    manifest/repository.h
+    manifest/runtasks.h
+    manifest/sync.h
+    manifest/syncrepo.h
+    manifest/syncrepos.h
+    manifest/taskbase.h
+    manifest/task_t.h
+    manifest/type.h
+    manifest/workerthread.h
+    manifest/xmlfile.h)
+list(TRANSFORM ESYSREPO_MANIFEST_PUB_HEADERS
+     PREPEND ${CMAKE_CURRENT_SOURCE_DIR}/../../../include/esys/repo/)
+
+set(ESYSREPO_MANIFEST_PRIV_HEADERS manifest/xmlfileimpl.h)
+list(TRANSFORM ESYSREPO_MANIFEST_PRIV_HEADERS
+     PREPEND ${CMAKE_CURRENT_SOURCE_DIR}/)
 
 set(ESYSREPO_MANIFEST_CXX_SOURCES
     manifest/base_manifest.cpp
@@ -119,14 +269,28 @@ set(ESYSREPO_MANIFEST_CXX_SOURCES
 
 add_library(
   esysrepo SHARED
+  ${ESYSREPO_PUB_HEADERS}
+  ${ESYSREPO_PRIV_HEADERS}
   ${ESYSREPO_CXX_SOURCES}
+  ${ESYSREPO_CLI_PUB_HEADERS}
   ${ESYSREPO_CLI_CXX_SOURCES}
+  ${ESYSREPO_EXE_PUB_HEADERS}
   ${ESYSREPO_EXE_CXX_SOURCES}
+  ${ESYSREPO_GIT_PUB_HEADERS}
   ${ESYSREPO_GIT_CXX_SOURCES}
+  ${ESYSREPO_GITCMDLINE_PUB_HEADERS}
   ${ESYSREPO_GITCMDLINE_CXX_SOURCES}
+  ${ESYSREPO_GREPO_PUB_HEADERS}
+  ${ESYSREPO_GREPO_PRIV_HEADERS}
   ${ESYSREPO_GREPO_CXX_SOURCES}
+  ${ESYSREPO_LIBGIT2_PUB_HEADERS}
+  ${ESYSREPO_LIBGIT2_PRIV_HEADERS}
   ${ESYSREPO_LIBGIT2_CXX_SOURCES}
+  ${ESYSREPO_LIBSSH2_PUB_HEADERS}
+  ${ESYSREPO_LIBSSH2_PRIV_HEADERS}
   ${ESYSREPO_LIBSSH2_CXX_SOURCES}
+  ${ESYSREPO_MANIFEST_PUB_HEADERS}
+  ${ESYSREPO_MANIFEST_PRIV_HEADERS}
   ${ESYSREPO_MANIFEST_CXX_SOURCES})
 
 set_property(TARGET esysrepo PROPERTY VERSION ${ESYSREPO_VERSION})
@@ -162,7 +326,24 @@ if(COMMAND add_clang_format_target)
 endif()
 
 if(COMMAND add_clang_tidy_target)
-  add_clang_tidy_target(esysrepo)
+  add_clang_tidy_target(
+    esysrepo
+    HEADERS
+    ${ESYSREPO_PUB_HEADERS}
+    ${ESYSREPO_PRIV_HEADERS}
+    ${ESYSREPO_CLI_PUB_HEADERS}
+    ${ESYSREPO_EXE_PUB_HEADERS}
+    ${ESYSREPO_GIT_PUB_HEADERS}
+    ${ESYSREPO_GITCMDLINE_PUB_HEADERS}
+    ${ESYSREPO_GREPO_PUB_HEADERS}
+    ${ESYSREPO_GREPO_PRIV_HEADERS}
+    ${ESYSREPO_LIBGIT2_PRIV_HEADERS}
+    ${ESYSREPO_LIBGIT2_PUB_HEADERS}
+    ${ESYSREPO_LIBSSH2_PRIV_HEADERS}
+    ${ESYSREPO_LIBSSH2_PUB_HEADERS}
+    ${ESYSREPO_MANIFEST_PRIV_HEADERS}
+    ${ESYSREPO_MANIFEST_PUB_HEADERS})
+
   add_custom_target(
     esysrepo-tidy-cleanup ALL
     COMMAND sed -i "s,${ESYSREPO_DEV}/,,g"

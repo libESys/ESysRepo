@@ -1,3 +1,4 @@
+---
 Checks: 'cppcoreguidelines-*,
 -performance-*,
 modernize-*,
@@ -26,7 +27,7 @@ modernize-*,
 readability-magic-numbers
 '
 
-
+HeaderFilterRegex: 'include(/[^/])*[^/]*\.(h|hxx|cxx)$'
 WarningsAsErrors: ''
 AnalyzeTemporaryDtors: false
 FormatStyle:     none

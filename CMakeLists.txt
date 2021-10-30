@@ -11,7 +11,7 @@
 # cmake-format: on
 #
 
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.12)
 
 option(ESYSREPO_BUILD_DOC "Build the documentation" OFF)
 option(ESYSREPO_COVERAGE "Generate code coverage for unit tests" OFF)
