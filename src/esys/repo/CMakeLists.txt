@@ -211,4 +211,12 @@ if(ESYSREPO_COVERAGE)
     "/*/esyslog/*"
     "/*/esystest/*"
     ${CMAKE_BINARY_DIR}/*)
+
+  add_custom_target(
+    esysrepo_coverage-cleanup ALL
+    COMMAND sed -i "s,${ESYSREPO_DEV}/,,g"
+            ${CMAKE_CURRENT_BINARY_DIR}/esysrepo_coverage.info
+    DEPENDS esysrepo_coverage
+    COMMENT "esysrepo: Cleanup paths in esysrepo_coverage.info results"
+    VERBATIM)
 endif()
