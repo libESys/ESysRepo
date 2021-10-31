@@ -18,10 +18,16 @@ mkdir -p ../../../public/logs
 cp -R src/esysrepo/src/esys/repo/esysrepo_coverage/* ../../../public/coverage
 cp src/esysrepo/src/esys/repo/esysrepo_coverage.info ../../../public/logs/esysrepo_coverage.info
 cp src/esysrepo/src/esys/repo/report.junit ../../../public/logs/esysrepo_junit.txt
-bash <(curl -s https://codecov.io/bash) -f src/esysrepo/src/esys/repo/esysrepo_coverage.info || echo "${TXT_W}Codecov did not collect coverage reports.${TXT_CLEAR}"
+codecov -Z -v -f src/esysrepo/src/esys/repo/esysrepo_coverage.info || echo "${TXT_W}Codecov did not collect coverage reports.${TXT_CLEAR}"
+RESULT_CODECOV=$?
 
 if [ ! ${RESULT_UT} -eq 0 ]; then
    echo "${TXT_E}Code coverage on unit tests failed.${TXT_CLEAR}"
+   exit 1
+fi
+
+if [ ! ${RESULT_CODECOV} -eq 0 ]; then
+   echo "${TXT_E}Upload to codecov failed.${TXT_CLEAR}"
    exit 1
 fi
 
