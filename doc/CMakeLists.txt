@@ -104,7 +104,7 @@ if(HUGO_BIN)
     VERBATIM)
 
   add_custom_target(
-    esysrepo_hugo_server ALL
+    esysrepo_hugo_server
     COMMAND cd ${CMAKE_CURRENT_SOURCE_DIR}/web && ${HUGO_BIN} server -D
             --themesDir ${ESYS_HUGO_THEME_DIR}
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/web
