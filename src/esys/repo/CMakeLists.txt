@@ -19,7 +19,14 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(Boost 1.66 REQUIRED COMPONENTS filesystem program_options system)
 
 find_package(PkgConfig REQUIRED)
-pkg_search_module(git2 libgit2 REQUIRED)
+
+if(ESYSREPO_USE_CONAN)
+  find_package(libgit2 REQUIRED)
+  find_package(Libssh2 REQUIRED)
+else()
+  pkg_search_module(git2 libgit2 REQUIRED)
+  pkg_search_module(ssh2 libssh2 REQUIRED)
+endif()
 
 find_package(nlohmann_json 3.6.1 REQUIRED)
 
@@ -306,6 +313,7 @@ target_link_libraries(
           Boost::program_options
           Boost::system
           git2
+          ssh2
           esysfile
           esyslog
           esyslog_spdlog

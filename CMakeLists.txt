@@ -15,6 +15,12 @@ cmake_minimum_required(VERSION 3.12)
 
 option(ESYSREPO_BUILD_DOC "Build the documentation" OFF)
 option(ESYSREPO_COVERAGE "Generate code coverage for unit tests" OFF)
+option(ESYSREPO_USE_CONAN "Use conan package mamager" Off)
+
+if(ESYSREPO_USE_CONAN)
+  include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+  conan_basic_setup()
+endif()
 
 get_filename_component(ESYSREPO_DEV "${CMAKE_CURRENT_LIST_DIR}" REALPATH)
 
