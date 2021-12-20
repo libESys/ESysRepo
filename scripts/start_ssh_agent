@@ -1,6 +1,7 @@
 #!/bin/bash
 
 SSH_ENV=$HOME/.ssh/environment
+GITLAB_RUNNER_KEY_FILE=$HOME/.ssh/gitlab-runner_id_rsa
 
 function start_agent {
 	echo "Initialising new SSH agent..."
@@ -9,11 +10,12 @@ function start_agent {
 	chmod 600 ${SSH_ENV}
 	. ${SSH_ENV} > /dev/null
  	/usr/bin/ssh-add;
-
+	if [ -f "${GITLAB_RUNNER_KEY_FILE}" ]; then
+		/usr/bin/ssh-add ${GITLAB_RUNNER_KEY_FILE};
+	fi
 }
 
 # Source SSH settings, if applicable
-
 if [ -f "${SSH_ENV}" ]; then
 	. ${SSH_ENV} > /dev/null
     echo "SSH_ENV found ..."
@@ -25,3 +27,7 @@ if [ -f "${SSH_ENV}" ]; then
 else
     start_agent;
 fi
+
+echo "List of keys of the SSH agent..."
+/usr/bin/ssh-add -l
+echo "SSH agent running."
