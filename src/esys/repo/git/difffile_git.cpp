@@ -70,4 +70,14 @@ uint64_t DiffFile::get_size() const
     return m_size;
 }
 
+void DiffFile::set_mode(FileMode mode)
+{
+    m_mode = mode;
+}
+
+FileMode DiffFile::get_mode() const
+{
+    return m_mode;
+}
+
 } // namespace esys::repo::git

@@ -5,7 +5,7 @@
  * \cond
  * __legal_b__
  *
- * Copyright (c) 2020 Michel Gillet
+ * Copyright (c) 2020-2022 Michel Gillet
  * Distributed under the wxWindows Library Licence, Version 3.1.
  * (See accompanying file LICENSE_3_1.txt or
  * copy at http://www.wxwidgets.org/about/licence)
@@ -18,6 +18,7 @@
 #pragma once
 
 #include "esys/repo/esysrepo_defs.h"
+#include "esys/repo/git/filemode.h"
 
 #include <string>
 #include <memory>
@@ -25,13 +26,7 @@
 
 //<swig_inc/>
 
-namespace esys
-{
-
-namespace repo
-{
-
-namespace git
+namespace esys::repo::git
 {
 
 /*! \class DiffFile esys/repo/git/difffile.h "esys/repo/git/difffile.h"
@@ -58,19 +53,18 @@ public:
     uint64_t &get_size();
     uint64_t get_size() const;
 
+    void set_mode(FileMode file_mode);
+    FileMode get_mode() const;
+
 private:
     //!< \cond DOXY_IMPL
     std::string m_id;
     std::string m_path;
     uint64_t m_size = 0;
     // uint32_t flags;
-    // uint16_t mode;
+    FileMode m_mode = FileMode::NOT_SET;
     // uint16_t id_abbrev;
     //!< \endcond
 };
 
-} // namespace git
-
-} // namespace repo
-
-} // namespace esys
+} // namespace esys::repo::git

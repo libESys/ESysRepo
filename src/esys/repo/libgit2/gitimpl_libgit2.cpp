@@ -698,6 +698,21 @@ int GitImpl::from_to(const git_diff_file &file, git::DiffFile &diff_file)
     diff_file.set_path(file.path);
     diff_file.set_size(file.size);
 
+    git::FileMode mode = git::FileMode::NOT_SET;
+
+    switch (file.mode)
+    {
+        case GIT_FILEMODE_UNREADABLE: mode = git ::FileMode::NEW; break;
+        case GIT_FILEMODE_TREE: mode = git ::FileMode::TREE; break;
+        case GIT_FILEMODE_BLOB: mode = git ::FileMode::BLOB; break;
+        case GIT_FILEMODE_BLOB_EXECUTABLE: mode = git ::FileMode::BLOB_EXECUTABLE; break;
+        case GIT_FILEMODE_LINK: mode = git ::FileMode::LINK; break;
+        case GIT_FILEMODE_COMMIT: mode = git ::FileMode::COMMIT; break;
+        default: mode = git::FileMode::NOT_SET;
+    }
+
+    diff_file.set_mode(mode);
+
     return result;
 }
 

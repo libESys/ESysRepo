@@ -130,6 +130,7 @@ set(ESYSREPO_GIT_PUB_HEADERS
     git/difffile.h
     git/fetchstep.h
     git/filestatus.h
+    git/filemode.h
     git/mergeanalysisresult.h
     git/progress.h
     git/remote.h

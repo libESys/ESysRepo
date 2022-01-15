@@ -653,6 +653,9 @@
     <ClInclude Include="..\..\include\esys\repo\manifest\base.h">
       <Filter>Header Files\manifest</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\git\filemode.h">
+      <Filter>Header Files\git</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\..\res\esysrepo.rc">
