@@ -131,6 +131,10 @@
     <ResourceCompile>
       <PreprocessorDefinitions>WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ResourceCompile>
+    <PreBuildEvent>
+      <Command>xcopy /Y ..\..\src\esys\repo\*activate.bat $(ESYSREPO_DEV)\$(esysdevExeOutDir)
+xcopy /Y ..\..\src\esys\repo\*activate.sh $(ESYSREPO_DEV)\$(esysdevExeOutDir)</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DebugDLL|x64'">
     <ClCompile>
@@ -164,6 +168,10 @@
     <ResourceCompile>
       <PreprocessorDefinitions>WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ResourceCompile>
+    <PreBuildEvent>
+      <Command>xcopy /Y ..\..\src\esys\repo\*activate.bat $(ESYSREPO_DEV)\$(esysdevExeOutDir)
+xcopy /Y ..\..\src\esys\repo\*activate.sh $(ESYSREPO_DEV)\$(esysdevExeOutDir)</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseDLL|Win32'">
     <ClCompile>
@@ -197,6 +205,10 @@
     <ResourceCompile>
       <PreprocessorDefinitions>WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ResourceCompile>
+    <PreBuildEvent>
+      <Command>xcopy /Y ..\..\src\esys\repo\*activate.bat $(ESYSREPO_DEV)\$(esysdevExeOutDir)
+xcopy /Y ..\..\src\esys\repo\*activate.sh $(ESYSREPO_DEV)\$(esysdevExeOutDir)</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseDLL|x64'">
     <ClCompile>
@@ -230,6 +242,10 @@
     <ResourceCompile>
       <PreprocessorDefinitions>WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ResourceCompile>
+    <PreBuildEvent>
+      <Command>xcopy /Y ..\..\src\esys\repo\*activate.bat $(ESYSREPO_DEV)\$(esysdevExeOutDir)
+xcopy /Y ..\..\src\esys\repo\*activate.sh $(ESYSREPO_DEV)\$(esysdevExeOutDir)</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\esysrepoexe\esysrepoexe_prec.cpp">
