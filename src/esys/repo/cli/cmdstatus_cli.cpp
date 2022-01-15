@@ -43,7 +43,7 @@ std::shared_ptr<po::options_description> CmdStatus::get_desc()
     auto desc = Cmd::get_desc();
     if (desc != nullptr) return desc;
 
-    desc = std::make_shared<po::options_description>("List options");
+    desc = std::make_shared<po::options_description>("Status options");
     // clang-format off
     desc->add_options()
         ("help,h", "produce help message")

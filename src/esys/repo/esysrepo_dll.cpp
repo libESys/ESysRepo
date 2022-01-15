@@ -14,6 +14,13 @@
 #include "esys/repo/esysrepo_defs.h"
 
 #ifdef WIN32
+
+#include <stdio.h>
+
+#ifndef ENABLE_VIRTUAL_TERMINAL_PROCESSING
+#define ENABLE_VIRTUAL_TERMINAL_PROCESSING 0x0004
+#endif
+
 ESYSREPO_API BOOL APIENTRY DllMain(HANDLE hModule, DWORD ul_reason_for_call, LPVOID lpReserved)
 {
     switch (ul_reason_for_call)

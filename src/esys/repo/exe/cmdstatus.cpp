@@ -20,6 +20,8 @@
 #include "esys/repo/manifest/repository.h"
 #include "esys/repo/githelper.h"
 
+#include <termcolor/termcolor.hpp>
+
 #include <boost/filesystem.hpp>
 
 #include <sstream>
@@ -133,6 +135,8 @@ void CmdStatus::print_repo(std::shared_ptr<manifest::Repository> repo)
     std::string first_part;
     std::string cur_branch;
 
+    oss << termcolor::colorize;
+
     if (m_branches.size() != 0)
     {
         if (m_branches.get()[0]->get_is_head()) cur_branch = m_branches.get()[0]->get_name();
@@ -165,50 +169,58 @@ void CmdStatus::print_repo(std::shared_ptr<manifest::Repository> repo)
 void CmdStatus::print(std::ostream &os, std::shared_ptr<git::FileStatus> file_status)
 {
     os << get_file_status_header(file_status);
-    os << "     ";
-    os << file_status->get_old_name();
+    os << "  ";
+    if (get_show_file_permission())
+    {
+        bool executable = false;
+        if (file_status->get_index_to_work_dir() != nullptr)
+            executable = (file_status->get_index_to_work_dir()->get_diff_delta().get_old_file().get_mode()
+                          == git::FileMode::BLOB_EXECUTABLE);
+        if (executable)
+            os << termcolor::red << "x  ";
+        else
+            os << "-  ";
+    }
+    else
+        os << "   ";
+
+    os << file_status->get_old_name() << termcolor::reset;
 }
 
 std::string CmdStatus::get_file_status_header(std::shared_ptr<git::FileStatus> file_status)
 {
-    std::string result;
+    std::string result = "--";
     std::shared_ptr<git::Status> status;
 
-    if (file_status->get_status().size() == 1)
+    for (auto status : file_status->get_status())
     {
-        status = file_status->get_status()[0];
-
         switch (status->get_type())
         {
             case git::StatusType::CURRENT: result = "--"; break;
             case git::StatusType::INDEX:
                 switch (status->get_sub_type())
                 {
-                    case git::StatusSubType::DELETED: result = "D-"; break;
-                    case git::StatusSubType::MODIFIED: result = "M-"; break;
-                    case git::StatusSubType::NEW: result = "A-"; break;
-                    case git::StatusSubType::RENAMED: result = "R-"; break;
-                    case git::StatusSubType::TYPECHANGE: result = "T-"; break;
-                    default: result = "--";
+                    case git::StatusSubType::DELETED: result[0] = 'D'; break;
+                    case git::StatusSubType::MODIFIED: result[0] = 'M'; break;
+                    case git::StatusSubType::NEW: result[0] = 'A'; break;
+                    case git::StatusSubType::RENAMED: result[0] = 'R'; break;
+                    case git::StatusSubType::TYPECHANGE: result[0] = 'T'; break;
+                    default:;
                 }
                 break;
             case git::StatusType::WORKING_DIR:
                 switch (status->get_sub_type())
                 {
-                    case git::StatusSubType::MODIFIED: result = "-m"; break;
-                    case git::StatusSubType::DELETED: result = "-d"; break;
-                    default: result = "--";
+                    case git::StatusSubType::MODIFIED: result[1] = 'm'; break;
+                    case git::StatusSubType::DELETED: result[1] = 'd'; break;
+                    default:;
                 }
                 break;
-            case git::StatusType::CONFLICTED: result = "U-"; break;
-            default: result = "--";
+            case git::StatusType::CONFLICTED: result[0] = 'U'; break;
+            default:;
         }
     }
-    else
-    {
-        warn("[CmdStatus::get_file_status_header] 2 file status is not supported");
-        result = "??";
-    }
+
     return result;
 }
 void CmdStatus::set_start_print_branch(std::size_t start_print_branch)
@@ -219,6 +231,16 @@ void CmdStatus::set_start_print_branch(std::size_t start_print_branch)
 std::size_t CmdStatus::get_start_print_branch() const
 {
     return m_start_print_branch;
+}
+
+void CmdStatus::set_show_file_permission(bool show_file_permission)
+{
+    m_show_file_permission = show_file_permission;
+}
+
+bool CmdStatus::get_show_file_permission() const
+{
+    return m_show_file_permission;
 }
 
 int CmdStatus::process_sub_args_to_find_parent_path()

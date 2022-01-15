@@ -20,7 +20,7 @@
 
 #include <iostream>
 
-namespace esys::rpeo::win32
+namespace esys::repo::win32
 {
 
 std::unique_ptr<CmdLineApp> CmdLineApp::s_cmd_line_app;
@@ -78,4 +78,4 @@ int CmdLineApp::init()
     return -1;
 }
 
-} // namespace esys::rpeo::win32
+} // namespace esys::repo::win32

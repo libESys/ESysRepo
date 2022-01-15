@@ -61,6 +61,9 @@ public:
 
     int process_sub_args_to_find_parent_path();
 
+    void set_show_file_permission(bool show_file_permission);
+    bool get_show_file_permission() const;
+
 protected:
     //!< \cond DOXY_IMPL
     int impl_run() override;
@@ -74,6 +77,7 @@ private:
     std::shared_ptr<git::RepoStatus> m_repo_status;
     git::Branches m_branches;
     std::map<std::string, int> m_map_repo_path_to_show;
+    bool m_show_file_permission = true;
     //!< \endcond
 };
 
