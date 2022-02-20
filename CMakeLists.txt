@@ -2,7 +2,7 @@
 # cmake-format: off
 # __legal_b__
 #
-# Copyright (c) 2020-2021 Michel Gillet
+# Copyright (c) 2020-2022 Michel Gillet
 # Distributed under the wxWindows Library Licence, Version 3.1.
 # (See accompanying file LICENSE_3_1.txt or
 # copy at http://www.wxwidgets.org/about/licence)
@@ -16,6 +16,7 @@ cmake_minimum_required(VERSION 3.12)
 option(ESYSREPO_BUILD_DOC "Build the documentation" OFF)
 option(ESYSREPO_COVERAGE "Generate code coverage for unit tests" OFF)
 option(ESYSREPO_USE_CONAN "Use conan package mamager" Off)
+option(ESYSREPO_SNAP_BUILD "This is a snap package build" Off)
 
 if(ESYSREPO_USE_CONAN)
   include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)

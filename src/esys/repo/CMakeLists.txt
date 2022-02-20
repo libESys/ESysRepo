@@ -23,6 +23,10 @@ find_package(nlohmann_json 3.6.1 REQUIRED)
 include_directories(.. ../../../include ${git2_INCLUDE_DIRS}
                     ${termcolor_DIR}/include)
 
+if(ESYSREPO_SNAP_BUILD)
+  add_compile_definitions(ESYSREPO_SNAP_BUILD)
+endif()
+
 set(ESYSREPO_PUB_HEADERS
     autolink.h
     cmdlineapp.h
