@@ -26,7 +26,8 @@ namespace esys::repo::libssh2
 
 std::unique_ptr<SSHImpl::InitRelease> SSHImpl::s_init_release;
 
-SSHImpl::SSHImpl()
+SSHImpl::SSHImpl(SSH *self)
+    : m_self(self)
 {
     if (s_init_release == nullptr) s_init_release = std::make_unique<SSHImpl::InitRelease>();
 }
@@ -58,6 +59,13 @@ bool SSHImpl::is_agent_present()
     libssh2_session_free(session);
 
     return (error == LIBSSH2_ERROR_NONE);
+}
+
+
+
+SSH *SSHImpl::self()
+{
+    return m_self;
 }
 
 } // namespace esys::repo::libssh2

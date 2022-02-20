@@ -33,6 +33,8 @@ namespace repo
 namespace libssh2
 {
 
+class ESYSREPO_API SSH;
+
 /*! \class SSHImpl esys/repo/libssh2/sshimpl.h "esys/repo/libssh2/sshimpl.h"
  * \brief
  */
@@ -40,13 +42,14 @@ class ESYSREPO_API SSHImpl
 {
 public:
     //! Default constructor
-    SSHImpl();
+    SSHImpl(SSH *self);
 
     //! Destructor
     virtual ~SSHImpl();
 
     bool is_agent_present();
 
+    
 private:
     //!< \cond DOXY_IMPL
 
@@ -74,8 +77,11 @@ private:
         int m_result = 0;
     };
 
+    SSH *self();
+
     static std::unique_ptr<InitRelease> s_init_release;
 
+    SSH *m_self = nullptr;
     std::mutex m_mutex;
     //!< \endcond
 };

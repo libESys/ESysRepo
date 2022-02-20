@@ -1164,6 +1164,21 @@ void GitImpl::convert(git::BranchType branch_type, git_branch_t &list_flags)
     }
 }
 
+void GitImpl::set_agent_identity_path(const std::string &agent_identity_path)
+{
+    m_agent_identity_path = agent_identity_path;
+}
+
+const std::string &GitImpl::get_agent_identity_path() const
+{
+    return m_agent_identity_path;
+}
+
+void GitImpl::set_logger_if(std::shared_ptr<log::Logger_if> logger_if)
+{
+    m_ssh.set_logger_if(logger_if);
+}
+
 const std::string &GitImpl::s_get_version()
 {
     static std::string s_version = LIBGIT2_VERSION;

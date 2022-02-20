@@ -121,6 +121,8 @@ public:
      */
     GitImpl *get_impl() const;
 
+    void set_logger_if(std::shared_ptr<log::Logger_if> logger_if) override;
+
 private:
     //!< \cond DOXY_IMPL
     std::unique_ptr<GitImpl> m_impl; //!< the PIMPL

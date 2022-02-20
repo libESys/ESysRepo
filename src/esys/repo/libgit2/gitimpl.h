@@ -24,6 +24,8 @@
 #include "esys/repo/git/diffdelta.h"
 #include "esys/repo/ssh.h"
 
+#include <esys/log/logger_if.h>
+
 #include <git2.h>
 
 #include <memory>
@@ -112,6 +114,11 @@ public:
     int convert_hex_bin(const std::string &hex_str, git_oid &oid);
 
     static void convert(git::BranchType branch_type, git_branch_t &list_flags);
+
+    void set_agent_identity_path(const std::string &agent_identity_path);
+    const std::string &get_agent_identity_path() const;
+
+    void set_logger_if(std::shared_ptr<log::Logger_if> logger_if);
 
 protected:
     static std::unique_ptr<LibGit2> s_libgt2;

@@ -21,6 +21,7 @@
 #include "esys/repo/sshbase.h"
 
 #include <memory>
+#include <string>
 
 //<swig_inc/>
 
@@ -48,6 +49,8 @@ public:
     ~SSH() override;
 
     bool is_agent_present() override;
+
+    void check_for_custom_agent(bool force_check = false);
 
 private:
     //!< \cond DOXY_IMPL

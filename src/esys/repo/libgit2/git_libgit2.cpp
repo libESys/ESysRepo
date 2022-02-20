@@ -211,4 +211,9 @@ GitImpl *Git::get_impl() const
     return m_impl.get();
 }
 
+void Git::set_logger_if(std::shared_ptr<log::Logger_if> logger_if)
+{
+    get_impl()->set_logger_if(logger_if);
+}
+
 } // namespace esys::repo::libgit2

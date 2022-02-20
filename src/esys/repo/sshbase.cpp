@@ -38,4 +38,14 @@ SSHBase::AgentPresent SSHBase::_get_agent_present() const
     return m_agent_present;
 }
 
+void SSHBase::set_agent_identity_path(const std::string &agent_identity_path)
+{
+    m_agent_identity_path = agent_identity_path;
+}
+
+const std::string &SSHBase::get_agent_identity_path() const
+{
+    return m_agent_identity_path;
+}
+
 } // namespace esys::repo

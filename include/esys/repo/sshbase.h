@@ -50,6 +50,9 @@ public:
      */
     virtual bool is_agent_present() = 0;
 
+    void set_agent_identity_path(const std::string &agent_identity_path);
+    const std::string &get_agent_identity_path() const;
+
 protected:
     //!< \cond DOXY_IMPL
     enum class AgentPresent
@@ -64,6 +67,7 @@ protected:
 
 private:
     AgentPresent m_agent_present = AgentPresent::NOT_CHECKED;
+    std::string m_agent_identity_path;
     //!< \endcond
 };
 
