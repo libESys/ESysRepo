@@ -49,7 +49,6 @@ public:
 
     bool is_agent_present();
 
-    
 private:
     //!< \cond DOXY_IMPL
 

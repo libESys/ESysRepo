@@ -753,7 +753,13 @@ int GitImpl::libgit2_credentials_cb(git_credential **out, const char *url, const
 
     auto self = static_cast<GitImpl *>(payload);
 
-    if (self->is_ssh_agent_running()) return git_credential_ssh_key_from_agent(out, name);
+    if (self->is_ssh_agent_running())
+    {
+        if (self->get_agent_identity_path().empty())
+            return git_credential_ssh_key_from_agent(out, name);
+        else
+            return git_credential_ssh_key_from_custom_agent(out, name, self->get_agent_identity_path().c_str());
+    }
 
     return -177;
 }

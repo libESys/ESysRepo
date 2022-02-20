@@ -134,6 +134,7 @@ protected:
     git_repository *m_repo = nullptr;
     Guard<git_credential> m_credential;
     SSH m_ssh;
+    std::string m_agent_identity_path;
 };
 
 } // namespace libgit2

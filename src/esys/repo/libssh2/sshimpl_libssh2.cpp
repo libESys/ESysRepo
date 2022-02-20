@@ -61,8 +61,6 @@ bool SSHImpl::is_agent_present()
     return (error == LIBSSH2_ERROR_NONE);
 }
 
-
-
 SSH *SSHImpl::self()
 {
     return m_self;
