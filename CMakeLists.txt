@@ -17,6 +17,7 @@ option(ESYSREPO_BUILD_DOC "Build the documentation" OFF)
 option(ESYSREPO_COVERAGE "Generate code coverage for unit tests" OFF)
 option(ESYSREPO_USE_CONAN "Use conan package mamager" Off)
 option(ESYSREPO_SNAP_BUILD "This is a snap package build" Off)
+option(ESYSREPO_USE_LOCAL_LIBGIT2 "Use a local libgit2" Off)
 
 if(ESYSREPO_USE_CONAN)
   include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)

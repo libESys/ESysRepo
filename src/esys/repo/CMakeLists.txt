@@ -20,8 +20,7 @@ find_package(Boost 1.66 REQUIRED COMPONENTS filesystem program_options system)
 
 find_package(nlohmann_json 3.6.1 REQUIRED)
 
-include_directories(.. ../../../include ${git2_INCLUDE_DIRS}
-                    ${termcolor_DIR}/include)
+include_directories(.. ../../../include ${termcolor_DIR}/include)
 
 if(ESYSREPO_SNAP_BUILD)
   add_compile_definitions(ESYSREPO_SNAP_BUILD)
@@ -322,10 +321,15 @@ if(ESYSREPO_USE_CONAN)
 else()
   find_package(PkgConfig REQUIRED)
 
-  pkg_search_module(GIT2 REQUIRED IMPORTED_TARGET libgit2>=1.1.0)
-  pkg_search_module(SSH2 REQUIRED IMPORTED_TARGET libssh2)
+  if(NOT ESYSREPO_USE_LOCAL_LIBGIT2)
+    pkg_search_module(GIT2 REQUIRED IMPORTED_TARGET libgit2>=1.1.0)
+    target_link_libraries(esysrepo PRIVATE PkgConfig::GIT2)
+  else()
+    target_link_libraries(esysrepo PRIVATE git2)
+  endif()
 
-  target_link_libraries(esysrepo PRIVATE PkgConfig::GIT2 PkgConfig::SSH2)
+  pkg_search_module(SSH2 REQUIRED IMPORTED_TARGET libssh2)
+  target_link_libraries(esysrepo PRIVATE PkgConfig::SSH2)
 endif()
 
 install(TARGETS esysrepo LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
