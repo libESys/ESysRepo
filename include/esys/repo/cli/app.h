@@ -20,6 +20,7 @@
 #include "esys/repo/esysrepo_defs.h"
 #include "esys/repo/cli/appbase.h"
 
+#include "esys/repo/cli/cmdenv.h"
 #include "esys/repo/cli/cmdhelp.h"
 #include "esys/repo/cli/cmdinfo.h"
 #include "esys/repo/cli/cmdinit.h"
@@ -46,6 +47,7 @@ public:
 
     void set_version(const std::string &version) override;
 
+    CmdEnv &get_cmd_env();
     CmdHelp &get_cmd_help();
     CmdInfo &get_cmd_info();
     CmdInit &get_cmd_init();
@@ -56,6 +58,7 @@ public:
     CmdVersion &get_cmd_version();
 
 private:
+    CmdEnv m_cmd_env{this};
     CmdHelp m_cmd_help{this};
     CmdInfo m_cmd_info{this};
     CmdInit m_cmd_init{this};

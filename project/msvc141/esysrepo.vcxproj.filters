@@ -342,6 +342,12 @@
     <ClCompile Include="..\..\src\esys\repo\manifest\base_manifest.cpp">
       <Filter>Source Files\manifest</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\cli\cmdenv_cli.cpp">
+      <Filter>Source Files\cli</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\exe\cmdenv.cpp">
+      <Filter>Source Files\exe</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\esys\repo\esysrepo_defs.h">
@@ -655,6 +661,12 @@
     </ClInclude>
     <ClInclude Include="..\..\include\esys\repo\git\filemode.h">
       <Filter>Header Files\git</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\cli\cmdenv.h">
+      <Filter>Header Files\cli</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\exe\cmdenv.h">
+      <Filter>Header Files\exe</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
