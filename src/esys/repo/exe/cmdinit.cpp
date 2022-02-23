@@ -267,17 +267,32 @@ int CmdInit::fetch_unknown_manifest()
 
     auto git_helper = new_git_helper();
 
+    debug(1, "Test debug, before git_helper");
+    git_helper->debug(1, "Test debug with git_helper");
+
     int result = git_helper->clone(get_url(), path.normalize().make_preferred().string(), false, log::DEBUG);
-    if (result < 0) return -1;
+    if (result < 0)
+    {
+        error("Cloníng failed.");
+        return -1;
+    }
 
     if (!get_branch().empty())
     {
         result = get_git()->checkout(get_branch() /*, get_force()*/);
-        if (result < 0) return -1;
+        if (result < 0)
+        {
+            error("Cloning failed : checkout branch failed.");
+            return -1;
+        }
     }
 
     result = git_helper->close(log::DEBUG);
-    if (result < 0) return -1;
+    if (result < 0)
+    {
+        error("Cloning failed : can't clod the git repo.");
+        return -1;
+    }
 
     boost::filesystem::path file_path = path;
     file_path /= ".esysrepo.manifest";

@@ -41,6 +41,9 @@ bool SSHImpl::is_agent_present()
     LIBSSH2_SESSION *session = libssh2_session_init();
     LIBSSH2_AGENT *agent = libssh2_agent_init(session);
 
+    if (!self()->get_agent_identity_path().empty())
+        libssh2_agent_set_identity_path(agent, self()->get_agent_identity_path().c_str());
+
     int error = libssh2_agent_connect(agent);
     if (error != LIBSSH2_ERROR_NONE)
     {
@@ -49,7 +52,7 @@ bool SSHImpl::is_agent_present()
 
         std::ostringstream oss;
         oss << "agent error (" << error << ") : " << msg << std::endl;
-        // self()->error(oss.str());
+        self()->error(oss.str());
     }
     // else
     //    self()->debug(0, "SSH agent detected");

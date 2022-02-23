@@ -5,7 +5,7 @@
  * \cond
  * __legal_b__
  *
- * Copyright (c) 2021 Michel Gillet
+ * Copyright (c) 2021-2022 Michel Gillet
  * Distributed under the wxWindows Library Licence, Version 3.1.
  * (See accompanying file LICENSE_3_1.txt or
  * copy at http://www.wxwidgets.org/about/licence)
@@ -52,9 +52,16 @@ public:
 
     void check_for_custom_agent(bool force_check = false);
 
+    void set_agent_identity_path(const std::string &agent_identity_path) override;
+    const std::string &get_agent_identity_path() const override;
+
+    static void set_dflt_agent_identity_path(const std::string &agent_identity_path);
+    static const std::string &get_dflt_agent_identity_path();
+
 private:
     //!< \cond DOXY_IMPL
     std::unique_ptr<SSHImpl> m_impl;
+    static std::string s_dflt_agent_identity_path;
     //!< \endcond
 };
 

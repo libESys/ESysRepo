@@ -5,7 +5,7 @@
  * \cond
  * __legal_b__
  *
- * Copyright (c) 2021 Michel Gillet
+ * Copyright (c) 2021-2022 Michel Gillet
  * Distributed under the wxWindows Library Licence, Version 3.1.
  * (See accompanying file LICENSE_3_1.txt or
  * copy at http://www.wxwidgets.org/about/licence)
@@ -26,6 +26,18 @@
 
 namespace esys::repo::libssh2
 {
+
+std::string SSH::s_dflt_agent_identity_path;
+
+void SSH::set_dflt_agent_identity_path(const std::string &agent_identity_path)
+{
+    s_dflt_agent_identity_path = agent_identity_path;
+}
+
+const std::string &SSH::get_dflt_agent_identity_path()
+{
+    return s_dflt_agent_identity_path;
+}
 
 SSH::SSH()
     : SSHBase()
@@ -93,7 +105,7 @@ void SSH::check_for_custom_agent(bool force_check)
 
     char *home_c = getenv("HOME");
     char *snap_real_home_c = getenv("SNAP_REAL_HOME");
-    
+
     boost::filesystem::path home = home_c;
     boost::filesystem::path snap_real_home = snap_real_home_c;
 
@@ -165,6 +177,22 @@ void SSH::check_for_custom_agent(bool force_check)
     boost::filesystem::permissions(path, boost::filesystem::owner_exe | boost::filesystem::owner_read
                                              | boost::filesystem::owner_write);
     warn(oss.str());
+}
+
+void SSH::set_agent_identity_path(const std::string &agent_identity_path)
+{
+    SSHBase::set_agent_identity_path(agent_identity_path);
+
+    if (get_dflt_agent_identity_path().empty()) set_dflt_agent_identity_path(agent_identity_path);
+}
+
+const std::string &SSH::get_agent_identity_path() const
+{
+    if (!SSHBase::get_agent_identity_path().empty()) return SSHBase::get_agent_identity_path();
+
+    m_agent_identity_path = get_dflt_agent_identity_path();
+
+    return m_agent_identity_path;
 }
 
 } // namespace esys::repo::libssh2

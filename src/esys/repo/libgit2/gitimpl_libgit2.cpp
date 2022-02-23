@@ -5,7 +5,7 @@
  * \cond
  * __legal_b__
  *
- * Copyright (c) 2020-2021 Michel Gillet
+ * Copyright (c) 2020-2022 Michel Gillet
  * Distributed under the wxWindows Library Licence, Version 3.1.
  * (See accompanying file LICENSE_3_1.txt or
  * copy at http://www.wxwidgets.org/about/licence)
@@ -20,6 +20,7 @@
 #include "esys/repo/libgit2/guard.h"
 #include "esys/repo/libgit2/guards.h"
 #include "esys/repo/git/updatetip.h"
+#include "esys/repo/libssh2/ssh.h"
 
 #include <git2.h>
 #include <libssh2.h>
@@ -299,7 +300,7 @@ int GitImpl::clone(const std::string &url, const std::string &path, const std::s
     else
         return check_error(-1, "Unknown protocol.");
 
-    return check_error(result);
+    return check_error(result, "Clone failed");
 }
 
 int GitImpl::checkout(const std::string &branch, bool force)
@@ -760,16 +761,17 @@ int GitImpl::libgit2_credentials_cb(git_credential **out, const char *url, const
     if (self->is_ssh_agent_running())
     {
         self->self()->debug(0, "[GitImpl::libgit2_credentials_cb] agent is running");
-        if (self->get_agent_identity_path().empty())
+
+        std::string agent_id_path = libssh2::SSH::get_dflt_agent_identity_path();
+        if (agent_id_path.empty())
             return git_credential_ssh_key_from_agent(out, name);
         else
         {
             std::ostringstream oss;
 
-            oss << "[GitImpl::libgit2_credentials_cb] use custom agent with path '" << self->get_agent_identity_path()
-                << "'";
+            oss << "[GitImpl::libgit2_credentials_cb] use custom agent with path '" << agent_id_path << "'";
             self->self()->debug(0, oss.str());
-            return git_credential_ssh_key_from_custom_agent(out, name, self->get_agent_identity_path().c_str());
+            return git_credential_ssh_key_from_custom_agent(out, name, agent_id_path.c_str());
         }
     }
     else
