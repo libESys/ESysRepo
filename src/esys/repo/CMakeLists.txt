@@ -72,6 +72,7 @@ set(ESYSREPO_CLI_PUB_HEADERS
     cli/appbase.h
     cli/app.h
     cli/cmd.h
+    cli/cmdenv.h
     cli/cmdhelp.h
     cli/cmdinfo.h
     cli/cmdinit.h
@@ -89,6 +90,7 @@ set(ESYSREPO_CLI_CXX_SOURCES
     cli/app.cpp
     cli/appbase.cpp
     cli/cmd_cli.cpp
+    cli/cmdenv_cli.cpp
     cli/cmdhelp_cli.cpp
     cli/cmdinfo_cli.cpp
     cli/cmdinit_cli.cpp
@@ -100,6 +102,7 @@ set(ESYSREPO_CLI_CXX_SOURCES
 
 set(ESYSREPO_EXE_PUB_HEADERS
     exe/cmd.h
+    exe/cmdenv.h
     exe/cmdhelp.h
     exe/cmdinfo.h
     exe/cmdinit.h
@@ -114,6 +117,7 @@ list(TRANSFORM ESYSREPO_EXE_PUB_HEADERS
 
 set(ESYSREPO_EXE_CXX_SOURCES
     exe/cmd.cpp
+    exe/cmdenv.cpp
     exe/cmdhelp.cpp
     exe/cmdinfo.cpp
     exe/cmdinit.cpp
