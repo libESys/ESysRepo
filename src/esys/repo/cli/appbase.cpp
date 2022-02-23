@@ -350,6 +350,12 @@ int AppBase::parse(const std::vector<std::string> &args, po::options_description
     }
 
     if (parse_error) return -1;
+    if (get_debug() && m_logger)
+    {
+        m_logger->set_log_level(esys::log::Level::DEBUG);
+        m_logger->set_debug_level(DFT_LOGGER_DEBUG_LEVEL);
+        m_logger->set_flush_log_level(esys::log::Level::DEBUG);
+    }
     return 0;
 }
 
