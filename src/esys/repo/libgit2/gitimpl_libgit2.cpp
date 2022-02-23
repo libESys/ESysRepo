@@ -254,8 +254,11 @@ int GitImpl::clone(const std::string &url, const std::string &path, const std::s
     std::string new_ref;
     int result = 0;
 
+    self()->debug(1, "[GitImpl::clone] begin ...]");
+
     if (url.find("https:") == 0)
     {
+        self()->debug(1, "[GitImpl::clone] https]");
         self()->cmd_start();
         self()->open_time();
 
@@ -271,6 +274,7 @@ int GitImpl::clone(const std::string &url, const std::string &path, const std::s
     }
     else if ((url.find("ssh:") == 0))
     {
+        self()->debug(1, "[GitImpl::clone] ssh]");
         if (!is_ssh_agent_running()) return check_error(-1, "Only authentication via an ssh agent is supported", false);
 
         self()->cmd_start();
@@ -755,11 +759,21 @@ int GitImpl::libgit2_credentials_cb(git_credential **out, const char *url, const
 
     if (self->is_ssh_agent_running())
     {
+        self->self()->debug(0, "[GitImpl::libgit2_credentials_cb] agent is running");
         if (self->get_agent_identity_path().empty())
             return git_credential_ssh_key_from_agent(out, name);
         else
+        {
+            std::ostringstream oss;
+
+            oss << "[GitImpl::libgit2_credentials_cb] use custom agent with path '" << self->get_agent_identity_path()
+                << "'";
+            self->self()->debug(0, oss.str());
             return git_credential_ssh_key_from_custom_agent(out, name, self->get_agent_identity_path().c_str());
+        }
     }
+    else
+        self->self()->debug(0, "[GitImpl::libgit2_credentials_cb] NO agent is running");
 
     return -177;
 }

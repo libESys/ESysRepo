@@ -148,8 +148,6 @@ int AppBase::parse_and_configure()
 
 int AppBase::parse_args()
 {
-    setup_console_and_logs();
-
     po::positional_options_description p;
     p.add("command", 1).add("subargs", -1);
 
@@ -173,7 +171,10 @@ int AppBase::parse_args()
         // clang-format on
     }
 
-    return parse(m_args, *m_common_desc.get(), p, m_vm, false);
+    int result = parse(m_args, *m_common_desc.get(), p, m_vm, false);
+
+    setup_console_and_logs();
+    return result;
 }
 
 std::string AppBase::get_cmd()
@@ -350,12 +351,6 @@ int AppBase::parse(const std::vector<std::string> &args, po::options_description
     }
 
     if (parse_error) return -1;
-    if (get_debug() && m_logger)
-    {
-        m_logger->set_log_level(esys::log::Level::DEBUG);
-        m_logger->set_debug_level(DFT_LOGGER_DEBUG_LEVEL);
-        m_logger->set_flush_log_level(esys::log::Level::DEBUG);
-    }
     return 0;
 }
 

@@ -31,8 +31,7 @@ int main(int argc, char *argv[])
 
     cli.setup_terminal();
 
-    std::cout << termcolor::bold << ESYSREPOEXE_VERSION_STRING << termcolor::reset << std::endl
-              << std::endl;
+    std::cout << termcolor::bold << ESYSREPOEXE_VERSION_STRING << termcolor::reset << std::endl << std::endl;
 
     cli.set_version(ESYSREPOEXE_VERSION_NUM_DOT_STRING);
     cli.set_os(std::cout);
@@ -44,6 +43,8 @@ int main(int argc, char *argv[])
         cli.print_help(std::cout);
         return -result;
     }
+
+    cli.debug(0, "Debug is on");
 
     result = cli.run();
     return -result;

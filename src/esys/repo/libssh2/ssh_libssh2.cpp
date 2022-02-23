@@ -63,22 +63,50 @@ void SSH::check_for_custom_agent(bool force_check)
     do_check = false;
 #endif
 
-    char *ssh_auth_sock_c = getenv("SSH_AUTH_SOCK");
+    if (do_check) debug(0, "Snap detected");
 
-    if (!do_check && !force_check)
+    char *ssh_auth_sock_c = getenv("SSH_AUTH_SOCK");
+    std::string ssh_auth_sock = ssh_auth_sock_c ? ssh_auth_sock_c : "";
+
+    if (ssh_auth_sock.size() != 0)
     {
-        set_agent_identity_path(ssh_auth_sock_c);
+        std::ostringstream oss;
+
+        oss << "SSH_AUTH_SOCK = '" << ssh_auth_sock << "'";
+        debug(0, oss.str());
+    }
+    else
+    {
+        debug(0, "SSH_AUTH_SOCK is not set");
         return;
     }
 
-    if (ssh_auth_sock_c == nullptr) return;
+    if (!do_check && !force_check)
+    {
+        std::ostringstream oss;
+
+        oss << "Set set_agent_identity_path to '" << ssh_auth_sock << "'";
+        debug(0, oss.str());
+        set_agent_identity_path(ssh_auth_sock.c_str());
+        return;
+    }
+
     char *home_c = getenv("HOME");
     char *snap_real_home_c = getenv("SNAP_REAL_HOME");
-    std::string ssh_auth_sock = ssh_auth_sock_c;
+    
     boost::filesystem::path home = home_c;
     boost::filesystem::path snap_real_home = snap_real_home_c;
 
-    if (ssh_auth_sock.find(snap_real_home.string()) != std::string::npos) return;
+    std::ostringstream oss;
+
+    oss << "SNAP_REAL_HOME = '" << snap_real_home << "'";
+    debug(0, oss.str());
+
+    if (ssh_auth_sock.find(snap_real_home.string()) == 0)
+    {
+        debug(0, "Nothing to do.");
+        return;
+    }
 
     // SSH_AUTH_SOCK points to a file that can be accessed by a snap application
     boost::filesystem::path esysrepo_dir = snap_real_home;
@@ -88,11 +116,16 @@ void SSH::check_for_custom_agent(bool force_check)
 
     if (boost::filesystem::exists(new_ssh_auth_sock))
     {
+        std::ostringstream oss;
+
+        oss << "Set set_agent_identity_path to '" << new_ssh_auth_sock.string() << "'";
+        debug(0, oss.str());
+
         set_agent_identity_path(new_ssh_auth_sock.string());
         return;
     }
 
-    std::ostringstream oss;
+    oss.str("");
 
     oss << "This application was installed from a snap package." << std::endl;
     oss << "So it can't access the /tmp folder. When using an ssh agent or" << std::endl;
