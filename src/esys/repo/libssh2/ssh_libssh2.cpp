@@ -71,18 +71,19 @@ void SSH::check_for_custom_agent(bool force_check)
         return;
     }
 
-    char *home_c = getenv("HOME");
     if (ssh_auth_sock_c == nullptr) return;
-
+    char *home_c = getenv("HOME");
+    char *snap_real_home_c = getenv("SNAP_REAL_HOME");
     std::string ssh_auth_sock = ssh_auth_sock_c;
     boost::filesystem::path home = home_c;
+    boost::filesystem::path snap_real_home = snap_real_home_c;
 
-    if (ssh_auth_sock.find(home.string()) != std::string::npos) return;
+    if (ssh_auth_sock.find(snap_real_home.string()) != std::string::npos) return;
 
     // SSH_AUTH_SOCK points to a file that can be accessed by a snap application
-    boost::filesystem::path esysrepo_dir = home;
+    boost::filesystem::path esysrepo_dir = snap_real_home;
     boost::filesystem::path new_ssh_auth_sock;
-    esysrepo_dir /= ".esysrepo";
+    esysrepo_dir /= "_esysrepo";
     new_ssh_auth_sock = esysrepo_dir / ssh_auth_sock;
 
     if (boost::filesystem::exists(new_ssh_auth_sock))
@@ -93,7 +94,7 @@ void SSH::check_for_custom_agent(bool force_check)
 
     std::ostringstream oss;
 
-    oss << "This applciation was installed from a snap package." << std::endl;
+    oss << "This application was installed from a snap package." << std::endl;
     oss << "So it can't access the /tmp folder. When using an ssh agent or" << std::endl;
     oss << "using agent forwarding, required files are written to the /tmp." << std::endl;
     oss << "Currently, the only way around this is to mount the /tmp folder" << std::endl;
@@ -109,7 +110,7 @@ void SSH::check_for_custom_agent(bool force_check)
         boost::filesystem::create_directories(path);
     }
 
-    path = home / "bin";
+    path = snap_real_home / "bin";
     if (!boost::filesystem::exists(path))
     {
         boost::filesystem::create_directories(path);
@@ -131,6 +132,6 @@ void SSH::check_for_custom_agent(bool force_check)
     boost::filesystem::permissions(path, boost::filesystem::owner_exe | boost::filesystem::owner_read
                                              | boost::filesystem::owner_write);
     warn(oss.str());
-} // namespace esys::repo::libssh2
+}
 
 } // namespace esys::repo::libssh2
