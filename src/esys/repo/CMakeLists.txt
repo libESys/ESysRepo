@@ -351,6 +351,8 @@ endif()
 if(COMMAND add_clang_tidy_target)
   add_clang_tidy_target(
     esysrepo
+    BASE_PATH
+    ${ESYSREPO_DEV}
     HEADERS
     ${ESYSREPO_PUB_HEADERS}
     ${ESYSREPO_PRIV_HEADERS}
@@ -366,25 +368,6 @@ if(COMMAND add_clang_tidy_target)
     ${ESYSREPO_LIBSSH2_PUB_HEADERS}
     ${ESYSREPO_MANIFEST_PRIV_HEADERS}
     ${ESYSREPO_MANIFEST_PUB_HEADERS})
-
-  add_custom_target(
-    esysrepo-tidy-cleanup
-    COMMAND sed -i "s,${ESYSREPO_DEV}/,,g"
-            ${CMAKE_CURRENT_BINARY_DIR}/esysrepo-clang_tidy.html
-    COMMAND sed -i "s,${ESYSREPO_DEV}/,,g"
-            ${CMAKE_CURRENT_BINARY_DIR}/esysrepo-clang_tidy.log
-    DEPENDS esysrepo-tidy-html
-    COMMENT "esysrepo: Cleanup paths in clang-tidy results"
-    VERBATIM)
-  add_custom_target(
-    esysrepo-tidy-cleanup-only
-    COMMAND sed -i "s,${ESYSREPO_DEV}/,,g"
-            ${CMAKE_CURRENT_BINARY_DIR}/esysrepo-clang_tidy.html
-    COMMAND sed -i "s,${ESYSREPO_DEV}/,,g"
-            ${CMAKE_CURRENT_BINARY_DIR}/esysrepo-clang_tidy.log
-    COMMENT
-      "esysrepo: Only cleanup paths in clang-tidy results, don't create clang-tidy results"
-    VERBATIM)
 endif()
 
 add_subdirectory(test)
