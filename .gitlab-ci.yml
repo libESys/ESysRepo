@@ -55,6 +55,16 @@ unit_tests:ubuntu18_04:
   rules:
     - when: always
 
+unit_tests:ubuntu22_04:
+  <<: *unit_test
+  variables:
+    SKIP_CODE_COVERAGE: "yes"
+    SKIP_CLANG_TIDY: "yes"
+  tags:
+    - ubuntu22.04
+  rules:
+    - when: always
+
 unit_tests:macos_big_sur:
   <<: *unit_test
   variables:
