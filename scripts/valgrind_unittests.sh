@@ -10,17 +10,7 @@ mkdir -p build/cmake
 cd build
 cd cmake
 
-make valgrind-html-esysrepo_t -j`nproc --all`
-
-# valgrind --leak-check=full \
-#          --show-leak-kinds=all \
-#          --track-origins=yes \
-#          --verbose \
-#          --log-file=valgrind-out.txt \
-#          ./build/cmake/bin/esysrepo_t --logger=HRF,test_suite,stdout:JUNIT,all,report_junit.txt \
-#          --xml-file=valgrind-out.xml
-
-# valgrind-ci valgrind-out.xml --number-of-errors
+make esysrepo_t-valgrind-html -j`nproc --all`
 
 mkdir -p ../../../public/logs
 mkdir -p ../../../public/valgrind
