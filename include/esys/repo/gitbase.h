@@ -114,21 +114,21 @@ public:
      * \param[in] type the type of reset to do
      * \return 0 if successful, < 0 otherwise
      */
-    virtual int reset(const git::Commit &commit, git::ResetType type = git::ResetType::SOFT) = 0;
+    virtual int reset(const git::CommitHash &commit, git::ResetType type = git::ResetType::SOFT) = 0;
 
     //! Fast foward git repo to a given commit
     /*!
      * \param[in] commit the commit to reset the git repo to
      * \return 0 if successful, < 0 otherwise
      */
-    virtual int fastforward(const git::Commit &commit) = 0;
+    virtual int fastforward(const git::CommitHash &commit) = 0;
 
     //! Get the last commit of the HEAD
     /*!
      * \param[out] commit the commit data
      * \return 0 if successful, < 0 otherwise
      */
-    virtual int get_last_commit(git::Commit &commit) = 0;
+    virtual int get_last_commit(git::CommitHash &commit) = 0;
 
     //! Get the nth parent of a given commit
     /*!
@@ -143,7 +143,7 @@ public:
      * \param[in] nth_parent the nth parent starting
      * \return 0 if successful, < 0 otherwise
      */
-    virtual int get_parent_commit(const git::Commit &commit, git::Commit &parent, int nth_parent = 1) = 0;
+    virtual int get_parent_commit(const git::CommitHash &commit, git::CommitHash &parent, int nth_parent = 1) = 0;
 
     //! Tells if there are changes in the git repo
     /*!
@@ -187,7 +187,7 @@ public:
      * \return 0 if successful, < 0 otherwise
      */
     virtual int merge_analysis(const std::vector<std::string> &refs, git::MergeAnalysisResult &merge_analysis_result,
-                               std::vector<git::Commit> &commits) = 0;
+                               std::vector<git::CommitHash> &commits) = 0;
 
     //! Do a fetch on a git repo from the given remote
     /*!

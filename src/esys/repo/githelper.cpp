@@ -292,7 +292,7 @@ int GitHelper::close(log::Level log_level, int debug_level)
     return result;
 }
 
-int GitHelper::fastforward(const git::Commit &commit, log::Level log_level, int debug_level)
+int GitHelper::fastforward(const git::CommitHash &commit, log::Level log_level, int debug_level)
 {
     log("Fast forwarding ...", log_level, debug_level);
 
@@ -420,7 +420,7 @@ int GitHelper::checkout(const std::string &branch, bool force, log::Level log_le
 }
 
 int GitHelper::merge_analysis(const std::vector<std::string> &refs, git::MergeAnalysisResult &merge_analysis_result,
-                              std::vector<git::Commit> &commits, log::Level log_level, int debug_level)
+                              std::vector<git::CommitHash> &commits, log::Level log_level, int debug_level)
 {
     int result = get_git()->merge_analysis(refs, merge_analysis_result, commits);
     if (result < 0)

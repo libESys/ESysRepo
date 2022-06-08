@@ -73,7 +73,7 @@ private:
     git::Branches m_branches;
     std::string m_rel_repo_path;
     std::string m_repo_path;
-    std::shared_ptr<git::Commit> m_last_commit;
+    std::shared_ptr<git::CommitHash> m_last_commit;
     //!< \endcond
 };
 

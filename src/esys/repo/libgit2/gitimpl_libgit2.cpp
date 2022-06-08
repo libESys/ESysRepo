@@ -383,7 +383,7 @@ int GitImpl::checkout(const std::string &branch, bool force)
     }
 }
 
-int GitImpl::reset(const git::Commit &commit, git::ResetType type)
+int GitImpl::reset(const git::CommitHash &commit, git::ResetType type)
 {
     if (m_repo == nullptr) return -1;
 
@@ -413,7 +413,7 @@ int GitImpl::reset(const git::Commit &commit, git::ResetType type)
     return git_reset(m_repo, t_commit, reset_type, nullptr);
 }
 
-int GitImpl::fastforward(const git::Commit &commit)
+int GitImpl::fastforward(const git::CommitHash &commit)
 {
     git_checkout_options ff_checkout_options = GIT_CHECKOUT_OPTIONS_INIT;
     Guard<git_reference> target_ref;
@@ -447,7 +447,7 @@ int GitImpl::fastforward(const git::Commit &commit)
     return 0;
 }
 
-int GitImpl::get_last_commit(git::Commit &commit)
+int GitImpl::get_last_commit(git::CommitHash &commit)
 {
     if (m_repo == nullptr) return -1;
 
@@ -472,7 +472,7 @@ int GitImpl::get_last_commit(git::Commit &commit)
     return check_error(result);
 }
 
-int GitImpl::get_parent_commit(const git::Commit &commit, git::Commit &parent, int nth_parent)
+int GitImpl::get_parent_commit(const git::CommitHash &commit, git::CommitHash &parent, int nth_parent)
 {
     if (m_repo == nullptr) return -1;
 
@@ -891,13 +891,13 @@ bool GitImpl::is_ssh_agent_running()
 }
 
 int GitImpl::merge_analysis(const std::vector<std::string> &refs, git::MergeAnalysisResult &merge_analysis_result,
-                            std::vector<git::Commit> &commits)
+                            std::vector<git::CommitHash> &commits)
 {
     git_repository_state_t state = GIT_REPOSITORY_STATE_NONE;
     git_merge_analysis_t analysis = GIT_MERGE_ANALYSIS_NONE;
     git_merge_preference_t preference = GIT_MERGE_PREFERENCE_NONE;
     git_annotated_commit *annotated = nullptr;
-    git::Commit commit;
+    git::CommitHash commit;
     int result = 0;
 
     if (m_repo == nullptr) return -1;

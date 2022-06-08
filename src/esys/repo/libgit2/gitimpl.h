@@ -54,11 +54,11 @@ public:
 
     int clone(const std::string &url, const std::string &path, const std::string &branch = "");
     int checkout(const std::string &branch, bool force = false);
-    int reset(const git::Commit &commit, git::ResetType type = git::ResetType::SOFT);
-    int fastforward(const git::Commit &commit);
+    int reset(const git::CommitHash &commit, git::ResetType type = git::ResetType::SOFT);
+    int fastforward(const git::CommitHash &commit);
 
-    int get_last_commit(git::Commit &commit);
-    int get_parent_commit(const git::Commit &commit, git::Commit &parent, int nth_parent = 1);
+    int get_last_commit(git::CommitHash &commit);
+    int get_parent_commit(const git::CommitHash &commit, git::CommitHash &parent, int nth_parent = 1);
 
     int is_dirty(bool &dirty);
     int is_detached(bool &detached);
@@ -96,7 +96,7 @@ public:
     bool is_ssh_agent_running();
 
     int merge_analysis(const std::vector<std::string> &refs, git::MergeAnalysisResult &merge_analysis_result,
-                       std::vector<git::Commit> &commits);
+                       std::vector<git::CommitHash> &commits);
 
     int fetch(const std::string &remote);
 

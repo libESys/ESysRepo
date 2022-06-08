@@ -234,7 +234,7 @@ int SyncRepo::normal_sync(GitHelper &git_helper)
 
     std::vector<std::string> refs;
     git::MergeAnalysisResult merge_analysis_result;
-    std::vector<git::Commit> commits;
+    std::vector<git::CommitHash> commits;
 
     refs.push_back(branches.get_head()->get_remote_branch());
 

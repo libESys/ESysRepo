@@ -61,8 +61,8 @@ ESYSTEST_AUTO_TEST_CASE(GetParantCommit01LibGit2)
     if (result != 0) std::cout << "ERROR " << result << std::endl;
     ESYSTEST_REQUIRE_EQUAL(result, 0);
 
-    git::Commit last_commit;
-    git::Commit parent_commit;
+    git::CommitHash last_commit;
+    git::CommitHash parent_commit;
 
     result = git.get_last_commit(last_commit);
     if (result != 0) std::cout << "ERROR " << result << std::endl;

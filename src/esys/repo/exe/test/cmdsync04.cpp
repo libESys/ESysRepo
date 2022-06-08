@@ -47,7 +47,7 @@ ESYSTEST_AUTO_TEST_CASE(CmdSync04)
     int result = m_fix_cmd_sync.open_git_manifest_repo();
     ESYSTEST_REQUIRE_EQUAL(result, 0);
 
-    git::Commit last_commit;
+    git::CommitHash last_commit;
 
     // Get the last commit in the manifest git repo
     result = m_fix_cmd_sync.get_git()->get_last_commit(last_commit);
@@ -56,7 +56,7 @@ ESYSTEST_AUTO_TEST_CASE(CmdSync04)
     result = m_fix_cmd_sync.get_git()->reset_to_parent();
     ESYSTEST_REQUIRE_EQUAL(result, 0);
 
-    git::Commit new_last_commit;
+    git::CommitHash new_last_commit;
 
     result = m_fix_cmd_sync.close_git();
     ESYSTEST_REQUIRE_EQUAL(result, 0);

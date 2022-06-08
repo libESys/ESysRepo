@@ -115,7 +115,7 @@ int CmdInfo::open_repo(std::shared_ptr<manifest::Repository> repo)
     int result = git_helper->open(repo_path.string(), log::Level::DEBUG);
     if (result < 0) return result;
 
-    m_last_commit = std::make_shared<git::Commit>();
+    m_last_commit = std::make_shared<git::CommitHash>();
     result = get_git()->get_last_commit(*m_last_commit);
     if (result < 0) m_last_commit.reset();
 

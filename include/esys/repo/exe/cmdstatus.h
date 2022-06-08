@@ -72,7 +72,7 @@ private:
     bool m_quiet = false;
     std::string m_rel_repo_path;
     std::string m_repo_path;
-    std::shared_ptr<git::Commit> m_last_commit;
+    std::shared_ptr<git::CommitHash> m_last_commit;
     std::size_t m_start_print_branch = 50;
     std::shared_ptr<git::RepoStatus> m_repo_status;
     git::Branches m_branches;

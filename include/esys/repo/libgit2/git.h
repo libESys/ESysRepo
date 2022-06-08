@@ -56,11 +56,11 @@ public:
 
     int clone(const std::string &url, const std::string &path, const std::string &branch = "") override;
     int checkout(const std::string &branch, bool force = false) override;
-    int reset(const git::Commit &commit, git::ResetType type = git::ResetType::SOFT) override;
-    int fastforward(const git::Commit &commit) override;
+    int reset(const git::CommitHash &commit, git::ResetType type = git::ResetType::SOFT) override;
+    int fastforward(const git::CommitHash &commit) override;
 
-    int get_last_commit(git::Commit &commit) override;
-    int get_parent_commit(const git::Commit &commit, git::Commit &parent, int nth_parent = 1) override;
+    int get_last_commit(git::CommitHash &commit) override;
+    int get_parent_commit(const git::CommitHash &commit, git::CommitHash &parent, int nth_parent = 1) override;
 
     int is_dirty(bool &dirty) override;
     int is_detached(bool &detached) override;
@@ -71,7 +71,7 @@ public:
     void detect_ssh_agent(bool log_once = true) override;
 
     int merge_analysis(const std::vector<std::string> &refs, git::MergeAnalysisResult &merge_analysis_result,
-                       std::vector<git::Commit> &commits) override;
+                       std::vector<git::CommitHash> &commits) override;
 
     int fetch(const std::string &remote = "") override;
 

@@ -73,7 +73,7 @@ public:
 
     int close(log::Level log_level, int debug_level = 0);
 
-    int fastforward(const git::Commit &commit, log::Level log_level, int debug_level = 0);
+    int fastforward(const git::CommitHash &commit, log::Level log_level, int debug_level = 0);
 
     int fetch(const std::string &remote, log::Level log_level, int debug_level = 0);
     int fetch(log::Level log_level, int debug_level = 0);
@@ -94,7 +94,7 @@ public:
     int checkout(const std::string &branch, bool force, log::Level log_level, int debug_level = 0);
 
     int merge_analysis(const std::vector<std::string> &refs, git::MergeAnalysisResult &merge_analysis_result,
-                       std::vector<git::Commit> &commits, log::Level log_level, int debug_level = 0);
+                       std::vector<git::CommitHash> &commits, log::Level log_level, int debug_level = 0);
 
     int move(const std::string &src, const std::string &dst, bool recursive, log::Level log_level, int debug_level = 0);
 

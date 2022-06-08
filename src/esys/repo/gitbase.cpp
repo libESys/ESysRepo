@@ -39,8 +39,8 @@ int GitBase::reset_to_parent(int nth_parent)
 
     if (result < 0) return result;
 
-    git::Commit last_commit;
-    git::Commit parent_commit;
+    git::CommitHash last_commit;
+    git::CommitHash parent_commit;
 
     // Get the last commit in the manifest git repo
     result = get_last_commit(last_commit);
@@ -54,7 +54,7 @@ int GitBase::reset_to_parent(int nth_parent)
     result = reset(parent_commit, git::ResetType::HARD);
     if (result < 0) return result;
 
-    git::Commit new_last_commit;
+    git::CommitHash new_last_commit;
 
     // Get the new last commit
     result = get_last_commit(new_last_commit);

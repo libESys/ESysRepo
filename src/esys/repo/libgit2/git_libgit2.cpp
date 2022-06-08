@@ -75,22 +75,22 @@ int Git::checkout(const std::string &branch, bool force)
     return get_impl()->checkout(branch, force);
 }
 
-int Git::reset(const git::Commit &commit, git::ResetType type)
+int Git::reset(const git::CommitHash &commit, git::ResetType type)
 {
     return get_impl()->reset(commit, type);
 }
 
-int Git::fastforward(const git::Commit &commit)
+int Git::fastforward(const git::CommitHash &commit)
 {
     return get_impl()->fastforward(commit);
 }
 
-int Git::get_last_commit(git::Commit &commit)
+int Git::get_last_commit(git::CommitHash &commit)
 {
     return get_impl()->get_last_commit(commit);
 }
 
-int Git::get_parent_commit(const git::Commit &commit, git::Commit &parent, int nth_parent)
+int Git::get_parent_commit(const git::CommitHash &commit, git::CommitHash &parent, int nth_parent)
 {
     return get_impl()->get_parent_commit(commit, parent, nth_parent);
 }
@@ -128,7 +128,7 @@ void Git::detect_ssh_agent(bool log_once)
 }
 
 int Git::merge_analysis(const std::vector<std::string> &refs, git::MergeAnalysisResult &merge_analysis_result,
-                        std::vector<git::Commit> &commits)
+                        std::vector<git::CommitHash> &commits)
 {
     return m_impl->merge_analysis(refs, merge_analysis_result, commits);
 }
