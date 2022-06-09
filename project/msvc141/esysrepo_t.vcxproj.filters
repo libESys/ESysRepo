@@ -37,6 +37,9 @@
     <Filter Include="Source Files\cli">
       <UniqueIdentifier>{53624a45-5f59-4dc0-9577-d1b3c25845e0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\gitstats">
+      <UniqueIdentifier>{162884a7-df2e-4664-b743-5ff28ed63de1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\esys\repo\test\esysrepo_t_prec.cpp">
@@ -194,6 +197,9 @@
     </ClCompile>
     <ClCompile Include="..\..\src\esys\repo\libgit2\test\walkcommits01_libgit2.cpp">
       <Filter>Source Files\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\gitstats\test\basic01.cpp">
+      <Filter>Source Files\gitstats</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

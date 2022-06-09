@@ -73,6 +73,12 @@
     <Filter Include="Source Files\cli">
       <UniqueIdentifier>{7bea241d-1320-476f-bea9-34908ef42143}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\gitstats">
+      <UniqueIdentifier>{5aed014e-7037-4c4f-9536-c2b53b5a7b66}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\gitstats">
+      <UniqueIdentifier>{1067f3ed-8d55-4f68-ac22-cedd2bed172d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\esys\repo\esysrepo_dll.cpp">
@@ -353,6 +359,27 @@
     </ClCompile>
     <ClCompile Include="..\..\src\esys\repo\git\walkcommit_git.cpp">
       <Filter>Source Files\git</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\gitstats\author.cpp">
+      <Filter>Source Files\gitstats</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\gitstats\data.cpp">
+      <Filter>Source Files\gitstats</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\gitstats\datayear.cpp">
+      <Filter>Source Files\gitstats</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\gitstats\dataperiod.cpp">
+      <Filter>Source Files\gitstats</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\gitstats\dataperiodauthor.cpp">
+      <Filter>Source Files\gitstats</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\gitstats\basic.cpp">
+      <Filter>Source Files\gitstats</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\gitstats\authormngr.cpp">
+      <Filter>Source Files\gitstats</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\esys\repo\git\diff_git.cpp">
       <Filter>Source Files\git</Filter>
@@ -682,6 +709,27 @@
     </ClInclude>
     <ClInclude Include="..\..\include\esys\repo\git\commit.h">
       <Filter>Header Files\git</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\gitstats\author.h">
+      <Filter>Header Files\gitstats</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\gitstats\data.h">
+      <Filter>Header Files\gitstats</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\gitstats\datayear.h">
+      <Filter>Header Files\gitstats</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\gitstats\dataperiod.h">
+      <Filter>Header Files\gitstats</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\gitstats\dataperiodauthor.h">
+      <Filter>Header Files\gitstats</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\gitstats\basic.h">
+      <Filter>Header Files\gitstats</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\gitstats\authormngr.h">
+      <Filter>Header Files\gitstats</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\esys\repo\git\diff.h">
       <Filter>Header Files\git</Filter>

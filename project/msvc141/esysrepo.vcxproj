@@ -319,6 +319,13 @@
     <ClCompile Include="..\..\src\esys\repo\gitcmdline\git_cmdline.cpp" />
     <ClCompile Include="..\..\src\esys\repo\githelper.cpp" />
     <ClCompile Include="..\..\src\esys\repo\gitmngr.cpp" />
+    <ClCompile Include="..\..\src\esys\repo\gitstats\author.cpp" />
+    <ClCompile Include="..\..\src\esys\repo\gitstats\authormngr.cpp" />
+    <ClCompile Include="..\..\src\esys\repo\gitstats\basic.cpp" />
+    <ClCompile Include="..\..\src\esys\repo\gitstats\data.cpp" />
+    <ClCompile Include="..\..\src\esys\repo\gitstats\dataperiod.cpp" />
+    <ClCompile Include="..\..\src\esys\repo\gitstats\dataperiodauthor.cpp" />
+    <ClCompile Include="..\..\src\esys\repo\gitstats\datayear.cpp" />
     <ClCompile Include="..\..\src\esys\repo\git\branches_git.cpp" />
     <ClCompile Include="..\..\src\esys\repo\git\branch_git.cpp" />
     <ClCompile Include="..\..\src\esys\repo\git\commit.cpp" />
@@ -411,6 +418,13 @@
     <ClInclude Include="..\..\include\esys\repo\gitcmdline\git.h" />
     <ClInclude Include="..\..\include\esys\repo\githelper.h" />
     <ClInclude Include="..\..\include\esys\repo\gitmngr.h" />
+    <ClInclude Include="..\..\include\esys\repo\gitstats\author.h" />
+    <ClInclude Include="..\..\include\esys\repo\gitstats\authormngr.h" />
+    <ClInclude Include="..\..\include\esys\repo\gitstats\basic.h" />
+    <ClInclude Include="..\..\include\esys\repo\gitstats\data.h" />
+    <ClInclude Include="..\..\include\esys\repo\gitstats\dataperiod.h" />
+    <ClInclude Include="..\..\include\esys\repo\gitstats\dataperiodauthor.h" />
+    <ClInclude Include="..\..\include\esys\repo\gitstats\datayear.h" />
     <ClInclude Include="..\..\include\esys\repo\git\branch.h" />
     <ClInclude Include="..\..\include\esys\repo\git\branches.h" />
     <ClInclude Include="..\..\include\esys\repo\git\branchtype.h" />
