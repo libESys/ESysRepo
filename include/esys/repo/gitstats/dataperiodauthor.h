@@ -21,6 +21,7 @@
 #include "esys/repo/gitstats/author.h"
 
 #include <map>
+#include <memory>
 #include <string>
 
 //<swig_inc/>

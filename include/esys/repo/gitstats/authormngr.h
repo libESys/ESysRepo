@@ -23,6 +23,7 @@
 #include "esys/repo/git/commit.h"
 
 #include <map>
+#include <memory>
 #include <string>
 
 //<swig_inc/>

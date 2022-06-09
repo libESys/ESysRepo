@@ -21,6 +21,7 @@
 #include "esys/repo/gitstats/dataperiodauthor.h"
 
 #include <map>
+#include <memory>
 #include <string>
 
 //<swig_inc/>

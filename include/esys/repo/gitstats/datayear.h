@@ -20,6 +20,7 @@
 #include "esys/repo/esysrepo_defs.h"
 #include "esys/repo/gitstats/dataperiod.h"
 
+#include <memory>
 #include <string>
 #include <vector>
 

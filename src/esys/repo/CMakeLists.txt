@@ -132,6 +132,8 @@ set(ESYSREPO_GIT_PUB_HEADERS
     git/branch.h
     git/branchtype.h
     git/commit.h
+    git/commithash.h
+    git/diff.h
     git/diffdelta.h
     git/diffdeltatype.h
     git/difffile.h
@@ -147,7 +149,8 @@ set(ESYSREPO_GIT_PUB_HEADERS
     git/statussubtype.h
     git/statustype.h
     git/updatetip.h
-    git/updatetiptype.h)
+    git/updatetiptype.h
+    git/walkcommit.h)
 list(TRANSFORM ESYSREPO_GIT_PUB_HEADERS
      PREPEND ${CMAKE_CURRENT_SOURCE_DIR}/../../../include/esys/repo/)
 
@@ -155,6 +158,8 @@ set(ESYSREPO_GIT_CXX_SOURCES
     git/branch_git.cpp
     git/branches_git.cpp
     git/commit.cpp
+    git/commithash.cpp
+    git/diff_git.cpp
     git/diffdelta_git.cpp
     git/difffile_git.cpp
     git/filestatus_git.cpp
@@ -162,7 +167,8 @@ set(ESYSREPO_GIT_CXX_SOURCES
     git/remote_git.cpp
     git/repostatus_git.cpp
     git/status_git.cpp
-    git/updatetip_git.cpp)
+    git/updatetip_git.cpp
+    git/walkcommit_git.cpp)
 
 set(ESYSREPO_GITCMDLINE_PUB_HEADERS gitcmdline/git.h)
 
@@ -170,6 +176,27 @@ list(TRANSFORM ESYSREPO_GITCMDLINE_PUB_HEADERS
      PREPEND ${CMAKE_CURRENT_SOURCE_DIR}/../../../include/esys/repo/)
 
 set(ESYSREPO_GITCMDLINE_CXX_SOURCES gitcmdline/git_cmdline.cpp)
+
+set(ESYSREPO_GITSTATS_PUB_HEADERS
+    gitstats/author.h
+    gitstats/authormngr.h
+    gitstats/basic.h
+    gitstats/data.h
+    gitstats/dataperiodauthor.h
+    gitstats/dataperiod.h
+    gitstats/datayear.h)
+
+list(TRANSFORM ESYSREPO_GITSTATS_PUB_HEADERS
+     PREPEND ${CMAKE_CURRENT_SOURCE_DIR}/../../../include/esys/repo/)
+
+set(ESYSREPO_GITSTATS_CXX_SOURCES
+    gitstats/author.cpp
+    gitstats/authormngr.cpp
+    gitstats/basic.cpp
+    gitstats/data.cpp
+    gitstats/dataperiodauthor.cpp
+    gitstats/dataperiod.cpp
+    gitstats/datayear.cpp)
 
 set(ESYSREPO_GREPO_PUB_HEADERS grepo/manifest.h)
 list(TRANSFORM ESYSREPO_GREPO_PUB_HEADERS
@@ -285,6 +312,8 @@ add_library(
   ${ESYSREPO_GIT_CXX_SOURCES}
   ${ESYSREPO_GITCMDLINE_PUB_HEADERS}
   ${ESYSREPO_GITCMDLINE_CXX_SOURCES}
+  ${ESYSREPO_GITSTATS_PUB_HEADERS}
+  ${ESYSREPO_GITSTATS_CXX_SOURCES}
   ${ESYSREPO_GREPO_PUB_HEADERS}
   ${ESYSREPO_GREPO_PRIV_HEADERS}
   ${ESYSREPO_GREPO_CXX_SOURCES}

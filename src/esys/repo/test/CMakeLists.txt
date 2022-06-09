@@ -59,6 +59,8 @@ set(ESYSREPO_T_EXE_CXX_SOURCES
 
 set(ESYSREPO_T_GIT_CXX_SOURCES ../git/test/sortbranches01.cpp)
 
+set(ESYSREPO_T_GITSTATS_CXX_SOURCES ../gitstats/test/basic01.cpp)
+
 set(ESYSREPO_T_GREPO_CXX_SOURCES
     ../grepo/test/readmanifest01_grepo.cpp
     ../grepo/test/readmanifest02_grepo.cpp
@@ -72,7 +74,8 @@ set(ESYSREPO_T_LIBGIT2_CXX_SOURCES
     ../libgit2/test/getstatus01_libgit2.cpp
     ../libgit2/test/isdirty01_libgit2.cpp
     ../libgit2/test/opengitrepo01_libgit2.cpp
-    ../libgit2/test/sshagent01.cpp)
+    ../libgit2/test/sshagent01.cpp
+    ../libgit2/test/walkcommits01_libgit2.cpp)
 
 set(ESYSREPO_T_MANIFEST_CXX_SOURCES
     ../manifest/test/globymatch01.cpp ../manifest/test/task_t01_manifest.cpp
@@ -85,6 +88,7 @@ add_executable(
   ${ESYSREPO_T_CLI_CXX_SOURCES}
   ${ESYSREPO_T_EXE_CXX_SOURCES}
   ${ESYSREPO_T_GIT_CXX_SOURCES}
+  ${ESYSREPO_T_GITSTATS_CXX_SOURCES}
   ${ESYSREPO_T_GREPO_CXX_SOURCES}
   ${ESYSREPO_T_LIBGIT2_CXX_SOURCES}
   ${ESYSREPO_T_MANIFEST_CXX_SOURCES})
