@@ -354,6 +354,9 @@
     <ClCompile Include="..\..\src\esys\repo\git\walkcommit_git.cpp">
       <Filter>Source Files\git</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\git\diff_git.cpp">
+      <Filter>Source Files\git</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\esys\repo\esysrepo_defs.h">
@@ -678,6 +681,9 @@
       <Filter>Header Files\git</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\esys\repo\git\commit.h">
+      <Filter>Header Files\git</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\git\diff.h">
       <Filter>Header Files\git</Filter>
     </ClInclude>
   </ItemGroup>

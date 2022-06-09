@@ -20,6 +20,7 @@
 #include "esys/repo/esysrepo_defs.h"
 #include "esys/repo/git/branches.h"
 #include "esys/repo/git/commit.h"
+#include "esys/repo/git/diff.h"
 #include "esys/repo/git/fetchstep.h"
 #include "esys/repo/git/mergeanalysisresult.h"
 #include "esys/repo/git/progress.h"
@@ -210,6 +211,14 @@ public:
      * \return 0 if successful, < 0 otherwise
      */
     virtual int walk_commits(std::shared_ptr<git::WalkCommit> walk_commit) = 0;
+
+    //! Get the diff between a commit and its parent
+    /*!
+     * \param[in] commit_hash the commit to get the diff from
+     * \param[out] diff the diff with the parent if any
+     * \return 0 if successful, < 0 otherwise
+     */
+    virtual int diff(const git::CommitHash commit_hash, std::shared_ptr<git::Diff> diff) = 0;
 
     //! Tells if a folder is a git repository
     /*!

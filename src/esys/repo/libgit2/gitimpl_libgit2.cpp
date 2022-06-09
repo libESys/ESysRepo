@@ -250,6 +250,19 @@ int GitImpl::get_hash(const std::string &revision, std::string &hash, git::Branc
     return 0;
 }
 
+int GitImpl::treeish_to_tree(Guard<git_tree> &tree, git_repository *repo, const char *treeish)
+{
+    Guard<git_object> obj;
+
+    int result = git_revparse_single(obj.get_p(), repo, treeish);
+    if (result < 0) return -1;
+
+    result = git_object_peel((git_object **)tree.get_p(), obj.get(), GIT_OBJECT_TREE);
+
+    if (result < 0) return -1;
+    return 0;
+}
+
 int GitImpl::walk_commits(std::shared_ptr<git::WalkCommit> walk_commit)
 {
     if (m_repo == nullptr) return -1;
@@ -305,6 +318,62 @@ int GitImpl::walk_commits(std::shared_ptr<git::WalkCommit> walk_commit)
 
     return 0;
     // self()->cmd_start();
+}
+
+int GitImpl::diff(const git::CommitHash commit_hash, std::shared_ptr<git::Diff> diff)
+{
+    Guard<git_tree> commit_tree;
+    Guard<git_tree> parent_tree;
+    bool has_parent = true;
+
+    int result = treeish_to_tree(commit_tree, m_repo, commit_hash.get_hash().c_str());
+    if (result < 0) return -1;
+
+    git::CommitHash parent_hash;
+    result = get_parent_commit(commit_hash, parent_hash);
+    if (result < 0)
+        has_parent = false;
+    else
+    {
+        result = treeish_to_tree(parent_tree, m_repo, parent_hash.get_hash().c_str());
+        if (result < 0) return -1;
+    }
+
+    Guard<git_diff> the_diff;
+    git_diff_options diffopts;
+
+    result = git_diff_options_init(&diffopts, GIT_DIFF_OPTIONS_VERSION);
+    if (result < 0) return -1;
+
+    // diffopts.id_abbrev = 40;
+
+    if (has_parent)
+        result = git_diff_tree_to_tree(the_diff.get_p(), m_repo, parent_tree.get(), commit_tree.get(), &diffopts);
+    else
+        result = git_diff_tree_to_tree(the_diff.get_p(), m_repo, nullptr, commit_tree.get(), &diffopts);
+
+    if (result < 0) return -1;
+
+    Guard<git_diff_stats> diff_stats;
+
+    result = git_diff_get_stats(diff_stats.get_p(), the_diff.get());
+    if (result < 0) return -1;
+
+    /*diff_file_stats *filestats;
+
+    size_t files_changed;
+    size_t insertions;
+    size_t deletions;
+    size_t renames;
+
+    size_t max_name;
+    size_t max_filestat;
+    int max_digits; */
+    diff->set_files_changed(static_cast<unsigned int>(git_diff_stats_files_changed(diff_stats.get())));
+    diff->set_insertions(static_cast<unsigned int>(git_diff_stats_insertions(diff_stats.get())));
+    diff->set_deletions(static_cast<unsigned int>(git_diff_stats_deletions(diff_stats.get())));
+    diff->set_renames(static_cast<unsigned int>(git_diff_stats_renames(diff_stats.get())));
+    return 0;
 }
 
 int GitImpl::clone(const std::string &url, const std::string &path, const std::string &branch)

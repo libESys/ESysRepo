@@ -84,4 +84,28 @@ ESYSREPO_API void guard_release<git_revwalk>(git_revwalk *walker)
     git_revwalk_free(walker);
 }
 
+template<>
+ESYSREPO_API void guard_release<git_tree>(git_tree *tree)
+{
+    if (tree == nullptr) return;
+
+    git_tree_free(tree);
+}
+
+template<>
+ESYSREPO_API void guard_release<git_diff>(git_diff *diff)
+{
+    if (diff == nullptr) return;
+
+    git_diff_free(diff);
+}
+
+template<>
+ESYSREPO_API void guard_release<git_diff_stats>(git_diff_stats *diff_stats)
+{
+    if (diff_stats == nullptr) return;
+
+    git_diff_stats_free(diff_stats);
+}
+
 } // namespace esys::repo::libgit2

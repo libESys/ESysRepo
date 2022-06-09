@@ -66,6 +66,15 @@ ESYSREPO_API void guard_release<git_annotated_commit>(git_annotated_commit *anno
 template<>
 ESYSREPO_API void guard_release<git_revwalk>(git_revwalk *walker);
 
+template<>
+ESYSREPO_API void guard_release<git_tree>(git_tree *tree);
+
+template<>
+ESYSREPO_API void guard_release<git_diff>(git_diff *diff);
+
+template<>
+ESYSREPO_API void guard_release<git_diff_stats>(git_diff_stats *diff_stats);
+
 } // namespace libgit2
 
 } // namespace repo

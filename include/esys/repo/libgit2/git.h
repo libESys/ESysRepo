@@ -82,6 +82,8 @@ public:
 
     int walk_commits(std::shared_ptr<git::WalkCommit> walk_commit) override;
 
+    int diff(const git::CommitHash commit_hash, std::shared_ptr<git::Diff> diff) override;
+
     void set_url(const std::string &url);
     const std::string &get_url();
 

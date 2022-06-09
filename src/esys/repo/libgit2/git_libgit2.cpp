@@ -153,6 +153,11 @@ int Git::walk_commits(std::shared_ptr<git::WalkCommit> walk_commit)
     return m_impl->walk_commits(walk_commit);
 }
 
+int Git::diff(const git::CommitHash commit_hash, std::shared_ptr<git::Diff> diff)
+{
+    return m_impl->diff(commit_hash, diff);
+}
+
 void Git::set_url(const std::string &url)
 {
     m_url = url;

@@ -104,6 +104,10 @@ public:
     int get_hash(const std::string &revision, std::string &hash, git::BranchType branch_type = git::BranchType::REMOTE);
 
     int walk_commits(std::shared_ptr<git::WalkCommit> walk_commit);
+    int diff(const git::CommitHash commit_hash, std::shared_ptr<git::Diff> diff);
+
+    int treeish_to_tree(Guard<git_tree> &tree, git_repository *repo, const char *treeish);
+
     int resolve_ref(git_annotated_commit **commit, const std::string &ref);
     int resolve_ref(git_reference **ref, const std::string &ref_str);
     int resolve_ref(git_reference **ref, git_annotated_commit **commit, const std::string &ref_str);
