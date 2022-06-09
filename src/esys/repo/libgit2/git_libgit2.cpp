@@ -5,7 +5,7 @@
  * \cond
  * __legal_b__
  *
- * Copyright (c) 2020-2021 Michel Gillet
+ * Copyright (c) 2020-2022 Michel Gillet
  * Distributed under the wxWindows Library Licence, Version 3.1.
  * (See accompanying file LICENSE_3_1.txt or
  * copy at http://www.wxwidgets.org/about/licence)
@@ -146,6 +146,11 @@ bool Git::has_branch(const std::string &name, git::BranchType branch_type)
 int Git::get_hash(const std::string &revision, std::string &hash, git::BranchType branch_type)
 {
     return m_impl->get_hash(revision, hash, branch_type);
+}
+
+int Git::walk_commits(std::shared_ptr<git::WalkCommit> walk_commit)
+{
+    return m_impl->walk_commits(walk_commit);
 }
 
 void Git::set_url(const std::string &url)

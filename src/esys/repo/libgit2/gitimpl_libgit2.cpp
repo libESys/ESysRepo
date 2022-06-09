@@ -250,6 +250,63 @@ int GitImpl::get_hash(const std::string &revision, std::string &hash, git::Branc
     return 0;
 }
 
+int GitImpl::walk_commits(std::shared_ptr<git::WalkCommit> walk_commit)
+{
+    if (m_repo == nullptr) return -1;
+    if (walk_commit == nullptr) return -1;
+
+    git::CommitHash hash;
+    int result = get_last_commit(hash);
+    if (result < 0) return -1;
+
+    git_oid oid;
+
+    result = convert_hex_bin(hash.get_hash(), oid);
+    if (result < 0) return -1;
+
+    Guard<git_revwalk> walker;
+    Guard<git_commit> commit;
+
+    git_revwalk_new(walker.get_p(), m_repo);
+    git_revwalk_sorting(walker.get(), GIT_SORT_TOPOLOGICAL);
+    git_revwalk_push(walker.get(), &oid);
+
+    const char *commit_message;
+    const git_signature *commit_signature;
+    git_time_t commit_time;
+
+    while (git_revwalk_next(&oid, walker.get()) == 0)
+    {
+        if (git_commit_lookup(commit.get_p(), m_repo, &oid) != 0)
+        {
+            return -2;
+        }
+
+        commit_message = git_commit_message(commit.get());
+        commit_signature = git_commit_committer(commit.get());
+        commit_time = git_commit_time(commit.get());
+
+        std::time_t commit_time_t = static_cast<std::time_t>(commit_time);
+        std::string commit_time_str = std::asctime(std::localtime(&commit_time_t));
+
+        auto commit_info = std::make_shared<git::Commit>();
+
+        commit_info->set_message(commit_message);
+        commit_info->set_author(commit_signature->name);
+        commit_info->set_email(commit_signature->email);
+        commit_info->set_date_time(std::chrono::system_clock::from_time_t(commit_time_t));
+
+        result = convert_bin_hex(oid, commit_info->get_hash().get_hash());
+        if (result < 0) return -2;
+
+        walk_commit->new_commit(self(), commit_info);
+        commit.reset();
+    }
+
+    return 0;
+    // self()->cmd_start();
+}
+
 int GitImpl::clone(const std::string &url, const std::string &path, const std::string &branch)
 {
     std::string new_ref;

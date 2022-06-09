@@ -5,7 +5,7 @@
  * \cond
  * __legal_b__
  *
- * Copyright (c) 2020-2021 Michel Gillet
+ * Copyright (c) 2020-2022 Michel Gillet
  * Distributed under the wxWindows Library Licence, Version 3.1.
  * (See accompanying file LICENSE_3_1.txt or
  * copy at http://www.wxwidgets.org/about/licence)
@@ -103,6 +103,7 @@ public:
     bool has_branch(const std::string &name, git::BranchType branch_type = git::BranchType::LOCAL);
     int get_hash(const std::string &revision, std::string &hash, git::BranchType branch_type = git::BranchType::REMOTE);
 
+    int walk_commits(std::shared_ptr<git::WalkCommit> walk_commit);
     int resolve_ref(git_annotated_commit **commit, const std::string &ref);
     int resolve_ref(git_reference **ref, const std::string &ref_str);
     int resolve_ref(git_reference **ref, git_annotated_commit **commit, const std::string &ref_str);

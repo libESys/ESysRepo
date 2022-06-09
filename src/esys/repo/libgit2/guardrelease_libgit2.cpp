@@ -5,7 +5,7 @@
  * \cond
  * __legal_b__
  *
- * Copyright (c) 2020 Michel Gillet
+ * Copyright (c) 2020-2022 Michel Gillet
  * Distributed under the wxWindows Library Licence, Version 3.1.
  * (See accompanying file LICENSE_3_1.txt or
  * copy at http://www.wxwidgets.org/about/licence)
@@ -75,6 +75,13 @@ ESYSREPO_API void guard_release<git_annotated_commit>(git_annotated_commit *anno
 {
     if (annotated_commit == nullptr) return;
     git_annotated_commit_free(annotated_commit);
+}
+
+template<>
+ESYSREPO_API void guard_release<git_revwalk>(git_revwalk *walker)
+{
+    if (walker == nullptr) return;
+    git_revwalk_free(walker);
 }
 
 } // namespace esys::repo::libgit2

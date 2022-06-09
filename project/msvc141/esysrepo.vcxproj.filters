@@ -351,6 +351,9 @@
     <ClCompile Include="..\..\src\esys\repo\git\commit.cpp">
       <Filter>Source Files\git</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\git\walkcommit_git.cpp">
+      <Filter>Source Files\git</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\esys\repo\esysrepo_defs.h">
@@ -667,6 +670,9 @@
     </ClInclude>
     <ClInclude Include="..\..\include\esys\repo\exe\cmdenv.h">
       <Filter>Header Files\exe</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\git\walkcommit.h">
+      <Filter>Header Files\git</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\esys\repo\git\commithash.h">
       <Filter>Header Files\git</Filter>

@@ -5,7 +5,7 @@
  * \cond
  * __legal_b__
  *
- * Copyright (c) 2020-2021 Michel Gillet
+ * Copyright (c) 2020-2022 Michel Gillet
  * Distributed under the wxWindows Library Licence, Version 3.1.
  * (See accompanying file LICENSE_3_1.txt or
  * copy at http://www.wxwidgets.org/about/licence)
@@ -18,14 +18,15 @@
 #pragma once
 
 #include "esys/repo/esysrepo_defs.h"
-#include "esys/repo/git/remote.h"
 #include "esys/repo/git/branches.h"
 #include "esys/repo/git/commit.h"
-#include "esys/repo/git/repostatus.h"
-#include "esys/repo/git/mergeanalysisresult.h"
 #include "esys/repo/git/fetchstep.h"
+#include "esys/repo/git/mergeanalysisresult.h"
 #include "esys/repo/git/progress.h"
+#include "esys/repo/git/remote.h"
+#include "esys/repo/git/repostatus.h"
 #include "esys/repo/git/resettype.h"
+#include "esys/repo/git/walkcommit.h"
 
 #include "esys/repo/progresscallbackbase.h"
 
@@ -202,6 +203,13 @@ public:
 
     virtual int get_hash(const std::string &revision, std::string &hash,
                          git::BranchType branch_type = git::BranchType::REMOTE) = 0;
+
+    //! Walks through all the commits starting from the HEAD
+    /*!
+     * \param[in] walk_commit the instance used to handle the commits
+     * \return 0 if successful, < 0 otherwise
+     */
+    virtual int walk_commits(std::shared_ptr<git::WalkCommit> walk_commit) = 0;
 
     //! Tells if a folder is a git repository
     /*!

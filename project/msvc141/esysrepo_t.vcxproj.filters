@@ -192,6 +192,9 @@
     <ClCompile Include="..\..\src\esys\repo\exe\test\esysmodbuscmdsync02.cpp">
       <Filter>Source Files\exe</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\libgit2\test\walkcommits01_libgit2.cpp">
+      <Filter>Source Files\libgit2</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\esys\repo\test\esysrepo_t_prec.h">

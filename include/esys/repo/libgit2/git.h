@@ -80,6 +80,8 @@ public:
     int get_hash(const std::string &revision, std::string &hash,
                  git::BranchType branch_type = git::BranchType::REMOTE) override;
 
+    int walk_commits(std::shared_ptr<git::WalkCommit> walk_commit) override;
+
     void set_url(const std::string &url);
     const std::string &get_url();
 
