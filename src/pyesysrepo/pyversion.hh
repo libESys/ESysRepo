@@ -1,4 +1,4 @@
-// PySwig 0.0.1
+// PySwig 0.1.0
 
 /*!
  * \file pyesysrepo/version.h

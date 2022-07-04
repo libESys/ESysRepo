@@ -1,4 +1,4 @@
-// PySwig 0.0.1
+// PySwig 0.1.0
 
 /*!
  * \file esys/repo/git/commit.h
@@ -7,7 +7,7 @@
  * \cond
  * __legal_b__
  *
- * Copyright (c) 2020 Michel Gillet
+ * Copyright (c) 2020-2022 Michel Gillet
  * Distributed under the wxWindows Library Licence, Version 3.1.
  * (See accompanying file LICENSE_3_1.txt or
  * copy at http://www.wxwidgets.org/about/licence)
@@ -20,8 +20,10 @@
 #pragma once
 
 #include "esys/repo/esysrepo_defs.h"
+#include "esys/repo/git/commithash.h"
 
 #include <string>
+#include <chrono>
 
 //<swig_inc>
 %{
@@ -29,13 +31,7 @@
 %}
 //</swig_inc>
 
-namespace esys
-{
-
-namespace repo
-{
-
-namespace git
+namespace esys::repo::git
 {
 
 /*! \class Commit esys/repo/git/commit.h "esys/repo/git/commit.h"
@@ -60,16 +56,34 @@ public:
     /*!
      * \return the commit hash
      */
-    const std::string &get_hash() const;
+//     const CommitHash &get_hash() const; //<swig_out/>
 
-protected:
+    //! Get the commit hash
+    /*!
+     * \return the commit hash
+     */
+    CommitHash &get_hash();
+
+    void set_message(const std::string &message);
+    const std::string &get_message() const;
+
+    void set_author(const std::string &author);
+    const std::string &get_author() const;
+
+    void set_email(const std::string &email);
+    const std::string &get_email() const;
+
+    void set_date_time(const std::chrono::system_clock::time_point &date_time);
+    const std::chrono::system_clock::time_point &get_date_time() const;
+
+private:
     //!< \cond DOXY_IMPL
-    std::string m_hash;
+    CommitHash m_hash;
+    std::string m_message;
+    std::string m_author;
+    std::string m_email;
+    std::chrono::system_clock::time_point m_date_time;
     //!< \endcond
 };
 
-} // namespace git
-
-} // namespace repo
-
-} // namespace esys
+} // namespace esys::repo::git

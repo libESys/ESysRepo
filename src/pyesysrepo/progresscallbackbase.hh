@@ -1,7 +1,7 @@
 // PySwig 0.1.0
 
 /*!
- * \file esys/repo/git/branchtype.h
+ * \file esys/repo/progresscallbackbase.h
  * \brief
  *
  * \cond
@@ -20,10 +20,11 @@
 #pragma once
 
 #include "esys/repo/esysrepo_defs.h"
+#include "esys/repo/git/progress.h"
 
 //<swig_inc>
 %{
-#include "esys/repo/git/branchtype.h"
+#include "esys/repo/progresscallbackbase.h"
 %}
 //</swig_inc>
 
@@ -33,18 +34,14 @@ namespace esys
 namespace repo
 {
 
-namespace git
+class ESYSREPO_API ProgressCallbackBase
 {
+public:
+    ProgressCallbackBase();
+    virtual ~ProgressCallbackBase();
 
-enum class BranchType
-{
-    NOT_SET,
-    LOCAL,
-    REMOTE,
-    ALL
+    virtual void git_progress_notif(const git::Progress &progress) = 0;
 };
-
-} // namespace git
 
 } // namespace repo
 

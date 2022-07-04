@@ -1,3 +1,5 @@
+// PySwig 0.1.0
+
 /*!
  * \file esys/repo/manifest/repository.h
  * \brief
@@ -22,9 +24,13 @@
 #include <string>
 #include <vector>
 
-//<swig_inc/>
+//<swig_inc>
+%{
+#include "esys/repo/manifest/repository.h"
+%}
+//</swig_inc>
 
-//<swig>%shared_ptr(esys::repo::manifest::Repository);</swig>
+%shared_ptr(esys::repo::manifest::Repository);    //<swig>%shared_ptr(esys::repo::manifest::Repository);</swig>
 
 namespace esys::repo::manifest
 {
@@ -117,7 +123,7 @@ public:
     /*!
      * \return all the groups
      */
-    const std::vector<Group *> &get_groups() const; //<swig_out/>
+//     const std::vector<Group *> &get_groups() const; //<swig_out/>
 
     //! Equal to comparison operator
     bool operator==(const Repository &repository) const;

@@ -96,7 +96,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DebugDLL|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\include;..\..\src;$(ESYSMSVC)\include;$(ESYSFILE)\include;$(ESYSLOG)\include;$(ESYS_LIBGIT2)\include;$(ESYS_LIBSSH2)\include;$(ESYS_BOOST);$(NLOHMANN_JSON)\include;$(TERMCOLOR)\include;$(MSWORD2MD)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\include;..\..\src;$(ESYSMSVC)\include;$(ESYSFILE)\include;$(ESYSLOG)\include;$(ESYS_LIBGIT2)\include;$(ESYS_LIBSSH2)\include;$(ESYS_BOOST);$(NLOHMANN_JSON)\include;$(TERMCOLOR)\include;$(MSWORD2MD)\include;$(ESYS_POCO)\Foundation\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_WINDOWS;_USRDLL;ESYSREPO_EXPORTS;ESYSLOG_USE;BOOST_ALL_DYN_LINK;_WINDLL;LIBSSH2_WIN32;TERMCOLOR_USE_ANSI_ESCAPE_SEQUENCES;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -117,8 +117,8 @@
       <SubSystem>Windows</SubSystem>
       <ImportLibrary>$(OutDir)$(TargetName).lib</ImportLibrary>
       <TargetMachine>MachineX86</TargetMachine>
-      <AdditionalLibraryDirectories>$(ESYSFILE)\$(esysdevLibDir);$(ESYSLOG)\$(esysdevLibDir);$(MSWORD2MD)\$(esysdevLibDir);$(ESYS_BOOST)\$(boostLibDir);$(ESYS_LIBGIT2)\$(esysdevLibDir);$(ESYS_LIBSSH2)\$(esysdevLibDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>git2.lib;libssh2.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ESYSFILE)\$(esysdevLibDir);$(ESYSLOG)\$(esysdevLibDir);$(ESYS_BOOST)\$(boostLibDir);$(ESYS_LIBGIT2)\$(esysdevLibDir);$(ESYS_LIBSSH2)\$(esysdevLibDir);$(MSWORD2MD)\$(esysdevLibDir);$(ESYS_POCO)\lib\vc14_dll;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /Y $(OutDir)$(TargetFileName) $(ESYSREPO_DEV)\$(esysdevExeOutDir)</Command>
@@ -130,7 +130,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DebugDLL|x64'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\include;..\..\src;$(ESYSMSVC)\include;$(ESYSFILE)\include;$(ESYSLOG)\include;$(ESYS_LIBGIT2)\include;$(ESYS_LIBSSH2)\include;$(ESYS_BOOST);$(NLOHMANN_JSON)\include;$(TERMCOLOR)\include;$(MSWORD2MD)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\include;..\..\src;$(ESYSMSVC)\include;$(ESYSFILE)\include;$(ESYSLOG)\include;$(ESYS_LIBGIT2)\include;$(ESYS_LIBSSH2)\include;$(ESYS_BOOST);$(NLOHMANN_JSON)\include;$(TERMCOLOR)\include;$(MSWORD2MD)\include;$(ESYS_POCO)\Foundation\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_WINDOWS;_USRDLL;ESYSREPO_EXPORTS;ESYSLOG_USE;MSWORD2MD_STATIC_LINK;BOOST_ALL_DYN_LINK;_WINDLL;LIBSSH2_WIN32;TERMCOLOR_USE_ANSI_ESCAPE_SEQUENCES;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -150,8 +150,8 @@
       <ProgramDatabaseFile>$(OutDir)$(TargetName).pdb</ProgramDatabaseFile>
       <SubSystem>Windows</SubSystem>
       <ImportLibrary>$(OutDir)$(TargetName).lib</ImportLibrary>
-      <AdditionalLibraryDirectories>$(ESYSFILE)\$(esysdevLibDir);$(ESYSLOG)\$(esysdevLibDir);$(ESYS_BOOST)\$(boostLibDir);$(ESYS_LIBGIT2)\$(esysdevLibDir);$(ESYS_LIBSSH2)\$(esysdevLibDir);$(MSWORD2MD)\$(esysdevStaticLibDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>libgit2d.lib;libssh2d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ESYSFILE)\$(esysdevLibDir);$(ESYSLOG)\$(esysdevLibDir);$(ESYS_BOOST)\$(boostLibDir);$(ESYS_LIBGIT2)\$(esysdevLibDir);$(ESYS_LIBSSH2)\$(esysdevLibDir);$(MSWORD2MD)\$(esysdevStaticLibDir);$(ESYS_POCO)\lib\vc14_x64_dll;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /Y $(OutDir)$(TargetFileName) $(ESYSREPO_DEV)\$(esysdevExeOutDir)</Command>
@@ -162,7 +162,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseDLL|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\..\include;..\..\src;$(ESYSMSVC)\include;$(ESYSFILE)\include;$(ESYSLOG)\include;$(ESYS_LIBGIT2)\include;$(ESYS_LIBSSH2)\include;$(ESYS_BOOST);$(NLOHMANN_JSON)\include;$(TERMCOLOR)\include;$(MSWORD2MD)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\include;..\..\src;$(ESYSMSVC)\include;$(ESYSFILE)\include;$(ESYSLOG)\include;$(ESYS_LIBGIT2)\include;$(ESYS_LIBSSH2)\include;$(ESYS_BOOST);$(NLOHMANN_JSON)\include;$(TERMCOLOR)\include;$(MSWORD2MD)\include;$(ESYS_POCO)\Foundation\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_WINDOWS;_USRDLL;ESYSREPO_EXPORTS;ESYSLOG_USE;BOOST_ALL_DYN_LINK;_WINDLL;LIBSSH2_WIN32;TERMCOLOR_USE_ANSI_ESCAPE_SEQUENCES;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -183,8 +183,8 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <ImportLibrary>$(OutDir)$(TargetName).lib</ImportLibrary>
       <TargetMachine>MachineX86</TargetMachine>
-      <AdditionalLibraryDirectories>$(ESYSFILE)\$(esysdevLibDir);$(ESYSLOG)\$(esysdevLibDir);$(MSWORD2MD)\$(esysdevLibDir);$(ESYS_BOOST)\$(boostLibDir);$(ESYS_LIBGIT2)\$(esysdevLibDir);$(ESYS_LIBSSH2)\$(esysdevLibDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>git2.lib;libssh2.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ESYSFILE)\$(esysdevLibDir);$(ESYSLOG)\$(esysdevLibDir);$(ESYS_BOOST)\$(boostLibDir);$(ESYS_LIBGIT2)\$(esysdevLibDir);$(ESYS_LIBSSH2)\$(esysdevLibDir);$(MSWORD2MD)\$(esysdevLibDir);$(ESYS_POCO)\lib\vc14_dll;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /Y $(OutDir)$(TargetFileName) $(ESYSREPO_DEV)\$(esysdevExeOutDir)</Command>
@@ -195,7 +195,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseDLL|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\..\include;..\..\src;$(ESYSMSVC)\include;$(ESYSFILE)\include;$(ESYSLOG)\include;$(ESYS_LIBGIT2)\include;$(ESYS_LIBSSH2)\include;$(ESYS_BOOST);$(NLOHMANN_JSON)\include;$(TERMCOLOR)\include;$(MSWORD2MD)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\include;..\..\src;$(ESYSMSVC)\include;$(ESYSFILE)\include;$(ESYSLOG)\include;$(ESYS_LIBGIT2)\include;$(ESYS_LIBSSH2)\include;$(ESYS_BOOST);$(NLOHMANN_JSON)\include;$(TERMCOLOR)\include;$(MSWORD2MD)\include;$(ESYS_POCO)\Foundation\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_WINDOWS;_USRDLL;ESYSREPO_EXPORTS;ESYSLOG_USE;MSWORD2MD_STATIC_LINK;BOOST_ALL_DYN_LINK;_WINDLL;LIBSSH2_WIN32;TERMCOLOR_USE_ANSI_ESCAPE_SEQUENCES;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -216,8 +216,8 @@
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <ImportLibrary>$(OutDir)$(TargetName).lib</ImportLibrary>
-      <AdditionalLibraryDirectories>$(ESYSFILE)\$(esysdevLibDir);$(ESYSLOG)\$(esysdevLibDir);$(ESYS_BOOST)\$(boostLibDir);$(ESYS_LIBGIT2)\$(esysdevLibDir);$(ESYS_LIBSSH2)\$(esysdevLibDir);$(MSWORD2MD)\$(esysdevStaticLibDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>libgit2.lib;libssh2.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ESYSFILE)\$(esysdevLibDir);$(ESYSLOG)\$(esysdevLibDir);$(ESYS_BOOST)\$(boostLibDir);$(ESYS_LIBGIT2)\$(esysdevLibDir);$(ESYS_LIBSSH2)\$(esysdevLibDir);$(MSWORD2MD)\$(esysdevStaticLibDir);$(ESYS_POCO)\lib\vc14_x64_dll;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /Y $(OutDir)$(TargetFileName) $(ESYSREPO_DEV)\$(esysdevExeOutDir)</Command>

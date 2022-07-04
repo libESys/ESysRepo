@@ -123,7 +123,8 @@
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /Y $(OutDir)$(TargetFileName) $(ESYSREPO_DEV)\$(esysdevExeOutDir)</Command>
+      <Command>xcopy /Y $(OutDir)$(TargetFileName) $(ESYSREPO_DEV)\$(esysdevExeOutDir)
+$(ESYSSDK_INST_DIR)\bin\esysdep.exe --copy --x32 $(ESYSREPO_DEV)\$(esysdevExeOutDir)</Command>
     </PostBuildEvent>
     <ResourceCompile>
       <PreprocessorDefinitions>WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -150,11 +151,12 @@
       <ProgramDatabaseFile>$(OutDir)$(TargetName).pdb</ProgramDatabaseFile>
       <SubSystem>Windows</SubSystem>
       <ImportLibrary>$(OutDir)$(TargetName).lib</ImportLibrary>
-      <AdditionalLibraryDirectories>$(esysdevLibOutDir);$(ESYSLOG)\$(esysdevLibDir);$(ESYS_BOOST)\$(boostLibDir);$(ESYS_PYTHON)\lib\vc14_x64_dll;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(esysdevLibOutDir);$(ESYSLOG)\$(esysdevLibDir);$(ESYS_BOOST)\$(boostLibDir);$(ESYS_PYTHON)\lib\vc14_x64_dll;$(ESYS_PYTHON)\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /Y $(OutDir)$(TargetFileName) $(ESYSREPO_DEV)\$(esysdevExeOutDir)</Command>
+      <Command>xcopy /Y $(OutDir)$(TargetFileName) $(ESYSREPO_DEV)\$(esysdevExeOutDir)
+$(ESYSSDK_INST_DIR)\bin\esysdep.exe --copy --x64 $(OutDir)</Command>
     </PostBuildEvent>
     <ResourceCompile>
       <PreprocessorDefinitions>WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -185,7 +187,8 @@
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /Y $(OutDir)$(TargetFileName) $(ESYSREPO_DEV)\$(esysdevExeOutDir)</Command>
+      <Command>xcopy /Y $(OutDir)$(TargetFileName) $(ESYSREPO_DEV)\$(esysdevExeOutDir)
+$(ESYSSDK_INST_DIR)\bin\esysdep.exe --copy --x32 $(ESYSREPO_DEV)\$(esysdevExeOutDir)</Command>
     </PostBuildEvent>
     <ResourceCompile>
       <PreprocessorDefinitions>WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -212,11 +215,12 @@
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <ImportLibrary>$(OutDir)$(TargetName).lib</ImportLibrary>
-      <AdditionalLibraryDirectories>$(esysdevLibOutDir);$(ESYSLOG)\$(esysdevLibDir);$(ESYS_BOOST)\$(boostLibDir);$(ESYS_PYTHON)\lib\vc14_x64_dll;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(esysdevLibOutDir);$(ESYSLOG)\$(esysdevLibDir);$(ESYS_BOOST)\$(boostLibDir);$(ESYS_PYTHON)\lib\vc14_x64_dll;$(ESYS_PYTHON)\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /Y $(OutDir)$(TargetFileName) $(ESYSREPO_DEV)\$(esysdevExeOutDir)</Command>
+      <Command>xcopy /Y $(OutDir)$(TargetFileName) $(ESYSREPO_DEV)\$(esysdevExeOutDir)
+$(ESYSSDK_INST_DIR)\bin\esysdep.exe --copy --x64 $(ESYSREPO_DEV)\$(esysdevExeOutDir)</Command>
     </PostBuildEvent>
     <ResourceCompile>
       <PreprocessorDefinitions>WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -242,12 +246,15 @@
     <ClInclude Include="..\..\include\pyesysrepo\pyesysrepo_prec.h" />
     <ClInclude Include="..\..\include\pyesysrepo\pyversion.h" />
     <ClInclude Include="..\..\src\pyesysrepo\esysrepo.hh" />
+    <ClInclude Include="..\..\src\pyesysrepo\git.hh" />
     <ClInclude Include="..\..\src\pyesysrepo\gitbase.hh" />
     <ClInclude Include="..\..\src\pyesysrepo\githelper.hh" />
     <ClInclude Include="..\..\src\pyesysrepo\git\branch.hh" />
     <ClInclude Include="..\..\src\pyesysrepo\git\branchtype.hh" />
     <ClInclude Include="..\..\src\pyesysrepo\git\commit.hh" />
     <ClInclude Include="..\..\src\pyesysrepo\git\remote.hh" />
+    <ClInclude Include="..\..\src\pyesysrepo\manifest.hh" />
+    <ClInclude Include="..\..\src\pyesysrepo\progresscallbackbase.hh" />
     <ClInclude Include="..\..\src\pyesysrepo\pyversion.hh" />
     <ClInclude Include="..\..\src\pyesysrepo\version.hh" />
   </ItemGroup>

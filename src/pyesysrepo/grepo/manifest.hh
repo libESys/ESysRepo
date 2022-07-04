@@ -1,3 +1,5 @@
+// PySwig 0.1.0
+
 /*!
  * \file esys/repo/grepo/manifest.h
  * \brief
@@ -23,7 +25,11 @@
 
 #include <memory>
 
-//<swig_inc/>
+//<swig_inc>
+%{
+#include "esys/repo/grepo/manifest.h"
+%}
+//</swig_inc>
 
 namespace esys::repo::grepo
 {
@@ -33,7 +39,7 @@ class ESYSREPO_API ManifestImpl;
 /*! \class Manifest esys/repo/grepo/manifest.h "esys/repo/grepo/manifest.h"
  * \brief Hold information about a google repo tool manifest
  */
-//<swig>%rename(GRepoManifest) Manifest;</swig>
+%rename(GRepoManifest) Manifest;    //<swig>%rename(GRepoManifest) Manifest;</swig>
 class ESYSREPO_API Manifest : public manifest::FileBase
 {
 public:
@@ -69,6 +75,6 @@ private:
     //!< \endcond
 };
 
-ESYSREPO_API std::ostream &operator<<(std::ostream &os, const Manifest &manifest); //<swig_out/>
+// ESYSREPO_API std::ostream &operator<<(std::ostream &os, const Manifest &manifest); //<swig_out/>
 
 } // namespace esys::repo::grepo

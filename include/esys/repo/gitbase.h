@@ -65,6 +65,7 @@ public:
      * \param[in] folder the folder where is the git repository
      * \return 0 if successful, < 0 otherwise
      */
+    //<swig>%rename(open_folder) open;</swig>
     virtual int open(const std::string &folder) = 0;
 
     //! Tells if the git repository is open or not

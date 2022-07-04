@@ -1,3 +1,5 @@
+// PySwig 0.1.0
+
 /*!
  * \file esys/repo/manifest/filebase.h
  * \brief
@@ -24,7 +26,11 @@
 #include <string>
 #include <memory>
 
-//<swig_inc/>
+//<swig_inc>
+%{
+#include "esys/repo/manifest/filebase.h"
+%}
+//</swig_inc>
 
 namespace esys::repo::manifest
 {
@@ -74,7 +80,7 @@ public:
     virtual int write(std::ostream &os) = 0;
 
     std::vector<std::shared_ptr<FileError>> &get_errors();
-    const std::vector<std::shared_ptr<FileError>> &get_errors() const; //<swig_out/>
+//     const std::vector<std::shared_ptr<FileError>> &get_errors() const; //<swig_out/>
     void add_error(std::shared_ptr<FileError> error);
     void add_error(int value, const std::string &msg);
     void add_error(int value, const std::string &msg, int line_number);

@@ -1,4 +1,4 @@
-// PySwig 0.0.1
+// PySwig 0.1.0
 
 /*!
  * \file esys/repo/git/remote.h
@@ -74,7 +74,7 @@ public:
      */
     const std::string &get_url() const;
 
-protected:
+private:
     //!< \cond DOXY_IMPL
     std::string m_name; //!< The name of the remote
     std::string m_url;  //!< The url of the remote

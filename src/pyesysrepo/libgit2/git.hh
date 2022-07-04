@@ -1,13 +1,13 @@
-// PySwig 0.0.1
+// PySwig 0.1.0
 
 /*!
- * \file esys/build/libgit2/git.h
+ * \file esys/repo/libgit2/git.h
  * \brief
  *
  * \cond
  * __legal_b__
  *
- * Copyright (c) 2020 Michel Gillet
+ * Copyright (c) 2020-2021 Michel Gillet
  * Distributed under the wxWindows Library Licence, Version 3.1.
  * (See accompanying file LICENSE_3_1.txt or
  * copy at http://www.wxwidgets.org/about/licence)
@@ -45,24 +45,57 @@ public:
     Git();
 
     //! Destructor
-    virtual ~Git();
+    ~Git() override;
+
+    static std::shared_ptr<GitBase> new_ptr();
 
     int open(const std::string &folder) override;
     bool is_open() override;
 
     int close() override;
     int get_remotes(std::vector<git::Remote> &remotes) override;
-    int get_branches(std::vector<git::Branch> &branches, git::BranchType branch_type = git::BranchType::LOCAL) override;
+    int get_branches(git::Branches &branches, git::BranchType branch_type = git::BranchType::LOCAL) override;
 
-    int clone(const std::string &url, const std::string &path) override;
+    int clone(const std::string &url, const std::string &path, const std::string &branch = "") override;
     int checkout(const std::string &branch, bool force = false) override;
+    int reset(const git::CommitHash &commit, git::ResetType type = git::ResetType::SOFT) override;
+    int fastforward(const git::CommitHash &commit) override;
 
-    int get_last_commit(git::Commit &commit) override;
+    int get_last_commit(git::CommitHash &commit) override;
+    int get_parent_commit(const git::CommitHash &commit, git::CommitHash &parent, int nth_parent = 1) override;
 
     int is_dirty(bool &dirty) override;
+    int is_detached(bool &detached) override;
+
+    int get_status(git::RepoStatus &repo_status) override;
+
+    bool is_ssh_agent_running(bool log_once = true) override;
+    void detect_ssh_agent(bool log_once = true) override;
+
+    int merge_analysis(const std::vector<std::string> &refs, git::MergeAnalysisResult &merge_analysis_result,
+                       std::vector<git::CommitHash> &commits) override;
+
+    int fetch(const std::string &remote = "") override;
+
+    bool has_branch(const std::string &name, git::BranchType branch_type = git::BranchType::LOCAL) override;
+
+    int get_hash(const std::string &revision, std::string &hash,
+                 git::BranchType branch_type = git::BranchType::REMOTE) override;
+
+    int walk_commits(std::shared_ptr<git::WalkCommit> walk_commit) override;
+
+    int diff(const git::CommitHash commit_hash, std::shared_ptr<git::Diff> diff) override;
+
+    void set_url(const std::string &url);
+    const std::string &get_url();
+
+    void set_folder(const std::string &folder);
+    const std::string &get_folder();
 
     const std::string &get_version() override;
     const std::string &get_lib_name() override;
+
+    void debug(int level, const std::string &msg) override;
 
     //! Get the version of the git library used
     /*!
@@ -94,9 +127,15 @@ public:
      */
     GitImpl *get_impl() const;
 
-protected:
+    void set_logger_if(std::shared_ptr<log::Logger_if> logger_if) override;
+
+private:
     //!< \cond DOXY_IMPL
     std::unique_ptr<GitImpl> m_impl; //!< the PIMPL
+    std::string m_url;
+    std::string m_folder;
+    static bool s_detect_ssh_agent_done;
+    static bool s_ssh_agent_running;
     //!< \endcond
 };
 

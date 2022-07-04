@@ -1,3 +1,5 @@
+// PySwig 0.1.0
+
 /*!
  * \file esys/repo/manifest/fileerror.h
  * \brief
@@ -21,7 +23,11 @@
 
 #include <string>
 
-//<swig_inc/>
+//<swig_inc>
+%{
+#include "esys/repo/manifest/fileerror.h"
+%}
+//</swig_inc>
 
 namespace esys::repo::manifest
 {

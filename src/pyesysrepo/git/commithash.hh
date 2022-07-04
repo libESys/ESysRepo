@@ -1,3 +1,5 @@
+// PySwig 0.1.0
+
 /*!
  * \file esys/repo/git/commithash.h
  * \brief
@@ -21,7 +23,11 @@
 
 #include <string>
 
-//<swig_inc/>
+//<swig_inc>
+%{
+#include "esys/repo/git/commithash.h"
+%}
+//</swig_inc>
 
 namespace esys::repo::git
 {
@@ -48,7 +54,7 @@ public:
     /*!
      * \return the commit hash
      */
-    const std::string &get_hash() const; //<swig_out/>
+//     const std::string &get_hash() const; //<swig_out/>
 
     //! Get the commit hash
     /*!

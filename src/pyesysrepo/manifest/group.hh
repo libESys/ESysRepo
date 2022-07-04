@@ -1,3 +1,5 @@
+// PySwig 0.1.0
+
 /*!
  * \file esys/repo/manifest/group.h
  * \brief
@@ -24,9 +26,13 @@
 #include <memory>
 #include <map>
 
-//<swig_inc/>
+//<swig_inc>
+%{
+#include "esys/repo/manifest/group.h"
+%}
+//</swig_inc>
 
-//<swig>%shared_ptr(esys::repo::manifest::Group);</swig>
+%shared_ptr(esys::repo::manifest::Group);    //<swig>%shared_ptr(esys::repo::manifest::Group);</swig>
 
 namespace esys::repo::manifest
 {
@@ -76,7 +82,7 @@ public:
     /*!
      * \return all repositories of this location
      */
-    const std::vector<std::shared_ptr<Repository>> &get_repos() const; //<swig_out/>
+//     const std::vector<std::shared_ptr<Repository>> &get_repos() const; //<swig_out/>
 
     std::shared_ptr<Repository> find_repo_by_path(const std::string &path);
     std::shared_ptr<Repository> find_repo_by_name(const std::string &name);

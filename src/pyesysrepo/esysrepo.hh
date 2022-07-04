@@ -1,4 +1,4 @@
-// PySwig 0.0.1
+// PySwig 0.1.0
 
 %module(directors="1") esysrepo
 %include typemaps.i
@@ -24,10 +24,21 @@
 %include version.hh
 %include git/branchtype.hh
 %include git/branch.hh
+%include git/commithash.hh
 %include git/commit.hh
 %include git/remote.hh
+%include progresscallbackbase.hh
 %include gitbase.hh
 %include githelper.hh
 %include git.hh
 %include libgit2/git.hh
+%include manifest/format.hh
+%include manifest/repository.hh
+%include manifest/group.hh
+%include manifest/location.hh
+%include manifest/type.hh
+%include manifest/fileerror.hh
+%include manifest.hh
+%include manifest/filebase.hh
+%include grepo/manifest.hh
 %include pyversion.hh

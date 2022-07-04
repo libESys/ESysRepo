@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 
 ##
-## __legal_b__
+# __legal_b__
 ##
-## Copyright (c) 2020 Michel Gillet
-## Distributed under the wxWindows Library Licence, Version 3.1.
-## (See accompanying file LICENSE_3_1.txt or
-## copy at http://www.wxwidgets.org/about/licence)
+# Copyright (c) 2020-2022 Michel Gillet
+# Distributed under the wxWindows Library Licence, Version 3.1.
+# (See accompanying file LICENSE_3_1.txt or
+# copy at http://www.wxwidgets.org/about/licence)
 ##
-## __legal_e__
+# __legal_e__
 ##
 
 import os
@@ -32,12 +32,24 @@ source = [
     "version.h",
     "git/branchtype.h",
     "git/branch.h",
+    "git/commithash.h",
     "git/commit.h",
     "git/remote.h",
+    "progresscallbackbase.h",
     "gitbase.h",
     "githelper.h",
     "git.h",
     "libgit2/git.h",
+
+    "manifest/format.h",
+    "manifest/repository.h",
+    "manifest/group.h",
+    "manifest/location.h",
+    "manifest/type.h",
+    "manifest/fileerror.h",
+    "manifest.h",
+    "manifest/filebase.h",
+    "grepo/manifest.h"
 ]
 
 file_config.set_source_files(source)

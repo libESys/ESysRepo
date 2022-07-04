@@ -50,7 +50,7 @@ public:
     /*!
      * \return the commit hash
      */
-    const CommitHash &get_hash() const;
+    const CommitHash &get_hash() const; //<swig_out/>
 
     //! Get the commit hash
     /*!

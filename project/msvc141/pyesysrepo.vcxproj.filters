@@ -71,6 +71,15 @@
     <ClInclude Include="..\..\src\pyesysrepo\git\remote.hh">
       <Filter>Source Files\Swig\git</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\pyesysrepo\git.hh">
+      <Filter>Source Files\Swig</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\pyesysrepo\manifest.hh">
+      <Filter>Source Files\Swig</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\pyesysrepo\progresscallbackbase.hh">
+      <Filter>Source Files\Swig</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\..\res\pyesysrepo.rc">
@@ -78,6 +87,8 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="..\..\src\pyesysrepo.py" />
+    <CustomBuild Include="..\..\src\pyesysrepo.py">
+      <Filter>Source Files</Filter>
+    </CustomBuild>
   </ItemGroup>
 </Project>

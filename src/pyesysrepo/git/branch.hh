@@ -1,4 +1,4 @@
-// PySwig 0.0.1
+// PySwig 0.1.0
 
 /*!
  * \file esys/repo/git/branch.h
@@ -52,10 +52,9 @@ public:
     /*!
      * \param[in] name the name of the branch
      * \param[in] is_head true if this is current branch, false otherwise
-    */
+     */
     Branch(const std::string &name, bool is_head);
 
-    //! Constructor
     //! Constructor
     /*!
      * \param[in] name the name of the branch
@@ -78,6 +77,18 @@ public:
      * \return the name of the branch
      */
     const std::string &get_name() const;
+
+    //! Set the reference name of the branch
+    /*!
+     * \param[in] ref_name the reference name of the branch
+     */
+    void set_ref_name(const std::string &ref_name);
+
+    //! Get the reference name of the branch
+    /*!
+     * \return the reference name of the branch
+     */
+    const std::string &get_ref_name() const;
 
     //! Set the type of the branch
     /*!
@@ -103,11 +114,22 @@ public:
      */
     bool get_is_head() const;
 
-protected:
+    void set_remote_branch(const std::string &remote_branch);
+
+    const std::string &get_remote_branch() const;
+
+    void set_remote_name(const std::string &remote_name);
+
+    const std::string &get_remote_name() const;
+
+private:
     //!< \cond DOXY_IMPL
     std::string m_name;                      //!< The name of the branch
+    std::string m_ref_name;                  //!< The reference name of the branch
     BranchType m_type = BranchType::NOT_SET; //!< The type of branch
     bool m_is_head = false;                  //!< True if default branch
+    std::string m_remote_branch;             //!< The remote-tracking branch
+    std::string m_remote_name;               //!< The name of the remote
     //!< \endcond
 };
 

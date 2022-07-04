@@ -1,7 +1,7 @@
 // PySwig 0.1.0
 
 /*!
- * \file esys/repo/git/branchtype.h
+ * \file esys/repo/manifest/type.h
  * \brief
  *
  * \cond
@@ -21,31 +21,27 @@
 
 #include "esys/repo/esysrepo_defs.h"
 
+#include <string>
+
 //<swig_inc>
 %{
-#include "esys/repo/git/branchtype.h"
+#include "esys/repo/manifest/type.h"
 %}
 //</swig_inc>
 
-namespace esys
+namespace esys::repo::manifest
 {
 
-namespace repo
-{
-
-namespace git
-{
-
-enum class BranchType
+enum class Type
 {
     NOT_SET,
-    LOCAL,
-    REMOTE,
-    ALL
+    UNKNOWN,
+    GOOGLE_MANIFEST,
+    ESYSREPO_MANIFEST,
+    GIT_SUPER_PROJECT
 };
 
-} // namespace git
+ESYSREPO_API int convert(Type type, std::string &text);
+ESYSREPO_API int convert(const std::string &text, Type &type);
 
-} // namespace repo
-
-} // namespace esys
+} // namespace esys::repo::manifest

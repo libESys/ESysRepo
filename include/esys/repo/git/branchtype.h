@@ -30,7 +30,7 @@ namespace repo
 namespace git
 {
 
-enum BranchType
+enum class BranchType
 {
     NOT_SET,
     LOCAL,

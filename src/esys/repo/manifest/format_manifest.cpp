@@ -46,4 +46,22 @@ int convert(const std::string &text, Format &format)
     return 0;
 }
 
+
+ESYSREPO_API std::string convert(Format format)
+{
+    std::string text;
+    int result = convert(format, text);
+    if (result < 0) return "";
+    return text;
+}
+
+
+ESYSREPO_API Format convert(const std::string &text)
+{
+    Format format;
+    int result = convert(text, format);
+    if (result < 0) return Format::NOT_SET;
+    return format;
+}
+
 } // namespace esys::repo::manifest

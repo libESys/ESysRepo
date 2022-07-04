@@ -21,16 +21,12 @@
 
 #include <string>
 
-namespace esys
+//<swig_inc/>
+
+namespace esys::repo::manifest
 {
 
-namespace repo
-{
-
-namespace manifest
-{
-
-enum Type
+enum class Type
 {
     NOT_SET,
     UNKNOWN,
@@ -39,11 +35,7 @@ enum Type
     GIT_SUPER_PROJECT
 };
 
-int convert(Type type, std::string &text);
-int convert(const std::string &text, Type &type);
+ESYSREPO_API int convert(Type type, std::string &text);
+ESYSREPO_API int convert(const std::string &text, Type &type);
 
-} // namespace manifest
-
-} // namespace repo
-
-} // namespace esys
+} // namespace esys::repo::manifest
