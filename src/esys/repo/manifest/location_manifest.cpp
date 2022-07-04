@@ -19,6 +19,8 @@
 #include "esys/repo/manifest/location.h"
 #include "esys/repo/manifest/repository.h"
 
+#include <Poco/URI.h>
+
 #include <boost/filesystem.hpp>
 
 namespace esys::repo::manifest
@@ -121,6 +123,28 @@ std::shared_ptr<Repository> Location::find_repo_by_name(const std::string &name)
 
     if (it == m_map_repos_by_name.end()) return nullptr;
     return it->second;
+}
+
+std::string Location::find_path_by_repo(const std::string &git_repo_name)
+{
+    Poco::URI uri_repo(git_repo_name);
+
+    std::string auth = uri_repo.getAuthority(); // "www.appinf.com:88"
+    std::string host = uri_repo.getHost();      // "www.appinf.com"
+    unsigned short port = uri_repo.getPort();   // 88
+    std::string path = uri_repo.getPath();      // "/sample"
+
+    for (auto repo : get_repos())
+    {
+        std::string uri_txt = get_address();
+        if (repo->get_name()[0] != '/') uri_txt += "/";
+        uri_txt += repo->get_name();
+        Poco::URI this_uri_repo(uri_txt);
+        if ((auth == this_uri_repo.getAuthority()) && (path == this_uri_repo.getPath())) return repo->get_path();
+        if ((host == this_uri_repo.getHost()) && (path == this_uri_repo.getPath())) return repo->get_path();
+    }
+
+    return "";
 }
 
 bool Location::operator==(const Location &location) const

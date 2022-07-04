@@ -201,6 +201,9 @@
     <ClCompile Include="..\..\src\esys\repo\gitstats\test\basic01.cpp">
       <Filter>Source Files\gitstats</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\grepo\test\find_path_by_repo01_grepo.cpp">
+      <Filter>Source Files\grepo</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\esys\repo\test\esysrepo_t_prec.h">

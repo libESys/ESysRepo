@@ -24,13 +24,11 @@
 #include <memory>
 #include <map>
 
-namespace esys
-{
+//<swig_inc/>
 
-namespace repo
-{
+//<swig>%shared_ptr(esys::repo::Location);</swig>
 
-namespace manifest
+namespace esys::repo::manifest
 {
 
 class ESYSREPO_API Repository;
@@ -113,10 +111,11 @@ public:
     /*!
      * \return all repositories of this location
      */
-    const std::vector<std::shared_ptr<Repository>> &get_repos() const;
+    const std::vector<std::shared_ptr<Repository>> &get_repos() const; //<swig_out/>
 
     std::shared_ptr<Repository> find_repo_by_path(const std::string &path);
     std::shared_ptr<Repository> find_repo_by_name(const std::string &name);
+    std::string find_path_by_repo(const std::string &git_repo_name);
 
     //! Equal to comparison operator
     bool operator==(const Location &location) const;
@@ -140,8 +139,4 @@ private:
 
 ESYSREPO_API std::ostream &operator<<(std::ostream &os, const Location &location);
 
-} // namespace manifest
-
-} // namespace repo
-
-} // namespace esys
+} // namespace esys::repo::manifest

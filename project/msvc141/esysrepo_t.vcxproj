@@ -116,7 +116,7 @@
       <SubSystem>Console</SubSystem>
       <TargetMachine>MachineX86</TargetMachine>
       <AdditionalLibraryDirectories>$(esysdevLibOutDir);$(ESYSTEST)\$(esysdevLibDir);$(ESYSLOG)\$(esysdevLibDir);$(ESYS_BOOST)\$(boostLibDir);$(ESYS_LIBSSH2)\$(esysdevLibDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>libssh2.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>$(ESYSSDK_INST_DIR)\bin\esysdep.exe --copy --x32 $(OutDir)</Command>
@@ -148,7 +148,7 @@
       <ProgramDatabaseFile>$(OutDir)$(TargetName).pdb</ProgramDatabaseFile>
       <SubSystem>Console</SubSystem>
       <AdditionalLibraryDirectories>$(esysdevLibOutDir);$(ESYSTEST)\$(esysdevLibDir);$(ESYSLOG)\$(esysdevLibDir);$(ESYS_BOOST)\$(boostLibDir);$(ESYS_LIBSSH2)\$(esysdevLibDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>libssh2.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>$(ESYSSDK_INST_DIR)\bin\esysdep.exe --copy --x64 $(OutDir)</Command>
@@ -180,7 +180,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <TargetMachine>MachineX86</TargetMachine>
       <AdditionalLibraryDirectories>$(esysdevLibOutDir);$(ESYSTEST)\$(esysdevLibDir);$(ESYSLOG)\$(esysdevLibDir);$(ESYS_BOOST)\$(boostLibDir);$(ESYS_LIBSSH2)\$(esysdevLibDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>libssh2.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>$(ESYSSDK_INST_DIR)\bin\esysdep.exe --copy --x32 $(OutDir)</Command>
@@ -212,7 +212,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <AdditionalLibraryDirectories>$(esysdevLibOutDir);$(ESYSTEST)\$(esysdevLibDir);$(ESYSLOG)\$(esysdevLibDir);$(ESYS_BOOST)\$(boostLibDir);$(ESYS_LIBSSH2)\$(esysdevLibDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>libssh2.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>$(ESYSSDK_INST_DIR)\bin\esysdep.exe --copy --x64 $(OutDir)</Command>
@@ -251,6 +251,7 @@
     <ClCompile Include="..\..\src\esys\repo\exe\test\fixcmd.cpp" />
     <ClCompile Include="..\..\src\esys\repo\gitstats\test\basic01.cpp" />
     <ClCompile Include="..\..\src\esys\repo\git\test\sortbranches01.cpp" />
+    <ClCompile Include="..\..\src\esys\repo\grepo\test\find_path_by_repo01_grepo.cpp" />
     <ClCompile Include="..\..\src\esys\repo\grepo\test\readmanifest01_grepo.cpp" />
     <ClCompile Include="..\..\src\esys\repo\grepo\test\readmanifest02_grepo.cpp" />
     <ClCompile Include="..\..\src\esys\repo\grepo\test\readmanifest03_grepo.cpp" />

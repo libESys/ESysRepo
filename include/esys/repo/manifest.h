@@ -31,6 +31,8 @@
 
 //<swig_inc/>
 
+//<swig>%shared_ptr(esys::repo::Manifest);</swig>
+
 namespace esys
 {
 
@@ -102,7 +104,7 @@ public:
     /*!
      * \return all locations of this manifest
      */
-    const std::vector<std::shared_ptr<manifest::Location>> &get_locations() const;
+    const std::vector<std::shared_ptr<manifest::Location>> &get_locations() const; //<swig_out/>
 
     //! Get the map of all locations of this manifest
     /*!
@@ -114,7 +116,7 @@ public:
     /*!
      * \return the map all locations of this manifest
      */
-    const std::map<std::string, std::shared_ptr<manifest::Location>> &get_map_locations() const;
+    const std::map<std::string, std::shared_ptr<manifest::Location>> &get_map_locations() const; //<swig_out/>
 
     //! Find a location by its name
     /*!
@@ -129,6 +131,13 @@ public:
      * \return the location if found, nullptr otherwise
      */
     std::shared_ptr<manifest::Repository> find_repo_by_path(const std::string &path);
+
+    //! Find the path of a git repo identified by its url or name
+    /*!
+     * \param[in] git_repo_name the url or name of the git repo to find
+     * \return the path if found, empty string otherwise
+     */
+    std::string find_path_by_repo(const std::string &git_repo_name);
 
     //! Set the default location
     /*!
@@ -188,7 +197,7 @@ public:
     void clear();
 
     manifest::Groups &get_groups();
-    const manifest::Groups &get_groups() const;
+    const manifest::Groups &get_groups() const; //<swig_out/>
 
     //! Equal to comparison operator
     bool operator==(const Manifest &other) const;
@@ -213,7 +222,7 @@ private:
     //!< \endcond
 };
 
-ESYSREPO_API std::ostream &operator<<(std::ostream &os, const Manifest &manifest);
+ESYSREPO_API std::ostream &operator<<(std::ostream &os, const Manifest &manifest); //<swig_out/>
 
 } // namespace repo
 

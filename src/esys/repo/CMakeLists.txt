@@ -17,7 +17,7 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(Boost 1.66 REQUIRED COMPONENTS filesystem program_options system)
-
+find_package(Poco 1.6.1 REQUIRED COMPONENTS Foundation)
 find_package(nlohmann_json 3.6.1 REQUIRED)
 
 include_directories(.. ../../../include ${termcolor_DIR}/include)
@@ -339,6 +339,7 @@ target_link_libraries(
   PRIVATE Boost::filesystem
           Boost::program_options
           Boost::system
+          Poco::Foundation
           esysfile
           esyslog
           esyslog_spdlog
