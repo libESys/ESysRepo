@@ -40,7 +40,6 @@ source = [
     "githelper.h",
     "git.h",
     "libgit2/git.h",
-
     "manifest/format.h",
     "manifest/repository.h",
     "manifest/group.h",
@@ -49,7 +48,7 @@ source = [
     "manifest/fileerror.h",
     "manifest.h",
     "manifest/filebase.h",
-    "grepo/manifest.h"
+    "grepo/manifest.h",
 ]
 
 file_config.set_source_files(source)

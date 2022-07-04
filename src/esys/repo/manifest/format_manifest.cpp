@@ -46,7 +46,6 @@ int convert(const std::string &text, Format &format)
     return 0;
 }
 
-
 ESYSREPO_API std::string convert(Format format)
 {
     std::string text;
@@ -54,7 +53,6 @@ ESYSREPO_API std::string convert(Format format)
     if (result < 0) return "";
     return text;
 }
-
 
 ESYSREPO_API Format convert(const std::string &text)
 {

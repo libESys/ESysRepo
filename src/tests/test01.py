@@ -19,21 +19,20 @@ print("cwd = %s" % os.getcwd())
 class TestSomething(unittest.TestCase):
     def test_something(self):
         repocfg = esysrepo.GRepoManifest()
-        result = repocfg.read(
-            "src/esysrepo/res/esysrepo_t/grepo/default02.xml")
+        result = repocfg.read("src/esysrepo/res/esysrepo_t/grepo/default02.xml")
         self.assertEqual(result, 0)
         manifest = repocfg.get_data()
-        path = manifest.find_path_by_repo(
-            "ssh://git@gitlab.com/libesys/esysos")
+        path = manifest.find_path_by_repo("ssh://git@gitlab.com/libesys/esysos")
+        self.assertEqual(path, "src/esysos")
+        path = manifest.find_path_by_repo("https://gitlab.com/libesys/esysos")
         self.assertEqual(path, "src/esysos")
         path = manifest.find_path_by_repo(
-            "https://gitlab.com/libesys/esysos")
-        self.assertEqual(path, "src/esysos")
-        path = manifest.find_path_by_repo(
-            "ssh://git@gitlab.com/libesys/extlib/arduino1710")
+            "ssh://git@gitlab.com/libesys/extlib/arduino1710"
+        )
         self.assertEqual(path, "extlib/arduino1710")
         path = manifest.find_path_by_repo(
-            "https://gitlab.com/libesys/extlib/arduino1710")
+            "https://gitlab.com/libesys/extlib/arduino1710"
+        )
         self.assertEqual(path, "extlib/arduino1710")
 
 
