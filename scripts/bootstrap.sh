@@ -29,15 +29,18 @@ if [ ! $? -eq 0 ]; then
    exit 1
 fi
 
-if command -v pre-commit &> /dev/null; then
-    pre-commit run --from-ref origin/master --to-ref ${TO_CHECKOUT}
-    RESULT_PRE_COMMIT=$?
-    if [ ! ${RESULT_PRE_COMMIT} -eq 0 ]; then
-        echo "${TXT_E}Git checkout failed.${TXT_CLEAR}"
-   exit ${RESULT_PRE_COMMIT}
+if [ -z ${SKIP_PRE_COMMIT+x} ];
+then
+    if command -v pre-commit &> /dev/null; then
+        pre-commit run --from-ref origin/master --to-ref ${TO_CHECKOUT}
+        RESULT_PRE_COMMIT=$?
+        if [ ! ${RESULT_PRE_COMMIT} -eq 0 ]; then
+            echo "${TXT_E}Git checkout failed.${TXT_CLEAR}"
+    exit ${RESULT_PRE_COMMIT}
+        fi
+    else
+        echo "${TXT_W}pre-commit not found: skip running it.${TXT_CLEAR}"
     fi
-else
-    echo "${TXT_W}pre-commit not found: skip running it.${TXT_CLEAR}"
 fi
 
 cd ../..

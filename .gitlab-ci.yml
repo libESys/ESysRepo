@@ -50,6 +50,7 @@ unit_tests:ubuntu18_04:
   variables:
     SKIP_CODE_COVERAGE: "yes"
     SKIP_CLANG_TIDY: "yes"
+    SKIP_PRE_COMMIT: "yes"
   tags:
     - ubuntu18.04
   rules:
