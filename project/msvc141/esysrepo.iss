@@ -70,11 +70,11 @@ Source: "{#ESYSREPO_DEV}\bin\vc141_x64_dll\boost_system-vc141-mt-x64-1_67.dll"; 
 ;Source: "{#ESYSREPO_DEV}\bin\vc141_x64_dll\boost_thread-vc141-mt-x64-1_67.dll"; DestDir: "{app}\bin"; Flags: ignoreversion {#SIGN}; Check: IsWin64
 Source: "{#ESYSREPO_DEV}\bin\vc141_x64_dll\deactivate.bat"; DestDir: "{app}\bin"; Flags: ignoreversion; Check: IsWin64
 Source: "{#ESYSREPO_DEV}\bin\vc141_x64_dll\esysbase-vc141-x64-0.1.0.dll"; DestDir: "{app}\bin"; Flags: ignoreversion {#SIGN}; Check: IsWin64
-Source: "{#ESYSREPO_DEV}\bin\vc141_x64_dll\esysfile-vc141-x64-0.1.0.dll"; DestDir: "{app}\bin"; Flags: ignoreversion {#SIGN}; Check: IsWin64 
-Source: "{#ESYSREPO_DEV}\bin\vc141_x64_dll\esyslog.py"; DestDir: "{app}\bin"; Flags: ignoreversion; Check: IsWin64 
+Source: "{#ESYSREPO_DEV}\bin\vc141_x64_dll\esysfile-vc141-x64-0.1.0.dll"; DestDir: "{app}\bin"; Flags: ignoreversion {#SIGN}; Check: IsWin64
+Source: "{#ESYSREPO_DEV}\bin\vc141_x64_dll\esyslog.py"; DestDir: "{app}\bin"; Flags: ignoreversion; Check: IsWin64
 Source: "{#ESYSREPO_DEV}\bin\vc141_x64_dll\esyslog-vc141-x64-0.1.0.dll"; DestDir: "{app}\bin"; Flags: ignoreversion {#SIGN}; Check: IsWin64
 Source: "{#ESYSREPO_DEV}\bin\vc141_x64_dll\esysrepo.exe"; DestDir: "{app}\bin"; Flags: ignoreversion {#SIGN}; Check: IsWin64
-Source: "{#ESYSREPO_DEV}\bin\vc141_x64_dll\esysrepo.py"; DestDir: "{app}\bin"; Flags: ignoreversion; Check: IsWin64 
+Source: "{#ESYSREPO_DEV}\bin\vc141_x64_dll\esysrepo.py"; DestDir: "{app}\bin"; Flags: ignoreversion; Check: IsWin64
 Source: "{#ESYSREPO_DEV}\bin\vc141_x64_dll\esysrepo-vc141-x64-0.1.0.dll"; DestDir: "{app}\bin"; Flags: ignoreversion sign; Check: IsWin64
 Source: "{#ESYSREPO_DEV}\bin\vc141_x64_dll\libeay32.dll"; DestDir: "{app}\bin"; Flags: ignoreversion {#SIGN}; Check: IsWin64
 Source: "{#ESYSREPO_DEV}\bin\vc141_x64_dll\libgit2-vc141-x64-0.1.0.dll"; DestDir: "{app}\bin"; Flags: ignoreversion {#SIGN}; Check: IsWin64
