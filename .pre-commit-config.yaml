@@ -1,20 +1,24 @@
 repos:
--   repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.3.0
-    hooks:
-    -   id: check-yaml
-    -   id: end-of-file-fixer
-    -   id: trailing-whitespace
--   repo: https://github.com/psf/black
-    rev: 22.6.0
-    hooks:
-    -   id: black
--   repo: https://github.com/pocc/pre-commit-hooks
-    rev: v1.3.5
-    hooks:
-      - id: clang-format
-        args: ["-i"]
--   repo: https://github.com/cheshirekow/cmake-format-precommit
-    rev: v0.6.13
-    hooks:
-        - id: cmake-format
+    - repo: https://github.com/pre-commit/pre-commit-hooks
+      rev: v4.3.0
+      hooks:
+          - id: check-yaml
+          - id: end-of-file-fixer
+            exclude: ^src/pyesysrepo/.*.hh|src/pyesysrepo/.*.cxx|include/pyesysrepo/esysrepo_inc.h|src/pyesysrepo/esysrepo.py
+          - id: trailing-whitespace
+            exclude: ^src/pyesysrepo/.*.hh|src/pyesysrepo/.*.cxx|include/pyesysrepo/esysrepo_inc.h|src/pyesysrepo/esysrepo.py
+    - repo: https://github.com/psf/black
+      rev: 22.6.0
+      hooks:
+          - id: black
+            exclude: ^src/pyesysrepo/esysrepo.py
+    - repo: https://github.com/pocc/pre-commit-hooks
+      rev: v1.3.5
+      hooks:
+          - id: clang-format
+            args: ["-i"]
+            exclude: ^src/pyesysrepo/.*.hh|src/pyesysrepo/.*.cxx|include/pyesysrepo/esysrepo_inc.h|
+    - repo: https://github.com/cheshirekow/cmake-format-precommit
+      rev: v0.6.13
+      hooks:
+          - id: cmake-format
