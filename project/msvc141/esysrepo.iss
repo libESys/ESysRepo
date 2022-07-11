@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "ESysRepo"
-#define MyAppVersion "0.1.0"
+#define MyAppVersion "0.2.0"
 #define MyAppPublisher "ESys"
 #define MyAppURL "http://www.libesys.org/"
 #define MyAppExeName "esysrepo.exe"
@@ -18,6 +18,11 @@
 #define SIGN ""
 #else
 #define SIGN "sign"
+#endif
+
+#define ESYSSDK_EXT_DEV GetEnv("ESYSSDK_EXT_DEV")
+#if ESYSSDK_EXT_DEV==""
+#define ESYSSDK_EXT_DEV "..\..\..\esys_sdk_ext"
 #endif
 
 [Setup]
@@ -54,43 +59,59 @@ Name: "quicklaunchicon"; Description: "{cm:CreateQuickLaunchIcon}"; GroupDescrip
 [Files]
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 ; 64 bits version
-; Source: "{#ESYS_DEV}\bin\vc14_x64_dll\boost_chrono-vc140-mt-x64-1_67.dll"; DestDir: "{app}\bin"; Flags: ignoreversion sign; Check: IsWin64
+
+Source: "{#ESYSREPO_DEV}\bin\vc141_x64_dll\_esyslog.pyd"; DestDir: "{app}\bin"; Flags: ignoreversion {#SIGN}; Check: IsWin64
+Source: "{#ESYSREPO_DEV}\bin\vc141_x64_dll\_esysrepo.pyd"; DestDir: "{app}\bin"; Flags: ignoreversion {#SIGN}; Check: IsWin64
+Source: "{#ESYSREPO_DEV}\bin\vc141_x64_dll\activate.bat"; DestDir: "{app}\bin"; Flags: ignoreversion; Check: IsWin64
+Source: "{#ESYSREPO_DEV}\bin\vc141_x64_dll\boost_date_time-vc141-mt-x64-1_67.dll"; DestDir: "{app}\bin"; Flags: ignoreversion {#SIGN}; Check: IsWin64
 Source: "{#ESYSREPO_DEV}\bin\vc141_x64_dll\boost_filesystem-vc141-mt-x64-1_67.dll"; DestDir: "{app}\bin"; Flags: ignoreversion {#SIGN}; Check: IsWin64
 Source: "{#ESYSREPO_DEV}\bin\vc141_x64_dll\boost_program_options-vc141-mt-x64-1_67.dll"; DestDir: "{app}\bin"; Flags: ignoreversion {#SIGN}; Check: IsWin64
 Source: "{#ESYSREPO_DEV}\bin\vc141_x64_dll\boost_system-vc141-mt-x64-1_67.dll"; DestDir: "{app}\bin"; Flags: ignoreversion {#SIGN}; Check: IsWin64
 ;Source: "{#ESYSREPO_DEV}\bin\vc141_x64_dll\boost_thread-vc141-mt-x64-1_67.dll"; DestDir: "{app}\bin"; Flags: ignoreversion {#SIGN}; Check: IsWin64
+Source: "{#ESYSREPO_DEV}\bin\vc141_x64_dll\deactivate.bat"; DestDir: "{app}\bin"; Flags: ignoreversion; Check: IsWin64
 Source: "{#ESYSREPO_DEV}\bin\vc141_x64_dll\esysbase-vc141-x64-0.1.0.dll"; DestDir: "{app}\bin"; Flags: ignoreversion {#SIGN}; Check: IsWin64
 Source: "{#ESYSREPO_DEV}\bin\vc141_x64_dll\esysfile-vc141-x64-0.1.0.dll"; DestDir: "{app}\bin"; Flags: ignoreversion {#SIGN}; Check: IsWin64 
+Source: "{#ESYSREPO_DEV}\bin\vc141_x64_dll\esyslog.py"; DestDir: "{app}\bin"; Flags: ignoreversion; Check: IsWin64 
 Source: "{#ESYSREPO_DEV}\bin\vc141_x64_dll\esyslog-vc141-x64-0.1.0.dll"; DestDir: "{app}\bin"; Flags: ignoreversion {#SIGN}; Check: IsWin64
 Source: "{#ESYSREPO_DEV}\bin\vc141_x64_dll\esysrepo.exe"; DestDir: "{app}\bin"; Flags: ignoreversion {#SIGN}; Check: IsWin64
+Source: "{#ESYSREPO_DEV}\bin\vc141_x64_dll\esysrepo.py"; DestDir: "{app}\bin"; Flags: ignoreversion; Check: IsWin64 
 Source: "{#ESYSREPO_DEV}\bin\vc141_x64_dll\esysrepo-vc141-x64-0.1.0.dll"; DestDir: "{app}\bin"; Flags: ignoreversion sign; Check: IsWin64
-Source: "{#ESYSREPO_DEV}\bin\vc141_x64_dll\git2.dll"; DestDir: "{app}\bin"; Flags: ignoreversion {#SIGN}; Check: IsWin64
 Source: "{#ESYSREPO_DEV}\bin\vc141_x64_dll\libeay32.dll"; DestDir: "{app}\bin"; Flags: ignoreversion {#SIGN}; Check: IsWin64
-Source: "{#ESYSREPO_DEV}\bin\vc141_x64_dll\libssh2.dll"; DestDir: "{app}\bin"; Flags: ignoreversion {#SIGN}; Check: IsWin64
+Source: "{#ESYSREPO_DEV}\bin\vc141_x64_dll\libgit2-vc141-x64-0.1.0.dll"; DestDir: "{app}\bin"; Flags: ignoreversion {#SIGN}; Check: IsWin64
+Source: "{#ESYSREPO_DEV}\bin\vc141_x64_dll\libssh2-vc141-x64-0.1.0.dll"; DestDir: "{app}\bin"; Flags: ignoreversion {#SIGN}; Check: IsWin64
+Source: "{#ESYSREPO_DEV}\bin\vc141_x64_dll\libxml2.dll"; DestDir: "{app}\bin"; Flags: ignoreversion {#SIGN}; Check: IsWin64
+Source: "{#ESYSREPO_DEV}\bin\vc141_x64_dll\libxmlsec.dll"; DestDir: "{app}\bin"; Flags: ignoreversion {#SIGN}; Check: IsWin64
+Source: "{#ESYSREPO_DEV}\bin\vc141_x64_dll\libxmlsec-openssl.dll"; DestDir: "{app}\bin"; Flags: ignoreversion {#SIGN}; Check: IsWin64
 Source: "{#ESYSREPO_DEV}\bin\vc141_x64_dll\PocoFoundation64.dll"; DestDir: "{app}\bin"; Flags: ignoreversion {#SIGN}; Check: IsWin64
 Source: "{#ESYSREPO_DEV}\bin\vc141_x64_dll\PocoXML64.dll"; DestDir: "{app}\bin"; Flags: ignoreversion {#SIGN}; Check: IsWin64
+Source: "{#ESYSREPO_DEV}\bin\vc141_x64_dll\zlib1.dll"; DestDir: "{app}\bin"; Flags: ignoreversion {#SIGN}; Check: IsWin64
 
 Source: "{#ESYSREPO_DEV}\bin\vc141_x64_dll\plugins\esyslog\esyslog_spdlog-vc141-x64-0.1.0.dll"; DestDir: "{app}\bin\plugins\esyslog"; Flags: ignoreversion {#SIGN}; Check: IsWin64
 
-; Source: "{#ESYS_DEV}\build\esyspytools\exe.win-amd64-3.6\*"; DestDir: "{app}\bin"; Check: IsWin64; Flags: ignoreversion createallsubdirs recursesubdirs sign;
-
 ; 32 bits version
-; Source: "{#ESYS_DEV}\bin\vc14_dll\boost_chrono-vc141-mt-x32-1_67.dll"; DestDir: "{app}\bin"; Flags: ignoreversion sign; Check: not IsWin64
+Source: "{#ESYSREPO_DEV}\bin\vc141_x32_dll\_esyslog.pyd"; DestDir: "{app}\bin"; Flags: ignoreversion {#SIGN}; Check: not IsWin64
+Source: "{#ESYSREPO_DEV}\bin\vc141_x32_dll\_esysrepo.pyd"; DestDir: "{app}\bin"; Flags: ignoreversion {#SIGN}; Check: not IsWin64
+Source: "{#ESYSREPO_DEV}\bin\vc141_x32_dll\activate.bat"; DestDir: "{app}\bin"; Flags: ignoreversion; Check: not IsWin64
+Source: "{#ESYSREPO_DEV}\bin\vc141_x32_dll\boost_date_time-vc141-mt-x32-1_67.dll"; DestDir: "{app}\bin"; Flags: ignoreversion {#SIGN}; Check: not IsWin64
 Source: "{#ESYSREPO_DEV}\bin\vc141_x32_dll\boost_filesystem-vc141-mt-x32-1_67.dll"; DestDir: "{app}\bin"; Flags: ignoreversion {#SIGN}; Check: not IsWin64
 Source: "{#ESYSREPO_DEV}\bin\vc141_x32_dll\boost_program_options-vc141-mt-x32-1_67.dll"; DestDir: "{app}\bin"; Flags: ignoreversion {#SIGN}; Check: not IsWin64
 Source: "{#ESYSREPO_DEV}\bin\vc141_x32_dll\boost_system-vc141-mt-x32-1_67.dll"; DestDir: "{app}\bin"; Flags: ignoreversion {#SIGN}; Check: not IsWin64
-;Source: "{#ESYSREPO_DEV}\bin\vc141_x32_dll\boost_thread-vc141-mt-x32-1_67.dll"; DestDir: "{app}\bin"; Flags: ignoreversion {#SIGN}; Check: not IsWin64
+Source: "{#ESYSREPO_DEV}\bin\vc141_x32_dll\deactivate.bat"; DestDir: "{app}\bin"; Flags: ignoreversion; Check: not IsWin64
 Source: "{#ESYSREPO_DEV}\bin\vc141_x32_dll\esysbase-vc141-x32-0.1.0.dll"; DestDir: "{app}\bin"; Flags: ignoreversion {#SIGN}; Check: not IsWin64
 Source: "{#ESYSREPO_DEV}\bin\vc141_x32_dll\esysfile-vc141-x32-0.1.0.dll"; DestDir: "{app}\bin"; Flags: ignoreversion {#SIGN}; Check: not IsWin64
+Source: "{#ESYSREPO_DEV}\bin\vc141_x32_dll\esyslog.py"; DestDir: "{app}\bin"; Flags: ignoreversion; Check: not IsWin64
 Source: "{#ESYSREPO_DEV}\bin\vc141_x32_dll\esyslog-vc141-x32-0.1.0.dll"; DestDir: "{app}\bin"; Flags: ignoreversion {#SIGN}; Check: not IsWin64
 Source: "{#ESYSREPO_DEV}\bin\vc141_x32_dll\esysrepo.exe"; DestDir: "{app}\bin"; Flags: ignoreversion {#SIGN}; Check: not IsWin64
+Source: "{#ESYSREPO_DEV}\bin\vc141_x32_dll\esysrepo.py"; DestDir: "{app}\bin"; Flags: ignoreversion; Check: not IsWin64
 Source: "{#ESYSREPO_DEV}\bin\vc141_x32_dll\esysrepo-vc141-x32-0.1.0.dll"; DestDir: "{app}\bin"; Flags: ignoreversion {#SIGN}; Check: not IsWin64
-Source: "{#ESYSREPO_DEV}\bin\vc141_x32_dll\git2.dll"; DestDir: "{app}\bin"; Flags: ignoreversion {#SIGN}; Check: not IsWin64
 Source: "{#ESYSREPO_DEV}\bin\vc141_x32_dll\libeay32.dll"; DestDir: "{app}\bin"; Flags: ignoreversion {#SIGN}; Check: not IsWin64
-Source: "{#ESYSREPO_DEV}\bin\vc141_x32_dll\libssh2.dll"; DestDir: "{app}\bin"; Flags: ignoreversion {#SIGN}; Check: not IsWin64
+Source: "{#ESYSREPO_DEV}\bin\vc141_x32_dll\libgit2-vc141-x32-0.1.0.dll"; DestDir: "{app}\bin"; Flags: ignoreversion {#SIGN}; Check: not IsWin64
+Source: "{#ESYSREPO_DEV}\bin\vc141_x32_dll\libssh2-vc141-x32-0.1.0.dll"; DestDir: "{app}\bin"; Flags: ignoreversion {#SIGN}; Check: not IsWin64
+;Source: "{#ESYSREPO_DEV}\bin\vc141_x32_dll\libxml2.dll"; DestDir: "{app}\bin"; Flags: ignoreversion {#SIGN}; Check: not IsWin64
+;Source: "{#ESYSREPO_DEV}\bin\vc141_x32_dll\libxmlsec.dll"; DestDir: "{app}\bin"; Flags: ignoreversion {#SIGN}; Check: not IsWin64
+;Source: "{#ESYSREPO_DEV}\bin\vc141_x32_dll\libxmlsec-openssl.dll"; DestDir: "{app}\bin"; Flags: ignoreversion {#SIGN}; Check: not IsWin64
 Source: "{#ESYSREPO_DEV}\bin\vc141_x32_dll\PocoFoundation.dll"; DestDir: "{app}\bin"; Flags: ignoreversion {#SIGN}; Check: not IsWin64
 Source: "{#ESYSREPO_DEV}\bin\vc141_x32_dll\PocoXML.dll"; DestDir: "{app}\bin"; Flags: ignoreversion {#SIGN}; Check: not IsWin64
-Source: "{#ESYSREPO_DEV}\bin\vc141_x64_dll\zlib1.dll"; DestDir: "{app}\bin"; Flags: ignoreversion {#SIGN}; Check: IsWin64
 Source: "{#ESYSREPO_DEV}\bin\vc141_x32_dll\zlib1.dll"; DestDir: "{app}\bin"; Flags: ignoreversion {#SIGN}; Check: not IsWin64
 
 Source: "{#ESYSREPO_DEV}\bin\vc141_x32_dll\plugins\esyslog\esyslog_spdlog-vc141-x32-0.1.0.dll"; DestDir: "{app}\bin\plugins\esyslog"; Flags: ignoreversion {#SIGN}; Check: not IsWin64
@@ -110,3 +131,4 @@ Root: "HKLM"; Subkey: "SOFTWARE\ESysRepo"; ValueType: string; ValueName: "Instal
 Root: "HKLM"; Subkey: "SOFTWARE\ESysRepo"; ValueType: string; ValueName: "GroupName"; ValueData: "{groupname}"; Flags: createvalueifdoesntexist uninsdeletevalue
 Root: "HKLM"; Subkey: "SOFTWARE\ESysRepo"; ValueType: string; ValueName: "Current"; Flags: createvalueifdoesntexist uninsdeletevalue
 Root: "HKLM"; Subkey: "SYSTEM\CurrentControlSet\Control\Session Manager\Environment"; ValueType: string; ValueName: "ESYSREPO_INST_DIR"; ValueData: "{app}"
+Root: "HKLM"; Subkey: "SYSTEM\CurrentControlSet\Control\Session Manager\Environment"; ValueType: string; ValueName: "PYESYSREPO_INST_DIR"; ValueData: "{app}\bin"
