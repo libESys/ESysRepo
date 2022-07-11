@@ -123,7 +123,7 @@
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /Y $(OutDir)$(TargetFileName) $(ESYSREPO_DEV)\$(esysdevExeOutDir)
+      <Command>xcopy /Y $(ProjectDir)$(OutDir)$(TargetFileName) $(ESYSREPO_DEV)\$(esysdevExeOutDir)
 $(ESYSSDK_INST_DIR)\bin\esysdep.exe --copy --x32 $(ESYSREPO_DEV)\$(esysdevExeOutDir)</Command>
     </PostBuildEvent>
     <ResourceCompile>
@@ -155,7 +155,7 @@ $(ESYSSDK_INST_DIR)\bin\esysdep.exe --copy --x32 $(ESYSREPO_DEV)\$(esysdevExeOut
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /Y $(OutDir)$(TargetFileName) $(ESYSREPO_DEV)\$(esysdevExeOutDir)
+      <Command>xcopy /Y $(ProjectDir)$(OutDir)$(TargetFileName) $(ESYSREPO_DEV)\$(esysdevExeOutDir)
 $(ESYSSDK_INST_DIR)\bin\esysdep.exe --copy --x64 $(OutDir)</Command>
     </PostBuildEvent>
     <ResourceCompile>
@@ -187,7 +187,7 @@ $(ESYSSDK_INST_DIR)\bin\esysdep.exe --copy --x64 $(OutDir)</Command>
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /Y $(OutDir)$(TargetFileName) $(ESYSREPO_DEV)\$(esysdevExeOutDir)
+      <Command>xcopy /Y $(ProjectDir)$(OutDir)$(TargetFileName) $(ESYSREPO_DEV)\$(esysdevExeOutDir)
 $(ESYSSDK_INST_DIR)\bin\esysdep.exe --copy --x32 $(ESYSREPO_DEV)\$(esysdevExeOutDir)</Command>
     </PostBuildEvent>
     <ResourceCompile>
@@ -219,7 +219,7 @@ $(ESYSSDK_INST_DIR)\bin\esysdep.exe --copy --x32 $(ESYSREPO_DEV)\$(esysdevExeOut
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /Y $(OutDir)$(TargetFileName) $(ESYSREPO_DEV)\$(esysdevExeOutDir)
+      <Command>xcopy /Y $(ProjectDir)$(OutDir)$(TargetFileName) $(ESYSREPO_DEV)\$(esysdevExeOutDir)
 $(ESYSSDK_INST_DIR)\bin\esysdep.exe --copy --x64 $(ESYSREPO_DEV)\$(esysdevExeOutDir)</Command>
     </PostBuildEvent>
     <ResourceCompile>
