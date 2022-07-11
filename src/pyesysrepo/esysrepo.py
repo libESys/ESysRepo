@@ -5,7 +5,6 @@
 # the SWIG interface file instead.
 
 from sys import version_info as _swig_python_version_info
-
 if _swig_python_version_info < (2, 7, 0):
     raise RuntimeError("Python 2.7 or later required")
 
@@ -20,17 +19,12 @@ try:
 except ImportError:
     import __builtin__
 
-
 def _swig_repr(self):
     try:
         strthis = "proxy of " + self.this.__repr__()
     except __builtin__.Exception:
         strthis = ""
-    return "<%s.%s; %s >" % (
-        self.__class__.__module__,
-        self.__class__.__name__,
-        strthis,
-    )
+    return "<%s.%s; %s >" % (self.__class__.__module__, self.__class__.__name__, strthis,)
 
 
 def _swig_setattr_nondynamic_instance_variable(set):
@@ -43,7 +37,6 @@ def _swig_setattr_nondynamic_instance_variable(set):
             set(self, name, value)
         else:
             raise AttributeError("You cannot add instance attributes to %s" % self)
-
     return set_instance_attr
 
 
@@ -53,36 +46,28 @@ def _swig_setattr_nondynamic_class_variable(set):
             set(cls, name, value)
         else:
             raise AttributeError("You cannot add class attributes to %s" % cls)
-
     return set_class_attr
 
 
 def _swig_add_metaclass(metaclass):
     """Class decorator for adding a metaclass to a SWIG wrapped class - a slimmed down version of six.add_metaclass"""
-
     def wrapper(cls):
         return metaclass(cls.__name__, cls.__bases__, cls.__dict__.copy())
-
     return wrapper
 
 
 class _SwigNonDynamicMeta(type):
     """Meta class to enforce nondynamic attributes (no new attributes) for a class"""
-
     __setattr__ = _swig_setattr_nondynamic_class_variable(type.__setattr__)
 
 
 import weakref
 
-
 class SwigPyIterator(object):
-    thisown = property(
-        lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag"
-    )
+    thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
 
     def __init__(self, *args, **kwargs):
         raise AttributeError("No constructor defined - class is abstract")
-
     __repr__ = _swig_repr
     __swig_destroy__ = _esysrepo.delete_SwigPyIterator
 
@@ -133,32 +118,24 @@ class SwigPyIterator(object):
 
     def __sub__(self, *args):
         return _esysrepo.SwigPyIterator___sub__(self, *args)
-
     def __iter__(self):
         return self
-
 
 # Register SwigPyIterator in _esysrepo:
 _esysrepo.SwigPyIterator_swigregister(SwigPyIterator)
 
 SHARED_PTR_DISOWN = _esysrepo.SHARED_PTR_DISOWN
 import esyslog
-
 BranchType_NOT_SET = _esysrepo.BranchType_NOT_SET
 BranchType_LOCAL = _esysrepo.BranchType_LOCAL
 BranchType_REMOTE = _esysrepo.BranchType_REMOTE
 BranchType_ALL = _esysrepo.BranchType_ALL
-
-
 class Branch(object):
-    thisown = property(
-        lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag"
-    )
+    thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
     __repr__ = _swig_repr
 
     def __init__(self, *args):
         _esysrepo.Branch_swiginit(self, _esysrepo.new_Branch(*args))
-
     __swig_destroy__ = _esysrepo.delete_Branch
 
     def set_name(self, name):
@@ -197,20 +174,15 @@ class Branch(object):
     def get_remote_name(self):
         return _esysrepo.Branch_get_remote_name(self)
 
-
 # Register Branch in _esysrepo:
 _esysrepo.Branch_swigregister(Branch)
 
-
 class CommitHash(object):
-    thisown = property(
-        lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag"
-    )
+    thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
     __repr__ = _swig_repr
 
     def __init__(self):
         _esysrepo.CommitHash_swiginit(self, _esysrepo.new_CommitHash())
-
     __swig_destroy__ = _esysrepo.delete_CommitHash
 
     def set_hash(self, hash):
@@ -219,20 +191,15 @@ class CommitHash(object):
     def get_hash(self):
         return _esysrepo.CommitHash_get_hash(self)
 
-
 # Register CommitHash in _esysrepo:
 _esysrepo.CommitHash_swigregister(CommitHash)
 
-
 class Commit(object):
-    thisown = property(
-        lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag"
-    )
+    thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
     __repr__ = _swig_repr
 
     def __init__(self):
         _esysrepo.Commit_swiginit(self, _esysrepo.new_Commit())
-
     __swig_destroy__ = _esysrepo.delete_Commit
 
     def set_hash(self, hash):
@@ -265,20 +232,15 @@ class Commit(object):
     def get_date_time(self):
         return _esysrepo.Commit_get_date_time(self)
 
-
 # Register Commit in _esysrepo:
 _esysrepo.Commit_swigregister(Commit)
 
-
 class Remote(object):
-    thisown = property(
-        lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag"
-    )
+    thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
     __repr__ = _swig_repr
 
     def __init__(self):
         _esysrepo.Remote_swiginit(self, _esysrepo.new_Remote())
-
     __swig_destroy__ = _esysrepo.delete_Remote
 
     def set_name(self, name):
@@ -293,38 +255,28 @@ class Remote(object):
     def get_url(self):
         return _esysrepo.Remote_get_url(self)
 
-
 # Register Remote in _esysrepo:
 _esysrepo.Remote_swigregister(Remote)
 
-
 class ProgressCallbackBase(object):
-    thisown = property(
-        lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag"
-    )
+    thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
 
     def __init__(self, *args, **kwargs):
         raise AttributeError("No constructor defined - class is abstract")
-
     __repr__ = _swig_repr
     __swig_destroy__ = _esysrepo.delete_ProgressCallbackBase
 
     def git_progress_notif(self, progress):
         return _esysrepo.ProgressCallbackBase_git_progress_notif(self, progress)
 
-
 # Register ProgressCallbackBase in _esysrepo:
 _esysrepo.ProgressCallbackBase_swigregister(ProgressCallbackBase)
 
-
 class GitBase(esyslog.User):
-    thisown = property(
-        lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag"
-    )
+    thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
 
     def __init__(self, *args, **kwargs):
         raise AttributeError("No constructor defined - class is abstract")
-
     __repr__ = _swig_repr
     __swig_destroy__ = _esysrepo.delete_GitBase
 
@@ -377,9 +329,7 @@ class GitBase(esyslog.User):
         return _esysrepo.GitBase_detect_ssh_agent(self, log_once)
 
     def merge_analysis(self, refs, merge_analysis_result, commits):
-        return _esysrepo.GitBase_merge_analysis(
-            self, refs, merge_analysis_result, commits
-        )
+        return _esysrepo.GitBase_merge_analysis(self, refs, merge_analysis_result, commits)
 
     def fetch(self, *args):
         return _esysrepo.GitBase_fetch(self, *args)
@@ -461,32 +411,23 @@ class GitBase(esyslog.User):
     def get_last_cmd_elapsed_time(self):
         return _esysrepo.GitBase_get_last_cmd_elapsed_time(self)
 
-
 # Register GitBase in _esysrepo:
 _esysrepo.GitBase_swigregister(GitBase)
-
 
 def GitBase_is_repo(path):
     return _esysrepo.GitBase_is_repo(path)
 
-
 def GitBase_decode_sideband_progress(txt, progress):
     return _esysrepo.GitBase_decode_sideband_progress(txt, progress)
 
-
 class GitHelper(esyslog.User):
-    thisown = property(
-        lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag"
-    )
+    thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
     __repr__ = _swig_repr
     THOUSAND = _esysrepo.GitHelper_THOUSAND
     CLEAN_OUT_REPETITION = _esysrepo.GitHelper_CLEAN_OUT_REPETITION
 
     def __init__(self, git=0, log_if=0, repo_idx=-1):
-        _esysrepo.GitHelper_swiginit(
-            self, _esysrepo.new_GitHelper(git, log_if, repo_idx)
-        )
-
+        _esysrepo.GitHelper_swiginit(self, _esysrepo.new_GitHelper(git, log_if, repo_idx))
     __swig_destroy__ = _esysrepo.delete_GitHelper
 
     def debug(self, level, msg):
@@ -514,9 +455,7 @@ class GitHelper(esyslog.User):
         return _esysrepo.GitHelper_open(self, folder, log_level, debug_level)
 
     def clone_branch(self, url, branch, path, do_close, log_level, debug_level=0):
-        return _esysrepo.GitHelper_clone_branch(
-            self, url, branch, path, do_close, log_level, debug_level
-        )
+        return _esysrepo.GitHelper_clone_branch(self, url, branch, path, do_close, log_level, debug_level)
 
     def clone(self, *args):
         return _esysrepo.GitHelper_clone(self, *args)
@@ -531,24 +470,16 @@ class GitHelper(esyslog.User):
         return _esysrepo.GitHelper_fetch(self, *args)
 
     def get_branches(self, branches, branch_type, log_level, debug_level=0):
-        return _esysrepo.GitHelper_get_branches(
-            self, branches, branch_type, log_level, debug_level
-        )
+        return _esysrepo.GitHelper_get_branches(self, branches, branch_type, log_level, debug_level)
 
     def has_branch(self, name, branch_type, log_level, debug_level=0):
-        return _esysrepo.GitHelper_has_branch(
-            self, name, branch_type, log_level, debug_level
-        )
+        return _esysrepo.GitHelper_has_branch(self, name, branch_type, log_level, debug_level)
 
     def get_hash(self, revision, hash, log_level, debug_level=0):
-        return _esysrepo.GitHelper_get_hash(
-            self, revision, hash, log_level, debug_level
-        )
+        return _esysrepo.GitHelper_get_hash(self, revision, hash, log_level, debug_level)
 
     def get_hash_local(self, revision, hash, log_level, debug_level=0):
-        return _esysrepo.GitHelper_get_hash_local(
-            self, revision, hash, log_level, debug_level
-        )
+        return _esysrepo.GitHelper_get_hash_local(self, revision, hash, log_level, debug_level)
 
     def is_dirty(self, dirty, log_level, debug_level=0):
         return _esysrepo.GitHelper_is_dirty(self, dirty, log_level, debug_level)
@@ -562,17 +493,11 @@ class GitHelper(esyslog.User):
     def checkout(self, branch, force, log_level, debug_level=0):
         return _esysrepo.GitHelper_checkout(self, branch, force, log_level, debug_level)
 
-    def merge_analysis(
-        self, refs, merge_analysis_result, commits, log_level, debug_level=0
-    ):
-        return _esysrepo.GitHelper_merge_analysis(
-            self, refs, merge_analysis_result, commits, log_level, debug_level
-        )
+    def merge_analysis(self, refs, merge_analysis_result, commits, log_level, debug_level=0):
+        return _esysrepo.GitHelper_merge_analysis(self, refs, merge_analysis_result, commits, log_level, debug_level)
 
     def move(self, src, dst, recursive, log_level, debug_level=0):
-        return _esysrepo.GitHelper_move(
-            self, src, dst, recursive, log_level, debug_level
-        )
+        return _esysrepo.GitHelper_move(self, src, dst, recursive, log_level, debug_level)
 
     def set_git(self, git):
         return _esysrepo.GitHelper_set_git(self, git)
@@ -613,22 +538,16 @@ class GitHelper(esyslog.User):
     def clean_cout(self):
         return _esysrepo.GitHelper_clean_cout(self)
 
-
 # Register GitHelper in _esysrepo:
 _esysrepo.GitHelper_swigregister(GitHelper)
 
 ESYSREPO_USE_LIBGIT2 = _esysrepo.ESYSREPO_USE_LIBGIT2
-
-
 class Git(GitBase):
-    thisown = property(
-        lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag"
-    )
+    thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
     __repr__ = _swig_repr
 
     def __init__(self):
         _esysrepo.Git_swiginit(self, _esysrepo.new_Git())
-
     __swig_destroy__ = _esysrepo.delete_Git
 
     @staticmethod
@@ -744,50 +663,37 @@ class Git(GitBase):
     def set_logger_if(self, logger_if):
         return _esysrepo.Git_set_logger_if(self, logger_if)
 
-
 # Register Git in _esysrepo:
 _esysrepo.Git_swigregister(Git)
-
 
 def Git_new_ptr():
     return _esysrepo.Git_new_ptr()
 
-
 def Git_s_get_version():
     return _esysrepo.Git_s_get_version()
-
 
 def Git_s_get_lib_name():
     return _esysrepo.Git_s_get_lib_name()
 
-
 def Git_s_get_ssh_version():
     return _esysrepo.Git_s_get_ssh_version()
 
-
 def Git_s_get_ssh_lib_name():
     return _esysrepo.Git_s_get_ssh_lib_name()
-
 
 Format_NOT_SET = _esysrepo.Format_NOT_SET
 Format_UNKNOWN = _esysrepo.Format_UNKNOWN
 Format_XML = _esysrepo.Format_XML
 Format_JSON = _esysrepo.Format_JSON
 
-
 def convert_format_to_text(format):
     return _esysrepo.convert_format_to_text(format)
-
-
 class Repository(object):
-    thisown = property(
-        lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag"
-    )
+    thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
     __repr__ = _swig_repr
 
     def __init__(self, *args):
         _esysrepo.Repository_swiginit(self, _esysrepo.new_Repository(*args))
-
     __swig_destroy__ = _esysrepo.delete_Repository
 
     def set_name(self, name):
@@ -826,20 +732,15 @@ class Repository(object):
     def __ne__(self, repository):
         return _esysrepo.Repository___ne__(self, repository)
 
-
 # Register Repository in _esysrepo:
 _esysrepo.Repository_swigregister(Repository)
 
-
 class Group(object):
-    thisown = property(
-        lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag"
-    )
+    thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
     __repr__ = _swig_repr
 
     def __init__(self, *args):
         _esysrepo.Group_swiginit(self, _esysrepo.new_Group(*args))
-
     __swig_destroy__ = _esysrepo.delete_Group
 
     def set_name(self, name):
@@ -860,20 +761,15 @@ class Group(object):
     def find_repo_by_name(self, name):
         return _esysrepo.Group_find_repo_by_name(self, name)
 
-
 # Register Group in _esysrepo:
 _esysrepo.Group_swigregister(Group)
 
-
 class Location(object):
-    thisown = property(
-        lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag"
-    )
+    thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
     __repr__ = _swig_repr
 
     def __init__(self, *args):
         _esysrepo.Location_swiginit(self, _esysrepo.new_Location(*args))
-
     __swig_destroy__ = _esysrepo.delete_Location
 
     def set_name(self, name):
@@ -921,35 +817,26 @@ class Location(object):
     def __ne__(self, location):
         return _esysrepo.Location___ne__(self, location)
 
-
 # Register Location in _esysrepo:
 _esysrepo.Location_swigregister(Location)
 
 
 def __lshift__(os, location):
     return _esysrepo.__lshift__(os, location)
-
-
 Type_NOT_SET = _esysrepo.Type_NOT_SET
 Type_UNKNOWN = _esysrepo.Type_UNKNOWN
 Type_GOOGLE_MANIFEST = _esysrepo.Type_GOOGLE_MANIFEST
 Type_ESYSREPO_MANIFEST = _esysrepo.Type_ESYSREPO_MANIFEST
 Type_GIT_SUPER_PROJECT = _esysrepo.Type_GIT_SUPER_PROJECT
 
-
 def convert_text_to_format(*args):
     return _esysrepo.convert_text_to_format(*args)
-
-
 class FileError(object):
-    thisown = property(
-        lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag"
-    )
+    thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
     __repr__ = _swig_repr
 
     def __init__(self):
         _esysrepo.FileError_swiginit(self, _esysrepo.new_FileError())
-
     __swig_destroy__ = _esysrepo.delete_FileError
 
     def set_msg(self, msg):
@@ -970,20 +857,15 @@ class FileError(object):
     def get_line_number(self):
         return _esysrepo.FileError_get_line_number(self)
 
-
 # Register FileError in _esysrepo:
 _esysrepo.FileError_swigregister(FileError)
 
-
 class Manifest(object):
-    thisown = property(
-        lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag"
-    )
+    thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
     __repr__ = _swig_repr
 
     def __init__(self):
         _esysrepo.Manifest_swiginit(self, _esysrepo.new_Manifest())
-
     __swig_destroy__ = _esysrepo.delete_Manifest
 
     def set_type(self, type):
@@ -1058,19 +940,14 @@ class Manifest(object):
     def __ne__(self, other):
         return _esysrepo.Manifest___ne__(self, other)
 
-
 # Register Manifest in _esysrepo:
 _esysrepo.Manifest_swigregister(Manifest)
 
-
 class FileBase(object):
-    thisown = property(
-        lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag"
-    )
+    thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
 
     def __init__(self, *args, **kwargs):
         raise AttributeError("No constructor defined - class is abstract")
-
     __repr__ = _swig_repr
     __swig_destroy__ = _esysrepo.delete_FileBase
 
@@ -1092,20 +969,15 @@ class FileBase(object):
     def add_error(self, *args):
         return _esysrepo.FileBase_add_error(self, *args)
 
-
 # Register FileBase in _esysrepo:
 _esysrepo.FileBase_swigregister(FileBase)
 
-
 class GRepoManifest(FileBase):
-    thisown = property(
-        lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag"
-    )
+    thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
     __repr__ = _swig_repr
 
     def __init__(self):
         _esysrepo.GRepoManifest_swiginit(self, _esysrepo.new_GRepoManifest())
-
     __swig_destroy__ = _esysrepo.delete_GRepoManifest
 
     def read(self, filename):
@@ -1127,10 +999,11 @@ class GRepoManifest(FileBase):
     def get_folder_name():
         return _esysrepo.GRepoManifest_get_folder_name()
 
-
 # Register GRepoManifest in _esysrepo:
 _esysrepo.GRepoManifest_swigregister(GRepoManifest)
 
-
 def GRepoManifest_get_folder_name():
     return _esysrepo.GRepoManifest_get_folder_name()
+
+
+

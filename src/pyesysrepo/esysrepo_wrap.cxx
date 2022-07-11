@@ -782,7 +782,7 @@ SWIG_UnpackDataName(const char *c, void *ptr, size_t sz, const char *name) {
 #define PyString_FromString(x) PyUnicode_FromString(x)
 #define PyString_Format(fmt, args)  PyUnicode_Format(fmt, args)
 #define PyString_AsString(str) PyBytes_AsString(str)
-#define PyString_Size(str) PyBytes_Size(str)
+#define PyString_Size(str) PyBytes_Size(str)	
 #define PyString_InternFromString(key) PyUnicode_InternFromString(key)
 #define Py_TPFLAGS_HAVE_CLASS Py_TPFLAGS_BASETYPE
 #define PyString_AS_STRING(x) PyUnicode_AS_STRING(x)
@@ -841,7 +841,7 @@ SWIGINTERN PyObject*
 SWIG_Python_str_FromChar(const char *c)
 {
 #if PY_VERSION_HEX >= 0x03000000
-  return PyUnicode_FromString(c);
+  return PyUnicode_FromString(c); 
 #else
   return PyString_FromString(c);
 #endif
@@ -978,7 +978,7 @@ SWIG_Python_RaiseOrModifyTypeError(const char *message)
 #  endif
 #  if defined(SWIG_PYTHON_USE_GIL) /* Use PyGILState threads calls */
 #    ifndef SWIG_PYTHON_INITIALIZE_THREADS
-#     define SWIG_PYTHON_INITIALIZE_THREADS  PyEval_InitThreads()
+#     define SWIG_PYTHON_INITIALIZE_THREADS  PyEval_InitThreads() 
 #    endif
 #    ifdef __cplusplus /* C++ code */
        class SWIG_Python_Thread_Block {
@@ -1095,7 +1095,7 @@ typedef struct swig_const_info {
 
 #define SWIG_InternalNewPointerObj(ptr, type, flags)	SWIG_Python_NewPointerObj(NULL, ptr, type, flags)
 
-#define SWIG_CheckImplicit(ty)                          SWIG_Python_CheckImplicit(ty)
+#define SWIG_CheckImplicit(ty)                          SWIG_Python_CheckImplicit(ty) 
 #define SWIG_AcquirePtr(ptr, src)                       SWIG_Python_AcquirePtr(ptr, src)
 #define swig_owntype                                    int
 
@@ -1122,26 +1122,26 @@ typedef struct swig_const_info {
 #define SWIG_SetModule(clientdata, pointer)             SWIG_Python_SetModule(pointer)
 #define SWIG_NewClientData(obj)                         SwigPyClientData_New(obj)
 
-#define SWIG_SetErrorObj                                SWIG_Python_SetErrorObj
-#define SWIG_SetErrorMsg                        	SWIG_Python_SetErrorMsg
-#define SWIG_ErrorType(code)                    	SWIG_Python_ErrorType(code)
-#define SWIG_Error(code, msg)            		SWIG_Python_SetErrorMsg(SWIG_ErrorType(code), msg)
-#define SWIG_fail                        		goto fail
+#define SWIG_SetErrorObj                                SWIG_Python_SetErrorObj                            
+#define SWIG_SetErrorMsg                        	SWIG_Python_SetErrorMsg				   
+#define SWIG_ErrorType(code)                    	SWIG_Python_ErrorType(code)                        
+#define SWIG_Error(code, msg)            		SWIG_Python_SetErrorMsg(SWIG_ErrorType(code), msg) 
+#define SWIG_fail                        		goto fail					   
 
 
 /* Runtime API implementation */
 
 /* Error manipulation */
 
-SWIGINTERN void
+SWIGINTERN void 
 SWIG_Python_SetErrorObj(PyObject *errtype, PyObject *obj) {
-  SWIG_PYTHON_THREAD_BEGIN_BLOCK;
+  SWIG_PYTHON_THREAD_BEGIN_BLOCK; 
   PyErr_SetObject(errtype, obj);
   Py_DECREF(obj);
   SWIG_PYTHON_THREAD_END_BLOCK;
 }
 
-SWIGINTERN void
+SWIGINTERN void 
 SWIG_Python_SetErrorMsg(PyObject *errtype, const char *msg) {
   SWIG_PYTHON_THREAD_BEGIN_BLOCK;
   PyErr_SetString(errtype, msg);
@@ -1162,7 +1162,7 @@ SwigPyBuiltin_AddPublicSymbol(PyObject *seq, const char *key) {
 }
 
 SWIGINTERN void
-SWIG_Python_SetConstant(PyObject *d, PyObject *public_interface, const char *name, PyObject *obj) {
+SWIG_Python_SetConstant(PyObject *d, PyObject *public_interface, const char *name, PyObject *obj) {   
   PyDict_SetItemString(d, name, obj);
   Py_DECREF(obj);
   if (public_interface)
@@ -1172,9 +1172,9 @@ SWIG_Python_SetConstant(PyObject *d, PyObject *public_interface, const char *nam
 #else
 
 SWIGINTERN void
-SWIG_Python_SetConstant(PyObject *d, const char *name, PyObject *obj) {
+SWIG_Python_SetConstant(PyObject *d, const char *name, PyObject *obj) {   
   PyDict_SetItemString(d, name, obj);
-  Py_DECREF(obj);
+  Py_DECREF(obj);                            
 }
 
 #endif
@@ -1209,11 +1209,11 @@ SWIG_Python_UnpackTuple(PyObject *args, const char *name, Py_ssize_t min, Py_ssi
     if (!min && !max) {
       return 1;
     } else {
-      PyErr_Format(PyExc_TypeError, "%s expected %s%d arguments, got none",
+      PyErr_Format(PyExc_TypeError, "%s expected %s%d arguments, got none", 
 		   name, (min == max ? "" : "at least "), (int)min);
       return 0;
     }
-  }
+  }  
   if (!PyTuple_Check(args)) {
     if (min <= 1 && max >= 1) {
       Py_ssize_t i;
@@ -1228,11 +1228,11 @@ SWIG_Python_UnpackTuple(PyObject *args, const char *name, Py_ssize_t min, Py_ssi
   } else {
     Py_ssize_t l = PyTuple_GET_SIZE(args);
     if (l < min) {
-      PyErr_Format(PyExc_TypeError, "%s expected %s%d arguments, got %d",
+      PyErr_Format(PyExc_TypeError, "%s expected %s%d arguments, got %d", 
 		   name, (min == max ? "" : "at least "), (int)min, (int)l);
       return 0;
     } else if (l > max) {
-      PyErr_Format(PyExc_TypeError, "%s expected %s%d arguments, got %d",
+      PyErr_Format(PyExc_TypeError, "%s expected %s%d arguments, got %d", 
 		   name, (min == max ? "" : "at most "), (int)max, (int)l);
       return 0;
     } else {
@@ -1244,7 +1244,7 @@ SWIG_Python_UnpackTuple(PyObject *args, const char *name, Py_ssize_t min, Py_ssi
 	objs[l] = 0;
       }
       return i + 1;
-    }
+    }    
   }
 }
 
@@ -1293,7 +1293,7 @@ extern "C" {
 
 /* The python void return value */
 
-SWIGRUNTIMEINLINE PyObject *
+SWIGRUNTIMEINLINE PyObject * 
 SWIG_Py_Void(void)
 {
   PyObject *none = Py_None;
@@ -1313,7 +1313,7 @@ typedef struct {
   PyTypeObject *pytype;
 } SwigPyClientData;
 
-SWIGRUNTIMEINLINE int
+SWIGRUNTIMEINLINE int 
 SWIG_Python_CheckImplicit(swig_type_info *ty)
 {
   SwigPyClientData *data = (SwigPyClientData *)ty->clientdata;
@@ -1331,7 +1331,7 @@ SWIG_Python_ExceptionType(swig_type_info *desc) {
 }
 
 
-SWIGRUNTIME SwigPyClientData *
+SWIGRUNTIME SwigPyClientData * 
 SwigPyClientData_New(PyObject* obj)
 {
   if (!obj) {
@@ -1377,7 +1377,7 @@ SwigPyClientData_New(PyObject* obj)
   }
 }
 
-SWIGRUNTIME void
+SWIGRUNTIME void 
 SwigPyClientData_Del(SwigPyClientData *data) {
   Py_XDECREF(data->newraw);
   Py_XDECREF(data->newargs);
@@ -1470,7 +1470,7 @@ SwigPyObject_repr(SwigPyObject *v)
     PyString_ConcatAndDel(&repr,nrep);
 # endif
   }
-  return repr;
+  return repr;  
 }
 
 /* We need a version taking two PyObject* parameters so it's a valid
@@ -1499,7 +1499,7 @@ SwigPyObject_richcompare(SwigPyObject *v, SwigPyObject *w, int op)
     return Py_NotImplemented;
   }
   res = PyBool_FromLong( (SwigPyObject_compare(v, w)==0) == (op == Py_EQ) ? 1 : 0);
-  return res;
+  return res;  
 }
 
 
@@ -1559,7 +1559,7 @@ SwigPyObject_dealloc(PyObject *v)
          StopIteration will be active right now, and this needs to
          remain true upon return from SwigPyObject_dealloc.  So save
          and restore. */
-
+      
       PyObject *type = NULL, *value = NULL, *traceback = NULL;
       PyErr_Fetch(&type, &value, &traceback);
 
@@ -1579,19 +1579,19 @@ SwigPyObject_dealloc(PyObject *v)
       PyErr_Restore(type, value, traceback);
 
       Py_XDECREF(res);
-    }
+    } 
 #if !defined(SWIG_PYTHON_SILENT_MEMLEAK)
     else {
       const char *name = SWIG_TypePrettyName(ty);
       printf("swig/python detected a memory leak of type '%s', no destructor found.\n", (name ? name : "unknown"));
     }
 #endif
-  }
+  } 
   Py_XDECREF(next);
   PyObject_DEL(v);
 }
 
-SWIGRUNTIME PyObject*
+SWIGRUNTIME PyObject* 
 SwigPyObject_append(PyObject* v, PyObject* next)
 {
   SwigPyObject *sobj = (SwigPyObject *) v;
@@ -1604,11 +1604,11 @@ SwigPyObject_append(PyObject* v, PyObject* next)
   return SWIG_Py_Void();
 }
 
-SWIGRUNTIME PyObject*
+SWIGRUNTIME PyObject* 
 SwigPyObject_next(PyObject* v, PyObject *SWIGUNUSEDPARM(args))
 {
   SwigPyObject *sobj = (SwigPyObject *) v;
-  if (sobj->next) {
+  if (sobj->next) {    
     Py_INCREF(sobj->next);
     return sobj->next;
   } else {
@@ -1647,7 +1647,7 @@ SwigPyObject_own(PyObject *v, PyObject *args)
       } else {
         SwigPyObject_disown(v,args);
       }
-    }
+    } 
     return obj;
   }
 }
@@ -1660,7 +1660,7 @@ swigobject_methods[] = {
   {"append",  SwigPyObject_append,  METH_O,       "appends another 'this' object"},
   {"next",    SwigPyObject_next,    METH_NOARGS,  "returns the next 'this' object"},
   {"__repr__",SwigPyObject_repr2,   METH_NOARGS,  "returns object representation"},
-  {0, 0, 0, 0}
+  {0, 0, 0, 0}  
 };
 
 SWIGRUNTIME PyTypeObject*
@@ -1828,7 +1828,7 @@ SwigPyPacked_repr(SwigPyPacked *v)
     return SWIG_Python_str_FromFormat("<Swig Packed at %s%s>", result, v->ty->name);
   } else {
     return SWIG_Python_str_FromFormat("<Swig Packed %s>", v->ty->name);
-  }
+  }  
 }
 
 SWIGRUNTIME PyObject *
@@ -1839,7 +1839,7 @@ SwigPyPacked_str(SwigPyPacked *v)
     return SWIG_Python_str_FromFormat("%s%s", result, v->ty->name);
   } else {
     return SWIG_Python_str_FromChar(v->ty->name);
-  }
+  }  
 }
 
 SWIGRUNTIME int
@@ -1861,7 +1861,7 @@ SwigPyPacked_type(void) {
 
 SWIGRUNTIMEINLINE int
 SwigPyPacked_Check(PyObject *op) {
-  return ((op)->ob_type == SwigPyPacked_TypeOnce())
+  return ((op)->ob_type == SwigPyPacked_TypeOnce()) 
     || (strcmp((op)->ob_type->tp_name,"SwigPyPacked") == 0);
 }
 
@@ -2013,11 +2013,11 @@ SWIG_This(void)
 
 /* TODO: I don't know how to implement the fast getset in Python 3 right now */
 #if PY_VERSION_HEX>=0x03000000
-#define SWIG_PYTHON_SLOW_GETSET_THIS
+#define SWIG_PYTHON_SLOW_GETSET_THIS 
 #endif
 
 SWIGRUNTIME SwigPyObject *
-SWIG_Python_GetSwigThis(PyObject *pyobj)
+SWIG_Python_GetSwigThis(PyObject *pyobj) 
 {
   PyObject *obj;
 
@@ -2040,7 +2040,7 @@ SWIG_Python_GetSwigThis(PyObject *pyobj)
 
 #if !defined(SWIG_PYTHON_SLOW_GETSET_THIS)
   if (PyInstance_Check(pyobj)) {
-    obj = _PyInstance_Lookup(pyobj, SWIG_This());
+    obj = _PyInstance_Lookup(pyobj, SWIG_This());      
   } else {
     PyObject **dictptr = _PyObject_GetDictPtr(pyobj);
     if (dictptr != NULL) {
@@ -2073,7 +2073,7 @@ SWIG_Python_GetSwigThis(PyObject *pyobj)
 #endif
   if (obj && !SwigPyObject_Check(obj)) {
     /* a PyObject is called 'this', try to get the 'real this'
-       SwigPyObject from it */
+       SwigPyObject from it */ 
     return SWIG_Python_GetSwigThis(obj);
   }
   return (SwigPyObject *)obj;
@@ -2180,7 +2180,7 @@ SWIG_Python_ConvertPtrAndOwn(PyObject *obj, void **ptr, swig_type_info *ty, int 
                   res = SWIG_AddCast(res);
                   res = SWIG_AddNewMask(res);
                 } else {
-                  res = SWIG_AddCast(res);
+                  res = SWIG_AddCast(res);		    
                 }
               }
             }
@@ -2243,7 +2243,7 @@ SWIG_Python_ConvertPacked(PyObject *obj, void *ptr, size_t sz, swig_type_info *t
     }
   }
   return SWIG_OK;
-}
+}  
 
 /* -----------------------------------------------------------------------------
  * Create a new pointer object
@@ -2254,7 +2254,7 @@ SWIG_Python_ConvertPacked(PyObject *obj, void *ptr, size_t sz, swig_type_info *t
   'this' attribute.
 */
 
-SWIGRUNTIME PyObject*
+SWIGRUNTIME PyObject* 
 SWIG_Python_NewShadowInstance(SwigPyClientData *data, PyObject *swig_this)
 {
   PyObject *inst = 0;
@@ -2325,7 +2325,7 @@ SWIG_Python_SetSwigThis(PyObject *inst, PyObject *swig_this)
   }
 #endif
   return PyObject_SetAttr(inst, SWIG_This(), swig_this);
-}
+} 
 
 
 SWIGINTERN PyObject *
@@ -2407,7 +2407,7 @@ SWIG_Python_NewPackedObj(void *ptr, size_t sz, swig_type_info *type) {
 }
 
 /* -----------------------------------------------------------------------------*
- *  Get type list
+ *  Get type list 
  * -----------------------------------------------------------------------------*/
 
 #ifdef SWIG_LINK_RUNTIME
@@ -2477,7 +2477,7 @@ SWIGRUNTIME swig_type_info *
 SWIG_Python_TypeQuery(const char *type)
 {
   PyObject *cache = SWIG_Python_TypeCache();
-  PyObject *key = SWIG_Python_str_FromChar(type);
+  PyObject *key = SWIG_Python_str_FromChar(type); 
   PyObject *obj = PyDict_GetItem(cache, key);
   swig_type_info *descriptor;
   if (obj) {
@@ -2495,7 +2495,7 @@ SWIG_Python_TypeQuery(const char *type)
   return descriptor;
 }
 
-/*
+/* 
    For backward compatibility only
 */
 #define SWIG_POINTER_EXCEPTION  0
@@ -2504,7 +2504,7 @@ SWIG_Python_TypeQuery(const char *type)
 
 SWIGRUNTIME int
 SWIG_Python_AddErrMesg(const char* mesg, int infront)
-{
+{  
   if (PyErr_Occurred()) {
     PyObject *type = 0;
     PyObject *value = 0;
@@ -2529,7 +2529,7 @@ SWIG_Python_AddErrMesg(const char* mesg, int infront)
     return 0;
   }
 }
-
+  
 SWIGRUNTIME int
 SWIG_Python_ArgFail(int argnum)
 {
@@ -2563,10 +2563,10 @@ SWIG_Python_TypeError(const char *type, PyObject *obj)
 		     type, otype);
 	return;
       }
-    } else
-#endif
+    } else 
+#endif      
     {
-      const char *otype = (obj ? obj->ob_type->tp_name : 0);
+      const char *otype = (obj ? obj->ob_type->tp_name : 0); 
       if (otype) {
 	PyObject *str = PyObject_Str(obj);
 	const char *cstr = str ? SWIG_Python_str_AsChar(str) : 0;
@@ -2581,7 +2581,7 @@ SWIG_Python_TypeError(const char *type, PyObject *obj)
 	Py_XDECREF(str);
 	return;
       }
-    }
+    }   
     PyErr_Format(PyExc_TypeError, "a '%s' is expected", type);
   } else {
     PyErr_Format(PyExc_TypeError, "unexpected type is received");
@@ -2653,7 +2653,7 @@ SWIG_Python_NonDynamicSetAttr(PyObject *obj, PyObject *name, PyObject *value) {
   } else {
     res = f(descr, obj, value);
   }
-
+  
   done:
   Py_DECREF(name);
   return res;
@@ -2667,9 +2667,9 @@ SWIG_Python_NonDynamicSetAttr(PyObject *obj, PyObject *name, PyObject *value) {
 
 
 
-#define SWIG_exception_fail(code, msg) do { SWIG_Error(code, msg); SWIG_fail; } while(0)
+#define SWIG_exception_fail(code, msg) do { SWIG_Error(code, msg); SWIG_fail; } while(0) 
 
-#define SWIG_contract_assert(expr, msg) if (!(expr)) { SWIG_Error(SWIG_RuntimeError, msg); SWIG_fail; } else
+#define SWIG_contract_assert(expr, msg) if (!(expr)) { SWIG_Error(SWIG_RuntimeError, msg); SWIG_fail; } else 
 
 
 
@@ -2688,7 +2688,7 @@ SWIGINTERN PyObject *SWIG_PyStaticMethod_New(PyObject *SWIGUNUSEDPARM(self), PyO
 #endif
 
 
-  #define SWIG_exception(code, msg) do { SWIG_Error(code, msg); SWIG_fail;; } while(0)
+  #define SWIG_exception(code, msg) do { SWIG_Error(code, msg); SWIG_fail;; } while(0) 
 
 /* -----------------------------------------------------------------------------
  * director_common.swg
@@ -3183,12 +3183,12 @@ static swig_module_info swig_module = {swig_types, 62, 0, 0, 0, 0};
 #endif
 #define SWIG_name    "_esysrepo"
 
-#define SWIGVERSION 0x040002
+#define SWIGVERSION 0x040002 
 #define SWIG_VERSION SWIGVERSION
 
 
-#define SWIG_as_voidptr(a) const_cast< void * >(static_cast< const void * >(a))
-#define SWIG_as_voidptrptr(a) ((void)SWIG_as_voidptr(*a),reinterpret_cast< void** >(a))
+#define SWIG_as_voidptr(a) const_cast< void * >(static_cast< const void * >(a)) 
+#define SWIG_as_voidptrptr(a) ((void)SWIG_as_voidptr(*a),reinterpret_cast< void** >(a)) 
 
 
 #include <stdexcept>
@@ -3207,10 +3207,10 @@ namespace swig {
     SwigPtr_PyObject(const SwigPtr_PyObject& item) : _obj(item._obj)
     {
       SWIG_PYTHON_THREAD_BEGIN_BLOCK;
-      Py_XINCREF(_obj);
+      Py_XINCREF(_obj);      
       SWIG_PYTHON_THREAD_END_BLOCK;
     }
-
+    
     SwigPtr_PyObject(PyObject *obj, bool initial_ref = true) :_obj(obj)
     {
       if (initial_ref) {
@@ -3219,24 +3219,24 @@ namespace swig {
         SWIG_PYTHON_THREAD_END_BLOCK;
       }
     }
-
-    SwigPtr_PyObject & operator=(const SwigPtr_PyObject& item)
+    
+    SwigPtr_PyObject & operator=(const SwigPtr_PyObject& item) 
     {
       SWIG_PYTHON_THREAD_BEGIN_BLOCK;
       Py_XINCREF(item._obj);
       Py_XDECREF(_obj);
       _obj = item._obj;
       SWIG_PYTHON_THREAD_END_BLOCK;
-      return *this;
+      return *this;      
     }
-
-    ~SwigPtr_PyObject()
+    
+    ~SwigPtr_PyObject() 
     {
       SWIG_PYTHON_THREAD_BEGIN_BLOCK;
       Py_XDECREF(_obj);
       SWIG_PYTHON_THREAD_END_BLOCK;
     }
-
+    
     operator PyObject *() const
     {
       return _obj;
@@ -3253,12 +3253,12 @@ namespace swig {
 namespace swig {
   struct SwigVar_PyObject : SwigPtr_PyObject {
     SwigVar_PyObject(PyObject* obj = 0) : SwigPtr_PyObject(obj, false) { }
-
+    
     SwigVar_PyObject & operator = (PyObject* obj)
     {
       Py_XDECREF(_obj);
       _obj = obj;
-      return *this;
+      return *this;      
     }
   };
 }
@@ -3302,7 +3302,7 @@ namespace swig {
     SwigPyIterator(PyObject *seq) : _seq(seq)
     {
     }
-
+      
   public:
     virtual ~SwigPyIterator() {}
 
@@ -3311,7 +3311,7 @@ namespace swig {
 
     // Forward iterator method, required by Python
     virtual SwigPyIterator *incr(size_t n = 1) = 0;
-
+    
     // Backward iterator method, very common in C++, but not required in Python
     virtual SwigPyIterator *decr(size_t /*n*/ = 1)
     {
@@ -3328,17 +3328,17 @@ namespace swig {
     {
       throw std::invalid_argument("operation not supported");
     }
-
+    
     // C++ common/needed methods
     virtual SwigPyIterator *copy() const = 0;
 
-    PyObject *next()
+    PyObject *next()     
     {
-      SWIG_PYTHON_THREAD_BEGIN_BLOCK; // disable threads
+      SWIG_PYTHON_THREAD_BEGIN_BLOCK; // disable threads       
       PyObject *obj = value();
-      incr();
+      incr();       
       SWIG_PYTHON_THREAD_END_BLOCK; // re-enable threads
-      return obj;
+      return obj;     
     }
 
     /* Make an alias for Python 3.x */
@@ -3349,10 +3349,10 @@ namespace swig {
 
     PyObject *previous()
     {
-      SWIG_PYTHON_THREAD_BEGIN_BLOCK; // disable threads
+      SWIG_PYTHON_THREAD_BEGIN_BLOCK; // disable threads       
       decr();
       PyObject *obj = value();
-      SWIG_PYTHON_THREAD_END_BLOCK; // re-enable threads
+      SWIG_PYTHON_THREAD_END_BLOCK; // re-enable threads       
       return obj;
     }
 
@@ -3360,17 +3360,17 @@ namespace swig {
     {
       return  (n > 0) ?  incr(n) : decr(-n);
     }
-
+      
     bool operator == (const SwigPyIterator& x)  const
     {
       return equal(x);
     }
-
+      
     bool operator != (const SwigPyIterator& x) const
     {
       return ! operator==(x);
     }
-
+      
     SwigPyIterator& operator += (ptrdiff_t n)
     {
       return *advance(n);
@@ -3380,7 +3380,7 @@ namespace swig {
     {
       return *advance(-n);
     }
-
+      
     SwigPyIterator* operator + (ptrdiff_t n) const
     {
       return copy()->advance(n);
@@ -3390,21 +3390,21 @@ namespace swig {
     {
       return copy()->advance(-n);
     }
-
+      
     ptrdiff_t operator - (const SwigPyIterator& x) const
     {
       return x.distance(*this);
     }
-
+      
     static swig_type_info* descriptor() {
       static int init = 0;
       static swig_type_info* desc = 0;
       if (!init) {
 	desc = SWIG_TypeQuery("swig::SwigPyIterator *");
 	init = 1;
-      }
+      }	
       return desc;
-    }
+    }    
   };
 
 #if defined(SWIGPYTHON_BUILTIN)
@@ -3500,7 +3500,7 @@ SWIG_CanCastAsInteger(double *d, double min, double max) {
 
 
 SWIGINTERN int
-SWIG_AsVal_unsigned_SS_long (PyObject *obj, unsigned long *val)
+SWIG_AsVal_unsigned_SS_long (PyObject *obj, unsigned long *val) 
 {
 #if PY_VERSION_HEX < 0x03000000
   if (PyInt_Check(obj)) {
@@ -3624,11 +3624,11 @@ SWIG_AsVal_size_t (PyObject * obj, size_t *val)
 }
 
 
-  #define SWIG_From_long   PyInt_FromLong
+  #define SWIG_From_long   PyInt_FromLong 
 
 
 #ifdef SWIG_LONG_LONG_AVAILABLE
-SWIGINTERNINLINE PyObject*
+SWIGINTERNINLINE PyObject* 
 SWIG_From_long_SS_long  (long long value)
 {
   return ((value < LONG_MIN) || (value > LONG_MAX)) ?
@@ -3639,7 +3639,7 @@ SWIG_From_long_SS_long  (long long value)
 
 SWIGINTERNINLINE PyObject *
 SWIG_From_ptrdiff_t  (ptrdiff_t value)
-{
+{    
 #ifdef SWIG_LONG_LONG_AVAILABLE
   if (sizeof(ptrdiff_t) <= sizeof(long)) {
 #endif
@@ -3818,7 +3818,7 @@ SWIG_AsCharPtrAndSize(PyObject *obj, char** cptr, size_t* psize, int *alloc)
 #else
   if (PyUnicode_Check(obj))
 #endif
-#else
+#else  
   if (PyString_Check(obj))
 #endif
   {
@@ -3919,7 +3919,7 @@ SWIG_AsCharPtrAndSize(PyObject *obj, char** cptr, size_t* psize, int *alloc)
 
 
 SWIGINTERN int
-SWIG_AsPtr_std_string (PyObject * obj, std::string **val)
+SWIG_AsPtr_std_string (PyObject * obj, std::string **val) 
 {
   char* buf = 0 ; size_t size = 0; int alloc = SWIG_OLDOBJ;
   if (SWIG_IsOK((SWIG_AsCharPtrAndSize(obj, &buf, &size, &alloc)))) {
@@ -3974,7 +3974,7 @@ SWIG_AsVal_int (PyObject * obj, int *val)
     } else {
       if (val) *val = static_cast< int >(v);
     }
-  }
+  }  
   return res;
 }
 
@@ -3985,7 +3985,7 @@ SWIG_FromCharPtrAndSize(const char* carray, size_t size)
   if (carray) {
     if (size > INT_MAX) {
       swig_type_info* pchar_descriptor = SWIG_pchar_descriptor();
-      return pchar_descriptor ?
+      return pchar_descriptor ? 
 	SWIG_InternalNewPointerObj(const_cast< char * >(carray), pchar_descriptor, 0) : SWIG_Py_Void();
     } else {
 #if PY_VERSION_HEX >= 0x03000000
@@ -4026,7 +4026,7 @@ SWIG_From_std_string  (const std::string& s)
 #include "esys/repo/gitbase.h"
 
 
-SWIGINTERNINLINE PyObject*
+SWIGINTERNINLINE PyObject* 
 SWIG_From_unsigned_SS_long  (unsigned long value)
 {
   return (value > LONG_MAX) ?
@@ -4035,7 +4035,7 @@ SWIG_From_unsigned_SS_long  (unsigned long value)
 
 
 #ifdef SWIG_LONG_LONG_AVAILABLE
-SWIGINTERNINLINE PyObject*
+SWIGINTERNINLINE PyObject* 
 SWIG_From_unsigned_SS_long_SS_long  (unsigned long long value)
 {
   return (value > LONG_MAX) ?
@@ -4046,7 +4046,7 @@ SWIG_From_unsigned_SS_long_SS_long  (unsigned long long value)
 
 SWIGINTERNINLINE PyObject *
 SWIG_From_size_t  (size_t value)
-{
+{    
 #ifdef SWIG_LONG_LONG_AVAILABLE
   if (sizeof(size_t) <= sizeof(unsigned long)) {
 #endif
@@ -4122,12 +4122,12 @@ SWIGINTERN PyObject *_wrap_delete_SwigPyIterator(PyObject *SWIGUNUSEDPARM(self),
   void *argp1 = 0 ;
   int res1 = 0 ;
   PyObject *swig_obj[1] ;
-
+  
   if (!args) SWIG_fail;
   swig_obj[0] = args;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_swig__SwigPyIterator, SWIG_POINTER_DISOWN |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_SwigPyIterator" "', argument " "1"" of type '" "swig::SwigPyIterator *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_SwigPyIterator" "', argument " "1"" of type '" "swig::SwigPyIterator *""'"); 
   }
   arg1 = reinterpret_cast< swig::SwigPyIterator * >(argp1);
   delete arg1;
@@ -4145,12 +4145,12 @@ SWIGINTERN PyObject *_wrap_SwigPyIterator_value(PyObject *SWIGUNUSEDPARM(self), 
   int res1 = 0 ;
   PyObject *swig_obj[1] ;
   PyObject *result = 0 ;
-
+  
   if (!args) SWIG_fail;
   swig_obj[0] = args;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_swig__SwigPyIterator, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "SwigPyIterator_value" "', argument " "1"" of type '" "swig::SwigPyIterator const *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "SwigPyIterator_value" "', argument " "1"" of type '" "swig::SwigPyIterator const *""'"); 
   }
   arg1 = reinterpret_cast< swig::SwigPyIterator * >(argp1);
   try {
@@ -4178,17 +4178,17 @@ SWIGINTERN PyObject *_wrap_SwigPyIterator_incr__SWIG_0(PyObject *SWIGUNUSEDPARM(
   size_t val2 ;
   int ecode2 = 0 ;
   swig::SwigPyIterator *result = 0 ;
-
+  
   if ((nobjs < 2) || (nobjs > 2)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_swig__SwigPyIterator, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "SwigPyIterator_incr" "', argument " "1"" of type '" "swig::SwigPyIterator *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "SwigPyIterator_incr" "', argument " "1"" of type '" "swig::SwigPyIterator *""'"); 
   }
   arg1 = reinterpret_cast< swig::SwigPyIterator * >(argp1);
   ecode2 = SWIG_AsVal_size_t(swig_obj[1], &val2);
   if (!SWIG_IsOK(ecode2)) {
     SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "SwigPyIterator_incr" "', argument " "2"" of type '" "size_t""'");
-  }
+  } 
   arg2 = static_cast< size_t >(val2);
   try {
     result = (swig::SwigPyIterator *)(arg1)->incr(arg2);
@@ -4212,11 +4212,11 @@ SWIGINTERN PyObject *_wrap_SwigPyIterator_incr__SWIG_1(PyObject *SWIGUNUSEDPARM(
   void *argp1 = 0 ;
   int res1 = 0 ;
   swig::SwigPyIterator *result = 0 ;
-
+  
   if ((nobjs < 1) || (nobjs > 1)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_swig__SwigPyIterator, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "SwigPyIterator_incr" "', argument " "1"" of type '" "swig::SwigPyIterator *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "SwigPyIterator_incr" "', argument " "1"" of type '" "swig::SwigPyIterator *""'"); 
   }
   arg1 = reinterpret_cast< swig::SwigPyIterator * >(argp1);
   try {
@@ -4240,7 +4240,7 @@ SWIGINTERN PyObject *_wrap_SwigPyIterator_incr(PyObject *self, PyObject *args) {
   PyObject *argv[3] = {
     0
   };
-
+  
   if (!(argc = SWIG_Python_UnpackTuple(args, "SwigPyIterator_incr", 0, 2, argv))) SWIG_fail;
   --argc;
   if (argc == 1) {
@@ -4267,7 +4267,7 @@ SWIGINTERN PyObject *_wrap_SwigPyIterator_incr(PyObject *self, PyObject *args) {
       }
     }
   }
-
+  
 fail:
   SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'SwigPyIterator_incr'.\n"
     "  Possible C/C++ prototypes are:\n"
@@ -4286,17 +4286,17 @@ SWIGINTERN PyObject *_wrap_SwigPyIterator_decr__SWIG_0(PyObject *SWIGUNUSEDPARM(
   size_t val2 ;
   int ecode2 = 0 ;
   swig::SwigPyIterator *result = 0 ;
-
+  
   if ((nobjs < 2) || (nobjs > 2)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_swig__SwigPyIterator, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "SwigPyIterator_decr" "', argument " "1"" of type '" "swig::SwigPyIterator *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "SwigPyIterator_decr" "', argument " "1"" of type '" "swig::SwigPyIterator *""'"); 
   }
   arg1 = reinterpret_cast< swig::SwigPyIterator * >(argp1);
   ecode2 = SWIG_AsVal_size_t(swig_obj[1], &val2);
   if (!SWIG_IsOK(ecode2)) {
     SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "SwigPyIterator_decr" "', argument " "2"" of type '" "size_t""'");
-  }
+  } 
   arg2 = static_cast< size_t >(val2);
   try {
     result = (swig::SwigPyIterator *)(arg1)->decr(arg2);
@@ -4320,11 +4320,11 @@ SWIGINTERN PyObject *_wrap_SwigPyIterator_decr__SWIG_1(PyObject *SWIGUNUSEDPARM(
   void *argp1 = 0 ;
   int res1 = 0 ;
   swig::SwigPyIterator *result = 0 ;
-
+  
   if ((nobjs < 1) || (nobjs > 1)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_swig__SwigPyIterator, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "SwigPyIterator_decr" "', argument " "1"" of type '" "swig::SwigPyIterator *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "SwigPyIterator_decr" "', argument " "1"" of type '" "swig::SwigPyIterator *""'"); 
   }
   arg1 = reinterpret_cast< swig::SwigPyIterator * >(argp1);
   try {
@@ -4348,7 +4348,7 @@ SWIGINTERN PyObject *_wrap_SwigPyIterator_decr(PyObject *self, PyObject *args) {
   PyObject *argv[3] = {
     0
   };
-
+  
   if (!(argc = SWIG_Python_UnpackTuple(args, "SwigPyIterator_decr", 0, 2, argv))) SWIG_fail;
   --argc;
   if (argc == 1) {
@@ -4375,7 +4375,7 @@ SWIGINTERN PyObject *_wrap_SwigPyIterator_decr(PyObject *self, PyObject *args) {
       }
     }
   }
-
+  
 fail:
   SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'SwigPyIterator_decr'.\n"
     "  Possible C/C++ prototypes are:\n"
@@ -4395,19 +4395,19 @@ SWIGINTERN PyObject *_wrap_SwigPyIterator_distance(PyObject *SWIGUNUSEDPARM(self
   int res2 = 0 ;
   PyObject *swig_obj[2] ;
   ptrdiff_t result;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "SwigPyIterator_distance", 2, 2, swig_obj)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_swig__SwigPyIterator, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "SwigPyIterator_distance" "', argument " "1"" of type '" "swig::SwigPyIterator const *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "SwigPyIterator_distance" "', argument " "1"" of type '" "swig::SwigPyIterator const *""'"); 
   }
   arg1 = reinterpret_cast< swig::SwigPyIterator * >(argp1);
   res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_swig__SwigPyIterator,  0  | 0);
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "SwigPyIterator_distance" "', argument " "2"" of type '" "swig::SwigPyIterator const &""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "SwigPyIterator_distance" "', argument " "2"" of type '" "swig::SwigPyIterator const &""'"); 
   }
   if (!argp2) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "SwigPyIterator_distance" "', argument " "2"" of type '" "swig::SwigPyIterator const &""'");
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "SwigPyIterator_distance" "', argument " "2"" of type '" "swig::SwigPyIterator const &""'"); 
   }
   arg2 = reinterpret_cast< swig::SwigPyIterator * >(argp2);
   try {
@@ -4432,19 +4432,19 @@ SWIGINTERN PyObject *_wrap_SwigPyIterator_equal(PyObject *SWIGUNUSEDPARM(self), 
   int res2 = 0 ;
   PyObject *swig_obj[2] ;
   bool result;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "SwigPyIterator_equal", 2, 2, swig_obj)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_swig__SwigPyIterator, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "SwigPyIterator_equal" "', argument " "1"" of type '" "swig::SwigPyIterator const *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "SwigPyIterator_equal" "', argument " "1"" of type '" "swig::SwigPyIterator const *""'"); 
   }
   arg1 = reinterpret_cast< swig::SwigPyIterator * >(argp1);
   res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_swig__SwigPyIterator,  0  | 0);
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "SwigPyIterator_equal" "', argument " "2"" of type '" "swig::SwigPyIterator const &""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "SwigPyIterator_equal" "', argument " "2"" of type '" "swig::SwigPyIterator const &""'"); 
   }
   if (!argp2) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "SwigPyIterator_equal" "', argument " "2"" of type '" "swig::SwigPyIterator const &""'");
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "SwigPyIterator_equal" "', argument " "2"" of type '" "swig::SwigPyIterator const &""'"); 
   }
   arg2 = reinterpret_cast< swig::SwigPyIterator * >(argp2);
   try {
@@ -4466,12 +4466,12 @@ SWIGINTERN PyObject *_wrap_SwigPyIterator_copy(PyObject *SWIGUNUSEDPARM(self), P
   int res1 = 0 ;
   PyObject *swig_obj[1] ;
   swig::SwigPyIterator *result = 0 ;
-
+  
   if (!args) SWIG_fail;
   swig_obj[0] = args;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_swig__SwigPyIterator, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "SwigPyIterator_copy" "', argument " "1"" of type '" "swig::SwigPyIterator const *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "SwigPyIterator_copy" "', argument " "1"" of type '" "swig::SwigPyIterator const *""'"); 
   }
   arg1 = reinterpret_cast< swig::SwigPyIterator * >(argp1);
   result = (swig::SwigPyIterator *)((swig::SwigPyIterator const *)arg1)->copy();
@@ -4489,12 +4489,12 @@ SWIGINTERN PyObject *_wrap_SwigPyIterator_next(PyObject *SWIGUNUSEDPARM(self), P
   int res1 = 0 ;
   PyObject *swig_obj[1] ;
   PyObject *result = 0 ;
-
+  
   if (!args) SWIG_fail;
   swig_obj[0] = args;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_swig__SwigPyIterator, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "SwigPyIterator_next" "', argument " "1"" of type '" "swig::SwigPyIterator *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "SwigPyIterator_next" "', argument " "1"" of type '" "swig::SwigPyIterator *""'"); 
   }
   arg1 = reinterpret_cast< swig::SwigPyIterator * >(argp1);
   try {
@@ -4520,12 +4520,12 @@ SWIGINTERN PyObject *_wrap_SwigPyIterator___next__(PyObject *SWIGUNUSEDPARM(self
   int res1 = 0 ;
   PyObject *swig_obj[1] ;
   PyObject *result = 0 ;
-
+  
   if (!args) SWIG_fail;
   swig_obj[0] = args;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_swig__SwigPyIterator, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "SwigPyIterator___next__" "', argument " "1"" of type '" "swig::SwigPyIterator *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "SwigPyIterator___next__" "', argument " "1"" of type '" "swig::SwigPyIterator *""'"); 
   }
   arg1 = reinterpret_cast< swig::SwigPyIterator * >(argp1);
   try {
@@ -4551,12 +4551,12 @@ SWIGINTERN PyObject *_wrap_SwigPyIterator_previous(PyObject *SWIGUNUSEDPARM(self
   int res1 = 0 ;
   PyObject *swig_obj[1] ;
   PyObject *result = 0 ;
-
+  
   if (!args) SWIG_fail;
   swig_obj[0] = args;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_swig__SwigPyIterator, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "SwigPyIterator_previous" "', argument " "1"" of type '" "swig::SwigPyIterator *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "SwigPyIterator_previous" "', argument " "1"" of type '" "swig::SwigPyIterator *""'"); 
   }
   arg1 = reinterpret_cast< swig::SwigPyIterator * >(argp1);
   try {
@@ -4585,17 +4585,17 @@ SWIGINTERN PyObject *_wrap_SwigPyIterator_advance(PyObject *SWIGUNUSEDPARM(self)
   int ecode2 = 0 ;
   PyObject *swig_obj[2] ;
   swig::SwigPyIterator *result = 0 ;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "SwigPyIterator_advance", 2, 2, swig_obj)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_swig__SwigPyIterator, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "SwigPyIterator_advance" "', argument " "1"" of type '" "swig::SwigPyIterator *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "SwigPyIterator_advance" "', argument " "1"" of type '" "swig::SwigPyIterator *""'"); 
   }
   arg1 = reinterpret_cast< swig::SwigPyIterator * >(argp1);
   ecode2 = SWIG_AsVal_ptrdiff_t(swig_obj[1], &val2);
   if (!SWIG_IsOK(ecode2)) {
     SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "SwigPyIterator_advance" "', argument " "2"" of type '" "ptrdiff_t""'");
-  }
+  } 
   arg2 = static_cast< ptrdiff_t >(val2);
   try {
     result = (swig::SwigPyIterator *)(arg1)->advance(arg2);
@@ -4623,19 +4623,19 @@ SWIGINTERN PyObject *_wrap_SwigPyIterator___eq__(PyObject *SWIGUNUSEDPARM(self),
   int res2 = 0 ;
   PyObject *swig_obj[2] ;
   bool result;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "SwigPyIterator___eq__", 2, 2, swig_obj)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_swig__SwigPyIterator, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "SwigPyIterator___eq__" "', argument " "1"" of type '" "swig::SwigPyIterator const *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "SwigPyIterator___eq__" "', argument " "1"" of type '" "swig::SwigPyIterator const *""'"); 
   }
   arg1 = reinterpret_cast< swig::SwigPyIterator * >(argp1);
   res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_swig__SwigPyIterator,  0  | 0);
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "SwigPyIterator___eq__" "', argument " "2"" of type '" "swig::SwigPyIterator const &""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "SwigPyIterator___eq__" "', argument " "2"" of type '" "swig::SwigPyIterator const &""'"); 
   }
   if (!argp2) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "SwigPyIterator___eq__" "', argument " "2"" of type '" "swig::SwigPyIterator const &""'");
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "SwigPyIterator___eq__" "', argument " "2"" of type '" "swig::SwigPyIterator const &""'"); 
   }
   arg2 = reinterpret_cast< swig::SwigPyIterator * >(argp2);
   result = (bool)((swig::SwigPyIterator const *)arg1)->operator ==((swig::SwigPyIterator const &)*arg2);
@@ -4658,19 +4658,19 @@ SWIGINTERN PyObject *_wrap_SwigPyIterator___ne__(PyObject *SWIGUNUSEDPARM(self),
   int res2 = 0 ;
   PyObject *swig_obj[2] ;
   bool result;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "SwigPyIterator___ne__", 2, 2, swig_obj)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_swig__SwigPyIterator, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "SwigPyIterator___ne__" "', argument " "1"" of type '" "swig::SwigPyIterator const *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "SwigPyIterator___ne__" "', argument " "1"" of type '" "swig::SwigPyIterator const *""'"); 
   }
   arg1 = reinterpret_cast< swig::SwigPyIterator * >(argp1);
   res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_swig__SwigPyIterator,  0  | 0);
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "SwigPyIterator___ne__" "', argument " "2"" of type '" "swig::SwigPyIterator const &""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "SwigPyIterator___ne__" "', argument " "2"" of type '" "swig::SwigPyIterator const &""'"); 
   }
   if (!argp2) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "SwigPyIterator___ne__" "', argument " "2"" of type '" "swig::SwigPyIterator const &""'");
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "SwigPyIterator___ne__" "', argument " "2"" of type '" "swig::SwigPyIterator const &""'"); 
   }
   arg2 = reinterpret_cast< swig::SwigPyIterator * >(argp2);
   result = (bool)((swig::SwigPyIterator const *)arg1)->operator !=((swig::SwigPyIterator const &)*arg2);
@@ -4693,17 +4693,17 @@ SWIGINTERN PyObject *_wrap_SwigPyIterator___iadd__(PyObject *SWIGUNUSEDPARM(self
   int ecode2 = 0 ;
   PyObject *swig_obj[2] ;
   swig::SwigPyIterator *result = 0 ;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "SwigPyIterator___iadd__", 2, 2, swig_obj)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_swig__SwigPyIterator, SWIG_POINTER_DISOWN |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "SwigPyIterator___iadd__" "', argument " "1"" of type '" "swig::SwigPyIterator *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "SwigPyIterator___iadd__" "', argument " "1"" of type '" "swig::SwigPyIterator *""'"); 
   }
   arg1 = reinterpret_cast< swig::SwigPyIterator * >(argp1);
   ecode2 = SWIG_AsVal_ptrdiff_t(swig_obj[1], &val2);
   if (!SWIG_IsOK(ecode2)) {
     SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "SwigPyIterator___iadd__" "', argument " "2"" of type '" "ptrdiff_t""'");
-  }
+  } 
   arg2 = static_cast< ptrdiff_t >(val2);
   try {
     result = (swig::SwigPyIterator *) &(arg1)->operator +=(arg2);
@@ -4731,17 +4731,17 @@ SWIGINTERN PyObject *_wrap_SwigPyIterator___isub__(PyObject *SWIGUNUSEDPARM(self
   int ecode2 = 0 ;
   PyObject *swig_obj[2] ;
   swig::SwigPyIterator *result = 0 ;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "SwigPyIterator___isub__", 2, 2, swig_obj)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_swig__SwigPyIterator, SWIG_POINTER_DISOWN |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "SwigPyIterator___isub__" "', argument " "1"" of type '" "swig::SwigPyIterator *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "SwigPyIterator___isub__" "', argument " "1"" of type '" "swig::SwigPyIterator *""'"); 
   }
   arg1 = reinterpret_cast< swig::SwigPyIterator * >(argp1);
   ecode2 = SWIG_AsVal_ptrdiff_t(swig_obj[1], &val2);
   if (!SWIG_IsOK(ecode2)) {
     SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "SwigPyIterator___isub__" "', argument " "2"" of type '" "ptrdiff_t""'");
-  }
+  } 
   arg2 = static_cast< ptrdiff_t >(val2);
   try {
     result = (swig::SwigPyIterator *) &(arg1)->operator -=(arg2);
@@ -4769,17 +4769,17 @@ SWIGINTERN PyObject *_wrap_SwigPyIterator___add__(PyObject *SWIGUNUSEDPARM(self)
   int ecode2 = 0 ;
   PyObject *swig_obj[2] ;
   swig::SwigPyIterator *result = 0 ;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "SwigPyIterator___add__", 2, 2, swig_obj)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_swig__SwigPyIterator, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "SwigPyIterator___add__" "', argument " "1"" of type '" "swig::SwigPyIterator const *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "SwigPyIterator___add__" "', argument " "1"" of type '" "swig::SwigPyIterator const *""'"); 
   }
   arg1 = reinterpret_cast< swig::SwigPyIterator * >(argp1);
   ecode2 = SWIG_AsVal_ptrdiff_t(swig_obj[1], &val2);
   if (!SWIG_IsOK(ecode2)) {
     SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "SwigPyIterator___add__" "', argument " "2"" of type '" "ptrdiff_t""'");
-  }
+  } 
   arg2 = static_cast< ptrdiff_t >(val2);
   try {
     result = (swig::SwigPyIterator *)((swig::SwigPyIterator const *)arg1)->operator +(arg2);
@@ -4808,17 +4808,17 @@ SWIGINTERN PyObject *_wrap_SwigPyIterator___sub____SWIG_0(PyObject *SWIGUNUSEDPA
   ptrdiff_t val2 ;
   int ecode2 = 0 ;
   swig::SwigPyIterator *result = 0 ;
-
+  
   if ((nobjs < 2) || (nobjs > 2)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_swig__SwigPyIterator, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "SwigPyIterator___sub__" "', argument " "1"" of type '" "swig::SwigPyIterator const *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "SwigPyIterator___sub__" "', argument " "1"" of type '" "swig::SwigPyIterator const *""'"); 
   }
   arg1 = reinterpret_cast< swig::SwigPyIterator * >(argp1);
   ecode2 = SWIG_AsVal_ptrdiff_t(swig_obj[1], &val2);
   if (!SWIG_IsOK(ecode2)) {
     SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "SwigPyIterator___sub__" "', argument " "2"" of type '" "ptrdiff_t""'");
-  }
+  } 
   arg2 = static_cast< ptrdiff_t >(val2);
   try {
     result = (swig::SwigPyIterator *)((swig::SwigPyIterator const *)arg1)->operator -(arg2);
@@ -4847,19 +4847,19 @@ SWIGINTERN PyObject *_wrap_SwigPyIterator___sub____SWIG_1(PyObject *SWIGUNUSEDPA
   void *argp2 = 0 ;
   int res2 = 0 ;
   ptrdiff_t result;
-
+  
   if ((nobjs < 2) || (nobjs > 2)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_swig__SwigPyIterator, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "SwigPyIterator___sub__" "', argument " "1"" of type '" "swig::SwigPyIterator const *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "SwigPyIterator___sub__" "', argument " "1"" of type '" "swig::SwigPyIterator const *""'"); 
   }
   arg1 = reinterpret_cast< swig::SwigPyIterator * >(argp1);
   res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_swig__SwigPyIterator,  0  | 0);
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "SwigPyIterator___sub__" "', argument " "2"" of type '" "swig::SwigPyIterator const &""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "SwigPyIterator___sub__" "', argument " "2"" of type '" "swig::SwigPyIterator const &""'"); 
   }
   if (!argp2) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "SwigPyIterator___sub__" "', argument " "2"" of type '" "swig::SwigPyIterator const &""'");
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "SwigPyIterator___sub__" "', argument " "2"" of type '" "swig::SwigPyIterator const &""'"); 
   }
   arg2 = reinterpret_cast< swig::SwigPyIterator * >(argp2);
   result = ((swig::SwigPyIterator const *)arg1)->operator -((swig::SwigPyIterator const &)*arg2);
@@ -4877,7 +4877,7 @@ SWIGINTERN PyObject *_wrap_SwigPyIterator___sub__(PyObject *self, PyObject *args
   PyObject *argv[3] = {
     0
   };
-
+  
   if (!(argc = SWIG_Python_UnpackTuple(args, "SwigPyIterator___sub__", 0, 2, argv))) SWIG_fail;
   --argc;
   if (argc == 2) {
@@ -4908,7 +4908,7 @@ SWIGINTERN PyObject *_wrap_SwigPyIterator___sub__(PyObject *self, PyObject *args
       }
     }
   }
-
+  
 fail:
   Py_INCREF(Py_NotImplemented);
   return Py_NotImplemented;
@@ -4925,7 +4925,7 @@ SWIGINTERN PyObject *SwigPyIterator_swigregister(PyObject *SWIGUNUSEDPARM(self),
 SWIGINTERN PyObject *_wrap_new_Branch__SWIG_0(PyObject *SWIGUNUSEDPARM(self), Py_ssize_t nobjs, PyObject **SWIGUNUSEDPARM(swig_obj)) {
   PyObject *resultobj = 0;
   esys::repo::git::Branch *result = 0 ;
-
+  
   if ((nobjs < 0) || (nobjs > 0)) SWIG_fail;
   result = (esys::repo::git::Branch *)new esys::repo::git::Branch();
   resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_esys__repo__git__Branch, SWIG_POINTER_NEW |  0 );
@@ -4943,23 +4943,23 @@ SWIGINTERN PyObject *_wrap_new_Branch__SWIG_1(PyObject *SWIGUNUSEDPARM(self), Py
   bool val2 ;
   int ecode2 = 0 ;
   esys::repo::git::Branch *result = 0 ;
-
+  
   if ((nobjs < 2) || (nobjs > 2)) SWIG_fail;
   {
     std::string *ptr = (std::string *)0;
     res1 = SWIG_AsPtr_std_string(swig_obj[0], &ptr);
     if (!SWIG_IsOK(res1)) {
-      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "new_Branch" "', argument " "1"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "new_Branch" "', argument " "1"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "new_Branch" "', argument " "1"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "new_Branch" "', argument " "1"" of type '" "std::string const &""'"); 
     }
     arg1 = ptr;
   }
   ecode2 = SWIG_AsVal_bool(swig_obj[1], &val2);
   if (!SWIG_IsOK(ecode2)) {
     SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "new_Branch" "', argument " "2"" of type '" "bool""'");
-  }
+  } 
   arg2 = static_cast< bool >(val2);
   result = (esys::repo::git::Branch *)new esys::repo::git::Branch((std::string const &)*arg1,arg2);
   resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_esys__repo__git__Branch, SWIG_POINTER_NEW |  0 );
@@ -4982,28 +4982,28 @@ SWIGINTERN PyObject *_wrap_new_Branch__SWIG_2(PyObject *SWIGUNUSEDPARM(self), Py
   bool val3 ;
   int ecode3 = 0 ;
   esys::repo::git::Branch *result = 0 ;
-
+  
   if ((nobjs < 3) || (nobjs > 3)) SWIG_fail;
   {
     std::string *ptr = (std::string *)0;
     res1 = SWIG_AsPtr_std_string(swig_obj[0], &ptr);
     if (!SWIG_IsOK(res1)) {
-      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "new_Branch" "', argument " "1"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "new_Branch" "', argument " "1"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "new_Branch" "', argument " "1"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "new_Branch" "', argument " "1"" of type '" "std::string const &""'"); 
     }
     arg1 = ptr;
   }
   ecode2 = SWIG_AsVal_int(swig_obj[1], &val2);
   if (!SWIG_IsOK(ecode2)) {
     SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "new_Branch" "', argument " "2"" of type '" "esys::repo::git::BranchType""'");
-  }
+  } 
   arg2 = static_cast< esys::repo::git::BranchType >(val2);
   ecode3 = SWIG_AsVal_bool(swig_obj[2], &val3);
   if (!SWIG_IsOK(ecode3)) {
     SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "new_Branch" "', argument " "3"" of type '" "bool""'");
-  }
+  } 
   arg3 = static_cast< bool >(val3);
   result = (esys::repo::git::Branch *)new esys::repo::git::Branch((std::string const &)*arg1,arg2,arg3);
   resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_esys__repo__git__Branch, SWIG_POINTER_NEW |  0 );
@@ -5020,7 +5020,7 @@ SWIGINTERN PyObject *_wrap_new_Branch(PyObject *self, PyObject *args) {
   PyObject *argv[4] = {
     0
   };
-
+  
   if (!(argc = SWIG_Python_UnpackTuple(args, "new_Branch", 0, 3, argv))) SWIG_fail;
   --argc;
   if (argc == 0) {
@@ -5060,7 +5060,7 @@ SWIGINTERN PyObject *_wrap_new_Branch(PyObject *self, PyObject *args) {
       }
     }
   }
-
+  
 fail:
   SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'new_Branch'.\n"
     "  Possible C/C++ prototypes are:\n"
@@ -5077,12 +5077,12 @@ SWIGINTERN PyObject *_wrap_delete_Branch(PyObject *SWIGUNUSEDPARM(self), PyObjec
   void *argp1 = 0 ;
   int res1 = 0 ;
   PyObject *swig_obj[1] ;
-
+  
   if (!args) SWIG_fail;
   swig_obj[0] = args;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__git__Branch, SWIG_POINTER_DISOWN |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_Branch" "', argument " "1"" of type '" "esys::repo::git::Branch *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_Branch" "', argument " "1"" of type '" "esys::repo::git::Branch *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::git::Branch * >(argp1);
   delete arg1;
@@ -5101,21 +5101,21 @@ SWIGINTERN PyObject *_wrap_Branch_set_name(PyObject *SWIGUNUSEDPARM(self), PyObj
   int res1 = 0 ;
   int res2 = SWIG_OLDOBJ ;
   PyObject *swig_obj[2] ;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "Branch_set_name", 2, 2, swig_obj)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__git__Branch, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Branch_set_name" "', argument " "1"" of type '" "esys::repo::git::Branch *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Branch_set_name" "', argument " "1"" of type '" "esys::repo::git::Branch *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::git::Branch * >(argp1);
   {
     std::string *ptr = (std::string *)0;
     res2 = SWIG_AsPtr_std_string(swig_obj[1], &ptr);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Branch_set_name" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Branch_set_name" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Branch_set_name" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Branch_set_name" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     arg2 = ptr;
   }
@@ -5136,12 +5136,12 @@ SWIGINTERN PyObject *_wrap_Branch_get_name(PyObject *SWIGUNUSEDPARM(self), PyObj
   int res1 = 0 ;
   PyObject *swig_obj[1] ;
   std::string *result = 0 ;
-
+  
   if (!args) SWIG_fail;
   swig_obj[0] = args;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__git__Branch, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Branch_get_name" "', argument " "1"" of type '" "esys::repo::git::Branch const *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Branch_get_name" "', argument " "1"" of type '" "esys::repo::git::Branch const *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::git::Branch * >(argp1);
   result = (std::string *) &((esys::repo::git::Branch const *)arg1)->get_name();
@@ -5160,21 +5160,21 @@ SWIGINTERN PyObject *_wrap_Branch_set_ref_name(PyObject *SWIGUNUSEDPARM(self), P
   int res1 = 0 ;
   int res2 = SWIG_OLDOBJ ;
   PyObject *swig_obj[2] ;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "Branch_set_ref_name", 2, 2, swig_obj)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__git__Branch, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Branch_set_ref_name" "', argument " "1"" of type '" "esys::repo::git::Branch *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Branch_set_ref_name" "', argument " "1"" of type '" "esys::repo::git::Branch *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::git::Branch * >(argp1);
   {
     std::string *ptr = (std::string *)0;
     res2 = SWIG_AsPtr_std_string(swig_obj[1], &ptr);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Branch_set_ref_name" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Branch_set_ref_name" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Branch_set_ref_name" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Branch_set_ref_name" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     arg2 = ptr;
   }
@@ -5195,12 +5195,12 @@ SWIGINTERN PyObject *_wrap_Branch_get_ref_name(PyObject *SWIGUNUSEDPARM(self), P
   int res1 = 0 ;
   PyObject *swig_obj[1] ;
   std::string *result = 0 ;
-
+  
   if (!args) SWIG_fail;
   swig_obj[0] = args;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__git__Branch, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Branch_get_ref_name" "', argument " "1"" of type '" "esys::repo::git::Branch const *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Branch_get_ref_name" "', argument " "1"" of type '" "esys::repo::git::Branch const *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::git::Branch * >(argp1);
   result = (std::string *) &((esys::repo::git::Branch const *)arg1)->get_ref_name();
@@ -5220,17 +5220,17 @@ SWIGINTERN PyObject *_wrap_Branch_set_type(PyObject *SWIGUNUSEDPARM(self), PyObj
   int val2 ;
   int ecode2 = 0 ;
   PyObject *swig_obj[2] ;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "Branch_set_type", 2, 2, swig_obj)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__git__Branch, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Branch_set_type" "', argument " "1"" of type '" "esys::repo::git::Branch *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Branch_set_type" "', argument " "1"" of type '" "esys::repo::git::Branch *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::git::Branch * >(argp1);
   ecode2 = SWIG_AsVal_int(swig_obj[1], &val2);
   if (!SWIG_IsOK(ecode2)) {
     SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "Branch_set_type" "', argument " "2"" of type '" "esys::repo::git::BranchType""'");
-  }
+  } 
   arg2 = static_cast< esys::repo::git::BranchType >(val2);
   (arg1)->set_type(arg2);
   resultobj = SWIG_Py_Void();
@@ -5247,12 +5247,12 @@ SWIGINTERN PyObject *_wrap_Branch_get_type(PyObject *SWIGUNUSEDPARM(self), PyObj
   int res1 = 0 ;
   PyObject *swig_obj[1] ;
   esys::repo::git::BranchType result;
-
+  
   if (!args) SWIG_fail;
   swig_obj[0] = args;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__git__Branch, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Branch_get_type" "', argument " "1"" of type '" "esys::repo::git::Branch const *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Branch_get_type" "', argument " "1"" of type '" "esys::repo::git::Branch const *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::git::Branch * >(argp1);
   result = (esys::repo::git::BranchType)((esys::repo::git::Branch const *)arg1)->get_type();
@@ -5272,17 +5272,17 @@ SWIGINTERN PyObject *_wrap_Branch_set_is_head(PyObject *SWIGUNUSEDPARM(self), Py
   bool val2 ;
   int ecode2 = 0 ;
   PyObject *swig_obj[2] ;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "Branch_set_is_head", 2, 2, swig_obj)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__git__Branch, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Branch_set_is_head" "', argument " "1"" of type '" "esys::repo::git::Branch *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Branch_set_is_head" "', argument " "1"" of type '" "esys::repo::git::Branch *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::git::Branch * >(argp1);
   ecode2 = SWIG_AsVal_bool(swig_obj[1], &val2);
   if (!SWIG_IsOK(ecode2)) {
     SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "Branch_set_is_head" "', argument " "2"" of type '" "bool""'");
-  }
+  } 
   arg2 = static_cast< bool >(val2);
   (arg1)->set_is_head(arg2);
   resultobj = SWIG_Py_Void();
@@ -5299,12 +5299,12 @@ SWIGINTERN PyObject *_wrap_Branch_get_is_head(PyObject *SWIGUNUSEDPARM(self), Py
   int res1 = 0 ;
   PyObject *swig_obj[1] ;
   bool result;
-
+  
   if (!args) SWIG_fail;
   swig_obj[0] = args;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__git__Branch, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Branch_get_is_head" "', argument " "1"" of type '" "esys::repo::git::Branch const *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Branch_get_is_head" "', argument " "1"" of type '" "esys::repo::git::Branch const *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::git::Branch * >(argp1);
   result = (bool)((esys::repo::git::Branch const *)arg1)->get_is_head();
@@ -5323,21 +5323,21 @@ SWIGINTERN PyObject *_wrap_Branch_set_remote_branch(PyObject *SWIGUNUSEDPARM(sel
   int res1 = 0 ;
   int res2 = SWIG_OLDOBJ ;
   PyObject *swig_obj[2] ;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "Branch_set_remote_branch", 2, 2, swig_obj)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__git__Branch, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Branch_set_remote_branch" "', argument " "1"" of type '" "esys::repo::git::Branch *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Branch_set_remote_branch" "', argument " "1"" of type '" "esys::repo::git::Branch *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::git::Branch * >(argp1);
   {
     std::string *ptr = (std::string *)0;
     res2 = SWIG_AsPtr_std_string(swig_obj[1], &ptr);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Branch_set_remote_branch" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Branch_set_remote_branch" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Branch_set_remote_branch" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Branch_set_remote_branch" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     arg2 = ptr;
   }
@@ -5358,12 +5358,12 @@ SWIGINTERN PyObject *_wrap_Branch_get_remote_branch(PyObject *SWIGUNUSEDPARM(sel
   int res1 = 0 ;
   PyObject *swig_obj[1] ;
   std::string *result = 0 ;
-
+  
   if (!args) SWIG_fail;
   swig_obj[0] = args;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__git__Branch, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Branch_get_remote_branch" "', argument " "1"" of type '" "esys::repo::git::Branch const *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Branch_get_remote_branch" "', argument " "1"" of type '" "esys::repo::git::Branch const *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::git::Branch * >(argp1);
   result = (std::string *) &((esys::repo::git::Branch const *)arg1)->get_remote_branch();
@@ -5382,21 +5382,21 @@ SWIGINTERN PyObject *_wrap_Branch_set_remote_name(PyObject *SWIGUNUSEDPARM(self)
   int res1 = 0 ;
   int res2 = SWIG_OLDOBJ ;
   PyObject *swig_obj[2] ;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "Branch_set_remote_name", 2, 2, swig_obj)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__git__Branch, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Branch_set_remote_name" "', argument " "1"" of type '" "esys::repo::git::Branch *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Branch_set_remote_name" "', argument " "1"" of type '" "esys::repo::git::Branch *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::git::Branch * >(argp1);
   {
     std::string *ptr = (std::string *)0;
     res2 = SWIG_AsPtr_std_string(swig_obj[1], &ptr);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Branch_set_remote_name" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Branch_set_remote_name" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Branch_set_remote_name" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Branch_set_remote_name" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     arg2 = ptr;
   }
@@ -5417,12 +5417,12 @@ SWIGINTERN PyObject *_wrap_Branch_get_remote_name(PyObject *SWIGUNUSEDPARM(self)
   int res1 = 0 ;
   PyObject *swig_obj[1] ;
   std::string *result = 0 ;
-
+  
   if (!args) SWIG_fail;
   swig_obj[0] = args;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__git__Branch, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Branch_get_remote_name" "', argument " "1"" of type '" "esys::repo::git::Branch const *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Branch_get_remote_name" "', argument " "1"" of type '" "esys::repo::git::Branch const *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::git::Branch * >(argp1);
   result = (std::string *) &((esys::repo::git::Branch const *)arg1)->get_remote_name();
@@ -5447,7 +5447,7 @@ SWIGINTERN PyObject *Branch_swiginit(PyObject *SWIGUNUSEDPARM(self), PyObject *a
 SWIGINTERN PyObject *_wrap_new_CommitHash(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   esys::repo::git::CommitHash *result = 0 ;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "new_CommitHash", 0, 0, 0)) SWIG_fail;
   result = (esys::repo::git::CommitHash *)new esys::repo::git::CommitHash();
   resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_esys__repo__git__CommitHash, SWIG_POINTER_NEW |  0 );
@@ -5463,12 +5463,12 @@ SWIGINTERN PyObject *_wrap_delete_CommitHash(PyObject *SWIGUNUSEDPARM(self), PyO
   void *argp1 = 0 ;
   int res1 = 0 ;
   PyObject *swig_obj[1] ;
-
+  
   if (!args) SWIG_fail;
   swig_obj[0] = args;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__git__CommitHash, SWIG_POINTER_DISOWN |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_CommitHash" "', argument " "1"" of type '" "esys::repo::git::CommitHash *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_CommitHash" "', argument " "1"" of type '" "esys::repo::git::CommitHash *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::git::CommitHash * >(argp1);
   delete arg1;
@@ -5487,21 +5487,21 @@ SWIGINTERN PyObject *_wrap_CommitHash_set_hash(PyObject *SWIGUNUSEDPARM(self), P
   int res1 = 0 ;
   int res2 = SWIG_OLDOBJ ;
   PyObject *swig_obj[2] ;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "CommitHash_set_hash", 2, 2, swig_obj)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__git__CommitHash, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CommitHash_set_hash" "', argument " "1"" of type '" "esys::repo::git::CommitHash *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CommitHash_set_hash" "', argument " "1"" of type '" "esys::repo::git::CommitHash *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::git::CommitHash * >(argp1);
   {
     std::string *ptr = (std::string *)0;
     res2 = SWIG_AsPtr_std_string(swig_obj[1], &ptr);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "CommitHash_set_hash" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "CommitHash_set_hash" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "CommitHash_set_hash" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "CommitHash_set_hash" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     arg2 = ptr;
   }
@@ -5522,12 +5522,12 @@ SWIGINTERN PyObject *_wrap_CommitHash_get_hash(PyObject *SWIGUNUSEDPARM(self), P
   int res1 = 0 ;
   PyObject *swig_obj[1] ;
   std::string *result = 0 ;
-
+  
   if (!args) SWIG_fail;
   swig_obj[0] = args;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__git__CommitHash, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CommitHash_get_hash" "', argument " "1"" of type '" "esys::repo::git::CommitHash *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CommitHash_get_hash" "', argument " "1"" of type '" "esys::repo::git::CommitHash *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::git::CommitHash * >(argp1);
   result = (std::string *) &(arg1)->get_hash();
@@ -5552,7 +5552,7 @@ SWIGINTERN PyObject *CommitHash_swiginit(PyObject *SWIGUNUSEDPARM(self), PyObjec
 SWIGINTERN PyObject *_wrap_new_Commit(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   esys::repo::git::Commit *result = 0 ;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "new_Commit", 0, 0, 0)) SWIG_fail;
   result = (esys::repo::git::Commit *)new esys::repo::git::Commit();
   resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_esys__repo__git__Commit, SWIG_POINTER_NEW |  0 );
@@ -5568,12 +5568,12 @@ SWIGINTERN PyObject *_wrap_delete_Commit(PyObject *SWIGUNUSEDPARM(self), PyObjec
   void *argp1 = 0 ;
   int res1 = 0 ;
   PyObject *swig_obj[1] ;
-
+  
   if (!args) SWIG_fail;
   swig_obj[0] = args;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__git__Commit, SWIG_POINTER_DISOWN |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_Commit" "', argument " "1"" of type '" "esys::repo::git::Commit *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_Commit" "', argument " "1"" of type '" "esys::repo::git::Commit *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::git::Commit * >(argp1);
   delete arg1;
@@ -5592,21 +5592,21 @@ SWIGINTERN PyObject *_wrap_Commit_set_hash(PyObject *SWIGUNUSEDPARM(self), PyObj
   int res1 = 0 ;
   int res2 = SWIG_OLDOBJ ;
   PyObject *swig_obj[2] ;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "Commit_set_hash", 2, 2, swig_obj)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__git__Commit, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Commit_set_hash" "', argument " "1"" of type '" "esys::repo::git::Commit *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Commit_set_hash" "', argument " "1"" of type '" "esys::repo::git::Commit *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::git::Commit * >(argp1);
   {
     std::string *ptr = (std::string *)0;
     res2 = SWIG_AsPtr_std_string(swig_obj[1], &ptr);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Commit_set_hash" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Commit_set_hash" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Commit_set_hash" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Commit_set_hash" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     arg2 = ptr;
   }
@@ -5627,12 +5627,12 @@ SWIGINTERN PyObject *_wrap_Commit_get_hash(PyObject *SWIGUNUSEDPARM(self), PyObj
   int res1 = 0 ;
   PyObject *swig_obj[1] ;
   esys::repo::git::CommitHash *result = 0 ;
-
+  
   if (!args) SWIG_fail;
   swig_obj[0] = args;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__git__Commit, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Commit_get_hash" "', argument " "1"" of type '" "esys::repo::git::Commit *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Commit_get_hash" "', argument " "1"" of type '" "esys::repo::git::Commit *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::git::Commit * >(argp1);
   result = (esys::repo::git::CommitHash *) &(arg1)->get_hash();
@@ -5651,21 +5651,21 @@ SWIGINTERN PyObject *_wrap_Commit_set_message(PyObject *SWIGUNUSEDPARM(self), Py
   int res1 = 0 ;
   int res2 = SWIG_OLDOBJ ;
   PyObject *swig_obj[2] ;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "Commit_set_message", 2, 2, swig_obj)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__git__Commit, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Commit_set_message" "', argument " "1"" of type '" "esys::repo::git::Commit *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Commit_set_message" "', argument " "1"" of type '" "esys::repo::git::Commit *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::git::Commit * >(argp1);
   {
     std::string *ptr = (std::string *)0;
     res2 = SWIG_AsPtr_std_string(swig_obj[1], &ptr);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Commit_set_message" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Commit_set_message" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Commit_set_message" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Commit_set_message" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     arg2 = ptr;
   }
@@ -5686,12 +5686,12 @@ SWIGINTERN PyObject *_wrap_Commit_get_message(PyObject *SWIGUNUSEDPARM(self), Py
   int res1 = 0 ;
   PyObject *swig_obj[1] ;
   std::string *result = 0 ;
-
+  
   if (!args) SWIG_fail;
   swig_obj[0] = args;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__git__Commit, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Commit_get_message" "', argument " "1"" of type '" "esys::repo::git::Commit const *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Commit_get_message" "', argument " "1"" of type '" "esys::repo::git::Commit const *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::git::Commit * >(argp1);
   result = (std::string *) &((esys::repo::git::Commit const *)arg1)->get_message();
@@ -5710,21 +5710,21 @@ SWIGINTERN PyObject *_wrap_Commit_set_author(PyObject *SWIGUNUSEDPARM(self), PyO
   int res1 = 0 ;
   int res2 = SWIG_OLDOBJ ;
   PyObject *swig_obj[2] ;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "Commit_set_author", 2, 2, swig_obj)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__git__Commit, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Commit_set_author" "', argument " "1"" of type '" "esys::repo::git::Commit *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Commit_set_author" "', argument " "1"" of type '" "esys::repo::git::Commit *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::git::Commit * >(argp1);
   {
     std::string *ptr = (std::string *)0;
     res2 = SWIG_AsPtr_std_string(swig_obj[1], &ptr);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Commit_set_author" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Commit_set_author" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Commit_set_author" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Commit_set_author" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     arg2 = ptr;
   }
@@ -5745,12 +5745,12 @@ SWIGINTERN PyObject *_wrap_Commit_get_author(PyObject *SWIGUNUSEDPARM(self), PyO
   int res1 = 0 ;
   PyObject *swig_obj[1] ;
   std::string *result = 0 ;
-
+  
   if (!args) SWIG_fail;
   swig_obj[0] = args;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__git__Commit, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Commit_get_author" "', argument " "1"" of type '" "esys::repo::git::Commit const *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Commit_get_author" "', argument " "1"" of type '" "esys::repo::git::Commit const *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::git::Commit * >(argp1);
   result = (std::string *) &((esys::repo::git::Commit const *)arg1)->get_author();
@@ -5769,21 +5769,21 @@ SWIGINTERN PyObject *_wrap_Commit_set_email(PyObject *SWIGUNUSEDPARM(self), PyOb
   int res1 = 0 ;
   int res2 = SWIG_OLDOBJ ;
   PyObject *swig_obj[2] ;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "Commit_set_email", 2, 2, swig_obj)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__git__Commit, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Commit_set_email" "', argument " "1"" of type '" "esys::repo::git::Commit *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Commit_set_email" "', argument " "1"" of type '" "esys::repo::git::Commit *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::git::Commit * >(argp1);
   {
     std::string *ptr = (std::string *)0;
     res2 = SWIG_AsPtr_std_string(swig_obj[1], &ptr);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Commit_set_email" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Commit_set_email" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Commit_set_email" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Commit_set_email" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     arg2 = ptr;
   }
@@ -5804,12 +5804,12 @@ SWIGINTERN PyObject *_wrap_Commit_get_email(PyObject *SWIGUNUSEDPARM(self), PyOb
   int res1 = 0 ;
   PyObject *swig_obj[1] ;
   std::string *result = 0 ;
-
+  
   if (!args) SWIG_fail;
   swig_obj[0] = args;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__git__Commit, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Commit_get_email" "', argument " "1"" of type '" "esys::repo::git::Commit const *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Commit_get_email" "', argument " "1"" of type '" "esys::repo::git::Commit const *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::git::Commit * >(argp1);
   result = (std::string *) &((esys::repo::git::Commit const *)arg1)->get_email();
@@ -5829,19 +5829,19 @@ SWIGINTERN PyObject *_wrap_Commit_set_date_time(PyObject *SWIGUNUSEDPARM(self), 
   void *argp2 = 0 ;
   int res2 = 0 ;
   PyObject *swig_obj[2] ;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "Commit_set_date_time", 2, 2, swig_obj)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__git__Commit, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Commit_set_date_time" "', argument " "1"" of type '" "esys::repo::git::Commit *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Commit_set_date_time" "', argument " "1"" of type '" "esys::repo::git::Commit *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::git::Commit * >(argp1);
   res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_std__chrono__system_clock__time_point,  0  | 0);
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Commit_set_date_time" "', argument " "2"" of type '" "std::chrono::system_clock::time_point const &""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Commit_set_date_time" "', argument " "2"" of type '" "std::chrono::system_clock::time_point const &""'"); 
   }
   if (!argp2) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Commit_set_date_time" "', argument " "2"" of type '" "std::chrono::system_clock::time_point const &""'");
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Commit_set_date_time" "', argument " "2"" of type '" "std::chrono::system_clock::time_point const &""'"); 
   }
   arg2 = reinterpret_cast< std::chrono::system_clock::time_point * >(argp2);
   (arg1)->set_date_time((std::chrono::system_clock::time_point const &)*arg2);
@@ -5859,12 +5859,12 @@ SWIGINTERN PyObject *_wrap_Commit_get_date_time(PyObject *SWIGUNUSEDPARM(self), 
   int res1 = 0 ;
   PyObject *swig_obj[1] ;
   std::chrono::system_clock::time_point *result = 0 ;
-
+  
   if (!args) SWIG_fail;
   swig_obj[0] = args;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__git__Commit, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Commit_get_date_time" "', argument " "1"" of type '" "esys::repo::git::Commit const *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Commit_get_date_time" "', argument " "1"" of type '" "esys::repo::git::Commit const *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::git::Commit * >(argp1);
   result = (std::chrono::system_clock::time_point *) &((esys::repo::git::Commit const *)arg1)->get_date_time();
@@ -5889,7 +5889,7 @@ SWIGINTERN PyObject *Commit_swiginit(PyObject *SWIGUNUSEDPARM(self), PyObject *a
 SWIGINTERN PyObject *_wrap_new_Remote(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   esys::repo::git::Remote *result = 0 ;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "new_Remote", 0, 0, 0)) SWIG_fail;
   result = (esys::repo::git::Remote *)new esys::repo::git::Remote();
   resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_esys__repo__git__Remote, SWIG_POINTER_NEW |  0 );
@@ -5905,12 +5905,12 @@ SWIGINTERN PyObject *_wrap_delete_Remote(PyObject *SWIGUNUSEDPARM(self), PyObjec
   void *argp1 = 0 ;
   int res1 = 0 ;
   PyObject *swig_obj[1] ;
-
+  
   if (!args) SWIG_fail;
   swig_obj[0] = args;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__git__Remote, SWIG_POINTER_DISOWN |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_Remote" "', argument " "1"" of type '" "esys::repo::git::Remote *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_Remote" "', argument " "1"" of type '" "esys::repo::git::Remote *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::git::Remote * >(argp1);
   delete arg1;
@@ -5929,21 +5929,21 @@ SWIGINTERN PyObject *_wrap_Remote_set_name(PyObject *SWIGUNUSEDPARM(self), PyObj
   int res1 = 0 ;
   int res2 = SWIG_OLDOBJ ;
   PyObject *swig_obj[2] ;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "Remote_set_name", 2, 2, swig_obj)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__git__Remote, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Remote_set_name" "', argument " "1"" of type '" "esys::repo::git::Remote *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Remote_set_name" "', argument " "1"" of type '" "esys::repo::git::Remote *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::git::Remote * >(argp1);
   {
     std::string *ptr = (std::string *)0;
     res2 = SWIG_AsPtr_std_string(swig_obj[1], &ptr);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Remote_set_name" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Remote_set_name" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Remote_set_name" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Remote_set_name" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     arg2 = ptr;
   }
@@ -5964,12 +5964,12 @@ SWIGINTERN PyObject *_wrap_Remote_get_name(PyObject *SWIGUNUSEDPARM(self), PyObj
   int res1 = 0 ;
   PyObject *swig_obj[1] ;
   std::string *result = 0 ;
-
+  
   if (!args) SWIG_fail;
   swig_obj[0] = args;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__git__Remote, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Remote_get_name" "', argument " "1"" of type '" "esys::repo::git::Remote const *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Remote_get_name" "', argument " "1"" of type '" "esys::repo::git::Remote const *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::git::Remote * >(argp1);
   result = (std::string *) &((esys::repo::git::Remote const *)arg1)->get_name();
@@ -5988,21 +5988,21 @@ SWIGINTERN PyObject *_wrap_Remote_set_url(PyObject *SWIGUNUSEDPARM(self), PyObje
   int res1 = 0 ;
   int res2 = SWIG_OLDOBJ ;
   PyObject *swig_obj[2] ;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "Remote_set_url", 2, 2, swig_obj)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__git__Remote, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Remote_set_url" "', argument " "1"" of type '" "esys::repo::git::Remote *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Remote_set_url" "', argument " "1"" of type '" "esys::repo::git::Remote *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::git::Remote * >(argp1);
   {
     std::string *ptr = (std::string *)0;
     res2 = SWIG_AsPtr_std_string(swig_obj[1], &ptr);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Remote_set_url" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Remote_set_url" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Remote_set_url" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Remote_set_url" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     arg2 = ptr;
   }
@@ -6023,12 +6023,12 @@ SWIGINTERN PyObject *_wrap_Remote_get_url(PyObject *SWIGUNUSEDPARM(self), PyObje
   int res1 = 0 ;
   PyObject *swig_obj[1] ;
   std::string *result = 0 ;
-
+  
   if (!args) SWIG_fail;
   swig_obj[0] = args;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__git__Remote, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Remote_get_url" "', argument " "1"" of type '" "esys::repo::git::Remote const *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Remote_get_url" "', argument " "1"" of type '" "esys::repo::git::Remote const *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::git::Remote * >(argp1);
   result = (std::string *) &((esys::repo::git::Remote const *)arg1)->get_url();
@@ -6056,12 +6056,12 @@ SWIGINTERN PyObject *_wrap_delete_ProgressCallbackBase(PyObject *SWIGUNUSEDPARM(
   void *argp1 = 0 ;
   int res1 = 0 ;
   PyObject *swig_obj[1] ;
-
+  
   if (!args) SWIG_fail;
   swig_obj[0] = args;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__ProgressCallbackBase, SWIG_POINTER_DISOWN |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_ProgressCallbackBase" "', argument " "1"" of type '" "esys::repo::ProgressCallbackBase *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_ProgressCallbackBase" "', argument " "1"" of type '" "esys::repo::ProgressCallbackBase *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::ProgressCallbackBase * >(argp1);
   delete arg1;
@@ -6081,19 +6081,19 @@ SWIGINTERN PyObject *_wrap_ProgressCallbackBase_git_progress_notif(PyObject *SWI
   void *argp2 = 0 ;
   int res2 = 0 ;
   PyObject *swig_obj[2] ;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "ProgressCallbackBase_git_progress_notif", 2, 2, swig_obj)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__ProgressCallbackBase, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "ProgressCallbackBase_git_progress_notif" "', argument " "1"" of type '" "esys::repo::ProgressCallbackBase *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "ProgressCallbackBase_git_progress_notif" "', argument " "1"" of type '" "esys::repo::ProgressCallbackBase *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::ProgressCallbackBase * >(argp1);
   res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_esys__repo__git__Progress,  0  | 0);
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "ProgressCallbackBase_git_progress_notif" "', argument " "2"" of type '" "esys::repo::git::Progress const &""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "ProgressCallbackBase_git_progress_notif" "', argument " "2"" of type '" "esys::repo::git::Progress const &""'"); 
   }
   if (!argp2) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "ProgressCallbackBase_git_progress_notif" "', argument " "2"" of type '" "esys::repo::git::Progress const &""'");
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "ProgressCallbackBase_git_progress_notif" "', argument " "2"" of type '" "esys::repo::git::Progress const &""'"); 
   }
   arg2 = reinterpret_cast< esys::repo::git::Progress * >(argp2);
   (arg1)->git_progress_notif((esys::repo::git::Progress const &)*arg2);
@@ -6117,12 +6117,12 @@ SWIGINTERN PyObject *_wrap_delete_GitBase(PyObject *SWIGUNUSEDPARM(self), PyObje
   void *argp1 = 0 ;
   int res1 = 0 ;
   PyObject *swig_obj[1] ;
-
+  
   if (!args) SWIG_fail;
   swig_obj[0] = args;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitBase, SWIG_POINTER_DISOWN |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_GitBase" "', argument " "1"" of type '" "esys::repo::GitBase *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_GitBase" "', argument " "1"" of type '" "esys::repo::GitBase *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitBase * >(argp1);
   delete arg1;
@@ -6142,21 +6142,21 @@ SWIGINTERN PyObject *_wrap_GitBase_open_folder(PyObject *SWIGUNUSEDPARM(self), P
   int res2 = SWIG_OLDOBJ ;
   PyObject *swig_obj[2] ;
   int result;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "GitBase_open_folder", 2, 2, swig_obj)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitBase, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_open_folder" "', argument " "1"" of type '" "esys::repo::GitBase *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_open_folder" "', argument " "1"" of type '" "esys::repo::GitBase *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitBase * >(argp1);
   {
     std::string *ptr = (std::string *)0;
     res2 = SWIG_AsPtr_std_string(swig_obj[1], &ptr);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitBase_open_folder" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitBase_open_folder" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitBase_open_folder" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitBase_open_folder" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     arg2 = ptr;
   }
@@ -6177,12 +6177,12 @@ SWIGINTERN PyObject *_wrap_GitBase_is_open(PyObject *SWIGUNUSEDPARM(self), PyObj
   int res1 = 0 ;
   PyObject *swig_obj[1] ;
   bool result;
-
+  
   if (!args) SWIG_fail;
   swig_obj[0] = args;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitBase, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_is_open" "', argument " "1"" of type '" "esys::repo::GitBase *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_is_open" "', argument " "1"" of type '" "esys::repo::GitBase *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitBase * >(argp1);
   result = (bool)(arg1)->is_open();
@@ -6200,12 +6200,12 @@ SWIGINTERN PyObject *_wrap_GitBase_close(PyObject *SWIGUNUSEDPARM(self), PyObjec
   int res1 = 0 ;
   PyObject *swig_obj[1] ;
   int result;
-
+  
   if (!args) SWIG_fail;
   swig_obj[0] = args;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitBase, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_close" "', argument " "1"" of type '" "esys::repo::GitBase *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_close" "', argument " "1"" of type '" "esys::repo::GitBase *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitBase * >(argp1);
   result = (int)(arg1)->close();
@@ -6226,19 +6226,19 @@ SWIGINTERN PyObject *_wrap_GitBase_get_remotes(PyObject *SWIGUNUSEDPARM(self), P
   int res2 = 0 ;
   PyObject *swig_obj[2] ;
   int result;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "GitBase_get_remotes", 2, 2, swig_obj)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitBase, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_get_remotes" "', argument " "1"" of type '" "esys::repo::GitBase *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_get_remotes" "', argument " "1"" of type '" "esys::repo::GitBase *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitBase * >(argp1);
   res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_std__vectorT_esys__repo__git__Remote_std__allocatorT_esys__repo__git__Remote_t_t,  0 );
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitBase_get_remotes" "', argument " "2"" of type '" "std::vector< esys::repo::git::Remote,std::allocator< esys::repo::git::Remote > > &""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitBase_get_remotes" "', argument " "2"" of type '" "std::vector< esys::repo::git::Remote,std::allocator< esys::repo::git::Remote > > &""'"); 
   }
   if (!argp2) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitBase_get_remotes" "', argument " "2"" of type '" "std::vector< esys::repo::git::Remote,std::allocator< esys::repo::git::Remote > > &""'");
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitBase_get_remotes" "', argument " "2"" of type '" "std::vector< esys::repo::git::Remote,std::allocator< esys::repo::git::Remote > > &""'"); 
   }
   arg2 = reinterpret_cast< std::vector< esys::repo::git::Remote,std::allocator< esys::repo::git::Remote > > * >(argp2);
   result = (int)(arg1)->get_remotes(*arg2);
@@ -6261,25 +6261,25 @@ SWIGINTERN PyObject *_wrap_GitBase_get_branches__SWIG_0(PyObject *SWIGUNUSEDPARM
   int val3 ;
   int ecode3 = 0 ;
   int result;
-
+  
   if ((nobjs < 3) || (nobjs > 3)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitBase, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_get_branches" "', argument " "1"" of type '" "esys::repo::GitBase *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_get_branches" "', argument " "1"" of type '" "esys::repo::GitBase *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitBase * >(argp1);
   res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_esys__repo__git__Branches,  0 );
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitBase_get_branches" "', argument " "2"" of type '" "esys::repo::git::Branches &""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitBase_get_branches" "', argument " "2"" of type '" "esys::repo::git::Branches &""'"); 
   }
   if (!argp2) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitBase_get_branches" "', argument " "2"" of type '" "esys::repo::git::Branches &""'");
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitBase_get_branches" "', argument " "2"" of type '" "esys::repo::git::Branches &""'"); 
   }
   arg2 = reinterpret_cast< esys::repo::git::Branches * >(argp2);
   ecode3 = SWIG_AsVal_int(swig_obj[2], &val3);
   if (!SWIG_IsOK(ecode3)) {
     SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "GitBase_get_branches" "', argument " "3"" of type '" "esys::repo::git::BranchType""'");
-  }
+  } 
   arg3 = static_cast< esys::repo::git::BranchType >(val3);
   result = (int)(arg1)->get_branches(*arg2,arg3);
   resultobj = SWIG_From_int(static_cast< int >(result));
@@ -6298,19 +6298,19 @@ SWIGINTERN PyObject *_wrap_GitBase_get_branches__SWIG_1(PyObject *SWIGUNUSEDPARM
   void *argp2 = 0 ;
   int res2 = 0 ;
   int result;
-
+  
   if ((nobjs < 2) || (nobjs > 2)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitBase, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_get_branches" "', argument " "1"" of type '" "esys::repo::GitBase *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_get_branches" "', argument " "1"" of type '" "esys::repo::GitBase *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitBase * >(argp1);
   res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_esys__repo__git__Branches,  0 );
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitBase_get_branches" "', argument " "2"" of type '" "esys::repo::git::Branches &""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitBase_get_branches" "', argument " "2"" of type '" "esys::repo::git::Branches &""'"); 
   }
   if (!argp2) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitBase_get_branches" "', argument " "2"" of type '" "esys::repo::git::Branches &""'");
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitBase_get_branches" "', argument " "2"" of type '" "esys::repo::git::Branches &""'"); 
   }
   arg2 = reinterpret_cast< esys::repo::git::Branches * >(argp2);
   result = (int)(arg1)->get_branches(*arg2);
@@ -6326,7 +6326,7 @@ SWIGINTERN PyObject *_wrap_GitBase_get_branches(PyObject *self, PyObject *args) 
   PyObject *argv[4] = {
     0
   };
-
+  
   if (!(argc = SWIG_Python_UnpackTuple(args, "GitBase_get_branches", 0, 3, argv))) SWIG_fail;
   --argc;
   if (argc == 2) {
@@ -6363,7 +6363,7 @@ SWIGINTERN PyObject *_wrap_GitBase_get_branches(PyObject *self, PyObject *args) 
       }
     }
   }
-
+  
 fail:
   SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'GitBase_get_branches'.\n"
     "  Possible C/C++ prototypes are:\n"
@@ -6385,21 +6385,21 @@ SWIGINTERN PyObject *_wrap_GitBase_clone__SWIG_0(PyObject *SWIGUNUSEDPARM(self),
   int res3 = SWIG_OLDOBJ ;
   int res4 = SWIG_OLDOBJ ;
   int result;
-
+  
   if ((nobjs < 4) || (nobjs > 4)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitBase, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_clone" "', argument " "1"" of type '" "esys::repo::GitBase *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_clone" "', argument " "1"" of type '" "esys::repo::GitBase *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitBase * >(argp1);
   {
     std::string *ptr = (std::string *)0;
     res2 = SWIG_AsPtr_std_string(swig_obj[1], &ptr);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitBase_clone" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitBase_clone" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitBase_clone" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitBase_clone" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     arg2 = ptr;
   }
@@ -6407,10 +6407,10 @@ SWIGINTERN PyObject *_wrap_GitBase_clone__SWIG_0(PyObject *SWIGUNUSEDPARM(self),
     std::string *ptr = (std::string *)0;
     res3 = SWIG_AsPtr_std_string(swig_obj[2], &ptr);
     if (!SWIG_IsOK(res3)) {
-      SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "GitBase_clone" "', argument " "3"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "GitBase_clone" "', argument " "3"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitBase_clone" "', argument " "3"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitBase_clone" "', argument " "3"" of type '" "std::string const &""'"); 
     }
     arg3 = ptr;
   }
@@ -6418,10 +6418,10 @@ SWIGINTERN PyObject *_wrap_GitBase_clone__SWIG_0(PyObject *SWIGUNUSEDPARM(self),
     std::string *ptr = (std::string *)0;
     res4 = SWIG_AsPtr_std_string(swig_obj[3], &ptr);
     if (!SWIG_IsOK(res4)) {
-      SWIG_exception_fail(SWIG_ArgError(res4), "in method '" "GitBase_clone" "', argument " "4"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res4), "in method '" "GitBase_clone" "', argument " "4"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitBase_clone" "', argument " "4"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitBase_clone" "', argument " "4"" of type '" "std::string const &""'"); 
     }
     arg4 = ptr;
   }
@@ -6449,21 +6449,21 @@ SWIGINTERN PyObject *_wrap_GitBase_clone__SWIG_1(PyObject *SWIGUNUSEDPARM(self),
   int res2 = SWIG_OLDOBJ ;
   int res3 = SWIG_OLDOBJ ;
   int result;
-
+  
   if ((nobjs < 3) || (nobjs > 3)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitBase, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_clone" "', argument " "1"" of type '" "esys::repo::GitBase *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_clone" "', argument " "1"" of type '" "esys::repo::GitBase *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitBase * >(argp1);
   {
     std::string *ptr = (std::string *)0;
     res2 = SWIG_AsPtr_std_string(swig_obj[1], &ptr);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitBase_clone" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitBase_clone" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitBase_clone" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitBase_clone" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     arg2 = ptr;
   }
@@ -6471,10 +6471,10 @@ SWIGINTERN PyObject *_wrap_GitBase_clone__SWIG_1(PyObject *SWIGUNUSEDPARM(self),
     std::string *ptr = (std::string *)0;
     res3 = SWIG_AsPtr_std_string(swig_obj[2], &ptr);
     if (!SWIG_IsOK(res3)) {
-      SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "GitBase_clone" "', argument " "3"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "GitBase_clone" "', argument " "3"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitBase_clone" "', argument " "3"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitBase_clone" "', argument " "3"" of type '" "std::string const &""'"); 
     }
     arg3 = ptr;
   }
@@ -6495,7 +6495,7 @@ SWIGINTERN PyObject *_wrap_GitBase_clone(PyObject *self, PyObject *args) {
   PyObject *argv[5] = {
     0
   };
-
+  
   if (!(argc = SWIG_Python_UnpackTuple(args, "GitBase_clone", 0, 4, argv))) SWIG_fail;
   --argc;
   if (argc == 3) {
@@ -6536,7 +6536,7 @@ SWIGINTERN PyObject *_wrap_GitBase_clone(PyObject *self, PyObject *args) {
       }
     }
   }
-
+  
 fail:
   SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'GitBase_clone'.\n"
     "  Possible C/C++ prototypes are:\n"
@@ -6557,28 +6557,28 @@ SWIGINTERN PyObject *_wrap_GitBase_checkout__SWIG_0(PyObject *SWIGUNUSEDPARM(sel
   bool val3 ;
   int ecode3 = 0 ;
   int result;
-
+  
   if ((nobjs < 3) || (nobjs > 3)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitBase, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_checkout" "', argument " "1"" of type '" "esys::repo::GitBase *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_checkout" "', argument " "1"" of type '" "esys::repo::GitBase *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitBase * >(argp1);
   {
     std::string *ptr = (std::string *)0;
     res2 = SWIG_AsPtr_std_string(swig_obj[1], &ptr);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitBase_checkout" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitBase_checkout" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitBase_checkout" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitBase_checkout" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     arg2 = ptr;
   }
   ecode3 = SWIG_AsVal_bool(swig_obj[2], &val3);
   if (!SWIG_IsOK(ecode3)) {
     SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "GitBase_checkout" "', argument " "3"" of type '" "bool""'");
-  }
+  } 
   arg3 = static_cast< bool >(val3);
   result = (int)(arg1)->checkout((std::string const &)*arg2,arg3);
   resultobj = SWIG_From_int(static_cast< int >(result));
@@ -6598,21 +6598,21 @@ SWIGINTERN PyObject *_wrap_GitBase_checkout__SWIG_1(PyObject *SWIGUNUSEDPARM(sel
   int res1 = 0 ;
   int res2 = SWIG_OLDOBJ ;
   int result;
-
+  
   if ((nobjs < 2) || (nobjs > 2)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitBase, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_checkout" "', argument " "1"" of type '" "esys::repo::GitBase *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_checkout" "', argument " "1"" of type '" "esys::repo::GitBase *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitBase * >(argp1);
   {
     std::string *ptr = (std::string *)0;
     res2 = SWIG_AsPtr_std_string(swig_obj[1], &ptr);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitBase_checkout" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitBase_checkout" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitBase_checkout" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitBase_checkout" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     arg2 = ptr;
   }
@@ -6631,7 +6631,7 @@ SWIGINTERN PyObject *_wrap_GitBase_checkout(PyObject *self, PyObject *args) {
   PyObject *argv[4] = {
     0
   };
-
+  
   if (!(argc = SWIG_Python_UnpackTuple(args, "GitBase_checkout", 0, 3, argv))) SWIG_fail;
   --argc;
   if (argc == 2) {
@@ -6666,7 +6666,7 @@ SWIGINTERN PyObject *_wrap_GitBase_checkout(PyObject *self, PyObject *args) {
       }
     }
   }
-
+  
 fail:
   SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'GitBase_checkout'.\n"
     "  Possible C/C++ prototypes are:\n"
@@ -6688,26 +6688,26 @@ SWIGINTERN PyObject *_wrap_GitBase_reset__SWIG_0(PyObject *SWIGUNUSEDPARM(self),
   void *argp3 ;
   int res3 = 0 ;
   int result;
-
+  
   if ((nobjs < 3) || (nobjs > 3)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitBase, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_reset" "', argument " "1"" of type '" "esys::repo::GitBase *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_reset" "', argument " "1"" of type '" "esys::repo::GitBase *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitBase * >(argp1);
   res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_esys__repo__git__CommitHash,  0  | 0);
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitBase_reset" "', argument " "2"" of type '" "esys::repo::git::CommitHash const &""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitBase_reset" "', argument " "2"" of type '" "esys::repo::git::CommitHash const &""'"); 
   }
   if (!argp2) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitBase_reset" "', argument " "2"" of type '" "esys::repo::git::CommitHash const &""'");
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitBase_reset" "', argument " "2"" of type '" "esys::repo::git::CommitHash const &""'"); 
   }
   arg2 = reinterpret_cast< esys::repo::git::CommitHash * >(argp2);
   {
     res3 = SWIG_ConvertPtr(swig_obj[2], &argp3, SWIGTYPE_p_esys__repo__git__ResetType,  0  | 0);
     if (!SWIG_IsOK(res3)) {
-      SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "GitBase_reset" "', argument " "3"" of type '" "esys::repo::git::ResetType""'");
-    }
+      SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "GitBase_reset" "', argument " "3"" of type '" "esys::repo::git::ResetType""'"); 
+    }  
     if (!argp3) {
       SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitBase_reset" "', argument " "3"" of type '" "esys::repo::git::ResetType""'");
     } else {
@@ -6733,19 +6733,19 @@ SWIGINTERN PyObject *_wrap_GitBase_reset__SWIG_1(PyObject *SWIGUNUSEDPARM(self),
   void *argp2 = 0 ;
   int res2 = 0 ;
   int result;
-
+  
   if ((nobjs < 2) || (nobjs > 2)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitBase, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_reset" "', argument " "1"" of type '" "esys::repo::GitBase *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_reset" "', argument " "1"" of type '" "esys::repo::GitBase *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitBase * >(argp1);
   res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_esys__repo__git__CommitHash,  0  | 0);
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitBase_reset" "', argument " "2"" of type '" "esys::repo::git::CommitHash const &""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitBase_reset" "', argument " "2"" of type '" "esys::repo::git::CommitHash const &""'"); 
   }
   if (!argp2) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitBase_reset" "', argument " "2"" of type '" "esys::repo::git::CommitHash const &""'");
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitBase_reset" "', argument " "2"" of type '" "esys::repo::git::CommitHash const &""'"); 
   }
   arg2 = reinterpret_cast< esys::repo::git::CommitHash * >(argp2);
   result = (int)(arg1)->reset((esys::repo::git::CommitHash const &)*arg2);
@@ -6761,7 +6761,7 @@ SWIGINTERN PyObject *_wrap_GitBase_reset(PyObject *self, PyObject *args) {
   PyObject *argv[4] = {
     0
   };
-
+  
   if (!(argc = SWIG_Python_UnpackTuple(args, "GitBase_reset", 0, 3, argv))) SWIG_fail;
   --argc;
   if (argc == 2) {
@@ -6794,7 +6794,7 @@ SWIGINTERN PyObject *_wrap_GitBase_reset(PyObject *self, PyObject *args) {
       }
     }
   }
-
+  
 fail:
   SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'GitBase_reset'.\n"
     "  Possible C/C++ prototypes are:\n"
@@ -6814,19 +6814,19 @@ SWIGINTERN PyObject *_wrap_GitBase_fastforward(PyObject *SWIGUNUSEDPARM(self), P
   int res2 = 0 ;
   PyObject *swig_obj[2] ;
   int result;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "GitBase_fastforward", 2, 2, swig_obj)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitBase, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_fastforward" "', argument " "1"" of type '" "esys::repo::GitBase *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_fastforward" "', argument " "1"" of type '" "esys::repo::GitBase *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitBase * >(argp1);
   res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_esys__repo__git__CommitHash,  0  | 0);
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitBase_fastforward" "', argument " "2"" of type '" "esys::repo::git::CommitHash const &""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitBase_fastforward" "', argument " "2"" of type '" "esys::repo::git::CommitHash const &""'"); 
   }
   if (!argp2) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitBase_fastforward" "', argument " "2"" of type '" "esys::repo::git::CommitHash const &""'");
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitBase_fastforward" "', argument " "2"" of type '" "esys::repo::git::CommitHash const &""'"); 
   }
   arg2 = reinterpret_cast< esys::repo::git::CommitHash * >(argp2);
   result = (int)(arg1)->fastforward((esys::repo::git::CommitHash const &)*arg2);
@@ -6847,19 +6847,19 @@ SWIGINTERN PyObject *_wrap_GitBase_get_last_commit(PyObject *SWIGUNUSEDPARM(self
   int res2 = 0 ;
   PyObject *swig_obj[2] ;
   int result;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "GitBase_get_last_commit", 2, 2, swig_obj)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitBase, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_get_last_commit" "', argument " "1"" of type '" "esys::repo::GitBase *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_get_last_commit" "', argument " "1"" of type '" "esys::repo::GitBase *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitBase * >(argp1);
   res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_esys__repo__git__CommitHash,  0 );
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitBase_get_last_commit" "', argument " "2"" of type '" "esys::repo::git::CommitHash &""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitBase_get_last_commit" "', argument " "2"" of type '" "esys::repo::git::CommitHash &""'"); 
   }
   if (!argp2) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitBase_get_last_commit" "', argument " "2"" of type '" "esys::repo::git::CommitHash &""'");
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitBase_get_last_commit" "', argument " "2"" of type '" "esys::repo::git::CommitHash &""'"); 
   }
   arg2 = reinterpret_cast< esys::repo::git::CommitHash * >(argp2);
   result = (int)(arg1)->get_last_commit(*arg2);
@@ -6885,33 +6885,33 @@ SWIGINTERN PyObject *_wrap_GitBase_get_parent_commit__SWIG_0(PyObject *SWIGUNUSE
   int val4 ;
   int ecode4 = 0 ;
   int result;
-
+  
   if ((nobjs < 4) || (nobjs > 4)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitBase, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_get_parent_commit" "', argument " "1"" of type '" "esys::repo::GitBase *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_get_parent_commit" "', argument " "1"" of type '" "esys::repo::GitBase *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitBase * >(argp1);
   res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_esys__repo__git__CommitHash,  0  | 0);
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitBase_get_parent_commit" "', argument " "2"" of type '" "esys::repo::git::CommitHash const &""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitBase_get_parent_commit" "', argument " "2"" of type '" "esys::repo::git::CommitHash const &""'"); 
   }
   if (!argp2) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitBase_get_parent_commit" "', argument " "2"" of type '" "esys::repo::git::CommitHash const &""'");
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitBase_get_parent_commit" "', argument " "2"" of type '" "esys::repo::git::CommitHash const &""'"); 
   }
   arg2 = reinterpret_cast< esys::repo::git::CommitHash * >(argp2);
   res3 = SWIG_ConvertPtr(swig_obj[2], &argp3, SWIGTYPE_p_esys__repo__git__CommitHash,  0 );
   if (!SWIG_IsOK(res3)) {
-    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "GitBase_get_parent_commit" "', argument " "3"" of type '" "esys::repo::git::CommitHash &""'");
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "GitBase_get_parent_commit" "', argument " "3"" of type '" "esys::repo::git::CommitHash &""'"); 
   }
   if (!argp3) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitBase_get_parent_commit" "', argument " "3"" of type '" "esys::repo::git::CommitHash &""'");
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitBase_get_parent_commit" "', argument " "3"" of type '" "esys::repo::git::CommitHash &""'"); 
   }
   arg3 = reinterpret_cast< esys::repo::git::CommitHash * >(argp3);
   ecode4 = SWIG_AsVal_int(swig_obj[3], &val4);
   if (!SWIG_IsOK(ecode4)) {
     SWIG_exception_fail(SWIG_ArgError(ecode4), "in method '" "GitBase_get_parent_commit" "', argument " "4"" of type '" "int""'");
-  }
+  } 
   arg4 = static_cast< int >(val4);
   result = (int)(arg1)->get_parent_commit((esys::repo::git::CommitHash const &)*arg2,*arg3,arg4);
   resultobj = SWIG_From_int(static_cast< int >(result));
@@ -6933,27 +6933,27 @@ SWIGINTERN PyObject *_wrap_GitBase_get_parent_commit__SWIG_1(PyObject *SWIGUNUSE
   void *argp3 = 0 ;
   int res3 = 0 ;
   int result;
-
+  
   if ((nobjs < 3) || (nobjs > 3)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitBase, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_get_parent_commit" "', argument " "1"" of type '" "esys::repo::GitBase *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_get_parent_commit" "', argument " "1"" of type '" "esys::repo::GitBase *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitBase * >(argp1);
   res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_esys__repo__git__CommitHash,  0  | 0);
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitBase_get_parent_commit" "', argument " "2"" of type '" "esys::repo::git::CommitHash const &""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitBase_get_parent_commit" "', argument " "2"" of type '" "esys::repo::git::CommitHash const &""'"); 
   }
   if (!argp2) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitBase_get_parent_commit" "', argument " "2"" of type '" "esys::repo::git::CommitHash const &""'");
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitBase_get_parent_commit" "', argument " "2"" of type '" "esys::repo::git::CommitHash const &""'"); 
   }
   arg2 = reinterpret_cast< esys::repo::git::CommitHash * >(argp2);
   res3 = SWIG_ConvertPtr(swig_obj[2], &argp3, SWIGTYPE_p_esys__repo__git__CommitHash,  0 );
   if (!SWIG_IsOK(res3)) {
-    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "GitBase_get_parent_commit" "', argument " "3"" of type '" "esys::repo::git::CommitHash &""'");
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "GitBase_get_parent_commit" "', argument " "3"" of type '" "esys::repo::git::CommitHash &""'"); 
   }
   if (!argp3) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitBase_get_parent_commit" "', argument " "3"" of type '" "esys::repo::git::CommitHash &""'");
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitBase_get_parent_commit" "', argument " "3"" of type '" "esys::repo::git::CommitHash &""'"); 
   }
   arg3 = reinterpret_cast< esys::repo::git::CommitHash * >(argp3);
   result = (int)(arg1)->get_parent_commit((esys::repo::git::CommitHash const &)*arg2,*arg3);
@@ -6969,7 +6969,7 @@ SWIGINTERN PyObject *_wrap_GitBase_get_parent_commit(PyObject *self, PyObject *a
   PyObject *argv[5] = {
     0
   };
-
+  
   if (!(argc = SWIG_Python_UnpackTuple(args, "GitBase_get_parent_commit", 0, 4, argv))) SWIG_fail;
   --argc;
   if (argc == 3) {
@@ -7014,7 +7014,7 @@ SWIGINTERN PyObject *_wrap_GitBase_get_parent_commit(PyObject *self, PyObject *a
       }
     }
   }
-
+  
 fail:
   SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'GitBase_get_parent_commit'.\n"
     "  Possible C/C++ prototypes are:\n"
@@ -7034,19 +7034,19 @@ SWIGINTERN PyObject *_wrap_GitBase_is_dirty(PyObject *SWIGUNUSEDPARM(self), PyOb
   int res2 = 0 ;
   PyObject *swig_obj[2] ;
   int result;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "GitBase_is_dirty", 2, 2, swig_obj)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitBase, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_is_dirty" "', argument " "1"" of type '" "esys::repo::GitBase *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_is_dirty" "', argument " "1"" of type '" "esys::repo::GitBase *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitBase * >(argp1);
   res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_bool,  0 );
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitBase_is_dirty" "', argument " "2"" of type '" "bool &""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitBase_is_dirty" "', argument " "2"" of type '" "bool &""'"); 
   }
   if (!argp2) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitBase_is_dirty" "', argument " "2"" of type '" "bool &""'");
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitBase_is_dirty" "', argument " "2"" of type '" "bool &""'"); 
   }
   arg2 = reinterpret_cast< bool * >(argp2);
   result = (int)(arg1)->is_dirty(*arg2);
@@ -7067,19 +7067,19 @@ SWIGINTERN PyObject *_wrap_GitBase_is_detached(PyObject *SWIGUNUSEDPARM(self), P
   int res2 = 0 ;
   PyObject *swig_obj[2] ;
   int result;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "GitBase_is_detached", 2, 2, swig_obj)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitBase, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_is_detached" "', argument " "1"" of type '" "esys::repo::GitBase *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_is_detached" "', argument " "1"" of type '" "esys::repo::GitBase *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitBase * >(argp1);
   res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_bool,  0 );
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitBase_is_detached" "', argument " "2"" of type '" "bool &""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitBase_is_detached" "', argument " "2"" of type '" "bool &""'"); 
   }
   if (!argp2) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitBase_is_detached" "', argument " "2"" of type '" "bool &""'");
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitBase_is_detached" "', argument " "2"" of type '" "bool &""'"); 
   }
   arg2 = reinterpret_cast< bool * >(argp2);
   result = (int)(arg1)->is_detached(*arg2);
@@ -7100,19 +7100,19 @@ SWIGINTERN PyObject *_wrap_GitBase_get_status(PyObject *SWIGUNUSEDPARM(self), Py
   int res2 = 0 ;
   PyObject *swig_obj[2] ;
   int result;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "GitBase_get_status", 2, 2, swig_obj)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitBase, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_get_status" "', argument " "1"" of type '" "esys::repo::GitBase *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_get_status" "', argument " "1"" of type '" "esys::repo::GitBase *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitBase * >(argp1);
   res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_esys__repo__git__RepoStatus,  0 );
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitBase_get_status" "', argument " "2"" of type '" "esys::repo::git::RepoStatus &""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitBase_get_status" "', argument " "2"" of type '" "esys::repo::git::RepoStatus &""'"); 
   }
   if (!argp2) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitBase_get_status" "', argument " "2"" of type '" "esys::repo::git::RepoStatus &""'");
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitBase_get_status" "', argument " "2"" of type '" "esys::repo::git::RepoStatus &""'"); 
   }
   arg2 = reinterpret_cast< esys::repo::git::RepoStatus * >(argp2);
   result = (int)(arg1)->get_status(*arg2);
@@ -7132,17 +7132,17 @@ SWIGINTERN PyObject *_wrap_GitBase_is_ssh_agent_running__SWIG_0(PyObject *SWIGUN
   bool val2 ;
   int ecode2 = 0 ;
   bool result;
-
+  
   if ((nobjs < 2) || (nobjs > 2)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitBase, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_is_ssh_agent_running" "', argument " "1"" of type '" "esys::repo::GitBase *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_is_ssh_agent_running" "', argument " "1"" of type '" "esys::repo::GitBase *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitBase * >(argp1);
   ecode2 = SWIG_AsVal_bool(swig_obj[1], &val2);
   if (!SWIG_IsOK(ecode2)) {
     SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "GitBase_is_ssh_agent_running" "', argument " "2"" of type '" "bool""'");
-  }
+  } 
   arg2 = static_cast< bool >(val2);
   result = (bool)(arg1)->is_ssh_agent_running(arg2);
   resultobj = SWIG_From_bool(static_cast< bool >(result));
@@ -7158,11 +7158,11 @@ SWIGINTERN PyObject *_wrap_GitBase_is_ssh_agent_running__SWIG_1(PyObject *SWIGUN
   void *argp1 = 0 ;
   int res1 = 0 ;
   bool result;
-
+  
   if ((nobjs < 1) || (nobjs > 1)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitBase, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_is_ssh_agent_running" "', argument " "1"" of type '" "esys::repo::GitBase *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_is_ssh_agent_running" "', argument " "1"" of type '" "esys::repo::GitBase *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitBase * >(argp1);
   result = (bool)(arg1)->is_ssh_agent_running();
@@ -7178,7 +7178,7 @@ SWIGINTERN PyObject *_wrap_GitBase_is_ssh_agent_running(PyObject *self, PyObject
   PyObject *argv[3] = {
     0
   };
-
+  
   if (!(argc = SWIG_Python_UnpackTuple(args, "GitBase_is_ssh_agent_running", 0, 2, argv))) SWIG_fail;
   --argc;
   if (argc == 1) {
@@ -7205,7 +7205,7 @@ SWIGINTERN PyObject *_wrap_GitBase_is_ssh_agent_running(PyObject *self, PyObject
       }
     }
   }
-
+  
 fail:
   SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'GitBase_is_ssh_agent_running'.\n"
     "  Possible C/C++ prototypes are:\n"
@@ -7223,17 +7223,17 @@ SWIGINTERN PyObject *_wrap_GitBase_detect_ssh_agent__SWIG_0(PyObject *SWIGUNUSED
   int res1 = 0 ;
   bool val2 ;
   int ecode2 = 0 ;
-
+  
   if ((nobjs < 2) || (nobjs > 2)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitBase, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_detect_ssh_agent" "', argument " "1"" of type '" "esys::repo::GitBase *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_detect_ssh_agent" "', argument " "1"" of type '" "esys::repo::GitBase *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitBase * >(argp1);
   ecode2 = SWIG_AsVal_bool(swig_obj[1], &val2);
   if (!SWIG_IsOK(ecode2)) {
     SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "GitBase_detect_ssh_agent" "', argument " "2"" of type '" "bool""'");
-  }
+  } 
   arg2 = static_cast< bool >(val2);
   (arg1)->detect_ssh_agent(arg2);
   resultobj = SWIG_Py_Void();
@@ -7248,11 +7248,11 @@ SWIGINTERN PyObject *_wrap_GitBase_detect_ssh_agent__SWIG_1(PyObject *SWIGUNUSED
   esys::repo::GitBase *arg1 = (esys::repo::GitBase *) 0 ;
   void *argp1 = 0 ;
   int res1 = 0 ;
-
+  
   if ((nobjs < 1) || (nobjs > 1)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitBase, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_detect_ssh_agent" "', argument " "1"" of type '" "esys::repo::GitBase *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_detect_ssh_agent" "', argument " "1"" of type '" "esys::repo::GitBase *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitBase * >(argp1);
   (arg1)->detect_ssh_agent();
@@ -7268,7 +7268,7 @@ SWIGINTERN PyObject *_wrap_GitBase_detect_ssh_agent(PyObject *self, PyObject *ar
   PyObject *argv[3] = {
     0
   };
-
+  
   if (!(argc = SWIG_Python_UnpackTuple(args, "GitBase_detect_ssh_agent", 0, 2, argv))) SWIG_fail;
   --argc;
   if (argc == 1) {
@@ -7295,7 +7295,7 @@ SWIGINTERN PyObject *_wrap_GitBase_detect_ssh_agent(PyObject *self, PyObject *ar
       }
     }
   }
-
+  
 fail:
   SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'GitBase_detect_ssh_agent'.\n"
     "  Possible C/C++ prototypes are:\n"
@@ -7321,35 +7321,35 @@ SWIGINTERN PyObject *_wrap_GitBase_merge_analysis(PyObject *SWIGUNUSEDPARM(self)
   int res4 = 0 ;
   PyObject *swig_obj[4] ;
   int result;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "GitBase_merge_analysis", 4, 4, swig_obj)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitBase, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_merge_analysis" "', argument " "1"" of type '" "esys::repo::GitBase *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_merge_analysis" "', argument " "1"" of type '" "esys::repo::GitBase *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitBase * >(argp1);
   res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_std__vectorT_std__string_std__allocatorT_std__string_t_t,  0  | 0);
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitBase_merge_analysis" "', argument " "2"" of type '" "std::vector< std::string,std::allocator< std::string > > const &""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitBase_merge_analysis" "', argument " "2"" of type '" "std::vector< std::string,std::allocator< std::string > > const &""'"); 
   }
   if (!argp2) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitBase_merge_analysis" "', argument " "2"" of type '" "std::vector< std::string,std::allocator< std::string > > const &""'");
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitBase_merge_analysis" "', argument " "2"" of type '" "std::vector< std::string,std::allocator< std::string > > const &""'"); 
   }
   arg2 = reinterpret_cast< std::vector< std::string,std::allocator< std::string > > * >(argp2);
   res3 = SWIG_ConvertPtr(swig_obj[2], &argp3, SWIGTYPE_p_esys__repo__git__MergeAnalysisResult,  0 );
   if (!SWIG_IsOK(res3)) {
-    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "GitBase_merge_analysis" "', argument " "3"" of type '" "esys::repo::git::MergeAnalysisResult &""'");
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "GitBase_merge_analysis" "', argument " "3"" of type '" "esys::repo::git::MergeAnalysisResult &""'"); 
   }
   if (!argp3) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitBase_merge_analysis" "', argument " "3"" of type '" "esys::repo::git::MergeAnalysisResult &""'");
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitBase_merge_analysis" "', argument " "3"" of type '" "esys::repo::git::MergeAnalysisResult &""'"); 
   }
   arg3 = reinterpret_cast< esys::repo::git::MergeAnalysisResult * >(argp3);
   res4 = SWIG_ConvertPtr(swig_obj[3], &argp4, SWIGTYPE_p_std__vectorT_esys__repo__git__CommitHash_std__allocatorT_esys__repo__git__CommitHash_t_t,  0 );
   if (!SWIG_IsOK(res4)) {
-    SWIG_exception_fail(SWIG_ArgError(res4), "in method '" "GitBase_merge_analysis" "', argument " "4"" of type '" "std::vector< esys::repo::git::CommitHash,std::allocator< esys::repo::git::CommitHash > > &""'");
+    SWIG_exception_fail(SWIG_ArgError(res4), "in method '" "GitBase_merge_analysis" "', argument " "4"" of type '" "std::vector< esys::repo::git::CommitHash,std::allocator< esys::repo::git::CommitHash > > &""'"); 
   }
   if (!argp4) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitBase_merge_analysis" "', argument " "4"" of type '" "std::vector< esys::repo::git::CommitHash,std::allocator< esys::repo::git::CommitHash > > &""'");
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitBase_merge_analysis" "', argument " "4"" of type '" "std::vector< esys::repo::git::CommitHash,std::allocator< esys::repo::git::CommitHash > > &""'"); 
   }
   arg4 = reinterpret_cast< std::vector< esys::repo::git::CommitHash,std::allocator< esys::repo::git::CommitHash > > * >(argp4);
   result = (int)(arg1)->merge_analysis((std::vector< std::string,std::allocator< std::string > > const &)*arg2,*arg3,*arg4);
@@ -7368,21 +7368,21 @@ SWIGINTERN PyObject *_wrap_GitBase_fetch__SWIG_0(PyObject *SWIGUNUSEDPARM(self),
   int res1 = 0 ;
   int res2 = SWIG_OLDOBJ ;
   int result;
-
+  
   if ((nobjs < 2) || (nobjs > 2)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitBase, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_fetch" "', argument " "1"" of type '" "esys::repo::GitBase *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_fetch" "', argument " "1"" of type '" "esys::repo::GitBase *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitBase * >(argp1);
   {
     std::string *ptr = (std::string *)0;
     res2 = SWIG_AsPtr_std_string(swig_obj[1], &ptr);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitBase_fetch" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitBase_fetch" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitBase_fetch" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitBase_fetch" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     arg2 = ptr;
   }
@@ -7402,11 +7402,11 @@ SWIGINTERN PyObject *_wrap_GitBase_fetch__SWIG_1(PyObject *SWIGUNUSEDPARM(self),
   void *argp1 = 0 ;
   int res1 = 0 ;
   int result;
-
+  
   if ((nobjs < 1) || (nobjs > 1)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitBase, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_fetch" "', argument " "1"" of type '" "esys::repo::GitBase *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_fetch" "', argument " "1"" of type '" "esys::repo::GitBase *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitBase * >(argp1);
   result = (int)(arg1)->fetch();
@@ -7422,7 +7422,7 @@ SWIGINTERN PyObject *_wrap_GitBase_fetch(PyObject *self, PyObject *args) {
   PyObject *argv[3] = {
     0
   };
-
+  
   if (!(argc = SWIG_Python_UnpackTuple(args, "GitBase_fetch", 0, 2, argv))) SWIG_fail;
   --argc;
   if (argc == 1) {
@@ -7447,7 +7447,7 @@ SWIGINTERN PyObject *_wrap_GitBase_fetch(PyObject *self, PyObject *args) {
       }
     }
   }
-
+  
 fail:
   SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'GitBase_fetch'.\n"
     "  Possible C/C++ prototypes are:\n"
@@ -7466,17 +7466,17 @@ SWIGINTERN PyObject *_wrap_GitBase_reset_to_parent__SWIG_0(PyObject *SWIGUNUSEDP
   int val2 ;
   int ecode2 = 0 ;
   int result;
-
+  
   if ((nobjs < 2) || (nobjs > 2)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitBase, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_reset_to_parent" "', argument " "1"" of type '" "esys::repo::GitBase *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_reset_to_parent" "', argument " "1"" of type '" "esys::repo::GitBase *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitBase * >(argp1);
   ecode2 = SWIG_AsVal_int(swig_obj[1], &val2);
   if (!SWIG_IsOK(ecode2)) {
     SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "GitBase_reset_to_parent" "', argument " "2"" of type '" "int""'");
-  }
+  } 
   arg2 = static_cast< int >(val2);
   result = (int)(arg1)->reset_to_parent(arg2);
   resultobj = SWIG_From_int(static_cast< int >(result));
@@ -7492,11 +7492,11 @@ SWIGINTERN PyObject *_wrap_GitBase_reset_to_parent__SWIG_1(PyObject *SWIGUNUSEDP
   void *argp1 = 0 ;
   int res1 = 0 ;
   int result;
-
+  
   if ((nobjs < 1) || (nobjs > 1)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitBase, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_reset_to_parent" "', argument " "1"" of type '" "esys::repo::GitBase *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_reset_to_parent" "', argument " "1"" of type '" "esys::repo::GitBase *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitBase * >(argp1);
   result = (int)(arg1)->reset_to_parent();
@@ -7512,7 +7512,7 @@ SWIGINTERN PyObject *_wrap_GitBase_reset_to_parent(PyObject *self, PyObject *arg
   PyObject *argv[3] = {
     0
   };
-
+  
   if (!(argc = SWIG_Python_UnpackTuple(args, "GitBase_reset_to_parent", 0, 2, argv))) SWIG_fail;
   --argc;
   if (argc == 1) {
@@ -7539,7 +7539,7 @@ SWIGINTERN PyObject *_wrap_GitBase_reset_to_parent(PyObject *self, PyObject *arg
       }
     }
   }
-
+  
 fail:
   SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'GitBase_reset_to_parent'.\n"
     "  Possible C/C++ prototypes are:\n"
@@ -7560,28 +7560,28 @@ SWIGINTERN PyObject *_wrap_GitBase_has_branch__SWIG_0(PyObject *SWIGUNUSEDPARM(s
   int val3 ;
   int ecode3 = 0 ;
   bool result;
-
+  
   if ((nobjs < 3) || (nobjs > 3)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitBase, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_has_branch" "', argument " "1"" of type '" "esys::repo::GitBase *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_has_branch" "', argument " "1"" of type '" "esys::repo::GitBase *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitBase * >(argp1);
   {
     std::string *ptr = (std::string *)0;
     res2 = SWIG_AsPtr_std_string(swig_obj[1], &ptr);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitBase_has_branch" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitBase_has_branch" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitBase_has_branch" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitBase_has_branch" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     arg2 = ptr;
   }
   ecode3 = SWIG_AsVal_int(swig_obj[2], &val3);
   if (!SWIG_IsOK(ecode3)) {
     SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "GitBase_has_branch" "', argument " "3"" of type '" "esys::repo::git::BranchType""'");
-  }
+  } 
   arg3 = static_cast< esys::repo::git::BranchType >(val3);
   result = (bool)(arg1)->has_branch((std::string const &)*arg2,arg3);
   resultobj = SWIG_From_bool(static_cast< bool >(result));
@@ -7601,21 +7601,21 @@ SWIGINTERN PyObject *_wrap_GitBase_has_branch__SWIG_1(PyObject *SWIGUNUSEDPARM(s
   int res1 = 0 ;
   int res2 = SWIG_OLDOBJ ;
   bool result;
-
+  
   if ((nobjs < 2) || (nobjs > 2)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitBase, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_has_branch" "', argument " "1"" of type '" "esys::repo::GitBase *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_has_branch" "', argument " "1"" of type '" "esys::repo::GitBase *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitBase * >(argp1);
   {
     std::string *ptr = (std::string *)0;
     res2 = SWIG_AsPtr_std_string(swig_obj[1], &ptr);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitBase_has_branch" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitBase_has_branch" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitBase_has_branch" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitBase_has_branch" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     arg2 = ptr;
   }
@@ -7634,7 +7634,7 @@ SWIGINTERN PyObject *_wrap_GitBase_has_branch(PyObject *self, PyObject *args) {
   PyObject *argv[4] = {
     0
   };
-
+  
   if (!(argc = SWIG_Python_UnpackTuple(args, "GitBase_has_branch", 0, 3, argv))) SWIG_fail;
   --argc;
   if (argc == 2) {
@@ -7669,7 +7669,7 @@ SWIGINTERN PyObject *_wrap_GitBase_has_branch(PyObject *self, PyObject *args) {
       }
     }
   }
-
+  
 fail:
   SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'GitBase_has_branch'.\n"
     "  Possible C/C++ prototypes are:\n"
@@ -7693,36 +7693,36 @@ SWIGINTERN PyObject *_wrap_GitBase_get_hash__SWIG_0(PyObject *SWIGUNUSEDPARM(sel
   int val4 ;
   int ecode4 = 0 ;
   int result;
-
+  
   if ((nobjs < 4) || (nobjs > 4)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitBase, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_get_hash" "', argument " "1"" of type '" "esys::repo::GitBase *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_get_hash" "', argument " "1"" of type '" "esys::repo::GitBase *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitBase * >(argp1);
   {
     std::string *ptr = (std::string *)0;
     res2 = SWIG_AsPtr_std_string(swig_obj[1], &ptr);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitBase_get_hash" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitBase_get_hash" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitBase_get_hash" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitBase_get_hash" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     arg2 = ptr;
   }
   res3 = SWIG_ConvertPtr(swig_obj[2], &argp3, SWIGTYPE_p_std__string,  0 );
   if (!SWIG_IsOK(res3)) {
-    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "GitBase_get_hash" "', argument " "3"" of type '" "std::string &""'");
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "GitBase_get_hash" "', argument " "3"" of type '" "std::string &""'"); 
   }
   if (!argp3) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitBase_get_hash" "', argument " "3"" of type '" "std::string &""'");
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitBase_get_hash" "', argument " "3"" of type '" "std::string &""'"); 
   }
   arg3 = reinterpret_cast< std::string * >(argp3);
   ecode4 = SWIG_AsVal_int(swig_obj[3], &val4);
   if (!SWIG_IsOK(ecode4)) {
     SWIG_exception_fail(SWIG_ArgError(ecode4), "in method '" "GitBase_get_hash" "', argument " "4"" of type '" "esys::repo::git::BranchType""'");
-  }
+  } 
   arg4 = static_cast< esys::repo::git::BranchType >(val4);
   result = (int)(arg1)->get_hash((std::string const &)*arg2,*arg3,arg4);
   resultobj = SWIG_From_int(static_cast< int >(result));
@@ -7745,30 +7745,30 @@ SWIGINTERN PyObject *_wrap_GitBase_get_hash__SWIG_1(PyObject *SWIGUNUSEDPARM(sel
   void *argp3 = 0 ;
   int res3 = 0 ;
   int result;
-
+  
   if ((nobjs < 3) || (nobjs > 3)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitBase, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_get_hash" "', argument " "1"" of type '" "esys::repo::GitBase *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_get_hash" "', argument " "1"" of type '" "esys::repo::GitBase *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitBase * >(argp1);
   {
     std::string *ptr = (std::string *)0;
     res2 = SWIG_AsPtr_std_string(swig_obj[1], &ptr);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitBase_get_hash" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitBase_get_hash" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitBase_get_hash" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitBase_get_hash" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     arg2 = ptr;
   }
   res3 = SWIG_ConvertPtr(swig_obj[2], &argp3, SWIGTYPE_p_std__string,  0 );
   if (!SWIG_IsOK(res3)) {
-    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "GitBase_get_hash" "', argument " "3"" of type '" "std::string &""'");
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "GitBase_get_hash" "', argument " "3"" of type '" "std::string &""'"); 
   }
   if (!argp3) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitBase_get_hash" "', argument " "3"" of type '" "std::string &""'");
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitBase_get_hash" "', argument " "3"" of type '" "std::string &""'"); 
   }
   arg3 = reinterpret_cast< std::string * >(argp3);
   result = (int)(arg1)->get_hash((std::string const &)*arg2,*arg3);
@@ -7786,7 +7786,7 @@ SWIGINTERN PyObject *_wrap_GitBase_get_hash(PyObject *self, PyObject *args) {
   PyObject *argv[5] = {
     0
   };
-
+  
   if (!(argc = SWIG_Python_UnpackTuple(args, "GitBase_get_hash", 0, 4, argv))) SWIG_fail;
   --argc;
   if (argc == 3) {
@@ -7831,7 +7831,7 @@ SWIGINTERN PyObject *_wrap_GitBase_get_hash(PyObject *self, PyObject *args) {
       }
     }
   }
-
+  
 fail:
   SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'GitBase_get_hash'.\n"
     "  Possible C/C++ prototypes are:\n"
@@ -7851,18 +7851,18 @@ SWIGINTERN PyObject *_wrap_GitBase_walk_commits(PyObject *SWIGUNUSEDPARM(self), 
   int res2 = 0 ;
   PyObject *swig_obj[2] ;
   int result;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "GitBase_walk_commits", 2, 2, swig_obj)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitBase, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_walk_commits" "', argument " "1"" of type '" "esys::repo::GitBase *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_walk_commits" "', argument " "1"" of type '" "esys::repo::GitBase *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitBase * >(argp1);
   {
     res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_std__shared_ptrT_esys__repo__git__WalkCommit_t,  0  | 0);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitBase_walk_commits" "', argument " "2"" of type '" "std::shared_ptr< esys::repo::git::WalkCommit >""'");
-    }
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitBase_walk_commits" "', argument " "2"" of type '" "std::shared_ptr< esys::repo::git::WalkCommit >""'"); 
+    }  
     if (!argp2) {
       SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitBase_walk_commits" "', argument " "2"" of type '" "std::shared_ptr< esys::repo::git::WalkCommit >""'");
     } else {
@@ -7892,18 +7892,18 @@ SWIGINTERN PyObject *_wrap_GitBase_diff(PyObject *SWIGUNUSEDPARM(self), PyObject
   int res3 = 0 ;
   PyObject *swig_obj[3] ;
   int result;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "GitBase_diff", 3, 3, swig_obj)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitBase, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_diff" "', argument " "1"" of type '" "esys::repo::GitBase *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_diff" "', argument " "1"" of type '" "esys::repo::GitBase *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitBase * >(argp1);
   {
     res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_esys__repo__git__CommitHash,  0  | 0);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitBase_diff" "', argument " "2"" of type '" "esys::repo::git::CommitHash const""'");
-    }
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitBase_diff" "', argument " "2"" of type '" "esys::repo::git::CommitHash const""'"); 
+    }  
     if (!argp2) {
       SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitBase_diff" "', argument " "2"" of type '" "esys::repo::git::CommitHash const""'");
     } else {
@@ -7915,8 +7915,8 @@ SWIGINTERN PyObject *_wrap_GitBase_diff(PyObject *SWIGUNUSEDPARM(self), PyObject
   {
     res3 = SWIG_ConvertPtr(swig_obj[2], &argp3, SWIGTYPE_p_std__shared_ptrT_esys__repo__git__Diff_t,  0  | 0);
     if (!SWIG_IsOK(res3)) {
-      SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "GitBase_diff" "', argument " "3"" of type '" "std::shared_ptr< esys::repo::git::Diff >""'");
-    }
+      SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "GitBase_diff" "', argument " "3"" of type '" "std::shared_ptr< esys::repo::git::Diff >""'"); 
+    }  
     if (!argp3) {
       SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitBase_diff" "', argument " "3"" of type '" "std::shared_ptr< esys::repo::git::Diff >""'");
     } else {
@@ -7939,17 +7939,17 @@ SWIGINTERN PyObject *_wrap_GitBase_is_repo(PyObject *SWIGUNUSEDPARM(self), PyObj
   int res1 = SWIG_OLDOBJ ;
   PyObject *swig_obj[1] ;
   bool result;
-
+  
   if (!args) SWIG_fail;
   swig_obj[0] = args;
   {
     std::string *ptr = (std::string *)0;
     res1 = SWIG_AsPtr_std_string(swig_obj[0], &ptr);
     if (!SWIG_IsOK(res1)) {
-      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_is_repo" "', argument " "1"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_is_repo" "', argument " "1"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitBase_is_repo" "', argument " "1"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitBase_is_repo" "', argument " "1"" of type '" "std::string const &""'"); 
     }
     arg1 = ptr;
   }
@@ -7972,17 +7972,17 @@ SWIGINTERN PyObject *_wrap_GitBase_set_id(PyObject *SWIGUNUSEDPARM(self), PyObje
   size_t val2 ;
   int ecode2 = 0 ;
   PyObject *swig_obj[2] ;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "GitBase_set_id", 2, 2, swig_obj)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitBase, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_set_id" "', argument " "1"" of type '" "esys::repo::GitBase *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_set_id" "', argument " "1"" of type '" "esys::repo::GitBase *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitBase * >(argp1);
   ecode2 = SWIG_AsVal_size_t(swig_obj[1], &val2);
   if (!SWIG_IsOK(ecode2)) {
     SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "GitBase_set_id" "', argument " "2"" of type '" "std::size_t""'");
-  }
+  } 
   arg2 = static_cast< std::size_t >(val2);
   (arg1)->set_id(arg2);
   resultobj = SWIG_Py_Void();
@@ -7999,12 +7999,12 @@ SWIGINTERN PyObject *_wrap_GitBase_get_id(PyObject *SWIGUNUSEDPARM(self), PyObje
   int res1 = 0 ;
   PyObject *swig_obj[1] ;
   std::size_t result;
-
+  
   if (!args) SWIG_fail;
   swig_obj[0] = args;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitBase, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_get_id" "', argument " "1"" of type '" "esys::repo::GitBase const *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_get_id" "', argument " "1"" of type '" "esys::repo::GitBase const *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitBase * >(argp1);
   result = ((esys::repo::GitBase const *)arg1)->get_id();
@@ -8024,17 +8024,17 @@ SWIGINTERN PyObject *_wrap_GitBase_set_debug(PyObject *SWIGUNUSEDPARM(self), PyO
   bool val2 ;
   int ecode2 = 0 ;
   PyObject *swig_obj[2] ;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "GitBase_set_debug", 2, 2, swig_obj)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitBase, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_set_debug" "', argument " "1"" of type '" "esys::repo::GitBase *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_set_debug" "', argument " "1"" of type '" "esys::repo::GitBase *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitBase * >(argp1);
   ecode2 = SWIG_AsVal_bool(swig_obj[1], &val2);
   if (!SWIG_IsOK(ecode2)) {
     SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "GitBase_set_debug" "', argument " "2"" of type '" "bool""'");
-  }
+  } 
   arg2 = static_cast< bool >(val2);
   (arg1)->set_debug(arg2);
   resultobj = SWIG_Py_Void();
@@ -8051,12 +8051,12 @@ SWIGINTERN PyObject *_wrap_GitBase_get_debug(PyObject *SWIGUNUSEDPARM(self), PyO
   int res1 = 0 ;
   PyObject *swig_obj[1] ;
   bool result;
-
+  
   if (!args) SWIG_fail;
   swig_obj[0] = args;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitBase, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_get_debug" "', argument " "1"" of type '" "esys::repo::GitBase const *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_get_debug" "', argument " "1"" of type '" "esys::repo::GitBase const *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitBase * >(argp1);
   result = (bool)((esys::repo::GitBase const *)arg1)->get_debug();
@@ -8074,12 +8074,12 @@ SWIGINTERN PyObject *_wrap_GitBase_get_version(PyObject *SWIGUNUSEDPARM(self), P
   int res1 = 0 ;
   PyObject *swig_obj[1] ;
   std::string *result = 0 ;
-
+  
   if (!args) SWIG_fail;
   swig_obj[0] = args;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitBase, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_get_version" "', argument " "1"" of type '" "esys::repo::GitBase *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_get_version" "', argument " "1"" of type '" "esys::repo::GitBase *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitBase * >(argp1);
   result = (std::string *) &(arg1)->get_version();
@@ -8097,12 +8097,12 @@ SWIGINTERN PyObject *_wrap_GitBase_get_lib_name(PyObject *SWIGUNUSEDPARM(self), 
   int res1 = 0 ;
   PyObject *swig_obj[1] ;
   std::string *result = 0 ;
-
+  
   if (!args) SWIG_fail;
   swig_obj[0] = args;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitBase, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_get_lib_name" "', argument " "1"" of type '" "esys::repo::GitBase *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_get_lib_name" "', argument " "1"" of type '" "esys::repo::GitBase *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitBase * >(argp1);
   result = (std::string *) &(arg1)->get_lib_name();
@@ -8122,21 +8122,21 @@ SWIGINTERN PyObject *_wrap_GitBase_handle_sideband_progress(PyObject *SWIGUNUSED
   int res2 = SWIG_OLDOBJ ;
   PyObject *swig_obj[2] ;
   int result;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "GitBase_handle_sideband_progress", 2, 2, swig_obj)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitBase, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_handle_sideband_progress" "', argument " "1"" of type '" "esys::repo::GitBase *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_handle_sideband_progress" "', argument " "1"" of type '" "esys::repo::GitBase *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitBase * >(argp1);
   {
     std::string *ptr = (std::string *)0;
     res2 = SWIG_AsPtr_std_string(swig_obj[1], &ptr);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitBase_handle_sideband_progress" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitBase_handle_sideband_progress" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitBase_handle_sideband_progress" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitBase_handle_sideband_progress" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     arg2 = ptr;
   }
@@ -8160,19 +8160,19 @@ SWIGINTERN PyObject *_wrap_GitBase_handle_transfer_progress(PyObject *SWIGUNUSED
   int res2 = 0 ;
   PyObject *swig_obj[2] ;
   int result;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "GitBase_handle_transfer_progress", 2, 2, swig_obj)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitBase, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_handle_transfer_progress" "', argument " "1"" of type '" "esys::repo::GitBase *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_handle_transfer_progress" "', argument " "1"" of type '" "esys::repo::GitBase *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitBase * >(argp1);
   res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_esys__repo__git__Progress,  0  | 0);
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitBase_handle_transfer_progress" "', argument " "2"" of type '" "esys::repo::git::Progress const &""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitBase_handle_transfer_progress" "', argument " "2"" of type '" "esys::repo::git::Progress const &""'"); 
   }
   if (!argp2) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitBase_handle_transfer_progress" "', argument " "2"" of type '" "esys::repo::git::Progress const &""'");
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitBase_handle_transfer_progress" "', argument " "2"" of type '" "esys::repo::git::Progress const &""'"); 
   }
   arg2 = reinterpret_cast< esys::repo::git::Progress * >(argp2);
   result = (int)(arg1)->handle_transfer_progress((esys::repo::git::Progress const &)*arg2);
@@ -8192,19 +8192,19 @@ SWIGINTERN PyObject *_wrap_GitBase_set_progress(PyObject *SWIGUNUSEDPARM(self), 
   void *argp2 = 0 ;
   int res2 = 0 ;
   PyObject *swig_obj[2] ;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "GitBase_set_progress", 2, 2, swig_obj)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitBase, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_set_progress" "', argument " "1"" of type '" "esys::repo::GitBase *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_set_progress" "', argument " "1"" of type '" "esys::repo::GitBase *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitBase * >(argp1);
   res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_esys__repo__git__Progress,  0  | 0);
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitBase_set_progress" "', argument " "2"" of type '" "esys::repo::git::Progress const &""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitBase_set_progress" "', argument " "2"" of type '" "esys::repo::git::Progress const &""'"); 
   }
   if (!argp2) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitBase_set_progress" "', argument " "2"" of type '" "esys::repo::git::Progress const &""'");
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitBase_set_progress" "', argument " "2"" of type '" "esys::repo::git::Progress const &""'"); 
   }
   arg2 = reinterpret_cast< esys::repo::git::Progress * >(argp2);
   (arg1)->set_progress((esys::repo::git::Progress const &)*arg2);
@@ -8224,19 +8224,19 @@ SWIGINTERN PyObject *_wrap_GitBase_get_progress(PyObject *SWIGUNUSEDPARM(self), 
   void *argp2 = 0 ;
   int res2 = 0 ;
   PyObject *swig_obj[2] ;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "GitBase_get_progress", 2, 2, swig_obj)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitBase, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_get_progress" "', argument " "1"" of type '" "esys::repo::GitBase *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_get_progress" "', argument " "1"" of type '" "esys::repo::GitBase *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitBase * >(argp1);
   res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_esys__repo__git__Progress,  0 );
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitBase_get_progress" "', argument " "2"" of type '" "esys::repo::git::Progress &""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitBase_get_progress" "', argument " "2"" of type '" "esys::repo::git::Progress &""'"); 
   }
   if (!argp2) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitBase_get_progress" "', argument " "2"" of type '" "esys::repo::git::Progress &""'");
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitBase_get_progress" "', argument " "2"" of type '" "esys::repo::git::Progress &""'"); 
   }
   arg2 = reinterpret_cast< esys::repo::git::Progress * >(argp2);
   (arg1)->get_progress(*arg2);
@@ -8256,16 +8256,16 @@ SWIGINTERN PyObject *_wrap_GitBase_set_progress_callback(PyObject *SWIGUNUSEDPAR
   void *argp2 = 0 ;
   int res2 = 0 ;
   PyObject *swig_obj[2] ;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "GitBase_set_progress_callback", 2, 2, swig_obj)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitBase, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_set_progress_callback" "', argument " "1"" of type '" "esys::repo::GitBase *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_set_progress_callback" "', argument " "1"" of type '" "esys::repo::GitBase *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitBase * >(argp1);
   res2 = SWIG_ConvertPtr(swig_obj[1], &argp2,SWIGTYPE_p_esys__repo__ProgressCallbackBase, 0 |  0 );
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitBase_set_progress_callback" "', argument " "2"" of type '" "esys::repo::ProgressCallbackBase *""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitBase_set_progress_callback" "', argument " "2"" of type '" "esys::repo::ProgressCallbackBase *""'"); 
   }
   arg2 = reinterpret_cast< esys::repo::ProgressCallbackBase * >(argp2);
   (arg1)->set_progress_callback(arg2);
@@ -8283,12 +8283,12 @@ SWIGINTERN PyObject *_wrap_GitBase_get_progress_callback(PyObject *SWIGUNUSEDPAR
   int res1 = 0 ;
   PyObject *swig_obj[1] ;
   esys::repo::ProgressCallbackBase *result = 0 ;
-
+  
   if (!args) SWIG_fail;
   swig_obj[0] = args;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitBase, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_get_progress_callback" "', argument " "1"" of type '" "esys::repo::GitBase *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_get_progress_callback" "', argument " "1"" of type '" "esys::repo::GitBase *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitBase * >(argp1);
   result = (esys::repo::ProgressCallbackBase *)(arg1)->get_progress_callback();
@@ -8308,25 +8308,25 @@ SWIGINTERN PyObject *_wrap_GitBase_decode_sideband_progress(PyObject *SWIGUNUSED
   int res2 = 0 ;
   PyObject *swig_obj[2] ;
   int result;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "GitBase_decode_sideband_progress", 2, 2, swig_obj)) SWIG_fail;
   {
     std::string *ptr = (std::string *)0;
     res1 = SWIG_AsPtr_std_string(swig_obj[0], &ptr);
     if (!SWIG_IsOK(res1)) {
-      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_decode_sideband_progress" "', argument " "1"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_decode_sideband_progress" "', argument " "1"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitBase_decode_sideband_progress" "', argument " "1"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitBase_decode_sideband_progress" "', argument " "1"" of type '" "std::string const &""'"); 
     }
     arg1 = ptr;
   }
   res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_esys__repo__git__Progress,  0 );
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitBase_decode_sideband_progress" "', argument " "2"" of type '" "esys::repo::git::Progress &""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitBase_decode_sideband_progress" "', argument " "2"" of type '" "esys::repo::git::Progress &""'"); 
   }
   if (!argp2) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitBase_decode_sideband_progress" "', argument " "2"" of type '" "esys::repo::git::Progress &""'");
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitBase_decode_sideband_progress" "', argument " "2"" of type '" "esys::repo::git::Progress &""'"); 
   }
   arg2 = reinterpret_cast< esys::repo::git::Progress * >(argp2);
   result = (int)esys::repo::GitBase::decode_sideband_progress((std::string const &)*arg1,*arg2);
@@ -8345,12 +8345,12 @@ SWIGINTERN PyObject *_wrap_GitBase_cmd_start(PyObject *SWIGUNUSEDPARM(self), PyO
   void *argp1 = 0 ;
   int res1 = 0 ;
   PyObject *swig_obj[1] ;
-
+  
   if (!args) SWIG_fail;
   swig_obj[0] = args;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitBase, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_cmd_start" "', argument " "1"" of type '" "esys::repo::GitBase *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_cmd_start" "', argument " "1"" of type '" "esys::repo::GitBase *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitBase * >(argp1);
   (arg1)->cmd_start();
@@ -8367,12 +8367,12 @@ SWIGINTERN PyObject *_wrap_GitBase_cmd_end(PyObject *SWIGUNUSEDPARM(self), PyObj
   void *argp1 = 0 ;
   int res1 = 0 ;
   PyObject *swig_obj[1] ;
-
+  
   if (!args) SWIG_fail;
   swig_obj[0] = args;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitBase, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_cmd_end" "', argument " "1"" of type '" "esys::repo::GitBase *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_cmd_end" "', argument " "1"" of type '" "esys::repo::GitBase *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitBase * >(argp1);
   (arg1)->cmd_end();
@@ -8389,12 +8389,12 @@ SWIGINTERN PyObject *_wrap_GitBase_open_time(PyObject *SWIGUNUSEDPARM(self), PyO
   void *argp1 = 0 ;
   int res1 = 0 ;
   PyObject *swig_obj[1] ;
-
+  
   if (!args) SWIG_fail;
   swig_obj[0] = args;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitBase, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_open_time" "', argument " "1"" of type '" "esys::repo::GitBase *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_open_time" "', argument " "1"" of type '" "esys::repo::GitBase *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitBase * >(argp1);
   (arg1)->open_time();
@@ -8411,12 +8411,12 @@ SWIGINTERN PyObject *_wrap_GitBase_close_time(PyObject *SWIGUNUSEDPARM(self), Py
   void *argp1 = 0 ;
   int res1 = 0 ;
   PyObject *swig_obj[1] ;
-
+  
   if (!args) SWIG_fail;
   swig_obj[0] = args;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitBase, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_close_time" "', argument " "1"" of type '" "esys::repo::GitBase *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_close_time" "', argument " "1"" of type '" "esys::repo::GitBase *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitBase * >(argp1);
   (arg1)->close_time();
@@ -8434,12 +8434,12 @@ SWIGINTERN PyObject *_wrap_GitBase_get_open_time(PyObject *SWIGUNUSEDPARM(self),
   int res1 = 0 ;
   PyObject *swig_obj[1] ;
   uint64_t result;
-
+  
   if (!args) SWIG_fail;
   swig_obj[0] = args;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitBase, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_get_open_time" "', argument " "1"" of type '" "esys::repo::GitBase *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_get_open_time" "', argument " "1"" of type '" "esys::repo::GitBase *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitBase * >(argp1);
   result = (uint64_t)(arg1)->get_open_time();
@@ -8457,12 +8457,12 @@ SWIGINTERN PyObject *_wrap_GitBase_get_last_cmd_elapsed_time(PyObject *SWIGUNUSE
   int res1 = 0 ;
   PyObject *swig_obj[1] ;
   uint64_t result;
-
+  
   if (!args) SWIG_fail;
   swig_obj[0] = args;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitBase, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_get_last_cmd_elapsed_time" "', argument " "1"" of type '" "esys::repo::GitBase *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitBase_get_last_cmd_elapsed_time" "', argument " "1"" of type '" "esys::repo::GitBase *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitBase * >(argp1);
   result = (uint64_t)(arg1)->get_last_cmd_elapsed_time();
@@ -8492,13 +8492,13 @@ SWIGINTERN PyObject *_wrap_new_GitHelper__SWIG_0(PyObject *SWIGUNUSEDPARM(self),
   int val3 ;
   int ecode3 = 0 ;
   esys::repo::GitHelper *result = 0 ;
-
+  
   if ((nobjs < 3) || (nobjs > 3)) SWIG_fail;
   {
     res1 = SWIG_ConvertPtr(swig_obj[0], &argp1, SWIGTYPE_p_std__shared_ptrT_esys__repo__GitBase_t,  0  | 0);
     if (!SWIG_IsOK(res1)) {
-      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "new_GitHelper" "', argument " "1"" of type '" "std::shared_ptr< esys::repo::GitBase >""'");
-    }
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "new_GitHelper" "', argument " "1"" of type '" "std::shared_ptr< esys::repo::GitBase >""'"); 
+    }  
     if (!argp1) {
       SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "new_GitHelper" "', argument " "1"" of type '" "std::shared_ptr< esys::repo::GitBase >""'");
     } else {
@@ -8510,8 +8510,8 @@ SWIGINTERN PyObject *_wrap_new_GitHelper__SWIG_0(PyObject *SWIGUNUSEDPARM(self),
   {
     res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_std__shared_ptrT_esys__log__Logger_if_t,  0  | 0);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "new_GitHelper" "', argument " "2"" of type '" "std::shared_ptr< esys::log::Logger_if >""'");
-    }
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "new_GitHelper" "', argument " "2"" of type '" "std::shared_ptr< esys::log::Logger_if >""'"); 
+    }  
     if (!argp2) {
       SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "new_GitHelper" "', argument " "2"" of type '" "std::shared_ptr< esys::log::Logger_if >""'");
     } else {
@@ -8523,7 +8523,7 @@ SWIGINTERN PyObject *_wrap_new_GitHelper__SWIG_0(PyObject *SWIGUNUSEDPARM(self),
   ecode3 = SWIG_AsVal_int(swig_obj[2], &val3);
   if (!SWIG_IsOK(ecode3)) {
     SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "new_GitHelper" "', argument " "3"" of type '" "int""'");
-  }
+  } 
   arg3 = static_cast< int >(val3);
   result = (esys::repo::GitHelper *)new esys::repo::GitHelper(arg1,arg2,arg3);
   resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_esys__repo__GitHelper, SWIG_POINTER_NEW |  0 );
@@ -8542,13 +8542,13 @@ SWIGINTERN PyObject *_wrap_new_GitHelper__SWIG_1(PyObject *SWIGUNUSEDPARM(self),
   void *argp2 ;
   int res2 = 0 ;
   esys::repo::GitHelper *result = 0 ;
-
+  
   if ((nobjs < 2) || (nobjs > 2)) SWIG_fail;
   {
     res1 = SWIG_ConvertPtr(swig_obj[0], &argp1, SWIGTYPE_p_std__shared_ptrT_esys__repo__GitBase_t,  0  | 0);
     if (!SWIG_IsOK(res1)) {
-      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "new_GitHelper" "', argument " "1"" of type '" "std::shared_ptr< esys::repo::GitBase >""'");
-    }
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "new_GitHelper" "', argument " "1"" of type '" "std::shared_ptr< esys::repo::GitBase >""'"); 
+    }  
     if (!argp1) {
       SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "new_GitHelper" "', argument " "1"" of type '" "std::shared_ptr< esys::repo::GitBase >""'");
     } else {
@@ -8560,8 +8560,8 @@ SWIGINTERN PyObject *_wrap_new_GitHelper__SWIG_1(PyObject *SWIGUNUSEDPARM(self),
   {
     res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_std__shared_ptrT_esys__log__Logger_if_t,  0  | 0);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "new_GitHelper" "', argument " "2"" of type '" "std::shared_ptr< esys::log::Logger_if >""'");
-    }
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "new_GitHelper" "', argument " "2"" of type '" "std::shared_ptr< esys::log::Logger_if >""'"); 
+    }  
     if (!argp2) {
       SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "new_GitHelper" "', argument " "2"" of type '" "std::shared_ptr< esys::log::Logger_if >""'");
     } else {
@@ -8584,13 +8584,13 @@ SWIGINTERN PyObject *_wrap_new_GitHelper__SWIG_2(PyObject *SWIGUNUSEDPARM(self),
   void *argp1 ;
   int res1 = 0 ;
   esys::repo::GitHelper *result = 0 ;
-
+  
   if ((nobjs < 1) || (nobjs > 1)) SWIG_fail;
   {
     res1 = SWIG_ConvertPtr(swig_obj[0], &argp1, SWIGTYPE_p_std__shared_ptrT_esys__repo__GitBase_t,  0  | 0);
     if (!SWIG_IsOK(res1)) {
-      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "new_GitHelper" "', argument " "1"" of type '" "std::shared_ptr< esys::repo::GitBase >""'");
-    }
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "new_GitHelper" "', argument " "1"" of type '" "std::shared_ptr< esys::repo::GitBase >""'"); 
+    }  
     if (!argp1) {
       SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "new_GitHelper" "', argument " "1"" of type '" "std::shared_ptr< esys::repo::GitBase >""'");
     } else {
@@ -8610,7 +8610,7 @@ fail:
 SWIGINTERN PyObject *_wrap_new_GitHelper__SWIG_3(PyObject *SWIGUNUSEDPARM(self), Py_ssize_t nobjs, PyObject **SWIGUNUSEDPARM(swig_obj)) {
   PyObject *resultobj = 0;
   esys::repo::GitHelper *result = 0 ;
-
+  
   if ((nobjs < 0) || (nobjs > 0)) SWIG_fail;
   result = (esys::repo::GitHelper *)new esys::repo::GitHelper();
   resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_esys__repo__GitHelper, SWIG_POINTER_NEW |  0 );
@@ -8625,7 +8625,7 @@ SWIGINTERN PyObject *_wrap_new_GitHelper(PyObject *self, PyObject *args) {
   PyObject *argv[4] = {
     0
   };
-
+  
   if (!(argc = SWIG_Python_UnpackTuple(args, "new_GitHelper", 0, 3, argv))) SWIG_fail;
   --argc;
   if (argc == 0) {
@@ -8669,7 +8669,7 @@ SWIGINTERN PyObject *_wrap_new_GitHelper(PyObject *self, PyObject *args) {
       }
     }
   }
-
+  
 fail:
   SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'new_GitHelper'.\n"
     "  Possible C/C++ prototypes are:\n"
@@ -8687,12 +8687,12 @@ SWIGINTERN PyObject *_wrap_delete_GitHelper(PyObject *SWIGUNUSEDPARM(self), PyOb
   void *argp1 = 0 ;
   int res1 = 0 ;
   PyObject *swig_obj[1] ;
-
+  
   if (!args) SWIG_fail;
   swig_obj[0] = args;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitHelper, SWIG_POINTER_DISOWN |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_GitHelper" "', argument " "1"" of type '" "esys::repo::GitHelper *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_GitHelper" "', argument " "1"" of type '" "esys::repo::GitHelper *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitHelper * >(argp1);
   delete arg1;
@@ -8714,26 +8714,26 @@ SWIGINTERN PyObject *_wrap_GitHelper_debug(PyObject *SWIGUNUSEDPARM(self), PyObj
   int ecode2 = 0 ;
   int res3 = SWIG_OLDOBJ ;
   PyObject *swig_obj[3] ;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "GitHelper_debug", 3, 3, swig_obj)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitHelper, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_debug" "', argument " "1"" of type '" "esys::repo::GitHelper *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_debug" "', argument " "1"" of type '" "esys::repo::GitHelper *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitHelper * >(argp1);
   ecode2 = SWIG_AsVal_int(swig_obj[1], &val2);
   if (!SWIG_IsOK(ecode2)) {
     SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "GitHelper_debug" "', argument " "2"" of type '" "int""'");
-  }
+  } 
   arg2 = static_cast< int >(val2);
   {
     std::string *ptr = (std::string *)0;
     res3 = SWIG_AsPtr_std_string(swig_obj[2], &ptr);
     if (!SWIG_IsOK(res3)) {
-      SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "GitHelper_debug" "', argument " "3"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "GitHelper_debug" "', argument " "3"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_debug" "', argument " "3"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_debug" "', argument " "3"" of type '" "std::string const &""'"); 
     }
     arg3 = ptr;
   }
@@ -8755,21 +8755,21 @@ SWIGINTERN PyObject *_wrap_GitHelper_info(PyObject *SWIGUNUSEDPARM(self), PyObje
   int res1 = 0 ;
   int res2 = SWIG_OLDOBJ ;
   PyObject *swig_obj[2] ;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "GitHelper_info", 2, 2, swig_obj)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitHelper, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_info" "', argument " "1"" of type '" "esys::repo::GitHelper *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_info" "', argument " "1"" of type '" "esys::repo::GitHelper *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitHelper * >(argp1);
   {
     std::string *ptr = (std::string *)0;
     res2 = SWIG_AsPtr_std_string(swig_obj[1], &ptr);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitHelper_info" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitHelper_info" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_info" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_info" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     arg2 = ptr;
   }
@@ -8791,21 +8791,21 @@ SWIGINTERN PyObject *_wrap_GitHelper_warn(PyObject *SWIGUNUSEDPARM(self), PyObje
   int res1 = 0 ;
   int res2 = SWIG_OLDOBJ ;
   PyObject *swig_obj[2] ;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "GitHelper_warn", 2, 2, swig_obj)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitHelper, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_warn" "', argument " "1"" of type '" "esys::repo::GitHelper *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_warn" "', argument " "1"" of type '" "esys::repo::GitHelper *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitHelper * >(argp1);
   {
     std::string *ptr = (std::string *)0;
     res2 = SWIG_AsPtr_std_string(swig_obj[1], &ptr);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitHelper_warn" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitHelper_warn" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_warn" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_warn" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     arg2 = ptr;
   }
@@ -8826,21 +8826,21 @@ SWIGINTERN PyObject *_wrap_GitHelper_error__SWIG_0(PyObject *SWIGUNUSEDPARM(self
   void *argp1 = 0 ;
   int res1 = 0 ;
   int res2 = SWIG_OLDOBJ ;
-
+  
   if ((nobjs < 2) || (nobjs > 2)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitHelper, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_error" "', argument " "1"" of type '" "esys::repo::GitHelper *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_error" "', argument " "1"" of type '" "esys::repo::GitHelper *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitHelper * >(argp1);
   {
     std::string *ptr = (std::string *)0;
     res2 = SWIG_AsPtr_std_string(swig_obj[1], &ptr);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitHelper_error" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitHelper_error" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_error" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_error" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     arg2 = ptr;
   }
@@ -8862,21 +8862,21 @@ SWIGINTERN PyObject *_wrap_GitHelper_critical(PyObject *SWIGUNUSEDPARM(self), Py
   int res1 = 0 ;
   int res2 = SWIG_OLDOBJ ;
   PyObject *swig_obj[2] ;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "GitHelper_critical", 2, 2, swig_obj)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitHelper, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_critical" "', argument " "1"" of type '" "esys::repo::GitHelper *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_critical" "', argument " "1"" of type '" "esys::repo::GitHelper *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitHelper * >(argp1);
   {
     std::string *ptr = (std::string *)0;
     res2 = SWIG_AsPtr_std_string(swig_obj[1], &ptr);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitHelper_critical" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitHelper_critical" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_critical" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_critical" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     arg2 = ptr;
   }
@@ -8900,26 +8900,26 @@ SWIGINTERN PyObject *_wrap_GitHelper_log__SWIG_0(PyObject *SWIGUNUSEDPARM(self),
   int val2 ;
   int ecode2 = 0 ;
   int res3 = SWIG_OLDOBJ ;
-
+  
   if ((nobjs < 3) || (nobjs > 3)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitHelper, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_log" "', argument " "1"" of type '" "esys::repo::GitHelper *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_log" "', argument " "1"" of type '" "esys::repo::GitHelper *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitHelper * >(argp1);
   ecode2 = SWIG_AsVal_int(swig_obj[1], &val2);
   if (!SWIG_IsOK(ecode2)) {
     SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "GitHelper_log" "', argument " "2"" of type '" "esys::log::Level""'");
-  }
+  } 
   arg2 = static_cast< esys::log::Level >(val2);
   {
     std::string *ptr = (std::string *)0;
     res3 = SWIG_AsPtr_std_string(swig_obj[2], &ptr);
     if (!SWIG_IsOK(res3)) {
-      SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "GitHelper_log" "', argument " "3"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "GitHelper_log" "', argument " "3"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_log" "', argument " "3"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_log" "', argument " "3"" of type '" "std::string const &""'"); 
     }
     arg3 = ptr;
   }
@@ -8946,33 +8946,33 @@ SWIGINTERN PyObject *_wrap_GitHelper_log__SWIG_1(PyObject *SWIGUNUSEDPARM(self),
   int ecode3 = 0 ;
   int val4 ;
   int ecode4 = 0 ;
-
+  
   if ((nobjs < 4) || (nobjs > 4)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitHelper, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_log" "', argument " "1"" of type '" "esys::repo::GitHelper *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_log" "', argument " "1"" of type '" "esys::repo::GitHelper *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitHelper * >(argp1);
   {
     std::string *ptr = (std::string *)0;
     res2 = SWIG_AsPtr_std_string(swig_obj[1], &ptr);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitHelper_log" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitHelper_log" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_log" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_log" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     arg2 = ptr;
   }
   ecode3 = SWIG_AsVal_int(swig_obj[2], &val3);
   if (!SWIG_IsOK(ecode3)) {
     SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "GitHelper_log" "', argument " "3"" of type '" "esys::log::Level""'");
-  }
+  } 
   arg3 = static_cast< esys::log::Level >(val3);
   ecode4 = SWIG_AsVal_int(swig_obj[3], &val4);
   if (!SWIG_IsOK(ecode4)) {
     SWIG_exception_fail(SWIG_ArgError(ecode4), "in method '" "GitHelper_log" "', argument " "4"" of type '" "int""'");
-  }
+  } 
   arg4 = static_cast< int >(val4);
   (arg1)->log((std::string const &)*arg2,arg3,arg4);
   resultobj = SWIG_Py_Void();
@@ -8994,28 +8994,28 @@ SWIGINTERN PyObject *_wrap_GitHelper_log__SWIG_2(PyObject *SWIGUNUSEDPARM(self),
   int res2 = SWIG_OLDOBJ ;
   int val3 ;
   int ecode3 = 0 ;
-
+  
   if ((nobjs < 3) || (nobjs > 3)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitHelper, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_log" "', argument " "1"" of type '" "esys::repo::GitHelper *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_log" "', argument " "1"" of type '" "esys::repo::GitHelper *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitHelper * >(argp1);
   {
     std::string *ptr = (std::string *)0;
     res2 = SWIG_AsPtr_std_string(swig_obj[1], &ptr);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitHelper_log" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitHelper_log" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_log" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_log" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     arg2 = ptr;
   }
   ecode3 = SWIG_AsVal_int(swig_obj[2], &val3);
   if (!SWIG_IsOK(ecode3)) {
     SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "GitHelper_log" "', argument " "3"" of type '" "esys::log::Level""'");
-  }
+  } 
   arg3 = static_cast< esys::log::Level >(val3);
   (arg1)->log((std::string const &)*arg2,arg3);
   resultobj = SWIG_Py_Void();
@@ -9032,7 +9032,7 @@ SWIGINTERN PyObject *_wrap_GitHelper_log(PyObject *self, PyObject *args) {
   PyObject *argv[5] = {
     0
   };
-
+  
   if (!(argc = SWIG_Python_UnpackTuple(args, "GitHelper_log", 0, 4, argv))) SWIG_fail;
   --argc;
   if (argc == 3) {
@@ -9098,7 +9098,7 @@ SWIGINTERN PyObject *_wrap_GitHelper_log(PyObject *self, PyObject *args) {
       }
     }
   }
-
+  
 fail:
   SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'GitHelper_log'.\n"
     "  Possible C/C++ prototypes are:\n"
@@ -9119,28 +9119,28 @@ SWIGINTERN PyObject *_wrap_GitHelper_error__SWIG_1(PyObject *SWIGUNUSEDPARM(self
   int res2 = SWIG_OLDOBJ ;
   int val3 ;
   int ecode3 = 0 ;
-
+  
   if ((nobjs < 3) || (nobjs > 3)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitHelper, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_error" "', argument " "1"" of type '" "esys::repo::GitHelper *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_error" "', argument " "1"" of type '" "esys::repo::GitHelper *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitHelper * >(argp1);
   {
     std::string *ptr = (std::string *)0;
     res2 = SWIG_AsPtr_std_string(swig_obj[1], &ptr);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitHelper_error" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitHelper_error" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_error" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_error" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     arg2 = ptr;
   }
   ecode3 = SWIG_AsVal_int(swig_obj[2], &val3);
   if (!SWIG_IsOK(ecode3)) {
     SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "GitHelper_error" "', argument " "3"" of type '" "int""'");
-  }
+  } 
   arg3 = static_cast< int >(val3);
   (arg1)->error((std::string const &)*arg2,arg3);
   resultobj = SWIG_Py_Void();
@@ -9157,7 +9157,7 @@ SWIGINTERN PyObject *_wrap_GitHelper_error(PyObject *self, PyObject *args) {
   PyObject *argv[4] = {
     0
   };
-
+  
   if (!(argc = SWIG_Python_UnpackTuple(args, "GitHelper_error", 0, 3, argv))) SWIG_fail;
   --argc;
   if (argc == 2) {
@@ -9192,7 +9192,7 @@ SWIGINTERN PyObject *_wrap_GitHelper_error(PyObject *self, PyObject *args) {
       }
     }
   }
-
+  
 fail:
   SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'GitHelper_error'.\n"
     "  Possible C/C++ prototypes are:\n"
@@ -9213,28 +9213,28 @@ SWIGINTERN PyObject *_wrap_GitHelper_done(PyObject *SWIGUNUSEDPARM(self), PyObje
   unsigned long long val3 ;
   int ecode3 = 0 ;
   PyObject *swig_obj[3] ;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "GitHelper_done", 3, 3, swig_obj)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitHelper, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_done" "', argument " "1"" of type '" "esys::repo::GitHelper *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_done" "', argument " "1"" of type '" "esys::repo::GitHelper *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitHelper * >(argp1);
   {
     std::string *ptr = (std::string *)0;
     res2 = SWIG_AsPtr_std_string(swig_obj[1], &ptr);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitHelper_done" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitHelper_done" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_done" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_done" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     arg2 = ptr;
   }
   ecode3 = SWIG_AsVal_unsigned_SS_long_SS_long(swig_obj[2], &val3);
   if (!SWIG_IsOK(ecode3)) {
     SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "GitHelper_done" "', argument " "3"" of type '" "uint64_t""'");
-  }
+  } 
   arg3 = static_cast< uint64_t >(val3);
   (arg1)->done((std::string const &)*arg2,arg3);
   resultobj = SWIG_Py_Void();
@@ -9260,33 +9260,33 @@ SWIGINTERN PyObject *_wrap_GitHelper_open__SWIG_0(PyObject *SWIGUNUSEDPARM(self)
   int val4 ;
   int ecode4 = 0 ;
   int result;
-
+  
   if ((nobjs < 4) || (nobjs > 4)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitHelper, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_open" "', argument " "1"" of type '" "esys::repo::GitHelper *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_open" "', argument " "1"" of type '" "esys::repo::GitHelper *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitHelper * >(argp1);
   {
     std::string *ptr = (std::string *)0;
     res2 = SWIG_AsPtr_std_string(swig_obj[1], &ptr);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitHelper_open" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitHelper_open" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_open" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_open" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     arg2 = ptr;
   }
   ecode3 = SWIG_AsVal_int(swig_obj[2], &val3);
   if (!SWIG_IsOK(ecode3)) {
     SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "GitHelper_open" "', argument " "3"" of type '" "esys::log::Level""'");
-  }
+  } 
   arg3 = static_cast< esys::log::Level >(val3);
   ecode4 = SWIG_AsVal_int(swig_obj[3], &val4);
   if (!SWIG_IsOK(ecode4)) {
     SWIG_exception_fail(SWIG_ArgError(ecode4), "in method '" "GitHelper_open" "', argument " "4"" of type '" "int""'");
-  }
+  } 
   arg4 = static_cast< int >(val4);
   result = (int)(arg1)->open((std::string const &)*arg2,arg3,arg4);
   resultobj = SWIG_From_int(static_cast< int >(result));
@@ -9309,28 +9309,28 @@ SWIGINTERN PyObject *_wrap_GitHelper_open__SWIG_1(PyObject *SWIGUNUSEDPARM(self)
   int val3 ;
   int ecode3 = 0 ;
   int result;
-
+  
   if ((nobjs < 3) || (nobjs > 3)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitHelper, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_open" "', argument " "1"" of type '" "esys::repo::GitHelper *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_open" "', argument " "1"" of type '" "esys::repo::GitHelper *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitHelper * >(argp1);
   {
     std::string *ptr = (std::string *)0;
     res2 = SWIG_AsPtr_std_string(swig_obj[1], &ptr);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitHelper_open" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitHelper_open" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_open" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_open" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     arg2 = ptr;
   }
   ecode3 = SWIG_AsVal_int(swig_obj[2], &val3);
   if (!SWIG_IsOK(ecode3)) {
     SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "GitHelper_open" "', argument " "3"" of type '" "esys::log::Level""'");
-  }
+  } 
   arg3 = static_cast< esys::log::Level >(val3);
   result = (int)(arg1)->open((std::string const &)*arg2,arg3);
   resultobj = SWIG_From_int(static_cast< int >(result));
@@ -9347,7 +9347,7 @@ SWIGINTERN PyObject *_wrap_GitHelper_open(PyObject *self, PyObject *args) {
   PyObject *argv[5] = {
     0
   };
-
+  
   if (!(argc = SWIG_Python_UnpackTuple(args, "GitHelper_open", 0, 4, argv))) SWIG_fail;
   --argc;
   if (argc == 3) {
@@ -9394,7 +9394,7 @@ SWIGINTERN PyObject *_wrap_GitHelper_open(PyObject *self, PyObject *args) {
       }
     }
   }
-
+  
 fail:
   SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'GitHelper_open'.\n"
     "  Possible C/C++ prototypes are:\n"
@@ -9423,21 +9423,21 @@ SWIGINTERN PyObject *_wrap_GitHelper_clone__SWIG_0(PyObject *SWIGUNUSEDPARM(self
   int val6 ;
   int ecode6 = 0 ;
   int result;
-
+  
   if ((nobjs < 6) || (nobjs > 6)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitHelper, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_clone" "', argument " "1"" of type '" "esys::repo::GitHelper *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_clone" "', argument " "1"" of type '" "esys::repo::GitHelper *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitHelper * >(argp1);
   {
     std::string *ptr = (std::string *)0;
     res2 = SWIG_AsPtr_std_string(swig_obj[1], &ptr);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitHelper_clone" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitHelper_clone" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_clone" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_clone" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     arg2 = ptr;
   }
@@ -9445,27 +9445,27 @@ SWIGINTERN PyObject *_wrap_GitHelper_clone__SWIG_0(PyObject *SWIGUNUSEDPARM(self
     std::string *ptr = (std::string *)0;
     res3 = SWIG_AsPtr_std_string(swig_obj[2], &ptr);
     if (!SWIG_IsOK(res3)) {
-      SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "GitHelper_clone" "', argument " "3"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "GitHelper_clone" "', argument " "3"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_clone" "', argument " "3"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_clone" "', argument " "3"" of type '" "std::string const &""'"); 
     }
     arg3 = ptr;
   }
   ecode4 = SWIG_AsVal_bool(swig_obj[3], &val4);
   if (!SWIG_IsOK(ecode4)) {
     SWIG_exception_fail(SWIG_ArgError(ecode4), "in method '" "GitHelper_clone" "', argument " "4"" of type '" "bool""'");
-  }
+  } 
   arg4 = static_cast< bool >(val4);
   ecode5 = SWIG_AsVal_int(swig_obj[4], &val5);
   if (!SWIG_IsOK(ecode5)) {
     SWIG_exception_fail(SWIG_ArgError(ecode5), "in method '" "GitHelper_clone" "', argument " "5"" of type '" "esys::log::Level""'");
-  }
+  } 
   arg5 = static_cast< esys::log::Level >(val5);
   ecode6 = SWIG_AsVal_int(swig_obj[5], &val6);
   if (!SWIG_IsOK(ecode6)) {
     SWIG_exception_fail(SWIG_ArgError(ecode6), "in method '" "GitHelper_clone" "', argument " "6"" of type '" "int""'");
-  }
+  } 
   arg6 = static_cast< int >(val6);
   result = (int)(arg1)->clone((std::string const &)*arg2,(std::string const &)*arg3,arg4,arg5,arg6);
   resultobj = SWIG_From_int(static_cast< int >(result));
@@ -9495,21 +9495,21 @@ SWIGINTERN PyObject *_wrap_GitHelper_clone__SWIG_1(PyObject *SWIGUNUSEDPARM(self
   int val5 ;
   int ecode5 = 0 ;
   int result;
-
+  
   if ((nobjs < 5) || (nobjs > 5)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitHelper, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_clone" "', argument " "1"" of type '" "esys::repo::GitHelper *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_clone" "', argument " "1"" of type '" "esys::repo::GitHelper *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitHelper * >(argp1);
   {
     std::string *ptr = (std::string *)0;
     res2 = SWIG_AsPtr_std_string(swig_obj[1], &ptr);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitHelper_clone" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitHelper_clone" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_clone" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_clone" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     arg2 = ptr;
   }
@@ -9517,22 +9517,22 @@ SWIGINTERN PyObject *_wrap_GitHelper_clone__SWIG_1(PyObject *SWIGUNUSEDPARM(self
     std::string *ptr = (std::string *)0;
     res3 = SWIG_AsPtr_std_string(swig_obj[2], &ptr);
     if (!SWIG_IsOK(res3)) {
-      SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "GitHelper_clone" "', argument " "3"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "GitHelper_clone" "', argument " "3"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_clone" "', argument " "3"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_clone" "', argument " "3"" of type '" "std::string const &""'"); 
     }
     arg3 = ptr;
   }
   ecode4 = SWIG_AsVal_bool(swig_obj[3], &val4);
   if (!SWIG_IsOK(ecode4)) {
     SWIG_exception_fail(SWIG_ArgError(ecode4), "in method '" "GitHelper_clone" "', argument " "4"" of type '" "bool""'");
-  }
+  } 
   arg4 = static_cast< bool >(val4);
   ecode5 = SWIG_AsVal_int(swig_obj[4], &val5);
   if (!SWIG_IsOK(ecode5)) {
     SWIG_exception_fail(SWIG_ArgError(ecode5), "in method '" "GitHelper_clone" "', argument " "5"" of type '" "esys::log::Level""'");
-  }
+  } 
   arg5 = static_cast< esys::log::Level >(val5);
   result = (int)(arg1)->clone((std::string const &)*arg2,(std::string const &)*arg3,arg4,arg5);
   resultobj = SWIG_From_int(static_cast< int >(result));
@@ -9567,21 +9567,21 @@ SWIGINTERN PyObject *_wrap_GitHelper_clone_branch__SWIG_0(PyObject *SWIGUNUSEDPA
   int val7 ;
   int ecode7 = 0 ;
   int result;
-
+  
   if ((nobjs < 7) || (nobjs > 7)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitHelper, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_clone_branch" "', argument " "1"" of type '" "esys::repo::GitHelper *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_clone_branch" "', argument " "1"" of type '" "esys::repo::GitHelper *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitHelper * >(argp1);
   {
     std::string *ptr = (std::string *)0;
     res2 = SWIG_AsPtr_std_string(swig_obj[1], &ptr);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitHelper_clone_branch" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitHelper_clone_branch" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_clone_branch" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_clone_branch" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     arg2 = ptr;
   }
@@ -9589,10 +9589,10 @@ SWIGINTERN PyObject *_wrap_GitHelper_clone_branch__SWIG_0(PyObject *SWIGUNUSEDPA
     std::string *ptr = (std::string *)0;
     res3 = SWIG_AsPtr_std_string(swig_obj[2], &ptr);
     if (!SWIG_IsOK(res3)) {
-      SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "GitHelper_clone_branch" "', argument " "3"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "GitHelper_clone_branch" "', argument " "3"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_clone_branch" "', argument " "3"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_clone_branch" "', argument " "3"" of type '" "std::string const &""'"); 
     }
     arg3 = ptr;
   }
@@ -9600,27 +9600,27 @@ SWIGINTERN PyObject *_wrap_GitHelper_clone_branch__SWIG_0(PyObject *SWIGUNUSEDPA
     std::string *ptr = (std::string *)0;
     res4 = SWIG_AsPtr_std_string(swig_obj[3], &ptr);
     if (!SWIG_IsOK(res4)) {
-      SWIG_exception_fail(SWIG_ArgError(res4), "in method '" "GitHelper_clone_branch" "', argument " "4"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res4), "in method '" "GitHelper_clone_branch" "', argument " "4"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_clone_branch" "', argument " "4"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_clone_branch" "', argument " "4"" of type '" "std::string const &""'"); 
     }
     arg4 = ptr;
   }
   ecode5 = SWIG_AsVal_bool(swig_obj[4], &val5);
   if (!SWIG_IsOK(ecode5)) {
     SWIG_exception_fail(SWIG_ArgError(ecode5), "in method '" "GitHelper_clone_branch" "', argument " "5"" of type '" "bool""'");
-  }
+  } 
   arg5 = static_cast< bool >(val5);
   ecode6 = SWIG_AsVal_int(swig_obj[5], &val6);
   if (!SWIG_IsOK(ecode6)) {
     SWIG_exception_fail(SWIG_ArgError(ecode6), "in method '" "GitHelper_clone_branch" "', argument " "6"" of type '" "esys::log::Level""'");
-  }
+  } 
   arg6 = static_cast< esys::log::Level >(val6);
   ecode7 = SWIG_AsVal_int(swig_obj[6], &val7);
   if (!SWIG_IsOK(ecode7)) {
     SWIG_exception_fail(SWIG_ArgError(ecode7), "in method '" "GitHelper_clone_branch" "', argument " "7"" of type '" "int""'");
-  }
+  } 
   arg7 = static_cast< int >(val7);
   result = (int)(arg1)->clone_branch((std::string const &)*arg2,(std::string const &)*arg3,(std::string const &)*arg4,arg5,arg6,arg7);
   resultobj = SWIG_From_int(static_cast< int >(result));
@@ -9654,21 +9654,21 @@ SWIGINTERN PyObject *_wrap_GitHelper_clone_branch__SWIG_1(PyObject *SWIGUNUSEDPA
   int val6 ;
   int ecode6 = 0 ;
   int result;
-
+  
   if ((nobjs < 6) || (nobjs > 6)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitHelper, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_clone_branch" "', argument " "1"" of type '" "esys::repo::GitHelper *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_clone_branch" "', argument " "1"" of type '" "esys::repo::GitHelper *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitHelper * >(argp1);
   {
     std::string *ptr = (std::string *)0;
     res2 = SWIG_AsPtr_std_string(swig_obj[1], &ptr);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitHelper_clone_branch" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitHelper_clone_branch" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_clone_branch" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_clone_branch" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     arg2 = ptr;
   }
@@ -9676,10 +9676,10 @@ SWIGINTERN PyObject *_wrap_GitHelper_clone_branch__SWIG_1(PyObject *SWIGUNUSEDPA
     std::string *ptr = (std::string *)0;
     res3 = SWIG_AsPtr_std_string(swig_obj[2], &ptr);
     if (!SWIG_IsOK(res3)) {
-      SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "GitHelper_clone_branch" "', argument " "3"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "GitHelper_clone_branch" "', argument " "3"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_clone_branch" "', argument " "3"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_clone_branch" "', argument " "3"" of type '" "std::string const &""'"); 
     }
     arg3 = ptr;
   }
@@ -9687,22 +9687,22 @@ SWIGINTERN PyObject *_wrap_GitHelper_clone_branch__SWIG_1(PyObject *SWIGUNUSEDPA
     std::string *ptr = (std::string *)0;
     res4 = SWIG_AsPtr_std_string(swig_obj[3], &ptr);
     if (!SWIG_IsOK(res4)) {
-      SWIG_exception_fail(SWIG_ArgError(res4), "in method '" "GitHelper_clone_branch" "', argument " "4"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res4), "in method '" "GitHelper_clone_branch" "', argument " "4"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_clone_branch" "', argument " "4"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_clone_branch" "', argument " "4"" of type '" "std::string const &""'"); 
     }
     arg4 = ptr;
   }
   ecode5 = SWIG_AsVal_bool(swig_obj[4], &val5);
   if (!SWIG_IsOK(ecode5)) {
     SWIG_exception_fail(SWIG_ArgError(ecode5), "in method '" "GitHelper_clone_branch" "', argument " "5"" of type '" "bool""'");
-  }
+  } 
   arg5 = static_cast< bool >(val5);
   ecode6 = SWIG_AsVal_int(swig_obj[5], &val6);
   if (!SWIG_IsOK(ecode6)) {
     SWIG_exception_fail(SWIG_ArgError(ecode6), "in method '" "GitHelper_clone_branch" "', argument " "6"" of type '" "esys::log::Level""'");
-  }
+  } 
   arg6 = static_cast< esys::log::Level >(val6);
   result = (int)(arg1)->clone_branch((std::string const &)*arg2,(std::string const &)*arg3,(std::string const &)*arg4,arg5,arg6);
   resultobj = SWIG_From_int(static_cast< int >(result));
@@ -9723,7 +9723,7 @@ SWIGINTERN PyObject *_wrap_GitHelper_clone_branch(PyObject *self, PyObject *args
   PyObject *argv[8] = {
     0
   };
-
+  
   if (!(argc = SWIG_Python_UnpackTuple(args, "GitHelper_clone_branch", 0, 7, argv))) SWIG_fail;
   --argc;
   if (argc == 6) {
@@ -9798,7 +9798,7 @@ SWIGINTERN PyObject *_wrap_GitHelper_clone_branch(PyObject *self, PyObject *args
       }
     }
   }
-
+  
 fail:
   SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'GitHelper_clone_branch'.\n"
     "  Possible C/C++ prototypes are:\n"
@@ -9829,21 +9829,21 @@ SWIGINTERN PyObject *_wrap_GitHelper_clone__SWIG_2(PyObject *SWIGUNUSEDPARM(self
   int val7 ;
   int ecode7 = 0 ;
   int result;
-
+  
   if ((nobjs < 7) || (nobjs > 7)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitHelper, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_clone" "', argument " "1"" of type '" "esys::repo::GitHelper *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_clone" "', argument " "1"" of type '" "esys::repo::GitHelper *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitHelper * >(argp1);
   {
     std::string *ptr = (std::string *)0;
     res2 = SWIG_AsPtr_std_string(swig_obj[1], &ptr);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitHelper_clone" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitHelper_clone" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_clone" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_clone" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     arg2 = ptr;
   }
@@ -9851,10 +9851,10 @@ SWIGINTERN PyObject *_wrap_GitHelper_clone__SWIG_2(PyObject *SWIGUNUSEDPARM(self
     std::string *ptr = (std::string *)0;
     res3 = SWIG_AsPtr_std_string(swig_obj[2], &ptr);
     if (!SWIG_IsOK(res3)) {
-      SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "GitHelper_clone" "', argument " "3"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "GitHelper_clone" "', argument " "3"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_clone" "', argument " "3"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_clone" "', argument " "3"" of type '" "std::string const &""'"); 
     }
     arg3 = ptr;
   }
@@ -9862,27 +9862,27 @@ SWIGINTERN PyObject *_wrap_GitHelper_clone__SWIG_2(PyObject *SWIGUNUSEDPARM(self
     std::string *ptr = (std::string *)0;
     res4 = SWIG_AsPtr_std_string(swig_obj[3], &ptr);
     if (!SWIG_IsOK(res4)) {
-      SWIG_exception_fail(SWIG_ArgError(res4), "in method '" "GitHelper_clone" "', argument " "4"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res4), "in method '" "GitHelper_clone" "', argument " "4"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_clone" "', argument " "4"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_clone" "', argument " "4"" of type '" "std::string const &""'"); 
     }
     arg4 = ptr;
   }
   ecode5 = SWIG_AsVal_bool(swig_obj[4], &val5);
   if (!SWIG_IsOK(ecode5)) {
     SWIG_exception_fail(SWIG_ArgError(ecode5), "in method '" "GitHelper_clone" "', argument " "5"" of type '" "bool""'");
-  }
+  } 
   arg5 = static_cast< bool >(val5);
   ecode6 = SWIG_AsVal_int(swig_obj[5], &val6);
   if (!SWIG_IsOK(ecode6)) {
     SWIG_exception_fail(SWIG_ArgError(ecode6), "in method '" "GitHelper_clone" "', argument " "6"" of type '" "esys::log::Level""'");
-  }
+  } 
   arg6 = static_cast< esys::log::Level >(val6);
   ecode7 = SWIG_AsVal_int(swig_obj[6], &val7);
   if (!SWIG_IsOK(ecode7)) {
     SWIG_exception_fail(SWIG_ArgError(ecode7), "in method '" "GitHelper_clone" "', argument " "7"" of type '" "int""'");
-  }
+  } 
   arg7 = static_cast< int >(val7);
   result = (int)(arg1)->clone((std::string const &)*arg2,(std::string const &)*arg3,(std::string const &)*arg4,arg5,arg6,arg7);
   resultobj = SWIG_From_int(static_cast< int >(result));
@@ -9916,21 +9916,21 @@ SWIGINTERN PyObject *_wrap_GitHelper_clone__SWIG_3(PyObject *SWIGUNUSEDPARM(self
   int val6 ;
   int ecode6 = 0 ;
   int result;
-
+  
   if ((nobjs < 6) || (nobjs > 6)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitHelper, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_clone" "', argument " "1"" of type '" "esys::repo::GitHelper *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_clone" "', argument " "1"" of type '" "esys::repo::GitHelper *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitHelper * >(argp1);
   {
     std::string *ptr = (std::string *)0;
     res2 = SWIG_AsPtr_std_string(swig_obj[1], &ptr);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitHelper_clone" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitHelper_clone" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_clone" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_clone" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     arg2 = ptr;
   }
@@ -9938,10 +9938,10 @@ SWIGINTERN PyObject *_wrap_GitHelper_clone__SWIG_3(PyObject *SWIGUNUSEDPARM(self
     std::string *ptr = (std::string *)0;
     res3 = SWIG_AsPtr_std_string(swig_obj[2], &ptr);
     if (!SWIG_IsOK(res3)) {
-      SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "GitHelper_clone" "', argument " "3"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "GitHelper_clone" "', argument " "3"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_clone" "', argument " "3"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_clone" "', argument " "3"" of type '" "std::string const &""'"); 
     }
     arg3 = ptr;
   }
@@ -9949,22 +9949,22 @@ SWIGINTERN PyObject *_wrap_GitHelper_clone__SWIG_3(PyObject *SWIGUNUSEDPARM(self
     std::string *ptr = (std::string *)0;
     res4 = SWIG_AsPtr_std_string(swig_obj[3], &ptr);
     if (!SWIG_IsOK(res4)) {
-      SWIG_exception_fail(SWIG_ArgError(res4), "in method '" "GitHelper_clone" "', argument " "4"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res4), "in method '" "GitHelper_clone" "', argument " "4"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_clone" "', argument " "4"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_clone" "', argument " "4"" of type '" "std::string const &""'"); 
     }
     arg4 = ptr;
   }
   ecode5 = SWIG_AsVal_bool(swig_obj[4], &val5);
   if (!SWIG_IsOK(ecode5)) {
     SWIG_exception_fail(SWIG_ArgError(ecode5), "in method '" "GitHelper_clone" "', argument " "5"" of type '" "bool""'");
-  }
+  } 
   arg5 = static_cast< bool >(val5);
   ecode6 = SWIG_AsVal_int(swig_obj[5], &val6);
   if (!SWIG_IsOK(ecode6)) {
     SWIG_exception_fail(SWIG_ArgError(ecode6), "in method '" "GitHelper_clone" "', argument " "6"" of type '" "esys::log::Level""'");
-  }
+  } 
   arg6 = static_cast< esys::log::Level >(val6);
   result = (int)(arg1)->clone((std::string const &)*arg2,(std::string const &)*arg3,(std::string const &)*arg4,arg5,arg6);
   resultobj = SWIG_From_int(static_cast< int >(result));
@@ -9985,7 +9985,7 @@ SWIGINTERN PyObject *_wrap_GitHelper_clone(PyObject *self, PyObject *args) {
   PyObject *argv[8] = {
     0
   };
-
+  
   if (!(argc = SWIG_Python_UnpackTuple(args, "GitHelper_clone", 0, 7, argv))) SWIG_fail;
   --argc;
   if (argc == 5) {
@@ -10124,7 +10124,7 @@ SWIGINTERN PyObject *_wrap_GitHelper_clone(PyObject *self, PyObject *args) {
       }
     }
   }
-
+  
 fail:
   SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'GitHelper_clone'.\n"
     "  Possible C/C++ prototypes are:\n"
@@ -10148,22 +10148,22 @@ SWIGINTERN PyObject *_wrap_GitHelper_close__SWIG_0(PyObject *SWIGUNUSEDPARM(self
   int val3 ;
   int ecode3 = 0 ;
   int result;
-
+  
   if ((nobjs < 3) || (nobjs > 3)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitHelper, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_close" "', argument " "1"" of type '" "esys::repo::GitHelper *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_close" "', argument " "1"" of type '" "esys::repo::GitHelper *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitHelper * >(argp1);
   ecode2 = SWIG_AsVal_int(swig_obj[1], &val2);
   if (!SWIG_IsOK(ecode2)) {
     SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "GitHelper_close" "', argument " "2"" of type '" "esys::log::Level""'");
-  }
+  } 
   arg2 = static_cast< esys::log::Level >(val2);
   ecode3 = SWIG_AsVal_int(swig_obj[2], &val3);
   if (!SWIG_IsOK(ecode3)) {
     SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "GitHelper_close" "', argument " "3"" of type '" "int""'");
-  }
+  } 
   arg3 = static_cast< int >(val3);
   result = (int)(arg1)->close(arg2,arg3);
   resultobj = SWIG_From_int(static_cast< int >(result));
@@ -10182,17 +10182,17 @@ SWIGINTERN PyObject *_wrap_GitHelper_close__SWIG_1(PyObject *SWIGUNUSEDPARM(self
   int val2 ;
   int ecode2 = 0 ;
   int result;
-
+  
   if ((nobjs < 2) || (nobjs > 2)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitHelper, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_close" "', argument " "1"" of type '" "esys::repo::GitHelper *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_close" "', argument " "1"" of type '" "esys::repo::GitHelper *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitHelper * >(argp1);
   ecode2 = SWIG_AsVal_int(swig_obj[1], &val2);
   if (!SWIG_IsOK(ecode2)) {
     SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "GitHelper_close" "', argument " "2"" of type '" "esys::log::Level""'");
-  }
+  } 
   arg2 = static_cast< esys::log::Level >(val2);
   result = (int)(arg1)->close(arg2);
   resultobj = SWIG_From_int(static_cast< int >(result));
@@ -10207,7 +10207,7 @@ SWIGINTERN PyObject *_wrap_GitHelper_close(PyObject *self, PyObject *args) {
   PyObject *argv[4] = {
     0
   };
-
+  
   if (!(argc = SWIG_Python_UnpackTuple(args, "GitHelper_close", 0, 3, argv))) SWIG_fail;
   --argc;
   if (argc == 2) {
@@ -10246,7 +10246,7 @@ SWIGINTERN PyObject *_wrap_GitHelper_close(PyObject *self, PyObject *args) {
       }
     }
   }
-
+  
 fail:
   SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'GitHelper_close'.\n"
     "  Possible C/C++ prototypes are:\n"
@@ -10271,30 +10271,30 @@ SWIGINTERN PyObject *_wrap_GitHelper_fastforward__SWIG_0(PyObject *SWIGUNUSEDPAR
   int val4 ;
   int ecode4 = 0 ;
   int result;
-
+  
   if ((nobjs < 4) || (nobjs > 4)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitHelper, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_fastforward" "', argument " "1"" of type '" "esys::repo::GitHelper *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_fastforward" "', argument " "1"" of type '" "esys::repo::GitHelper *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitHelper * >(argp1);
   res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_esys__repo__git__CommitHash,  0  | 0);
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitHelper_fastforward" "', argument " "2"" of type '" "esys::repo::git::CommitHash const &""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitHelper_fastforward" "', argument " "2"" of type '" "esys::repo::git::CommitHash const &""'"); 
   }
   if (!argp2) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_fastforward" "', argument " "2"" of type '" "esys::repo::git::CommitHash const &""'");
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_fastforward" "', argument " "2"" of type '" "esys::repo::git::CommitHash const &""'"); 
   }
   arg2 = reinterpret_cast< esys::repo::git::CommitHash * >(argp2);
   ecode3 = SWIG_AsVal_int(swig_obj[2], &val3);
   if (!SWIG_IsOK(ecode3)) {
     SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "GitHelper_fastforward" "', argument " "3"" of type '" "esys::log::Level""'");
-  }
+  } 
   arg3 = static_cast< esys::log::Level >(val3);
   ecode4 = SWIG_AsVal_int(swig_obj[3], &val4);
   if (!SWIG_IsOK(ecode4)) {
     SWIG_exception_fail(SWIG_ArgError(ecode4), "in method '" "GitHelper_fastforward" "', argument " "4"" of type '" "int""'");
-  }
+  } 
   arg4 = static_cast< int >(val4);
   result = (int)(arg1)->fastforward((esys::repo::git::CommitHash const &)*arg2,arg3,arg4);
   resultobj = SWIG_From_int(static_cast< int >(result));
@@ -10316,25 +10316,25 @@ SWIGINTERN PyObject *_wrap_GitHelper_fastforward__SWIG_1(PyObject *SWIGUNUSEDPAR
   int val3 ;
   int ecode3 = 0 ;
   int result;
-
+  
   if ((nobjs < 3) || (nobjs > 3)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitHelper, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_fastforward" "', argument " "1"" of type '" "esys::repo::GitHelper *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_fastforward" "', argument " "1"" of type '" "esys::repo::GitHelper *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitHelper * >(argp1);
   res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_esys__repo__git__CommitHash,  0  | 0);
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitHelper_fastforward" "', argument " "2"" of type '" "esys::repo::git::CommitHash const &""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitHelper_fastforward" "', argument " "2"" of type '" "esys::repo::git::CommitHash const &""'"); 
   }
   if (!argp2) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_fastforward" "', argument " "2"" of type '" "esys::repo::git::CommitHash const &""'");
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_fastforward" "', argument " "2"" of type '" "esys::repo::git::CommitHash const &""'"); 
   }
   arg2 = reinterpret_cast< esys::repo::git::CommitHash * >(argp2);
   ecode3 = SWIG_AsVal_int(swig_obj[2], &val3);
   if (!SWIG_IsOK(ecode3)) {
     SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "GitHelper_fastforward" "', argument " "3"" of type '" "esys::log::Level""'");
-  }
+  } 
   arg3 = static_cast< esys::log::Level >(val3);
   result = (int)(arg1)->fastforward((esys::repo::git::CommitHash const &)*arg2,arg3);
   resultobj = SWIG_From_int(static_cast< int >(result));
@@ -10349,7 +10349,7 @@ SWIGINTERN PyObject *_wrap_GitHelper_fastforward(PyObject *self, PyObject *args)
   PyObject *argv[5] = {
     0
   };
-
+  
   if (!(argc = SWIG_Python_UnpackTuple(args, "GitHelper_fastforward", 0, 4, argv))) SWIG_fail;
   --argc;
   if (argc == 3) {
@@ -10396,7 +10396,7 @@ SWIGINTERN PyObject *_wrap_GitHelper_fastforward(PyObject *self, PyObject *args)
       }
     }
   }
-
+  
 fail:
   SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'GitHelper_fastforward'.\n"
     "  Possible C/C++ prototypes are:\n"
@@ -10420,33 +10420,33 @@ SWIGINTERN PyObject *_wrap_GitHelper_fetch__SWIG_0(PyObject *SWIGUNUSEDPARM(self
   int val4 ;
   int ecode4 = 0 ;
   int result;
-
+  
   if ((nobjs < 4) || (nobjs > 4)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitHelper, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_fetch" "', argument " "1"" of type '" "esys::repo::GitHelper *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_fetch" "', argument " "1"" of type '" "esys::repo::GitHelper *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitHelper * >(argp1);
   {
     std::string *ptr = (std::string *)0;
     res2 = SWIG_AsPtr_std_string(swig_obj[1], &ptr);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitHelper_fetch" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitHelper_fetch" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_fetch" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_fetch" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     arg2 = ptr;
   }
   ecode3 = SWIG_AsVal_int(swig_obj[2], &val3);
   if (!SWIG_IsOK(ecode3)) {
     SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "GitHelper_fetch" "', argument " "3"" of type '" "esys::log::Level""'");
-  }
+  } 
   arg3 = static_cast< esys::log::Level >(val3);
   ecode4 = SWIG_AsVal_int(swig_obj[3], &val4);
   if (!SWIG_IsOK(ecode4)) {
     SWIG_exception_fail(SWIG_ArgError(ecode4), "in method '" "GitHelper_fetch" "', argument " "4"" of type '" "int""'");
-  }
+  } 
   arg4 = static_cast< int >(val4);
   result = (int)(arg1)->fetch((std::string const &)*arg2,arg3,arg4);
   resultobj = SWIG_From_int(static_cast< int >(result));
@@ -10469,28 +10469,28 @@ SWIGINTERN PyObject *_wrap_GitHelper_fetch__SWIG_1(PyObject *SWIGUNUSEDPARM(self
   int val3 ;
   int ecode3 = 0 ;
   int result;
-
+  
   if ((nobjs < 3) || (nobjs > 3)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitHelper, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_fetch" "', argument " "1"" of type '" "esys::repo::GitHelper *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_fetch" "', argument " "1"" of type '" "esys::repo::GitHelper *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitHelper * >(argp1);
   {
     std::string *ptr = (std::string *)0;
     res2 = SWIG_AsPtr_std_string(swig_obj[1], &ptr);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitHelper_fetch" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitHelper_fetch" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_fetch" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_fetch" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     arg2 = ptr;
   }
   ecode3 = SWIG_AsVal_int(swig_obj[2], &val3);
   if (!SWIG_IsOK(ecode3)) {
     SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "GitHelper_fetch" "', argument " "3"" of type '" "esys::log::Level""'");
-  }
+  } 
   arg3 = static_cast< esys::log::Level >(val3);
   result = (int)(arg1)->fetch((std::string const &)*arg2,arg3);
   resultobj = SWIG_From_int(static_cast< int >(result));
@@ -10514,22 +10514,22 @@ SWIGINTERN PyObject *_wrap_GitHelper_fetch__SWIG_2(PyObject *SWIGUNUSEDPARM(self
   int val3 ;
   int ecode3 = 0 ;
   int result;
-
+  
   if ((nobjs < 3) || (nobjs > 3)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitHelper, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_fetch" "', argument " "1"" of type '" "esys::repo::GitHelper *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_fetch" "', argument " "1"" of type '" "esys::repo::GitHelper *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitHelper * >(argp1);
   ecode2 = SWIG_AsVal_int(swig_obj[1], &val2);
   if (!SWIG_IsOK(ecode2)) {
     SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "GitHelper_fetch" "', argument " "2"" of type '" "esys::log::Level""'");
-  }
+  } 
   arg2 = static_cast< esys::log::Level >(val2);
   ecode3 = SWIG_AsVal_int(swig_obj[2], &val3);
   if (!SWIG_IsOK(ecode3)) {
     SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "GitHelper_fetch" "', argument " "3"" of type '" "int""'");
-  }
+  } 
   arg3 = static_cast< int >(val3);
   result = (int)(arg1)->fetch(arg2,arg3);
   resultobj = SWIG_From_int(static_cast< int >(result));
@@ -10548,17 +10548,17 @@ SWIGINTERN PyObject *_wrap_GitHelper_fetch__SWIG_3(PyObject *SWIGUNUSEDPARM(self
   int val2 ;
   int ecode2 = 0 ;
   int result;
-
+  
   if ((nobjs < 2) || (nobjs > 2)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitHelper, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_fetch" "', argument " "1"" of type '" "esys::repo::GitHelper *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_fetch" "', argument " "1"" of type '" "esys::repo::GitHelper *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitHelper * >(argp1);
   ecode2 = SWIG_AsVal_int(swig_obj[1], &val2);
   if (!SWIG_IsOK(ecode2)) {
     SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "GitHelper_fetch" "', argument " "2"" of type '" "esys::log::Level""'");
-  }
+  } 
   arg2 = static_cast< esys::log::Level >(val2);
   result = (int)(arg1)->fetch(arg2);
   resultobj = SWIG_From_int(static_cast< int >(result));
@@ -10573,7 +10573,7 @@ SWIGINTERN PyObject *_wrap_GitHelper_fetch(PyObject *self, PyObject *args) {
   PyObject *argv[5] = {
     0
   };
-
+  
   if (!(argc = SWIG_Python_UnpackTuple(args, "GitHelper_fetch", 0, 4, argv))) SWIG_fail;
   --argc;
   if (argc == 2) {
@@ -10656,7 +10656,7 @@ SWIGINTERN PyObject *_wrap_GitHelper_fetch(PyObject *self, PyObject *args) {
       }
     }
   }
-
+  
 fail:
   SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'GitHelper_fetch'.\n"
     "  Possible C/C++ prototypes are:\n"
@@ -10686,35 +10686,35 @@ SWIGINTERN PyObject *_wrap_GitHelper_get_branches__SWIG_0(PyObject *SWIGUNUSEDPA
   int val5 ;
   int ecode5 = 0 ;
   int result;
-
+  
   if ((nobjs < 5) || (nobjs > 5)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitHelper, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_get_branches" "', argument " "1"" of type '" "esys::repo::GitHelper *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_get_branches" "', argument " "1"" of type '" "esys::repo::GitHelper *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitHelper * >(argp1);
   res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_esys__repo__git__Branches,  0 );
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitHelper_get_branches" "', argument " "2"" of type '" "esys::repo::git::Branches &""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitHelper_get_branches" "', argument " "2"" of type '" "esys::repo::git::Branches &""'"); 
   }
   if (!argp2) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_get_branches" "', argument " "2"" of type '" "esys::repo::git::Branches &""'");
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_get_branches" "', argument " "2"" of type '" "esys::repo::git::Branches &""'"); 
   }
   arg2 = reinterpret_cast< esys::repo::git::Branches * >(argp2);
   ecode3 = SWIG_AsVal_int(swig_obj[2], &val3);
   if (!SWIG_IsOK(ecode3)) {
     SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "GitHelper_get_branches" "', argument " "3"" of type '" "esys::repo::git::BranchType""'");
-  }
+  } 
   arg3 = static_cast< esys::repo::git::BranchType >(val3);
   ecode4 = SWIG_AsVal_int(swig_obj[3], &val4);
   if (!SWIG_IsOK(ecode4)) {
     SWIG_exception_fail(SWIG_ArgError(ecode4), "in method '" "GitHelper_get_branches" "', argument " "4"" of type '" "esys::log::Level""'");
-  }
+  } 
   arg4 = static_cast< esys::log::Level >(val4);
   ecode5 = SWIG_AsVal_int(swig_obj[4], &val5);
   if (!SWIG_IsOK(ecode5)) {
     SWIG_exception_fail(SWIG_ArgError(ecode5), "in method '" "GitHelper_get_branches" "', argument " "5"" of type '" "int""'");
-  }
+  } 
   arg5 = static_cast< int >(val5);
   result = (int)(arg1)->get_branches(*arg2,arg3,arg4,arg5);
   resultobj = SWIG_From_int(static_cast< int >(result));
@@ -10739,30 +10739,30 @@ SWIGINTERN PyObject *_wrap_GitHelper_get_branches__SWIG_1(PyObject *SWIGUNUSEDPA
   int val4 ;
   int ecode4 = 0 ;
   int result;
-
+  
   if ((nobjs < 4) || (nobjs > 4)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitHelper, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_get_branches" "', argument " "1"" of type '" "esys::repo::GitHelper *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_get_branches" "', argument " "1"" of type '" "esys::repo::GitHelper *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitHelper * >(argp1);
   res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_esys__repo__git__Branches,  0 );
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitHelper_get_branches" "', argument " "2"" of type '" "esys::repo::git::Branches &""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitHelper_get_branches" "', argument " "2"" of type '" "esys::repo::git::Branches &""'"); 
   }
   if (!argp2) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_get_branches" "', argument " "2"" of type '" "esys::repo::git::Branches &""'");
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_get_branches" "', argument " "2"" of type '" "esys::repo::git::Branches &""'"); 
   }
   arg2 = reinterpret_cast< esys::repo::git::Branches * >(argp2);
   ecode3 = SWIG_AsVal_int(swig_obj[2], &val3);
   if (!SWIG_IsOK(ecode3)) {
     SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "GitHelper_get_branches" "', argument " "3"" of type '" "esys::repo::git::BranchType""'");
-  }
+  } 
   arg3 = static_cast< esys::repo::git::BranchType >(val3);
   ecode4 = SWIG_AsVal_int(swig_obj[3], &val4);
   if (!SWIG_IsOK(ecode4)) {
     SWIG_exception_fail(SWIG_ArgError(ecode4), "in method '" "GitHelper_get_branches" "', argument " "4"" of type '" "esys::log::Level""'");
-  }
+  } 
   arg4 = static_cast< esys::log::Level >(val4);
   result = (int)(arg1)->get_branches(*arg2,arg3,arg4);
   resultobj = SWIG_From_int(static_cast< int >(result));
@@ -10777,7 +10777,7 @@ SWIGINTERN PyObject *_wrap_GitHelper_get_branches(PyObject *self, PyObject *args
   PyObject *argv[6] = {
     0
   };
-
+  
   if (!(argc = SWIG_Python_UnpackTuple(args, "GitHelper_get_branches", 0, 5, argv))) SWIG_fail;
   --argc;
   if (argc == 4) {
@@ -10838,7 +10838,7 @@ SWIGINTERN PyObject *_wrap_GitHelper_get_branches(PyObject *self, PyObject *args
       }
     }
   }
-
+  
 fail:
   SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'GitHelper_get_branches'.\n"
     "  Possible C/C++ prototypes are:\n"
@@ -10865,38 +10865,38 @@ SWIGINTERN PyObject *_wrap_GitHelper_has_branch__SWIG_0(PyObject *SWIGUNUSEDPARM
   int val5 ;
   int ecode5 = 0 ;
   bool result;
-
+  
   if ((nobjs < 5) || (nobjs > 5)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitHelper, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_has_branch" "', argument " "1"" of type '" "esys::repo::GitHelper *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_has_branch" "', argument " "1"" of type '" "esys::repo::GitHelper *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitHelper * >(argp1);
   {
     std::string *ptr = (std::string *)0;
     res2 = SWIG_AsPtr_std_string(swig_obj[1], &ptr);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitHelper_has_branch" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitHelper_has_branch" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_has_branch" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_has_branch" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     arg2 = ptr;
   }
   ecode3 = SWIG_AsVal_int(swig_obj[2], &val3);
   if (!SWIG_IsOK(ecode3)) {
     SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "GitHelper_has_branch" "', argument " "3"" of type '" "esys::repo::git::BranchType""'");
-  }
+  } 
   arg3 = static_cast< esys::repo::git::BranchType >(val3);
   ecode4 = SWIG_AsVal_int(swig_obj[3], &val4);
   if (!SWIG_IsOK(ecode4)) {
     SWIG_exception_fail(SWIG_ArgError(ecode4), "in method '" "GitHelper_has_branch" "', argument " "4"" of type '" "esys::log::Level""'");
-  }
+  } 
   arg4 = static_cast< esys::log::Level >(val4);
   ecode5 = SWIG_AsVal_int(swig_obj[4], &val5);
   if (!SWIG_IsOK(ecode5)) {
     SWIG_exception_fail(SWIG_ArgError(ecode5), "in method '" "GitHelper_has_branch" "', argument " "5"" of type '" "int""'");
-  }
+  } 
   arg5 = static_cast< int >(val5);
   result = (bool)(arg1)->has_branch((std::string const &)*arg2,arg3,arg4,arg5);
   resultobj = SWIG_From_bool(static_cast< bool >(result));
@@ -10922,33 +10922,33 @@ SWIGINTERN PyObject *_wrap_GitHelper_has_branch__SWIG_1(PyObject *SWIGUNUSEDPARM
   int val4 ;
   int ecode4 = 0 ;
   bool result;
-
+  
   if ((nobjs < 4) || (nobjs > 4)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitHelper, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_has_branch" "', argument " "1"" of type '" "esys::repo::GitHelper *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_has_branch" "', argument " "1"" of type '" "esys::repo::GitHelper *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitHelper * >(argp1);
   {
     std::string *ptr = (std::string *)0;
     res2 = SWIG_AsPtr_std_string(swig_obj[1], &ptr);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitHelper_has_branch" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitHelper_has_branch" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_has_branch" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_has_branch" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     arg2 = ptr;
   }
   ecode3 = SWIG_AsVal_int(swig_obj[2], &val3);
   if (!SWIG_IsOK(ecode3)) {
     SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "GitHelper_has_branch" "', argument " "3"" of type '" "esys::repo::git::BranchType""'");
-  }
+  } 
   arg3 = static_cast< esys::repo::git::BranchType >(val3);
   ecode4 = SWIG_AsVal_int(swig_obj[3], &val4);
   if (!SWIG_IsOK(ecode4)) {
     SWIG_exception_fail(SWIG_ArgError(ecode4), "in method '" "GitHelper_has_branch" "', argument " "4"" of type '" "esys::log::Level""'");
-  }
+  } 
   arg4 = static_cast< esys::log::Level >(val4);
   result = (bool)(arg1)->has_branch((std::string const &)*arg2,arg3,arg4);
   resultobj = SWIG_From_bool(static_cast< bool >(result));
@@ -10965,7 +10965,7 @@ SWIGINTERN PyObject *_wrap_GitHelper_has_branch(PyObject *self, PyObject *args) 
   PyObject *argv[6] = {
     0
   };
-
+  
   if (!(argc = SWIG_Python_UnpackTuple(args, "GitHelper_has_branch", 0, 5, argv))) SWIG_fail;
   --argc;
   if (argc == 4) {
@@ -11024,7 +11024,7 @@ SWIGINTERN PyObject *_wrap_GitHelper_has_branch(PyObject *self, PyObject *args) 
       }
     }
   }
-
+  
 fail:
   SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'GitHelper_has_branch'.\n"
     "  Possible C/C++ prototypes are:\n"
@@ -11051,41 +11051,41 @@ SWIGINTERN PyObject *_wrap_GitHelper_get_hash__SWIG_0(PyObject *SWIGUNUSEDPARM(s
   int val5 ;
   int ecode5 = 0 ;
   int result;
-
+  
   if ((nobjs < 5) || (nobjs > 5)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitHelper, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_get_hash" "', argument " "1"" of type '" "esys::repo::GitHelper *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_get_hash" "', argument " "1"" of type '" "esys::repo::GitHelper *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitHelper * >(argp1);
   {
     std::string *ptr = (std::string *)0;
     res2 = SWIG_AsPtr_std_string(swig_obj[1], &ptr);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitHelper_get_hash" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitHelper_get_hash" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_get_hash" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_get_hash" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     arg2 = ptr;
   }
   res3 = SWIG_ConvertPtr(swig_obj[2], &argp3, SWIGTYPE_p_std__string,  0 );
   if (!SWIG_IsOK(res3)) {
-    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "GitHelper_get_hash" "', argument " "3"" of type '" "std::string &""'");
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "GitHelper_get_hash" "', argument " "3"" of type '" "std::string &""'"); 
   }
   if (!argp3) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_get_hash" "', argument " "3"" of type '" "std::string &""'");
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_get_hash" "', argument " "3"" of type '" "std::string &""'"); 
   }
   arg3 = reinterpret_cast< std::string * >(argp3);
   ecode4 = SWIG_AsVal_int(swig_obj[3], &val4);
   if (!SWIG_IsOK(ecode4)) {
     SWIG_exception_fail(SWIG_ArgError(ecode4), "in method '" "GitHelper_get_hash" "', argument " "4"" of type '" "esys::log::Level""'");
-  }
+  } 
   arg4 = static_cast< esys::log::Level >(val4);
   ecode5 = SWIG_AsVal_int(swig_obj[4], &val5);
   if (!SWIG_IsOK(ecode5)) {
     SWIG_exception_fail(SWIG_ArgError(ecode5), "in method '" "GitHelper_get_hash" "', argument " "5"" of type '" "int""'");
-  }
+  } 
   arg5 = static_cast< int >(val5);
   result = (int)(arg1)->get_hash((std::string const &)*arg2,*arg3,arg4,arg5);
   resultobj = SWIG_From_int(static_cast< int >(result));
@@ -11111,36 +11111,36 @@ SWIGINTERN PyObject *_wrap_GitHelper_get_hash__SWIG_1(PyObject *SWIGUNUSEDPARM(s
   int val4 ;
   int ecode4 = 0 ;
   int result;
-
+  
   if ((nobjs < 4) || (nobjs > 4)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitHelper, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_get_hash" "', argument " "1"" of type '" "esys::repo::GitHelper *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_get_hash" "', argument " "1"" of type '" "esys::repo::GitHelper *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitHelper * >(argp1);
   {
     std::string *ptr = (std::string *)0;
     res2 = SWIG_AsPtr_std_string(swig_obj[1], &ptr);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitHelper_get_hash" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitHelper_get_hash" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_get_hash" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_get_hash" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     arg2 = ptr;
   }
   res3 = SWIG_ConvertPtr(swig_obj[2], &argp3, SWIGTYPE_p_std__string,  0 );
   if (!SWIG_IsOK(res3)) {
-    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "GitHelper_get_hash" "', argument " "3"" of type '" "std::string &""'");
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "GitHelper_get_hash" "', argument " "3"" of type '" "std::string &""'"); 
   }
   if (!argp3) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_get_hash" "', argument " "3"" of type '" "std::string &""'");
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_get_hash" "', argument " "3"" of type '" "std::string &""'"); 
   }
   arg3 = reinterpret_cast< std::string * >(argp3);
   ecode4 = SWIG_AsVal_int(swig_obj[3], &val4);
   if (!SWIG_IsOK(ecode4)) {
     SWIG_exception_fail(SWIG_ArgError(ecode4), "in method '" "GitHelper_get_hash" "', argument " "4"" of type '" "esys::log::Level""'");
-  }
+  } 
   arg4 = static_cast< esys::log::Level >(val4);
   result = (int)(arg1)->get_hash((std::string const &)*arg2,*arg3,arg4);
   resultobj = SWIG_From_int(static_cast< int >(result));
@@ -11157,7 +11157,7 @@ SWIGINTERN PyObject *_wrap_GitHelper_get_hash(PyObject *self, PyObject *args) {
   PyObject *argv[6] = {
     0
   };
-
+  
   if (!(argc = SWIG_Python_UnpackTuple(args, "GitHelper_get_hash", 0, 5, argv))) SWIG_fail;
   --argc;
   if (argc == 4) {
@@ -11214,7 +11214,7 @@ SWIGINTERN PyObject *_wrap_GitHelper_get_hash(PyObject *self, PyObject *args) {
       }
     }
   }
-
+  
 fail:
   SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'GitHelper_get_hash'.\n"
     "  Possible C/C++ prototypes are:\n"
@@ -11241,41 +11241,41 @@ SWIGINTERN PyObject *_wrap_GitHelper_get_hash_local__SWIG_0(PyObject *SWIGUNUSED
   int val5 ;
   int ecode5 = 0 ;
   int result;
-
+  
   if ((nobjs < 5) || (nobjs > 5)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitHelper, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_get_hash_local" "', argument " "1"" of type '" "esys::repo::GitHelper *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_get_hash_local" "', argument " "1"" of type '" "esys::repo::GitHelper *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitHelper * >(argp1);
   {
     std::string *ptr = (std::string *)0;
     res2 = SWIG_AsPtr_std_string(swig_obj[1], &ptr);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitHelper_get_hash_local" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitHelper_get_hash_local" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_get_hash_local" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_get_hash_local" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     arg2 = ptr;
   }
   res3 = SWIG_ConvertPtr(swig_obj[2], &argp3, SWIGTYPE_p_std__string,  0 );
   if (!SWIG_IsOK(res3)) {
-    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "GitHelper_get_hash_local" "', argument " "3"" of type '" "std::string &""'");
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "GitHelper_get_hash_local" "', argument " "3"" of type '" "std::string &""'"); 
   }
   if (!argp3) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_get_hash_local" "', argument " "3"" of type '" "std::string &""'");
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_get_hash_local" "', argument " "3"" of type '" "std::string &""'"); 
   }
   arg3 = reinterpret_cast< std::string * >(argp3);
   ecode4 = SWIG_AsVal_int(swig_obj[3], &val4);
   if (!SWIG_IsOK(ecode4)) {
     SWIG_exception_fail(SWIG_ArgError(ecode4), "in method '" "GitHelper_get_hash_local" "', argument " "4"" of type '" "esys::log::Level""'");
-  }
+  } 
   arg4 = static_cast< esys::log::Level >(val4);
   ecode5 = SWIG_AsVal_int(swig_obj[4], &val5);
   if (!SWIG_IsOK(ecode5)) {
     SWIG_exception_fail(SWIG_ArgError(ecode5), "in method '" "GitHelper_get_hash_local" "', argument " "5"" of type '" "int""'");
-  }
+  } 
   arg5 = static_cast< int >(val5);
   result = (int)(arg1)->get_hash_local((std::string const &)*arg2,*arg3,arg4,arg5);
   resultobj = SWIG_From_int(static_cast< int >(result));
@@ -11301,36 +11301,36 @@ SWIGINTERN PyObject *_wrap_GitHelper_get_hash_local__SWIG_1(PyObject *SWIGUNUSED
   int val4 ;
   int ecode4 = 0 ;
   int result;
-
+  
   if ((nobjs < 4) || (nobjs > 4)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitHelper, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_get_hash_local" "', argument " "1"" of type '" "esys::repo::GitHelper *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_get_hash_local" "', argument " "1"" of type '" "esys::repo::GitHelper *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitHelper * >(argp1);
   {
     std::string *ptr = (std::string *)0;
     res2 = SWIG_AsPtr_std_string(swig_obj[1], &ptr);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitHelper_get_hash_local" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitHelper_get_hash_local" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_get_hash_local" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_get_hash_local" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     arg2 = ptr;
   }
   res3 = SWIG_ConvertPtr(swig_obj[2], &argp3, SWIGTYPE_p_std__string,  0 );
   if (!SWIG_IsOK(res3)) {
-    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "GitHelper_get_hash_local" "', argument " "3"" of type '" "std::string &""'");
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "GitHelper_get_hash_local" "', argument " "3"" of type '" "std::string &""'"); 
   }
   if (!argp3) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_get_hash_local" "', argument " "3"" of type '" "std::string &""'");
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_get_hash_local" "', argument " "3"" of type '" "std::string &""'"); 
   }
   arg3 = reinterpret_cast< std::string * >(argp3);
   ecode4 = SWIG_AsVal_int(swig_obj[3], &val4);
   if (!SWIG_IsOK(ecode4)) {
     SWIG_exception_fail(SWIG_ArgError(ecode4), "in method '" "GitHelper_get_hash_local" "', argument " "4"" of type '" "esys::log::Level""'");
-  }
+  } 
   arg4 = static_cast< esys::log::Level >(val4);
   result = (int)(arg1)->get_hash_local((std::string const &)*arg2,*arg3,arg4);
   resultobj = SWIG_From_int(static_cast< int >(result));
@@ -11347,7 +11347,7 @@ SWIGINTERN PyObject *_wrap_GitHelper_get_hash_local(PyObject *self, PyObject *ar
   PyObject *argv[6] = {
     0
   };
-
+  
   if (!(argc = SWIG_Python_UnpackTuple(args, "GitHelper_get_hash_local", 0, 5, argv))) SWIG_fail;
   --argc;
   if (argc == 4) {
@@ -11404,7 +11404,7 @@ SWIGINTERN PyObject *_wrap_GitHelper_get_hash_local(PyObject *self, PyObject *ar
       }
     }
   }
-
+  
 fail:
   SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'GitHelper_get_hash_local'.\n"
     "  Possible C/C++ prototypes are:\n"
@@ -11429,30 +11429,30 @@ SWIGINTERN PyObject *_wrap_GitHelper_is_dirty__SWIG_0(PyObject *SWIGUNUSEDPARM(s
   int val4 ;
   int ecode4 = 0 ;
   int result;
-
+  
   if ((nobjs < 4) || (nobjs > 4)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitHelper, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_is_dirty" "', argument " "1"" of type '" "esys::repo::GitHelper *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_is_dirty" "', argument " "1"" of type '" "esys::repo::GitHelper *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitHelper * >(argp1);
   res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_bool,  0 );
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitHelper_is_dirty" "', argument " "2"" of type '" "bool &""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitHelper_is_dirty" "', argument " "2"" of type '" "bool &""'"); 
   }
   if (!argp2) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_is_dirty" "', argument " "2"" of type '" "bool &""'");
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_is_dirty" "', argument " "2"" of type '" "bool &""'"); 
   }
   arg2 = reinterpret_cast< bool * >(argp2);
   ecode3 = SWIG_AsVal_int(swig_obj[2], &val3);
   if (!SWIG_IsOK(ecode3)) {
     SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "GitHelper_is_dirty" "', argument " "3"" of type '" "esys::log::Level""'");
-  }
+  } 
   arg3 = static_cast< esys::log::Level >(val3);
   ecode4 = SWIG_AsVal_int(swig_obj[3], &val4);
   if (!SWIG_IsOK(ecode4)) {
     SWIG_exception_fail(SWIG_ArgError(ecode4), "in method '" "GitHelper_is_dirty" "', argument " "4"" of type '" "int""'");
-  }
+  } 
   arg4 = static_cast< int >(val4);
   result = (int)(arg1)->is_dirty(*arg2,arg3,arg4);
   resultobj = SWIG_From_int(static_cast< int >(result));
@@ -11474,25 +11474,25 @@ SWIGINTERN PyObject *_wrap_GitHelper_is_dirty__SWIG_1(PyObject *SWIGUNUSEDPARM(s
   int val3 ;
   int ecode3 = 0 ;
   int result;
-
+  
   if ((nobjs < 3) || (nobjs > 3)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitHelper, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_is_dirty" "', argument " "1"" of type '" "esys::repo::GitHelper *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_is_dirty" "', argument " "1"" of type '" "esys::repo::GitHelper *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitHelper * >(argp1);
   res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_bool,  0 );
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitHelper_is_dirty" "', argument " "2"" of type '" "bool &""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitHelper_is_dirty" "', argument " "2"" of type '" "bool &""'"); 
   }
   if (!argp2) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_is_dirty" "', argument " "2"" of type '" "bool &""'");
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_is_dirty" "', argument " "2"" of type '" "bool &""'"); 
   }
   arg2 = reinterpret_cast< bool * >(argp2);
   ecode3 = SWIG_AsVal_int(swig_obj[2], &val3);
   if (!SWIG_IsOK(ecode3)) {
     SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "GitHelper_is_dirty" "', argument " "3"" of type '" "esys::log::Level""'");
-  }
+  } 
   arg3 = static_cast< esys::log::Level >(val3);
   result = (int)(arg1)->is_dirty(*arg2,arg3);
   resultobj = SWIG_From_int(static_cast< int >(result));
@@ -11507,7 +11507,7 @@ SWIGINTERN PyObject *_wrap_GitHelper_is_dirty(PyObject *self, PyObject *args) {
   PyObject *argv[5] = {
     0
   };
-
+  
   if (!(argc = SWIG_Python_UnpackTuple(args, "GitHelper_is_dirty", 0, 4, argv))) SWIG_fail;
   --argc;
   if (argc == 3) {
@@ -11556,7 +11556,7 @@ SWIGINTERN PyObject *_wrap_GitHelper_is_dirty(PyObject *self, PyObject *args) {
       }
     }
   }
-
+  
 fail:
   SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'GitHelper_is_dirty'.\n"
     "  Possible C/C++ prototypes are:\n"
@@ -11581,30 +11581,30 @@ SWIGINTERN PyObject *_wrap_GitHelper_is_detached__SWIG_0(PyObject *SWIGUNUSEDPAR
   int val4 ;
   int ecode4 = 0 ;
   int result;
-
+  
   if ((nobjs < 4) || (nobjs > 4)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitHelper, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_is_detached" "', argument " "1"" of type '" "esys::repo::GitHelper *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_is_detached" "', argument " "1"" of type '" "esys::repo::GitHelper *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitHelper * >(argp1);
   res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_bool,  0 );
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitHelper_is_detached" "', argument " "2"" of type '" "bool &""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitHelper_is_detached" "', argument " "2"" of type '" "bool &""'"); 
   }
   if (!argp2) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_is_detached" "', argument " "2"" of type '" "bool &""'");
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_is_detached" "', argument " "2"" of type '" "bool &""'"); 
   }
   arg2 = reinterpret_cast< bool * >(argp2);
   ecode3 = SWIG_AsVal_int(swig_obj[2], &val3);
   if (!SWIG_IsOK(ecode3)) {
     SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "GitHelper_is_detached" "', argument " "3"" of type '" "esys::log::Level""'");
-  }
+  } 
   arg3 = static_cast< esys::log::Level >(val3);
   ecode4 = SWIG_AsVal_int(swig_obj[3], &val4);
   if (!SWIG_IsOK(ecode4)) {
     SWIG_exception_fail(SWIG_ArgError(ecode4), "in method '" "GitHelper_is_detached" "', argument " "4"" of type '" "int""'");
-  }
+  } 
   arg4 = static_cast< int >(val4);
   result = (int)(arg1)->is_detached(*arg2,arg3,arg4);
   resultobj = SWIG_From_int(static_cast< int >(result));
@@ -11626,25 +11626,25 @@ SWIGINTERN PyObject *_wrap_GitHelper_is_detached__SWIG_1(PyObject *SWIGUNUSEDPAR
   int val3 ;
   int ecode3 = 0 ;
   int result;
-
+  
   if ((nobjs < 3) || (nobjs > 3)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitHelper, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_is_detached" "', argument " "1"" of type '" "esys::repo::GitHelper *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_is_detached" "', argument " "1"" of type '" "esys::repo::GitHelper *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitHelper * >(argp1);
   res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_bool,  0 );
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitHelper_is_detached" "', argument " "2"" of type '" "bool &""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitHelper_is_detached" "', argument " "2"" of type '" "bool &""'"); 
   }
   if (!argp2) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_is_detached" "', argument " "2"" of type '" "bool &""'");
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_is_detached" "', argument " "2"" of type '" "bool &""'"); 
   }
   arg2 = reinterpret_cast< bool * >(argp2);
   ecode3 = SWIG_AsVal_int(swig_obj[2], &val3);
   if (!SWIG_IsOK(ecode3)) {
     SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "GitHelper_is_detached" "', argument " "3"" of type '" "esys::log::Level""'");
-  }
+  } 
   arg3 = static_cast< esys::log::Level >(val3);
   result = (int)(arg1)->is_detached(*arg2,arg3);
   resultobj = SWIG_From_int(static_cast< int >(result));
@@ -11659,7 +11659,7 @@ SWIGINTERN PyObject *_wrap_GitHelper_is_detached(PyObject *self, PyObject *args)
   PyObject *argv[5] = {
     0
   };
-
+  
   if (!(argc = SWIG_Python_UnpackTuple(args, "GitHelper_is_detached", 0, 4, argv))) SWIG_fail;
   --argc;
   if (argc == 3) {
@@ -11708,7 +11708,7 @@ SWIGINTERN PyObject *_wrap_GitHelper_is_detached(PyObject *self, PyObject *args)
       }
     }
   }
-
+  
 fail:
   SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'GitHelper_is_detached'.\n"
     "  Possible C/C++ prototypes are:\n"
@@ -11733,30 +11733,30 @@ SWIGINTERN PyObject *_wrap_GitHelper_get_status__SWIG_0(PyObject *SWIGUNUSEDPARM
   int val4 ;
   int ecode4 = 0 ;
   int result;
-
+  
   if ((nobjs < 4) || (nobjs > 4)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitHelper, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_get_status" "', argument " "1"" of type '" "esys::repo::GitHelper *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_get_status" "', argument " "1"" of type '" "esys::repo::GitHelper *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitHelper * >(argp1);
   res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_esys__repo__git__RepoStatus,  0 );
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitHelper_get_status" "', argument " "2"" of type '" "esys::repo::git::RepoStatus &""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitHelper_get_status" "', argument " "2"" of type '" "esys::repo::git::RepoStatus &""'"); 
   }
   if (!argp2) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_get_status" "', argument " "2"" of type '" "esys::repo::git::RepoStatus &""'");
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_get_status" "', argument " "2"" of type '" "esys::repo::git::RepoStatus &""'"); 
   }
   arg2 = reinterpret_cast< esys::repo::git::RepoStatus * >(argp2);
   ecode3 = SWIG_AsVal_int(swig_obj[2], &val3);
   if (!SWIG_IsOK(ecode3)) {
     SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "GitHelper_get_status" "', argument " "3"" of type '" "esys::log::Level""'");
-  }
+  } 
   arg3 = static_cast< esys::log::Level >(val3);
   ecode4 = SWIG_AsVal_int(swig_obj[3], &val4);
   if (!SWIG_IsOK(ecode4)) {
     SWIG_exception_fail(SWIG_ArgError(ecode4), "in method '" "GitHelper_get_status" "', argument " "4"" of type '" "int""'");
-  }
+  } 
   arg4 = static_cast< int >(val4);
   result = (int)(arg1)->get_status(*arg2,arg3,arg4);
   resultobj = SWIG_From_int(static_cast< int >(result));
@@ -11778,25 +11778,25 @@ SWIGINTERN PyObject *_wrap_GitHelper_get_status__SWIG_1(PyObject *SWIGUNUSEDPARM
   int val3 ;
   int ecode3 = 0 ;
   int result;
-
+  
   if ((nobjs < 3) || (nobjs > 3)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitHelper, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_get_status" "', argument " "1"" of type '" "esys::repo::GitHelper *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_get_status" "', argument " "1"" of type '" "esys::repo::GitHelper *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitHelper * >(argp1);
   res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_esys__repo__git__RepoStatus,  0 );
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitHelper_get_status" "', argument " "2"" of type '" "esys::repo::git::RepoStatus &""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitHelper_get_status" "', argument " "2"" of type '" "esys::repo::git::RepoStatus &""'"); 
   }
   if (!argp2) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_get_status" "', argument " "2"" of type '" "esys::repo::git::RepoStatus &""'");
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_get_status" "', argument " "2"" of type '" "esys::repo::git::RepoStatus &""'"); 
   }
   arg2 = reinterpret_cast< esys::repo::git::RepoStatus * >(argp2);
   ecode3 = SWIG_AsVal_int(swig_obj[2], &val3);
   if (!SWIG_IsOK(ecode3)) {
     SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "GitHelper_get_status" "', argument " "3"" of type '" "esys::log::Level""'");
-  }
+  } 
   arg3 = static_cast< esys::log::Level >(val3);
   result = (int)(arg1)->get_status(*arg2,arg3);
   resultobj = SWIG_From_int(static_cast< int >(result));
@@ -11811,7 +11811,7 @@ SWIGINTERN PyObject *_wrap_GitHelper_get_status(PyObject *self, PyObject *args) 
   PyObject *argv[5] = {
     0
   };
-
+  
   if (!(argc = SWIG_Python_UnpackTuple(args, "GitHelper_get_status", 0, 4, argv))) SWIG_fail;
   --argc;
   if (argc == 3) {
@@ -11860,7 +11860,7 @@ SWIGINTERN PyObject *_wrap_GitHelper_get_status(PyObject *self, PyObject *args) 
       }
     }
   }
-
+  
 fail:
   SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'GitHelper_get_status'.\n"
     "  Possible C/C++ prototypes are:\n"
@@ -11887,38 +11887,38 @@ SWIGINTERN PyObject *_wrap_GitHelper_checkout__SWIG_0(PyObject *SWIGUNUSEDPARM(s
   int val5 ;
   int ecode5 = 0 ;
   int result;
-
+  
   if ((nobjs < 5) || (nobjs > 5)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitHelper, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_checkout" "', argument " "1"" of type '" "esys::repo::GitHelper *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_checkout" "', argument " "1"" of type '" "esys::repo::GitHelper *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitHelper * >(argp1);
   {
     std::string *ptr = (std::string *)0;
     res2 = SWIG_AsPtr_std_string(swig_obj[1], &ptr);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitHelper_checkout" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitHelper_checkout" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_checkout" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_checkout" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     arg2 = ptr;
   }
   ecode3 = SWIG_AsVal_bool(swig_obj[2], &val3);
   if (!SWIG_IsOK(ecode3)) {
     SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "GitHelper_checkout" "', argument " "3"" of type '" "bool""'");
-  }
+  } 
   arg3 = static_cast< bool >(val3);
   ecode4 = SWIG_AsVal_int(swig_obj[3], &val4);
   if (!SWIG_IsOK(ecode4)) {
     SWIG_exception_fail(SWIG_ArgError(ecode4), "in method '" "GitHelper_checkout" "', argument " "4"" of type '" "esys::log::Level""'");
-  }
+  } 
   arg4 = static_cast< esys::log::Level >(val4);
   ecode5 = SWIG_AsVal_int(swig_obj[4], &val5);
   if (!SWIG_IsOK(ecode5)) {
     SWIG_exception_fail(SWIG_ArgError(ecode5), "in method '" "GitHelper_checkout" "', argument " "5"" of type '" "int""'");
-  }
+  } 
   arg5 = static_cast< int >(val5);
   result = (int)(arg1)->checkout((std::string const &)*arg2,arg3,arg4,arg5);
   resultobj = SWIG_From_int(static_cast< int >(result));
@@ -11944,33 +11944,33 @@ SWIGINTERN PyObject *_wrap_GitHelper_checkout__SWIG_1(PyObject *SWIGUNUSEDPARM(s
   int val4 ;
   int ecode4 = 0 ;
   int result;
-
+  
   if ((nobjs < 4) || (nobjs > 4)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitHelper, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_checkout" "', argument " "1"" of type '" "esys::repo::GitHelper *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_checkout" "', argument " "1"" of type '" "esys::repo::GitHelper *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitHelper * >(argp1);
   {
     std::string *ptr = (std::string *)0;
     res2 = SWIG_AsPtr_std_string(swig_obj[1], &ptr);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitHelper_checkout" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitHelper_checkout" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_checkout" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_checkout" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     arg2 = ptr;
   }
   ecode3 = SWIG_AsVal_bool(swig_obj[2], &val3);
   if (!SWIG_IsOK(ecode3)) {
     SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "GitHelper_checkout" "', argument " "3"" of type '" "bool""'");
-  }
+  } 
   arg3 = static_cast< bool >(val3);
   ecode4 = SWIG_AsVal_int(swig_obj[3], &val4);
   if (!SWIG_IsOK(ecode4)) {
     SWIG_exception_fail(SWIG_ArgError(ecode4), "in method '" "GitHelper_checkout" "', argument " "4"" of type '" "esys::log::Level""'");
-  }
+  } 
   arg4 = static_cast< esys::log::Level >(val4);
   result = (int)(arg1)->checkout((std::string const &)*arg2,arg3,arg4);
   resultobj = SWIG_From_int(static_cast< int >(result));
@@ -11987,7 +11987,7 @@ SWIGINTERN PyObject *_wrap_GitHelper_checkout(PyObject *self, PyObject *args) {
   PyObject *argv[6] = {
     0
   };
-
+  
   if (!(argc = SWIG_Python_UnpackTuple(args, "GitHelper_checkout", 0, 5, argv))) SWIG_fail;
   --argc;
   if (argc == 4) {
@@ -12046,7 +12046,7 @@ SWIGINTERN PyObject *_wrap_GitHelper_checkout(PyObject *self, PyObject *args) {
       }
     }
   }
-
+  
 fail:
   SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'GitHelper_checkout'.\n"
     "  Possible C/C++ prototypes are:\n"
@@ -12077,46 +12077,46 @@ SWIGINTERN PyObject *_wrap_GitHelper_merge_analysis__SWIG_0(PyObject *SWIGUNUSED
   int val6 ;
   int ecode6 = 0 ;
   int result;
-
+  
   if ((nobjs < 6) || (nobjs > 6)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitHelper, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_merge_analysis" "', argument " "1"" of type '" "esys::repo::GitHelper *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_merge_analysis" "', argument " "1"" of type '" "esys::repo::GitHelper *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitHelper * >(argp1);
   res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_std__vectorT_std__string_std__allocatorT_std__string_t_t,  0  | 0);
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitHelper_merge_analysis" "', argument " "2"" of type '" "std::vector< std::string,std::allocator< std::string > > const &""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitHelper_merge_analysis" "', argument " "2"" of type '" "std::vector< std::string,std::allocator< std::string > > const &""'"); 
   }
   if (!argp2) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_merge_analysis" "', argument " "2"" of type '" "std::vector< std::string,std::allocator< std::string > > const &""'");
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_merge_analysis" "', argument " "2"" of type '" "std::vector< std::string,std::allocator< std::string > > const &""'"); 
   }
   arg2 = reinterpret_cast< std::vector< std::string,std::allocator< std::string > > * >(argp2);
   res3 = SWIG_ConvertPtr(swig_obj[2], &argp3, SWIGTYPE_p_esys__repo__git__MergeAnalysisResult,  0 );
   if (!SWIG_IsOK(res3)) {
-    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "GitHelper_merge_analysis" "', argument " "3"" of type '" "esys::repo::git::MergeAnalysisResult &""'");
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "GitHelper_merge_analysis" "', argument " "3"" of type '" "esys::repo::git::MergeAnalysisResult &""'"); 
   }
   if (!argp3) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_merge_analysis" "', argument " "3"" of type '" "esys::repo::git::MergeAnalysisResult &""'");
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_merge_analysis" "', argument " "3"" of type '" "esys::repo::git::MergeAnalysisResult &""'"); 
   }
   arg3 = reinterpret_cast< esys::repo::git::MergeAnalysisResult * >(argp3);
   res4 = SWIG_ConvertPtr(swig_obj[3], &argp4, SWIGTYPE_p_std__vectorT_esys__repo__git__CommitHash_std__allocatorT_esys__repo__git__CommitHash_t_t,  0 );
   if (!SWIG_IsOK(res4)) {
-    SWIG_exception_fail(SWIG_ArgError(res4), "in method '" "GitHelper_merge_analysis" "', argument " "4"" of type '" "std::vector< esys::repo::git::CommitHash,std::allocator< esys::repo::git::CommitHash > > &""'");
+    SWIG_exception_fail(SWIG_ArgError(res4), "in method '" "GitHelper_merge_analysis" "', argument " "4"" of type '" "std::vector< esys::repo::git::CommitHash,std::allocator< esys::repo::git::CommitHash > > &""'"); 
   }
   if (!argp4) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_merge_analysis" "', argument " "4"" of type '" "std::vector< esys::repo::git::CommitHash,std::allocator< esys::repo::git::CommitHash > > &""'");
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_merge_analysis" "', argument " "4"" of type '" "std::vector< esys::repo::git::CommitHash,std::allocator< esys::repo::git::CommitHash > > &""'"); 
   }
   arg4 = reinterpret_cast< std::vector< esys::repo::git::CommitHash,std::allocator< esys::repo::git::CommitHash > > * >(argp4);
   ecode5 = SWIG_AsVal_int(swig_obj[4], &val5);
   if (!SWIG_IsOK(ecode5)) {
     SWIG_exception_fail(SWIG_ArgError(ecode5), "in method '" "GitHelper_merge_analysis" "', argument " "5"" of type '" "esys::log::Level""'");
-  }
+  } 
   arg5 = static_cast< esys::log::Level >(val5);
   ecode6 = SWIG_AsVal_int(swig_obj[5], &val6);
   if (!SWIG_IsOK(ecode6)) {
     SWIG_exception_fail(SWIG_ArgError(ecode6), "in method '" "GitHelper_merge_analysis" "', argument " "6"" of type '" "int""'");
-  }
+  } 
   arg6 = static_cast< int >(val6);
   result = (int)(arg1)->merge_analysis((std::vector< std::string,std::allocator< std::string > > const &)*arg2,*arg3,*arg4,arg5,arg6);
   resultobj = SWIG_From_int(static_cast< int >(result));
@@ -12144,41 +12144,41 @@ SWIGINTERN PyObject *_wrap_GitHelper_merge_analysis__SWIG_1(PyObject *SWIGUNUSED
   int val5 ;
   int ecode5 = 0 ;
   int result;
-
+  
   if ((nobjs < 5) || (nobjs > 5)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitHelper, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_merge_analysis" "', argument " "1"" of type '" "esys::repo::GitHelper *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_merge_analysis" "', argument " "1"" of type '" "esys::repo::GitHelper *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitHelper * >(argp1);
   res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_std__vectorT_std__string_std__allocatorT_std__string_t_t,  0  | 0);
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitHelper_merge_analysis" "', argument " "2"" of type '" "std::vector< std::string,std::allocator< std::string > > const &""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitHelper_merge_analysis" "', argument " "2"" of type '" "std::vector< std::string,std::allocator< std::string > > const &""'"); 
   }
   if (!argp2) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_merge_analysis" "', argument " "2"" of type '" "std::vector< std::string,std::allocator< std::string > > const &""'");
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_merge_analysis" "', argument " "2"" of type '" "std::vector< std::string,std::allocator< std::string > > const &""'"); 
   }
   arg2 = reinterpret_cast< std::vector< std::string,std::allocator< std::string > > * >(argp2);
   res3 = SWIG_ConvertPtr(swig_obj[2], &argp3, SWIGTYPE_p_esys__repo__git__MergeAnalysisResult,  0 );
   if (!SWIG_IsOK(res3)) {
-    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "GitHelper_merge_analysis" "', argument " "3"" of type '" "esys::repo::git::MergeAnalysisResult &""'");
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "GitHelper_merge_analysis" "', argument " "3"" of type '" "esys::repo::git::MergeAnalysisResult &""'"); 
   }
   if (!argp3) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_merge_analysis" "', argument " "3"" of type '" "esys::repo::git::MergeAnalysisResult &""'");
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_merge_analysis" "', argument " "3"" of type '" "esys::repo::git::MergeAnalysisResult &""'"); 
   }
   arg3 = reinterpret_cast< esys::repo::git::MergeAnalysisResult * >(argp3);
   res4 = SWIG_ConvertPtr(swig_obj[3], &argp4, SWIGTYPE_p_std__vectorT_esys__repo__git__CommitHash_std__allocatorT_esys__repo__git__CommitHash_t_t,  0 );
   if (!SWIG_IsOK(res4)) {
-    SWIG_exception_fail(SWIG_ArgError(res4), "in method '" "GitHelper_merge_analysis" "', argument " "4"" of type '" "std::vector< esys::repo::git::CommitHash,std::allocator< esys::repo::git::CommitHash > > &""'");
+    SWIG_exception_fail(SWIG_ArgError(res4), "in method '" "GitHelper_merge_analysis" "', argument " "4"" of type '" "std::vector< esys::repo::git::CommitHash,std::allocator< esys::repo::git::CommitHash > > &""'"); 
   }
   if (!argp4) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_merge_analysis" "', argument " "4"" of type '" "std::vector< esys::repo::git::CommitHash,std::allocator< esys::repo::git::CommitHash > > &""'");
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_merge_analysis" "', argument " "4"" of type '" "std::vector< esys::repo::git::CommitHash,std::allocator< esys::repo::git::CommitHash > > &""'"); 
   }
   arg4 = reinterpret_cast< std::vector< esys::repo::git::CommitHash,std::allocator< esys::repo::git::CommitHash > > * >(argp4);
   ecode5 = SWIG_AsVal_int(swig_obj[4], &val5);
   if (!SWIG_IsOK(ecode5)) {
     SWIG_exception_fail(SWIG_ArgError(ecode5), "in method '" "GitHelper_merge_analysis" "', argument " "5"" of type '" "esys::log::Level""'");
-  }
+  } 
   arg5 = static_cast< esys::log::Level >(val5);
   result = (int)(arg1)->merge_analysis((std::vector< std::string,std::allocator< std::string > > const &)*arg2,*arg3,*arg4,arg5);
   resultobj = SWIG_From_int(static_cast< int >(result));
@@ -12193,7 +12193,7 @@ SWIGINTERN PyObject *_wrap_GitHelper_merge_analysis(PyObject *self, PyObject *ar
   PyObject *argv[7] = {
     0
   };
-
+  
   if (!(argc = SWIG_Python_UnpackTuple(args, "GitHelper_merge_analysis", 0, 6, argv))) SWIG_fail;
   --argc;
   if (argc == 5) {
@@ -12260,7 +12260,7 @@ SWIGINTERN PyObject *_wrap_GitHelper_merge_analysis(PyObject *self, PyObject *ar
       }
     }
   }
-
+  
 fail:
   SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'GitHelper_merge_analysis'.\n"
     "  Possible C/C++ prototypes are:\n"
@@ -12289,21 +12289,21 @@ SWIGINTERN PyObject *_wrap_GitHelper_move__SWIG_0(PyObject *SWIGUNUSEDPARM(self)
   int val6 ;
   int ecode6 = 0 ;
   int result;
-
+  
   if ((nobjs < 6) || (nobjs > 6)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitHelper, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_move" "', argument " "1"" of type '" "esys::repo::GitHelper *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_move" "', argument " "1"" of type '" "esys::repo::GitHelper *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitHelper * >(argp1);
   {
     std::string *ptr = (std::string *)0;
     res2 = SWIG_AsPtr_std_string(swig_obj[1], &ptr);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitHelper_move" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitHelper_move" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_move" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_move" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     arg2 = ptr;
   }
@@ -12311,27 +12311,27 @@ SWIGINTERN PyObject *_wrap_GitHelper_move__SWIG_0(PyObject *SWIGUNUSEDPARM(self)
     std::string *ptr = (std::string *)0;
     res3 = SWIG_AsPtr_std_string(swig_obj[2], &ptr);
     if (!SWIG_IsOK(res3)) {
-      SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "GitHelper_move" "', argument " "3"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "GitHelper_move" "', argument " "3"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_move" "', argument " "3"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_move" "', argument " "3"" of type '" "std::string const &""'"); 
     }
     arg3 = ptr;
   }
   ecode4 = SWIG_AsVal_bool(swig_obj[3], &val4);
   if (!SWIG_IsOK(ecode4)) {
     SWIG_exception_fail(SWIG_ArgError(ecode4), "in method '" "GitHelper_move" "', argument " "4"" of type '" "bool""'");
-  }
+  } 
   arg4 = static_cast< bool >(val4);
   ecode5 = SWIG_AsVal_int(swig_obj[4], &val5);
   if (!SWIG_IsOK(ecode5)) {
     SWIG_exception_fail(SWIG_ArgError(ecode5), "in method '" "GitHelper_move" "', argument " "5"" of type '" "esys::log::Level""'");
-  }
+  } 
   arg5 = static_cast< esys::log::Level >(val5);
   ecode6 = SWIG_AsVal_int(swig_obj[5], &val6);
   if (!SWIG_IsOK(ecode6)) {
     SWIG_exception_fail(SWIG_ArgError(ecode6), "in method '" "GitHelper_move" "', argument " "6"" of type '" "int""'");
-  }
+  } 
   arg6 = static_cast< int >(val6);
   result = (int)(arg1)->move((std::string const &)*arg2,(std::string const &)*arg3,arg4,arg5,arg6);
   resultobj = SWIG_From_int(static_cast< int >(result));
@@ -12361,21 +12361,21 @@ SWIGINTERN PyObject *_wrap_GitHelper_move__SWIG_1(PyObject *SWIGUNUSEDPARM(self)
   int val5 ;
   int ecode5 = 0 ;
   int result;
-
+  
   if ((nobjs < 5) || (nobjs > 5)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitHelper, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_move" "', argument " "1"" of type '" "esys::repo::GitHelper *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_move" "', argument " "1"" of type '" "esys::repo::GitHelper *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitHelper * >(argp1);
   {
     std::string *ptr = (std::string *)0;
     res2 = SWIG_AsPtr_std_string(swig_obj[1], &ptr);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitHelper_move" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitHelper_move" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_move" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_move" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     arg2 = ptr;
   }
@@ -12383,22 +12383,22 @@ SWIGINTERN PyObject *_wrap_GitHelper_move__SWIG_1(PyObject *SWIGUNUSEDPARM(self)
     std::string *ptr = (std::string *)0;
     res3 = SWIG_AsPtr_std_string(swig_obj[2], &ptr);
     if (!SWIG_IsOK(res3)) {
-      SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "GitHelper_move" "', argument " "3"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "GitHelper_move" "', argument " "3"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_move" "', argument " "3"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_move" "', argument " "3"" of type '" "std::string const &""'"); 
     }
     arg3 = ptr;
   }
   ecode4 = SWIG_AsVal_bool(swig_obj[3], &val4);
   if (!SWIG_IsOK(ecode4)) {
     SWIG_exception_fail(SWIG_ArgError(ecode4), "in method '" "GitHelper_move" "', argument " "4"" of type '" "bool""'");
-  }
+  } 
   arg4 = static_cast< bool >(val4);
   ecode5 = SWIG_AsVal_int(swig_obj[4], &val5);
   if (!SWIG_IsOK(ecode5)) {
     SWIG_exception_fail(SWIG_ArgError(ecode5), "in method '" "GitHelper_move" "', argument " "5"" of type '" "esys::log::Level""'");
-  }
+  } 
   arg5 = static_cast< esys::log::Level >(val5);
   result = (int)(arg1)->move((std::string const &)*arg2,(std::string const &)*arg3,arg4,arg5);
   resultobj = SWIG_From_int(static_cast< int >(result));
@@ -12417,7 +12417,7 @@ SWIGINTERN PyObject *_wrap_GitHelper_move(PyObject *self, PyObject *args) {
   PyObject *argv[7] = {
     0
   };
-
+  
   if (!(argc = SWIG_Python_UnpackTuple(args, "GitHelper_move", 0, 6, argv))) SWIG_fail;
   --argc;
   if (argc == 5) {
@@ -12484,7 +12484,7 @@ SWIGINTERN PyObject *_wrap_GitHelper_move(PyObject *self, PyObject *args) {
       }
     }
   }
-
+  
 fail:
   SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'GitHelper_move'.\n"
     "  Possible C/C++ prototypes are:\n"
@@ -12503,18 +12503,18 @@ SWIGINTERN PyObject *_wrap_GitHelper_set_git(PyObject *SWIGUNUSEDPARM(self), PyO
   void *argp2 ;
   int res2 = 0 ;
   PyObject *swig_obj[2] ;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "GitHelper_set_git", 2, 2, swig_obj)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitHelper, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_set_git" "', argument " "1"" of type '" "esys::repo::GitHelper *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_set_git" "', argument " "1"" of type '" "esys::repo::GitHelper *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitHelper * >(argp1);
   {
     res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_std__shared_ptrT_esys__repo__GitBase_t,  0  | 0);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitHelper_set_git" "', argument " "2"" of type '" "std::shared_ptr< esys::repo::GitBase >""'");
-    }
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitHelper_set_git" "', argument " "2"" of type '" "std::shared_ptr< esys::repo::GitBase >""'"); 
+    }  
     if (!argp2) {
       SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_set_git" "', argument " "2"" of type '" "std::shared_ptr< esys::repo::GitBase >""'");
     } else {
@@ -12538,12 +12538,12 @@ SWIGINTERN PyObject *_wrap_GitHelper_get_git(PyObject *SWIGUNUSEDPARM(self), PyO
   int res1 = 0 ;
   PyObject *swig_obj[1] ;
   SwigValueWrapper< std::shared_ptr< esys::repo::GitBase > > result;
-
+  
   if (!args) SWIG_fail;
   swig_obj[0] = args;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitHelper, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_get_git" "', argument " "1"" of type '" "esys::repo::GitHelper const *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_get_git" "', argument " "1"" of type '" "esys::repo::GitHelper const *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitHelper * >(argp1);
   result = ((esys::repo::GitHelper const *)arg1)->get_git();
@@ -12562,17 +12562,17 @@ SWIGINTERN PyObject *_wrap_GitHelper_set_auto_close__SWIG_0(PyObject *SWIGUNUSED
   int res1 = 0 ;
   bool val2 ;
   int ecode2 = 0 ;
-
+  
   if ((nobjs < 2) || (nobjs > 2)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitHelper, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_set_auto_close" "', argument " "1"" of type '" "esys::repo::GitHelper *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_set_auto_close" "', argument " "1"" of type '" "esys::repo::GitHelper *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitHelper * >(argp1);
   ecode2 = SWIG_AsVal_bool(swig_obj[1], &val2);
   if (!SWIG_IsOK(ecode2)) {
     SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "GitHelper_set_auto_close" "', argument " "2"" of type '" "bool""'");
-  }
+  } 
   arg2 = static_cast< bool >(val2);
   (arg1)->set_auto_close(arg2);
   resultobj = SWIG_Py_Void();
@@ -12587,11 +12587,11 @@ SWIGINTERN PyObject *_wrap_GitHelper_set_auto_close__SWIG_1(PyObject *SWIGUNUSED
   esys::repo::GitHelper *arg1 = (esys::repo::GitHelper *) 0 ;
   void *argp1 = 0 ;
   int res1 = 0 ;
-
+  
   if ((nobjs < 1) || (nobjs > 1)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitHelper, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_set_auto_close" "', argument " "1"" of type '" "esys::repo::GitHelper *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_set_auto_close" "', argument " "1"" of type '" "esys::repo::GitHelper *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitHelper * >(argp1);
   (arg1)->set_auto_close();
@@ -12607,7 +12607,7 @@ SWIGINTERN PyObject *_wrap_GitHelper_set_auto_close(PyObject *self, PyObject *ar
   PyObject *argv[3] = {
     0
   };
-
+  
   if (!(argc = SWIG_Python_UnpackTuple(args, "GitHelper_set_auto_close", 0, 2, argv))) SWIG_fail;
   --argc;
   if (argc == 1) {
@@ -12634,7 +12634,7 @@ SWIGINTERN PyObject *_wrap_GitHelper_set_auto_close(PyObject *self, PyObject *ar
       }
     }
   }
-
+  
 fail:
   SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'GitHelper_set_auto_close'.\n"
     "  Possible C/C++ prototypes are:\n"
@@ -12651,12 +12651,12 @@ SWIGINTERN PyObject *_wrap_GitHelper_get_auto_close(PyObject *SWIGUNUSEDPARM(sel
   int res1 = 0 ;
   PyObject *swig_obj[1] ;
   bool result;
-
+  
   if (!args) SWIG_fail;
   swig_obj[0] = args;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitHelper, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_get_auto_close" "', argument " "1"" of type '" "esys::repo::GitHelper const *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_get_auto_close" "', argument " "1"" of type '" "esys::repo::GitHelper const *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitHelper * >(argp1);
   result = (bool)((esys::repo::GitHelper const *)arg1)->get_auto_close();
@@ -12676,17 +12676,17 @@ SWIGINTERN PyObject *_wrap_GitHelper_set_repo_idx(PyObject *SWIGUNUSEDPARM(self)
   int val2 ;
   int ecode2 = 0 ;
   PyObject *swig_obj[2] ;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "GitHelper_set_repo_idx", 2, 2, swig_obj)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitHelper, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_set_repo_idx" "', argument " "1"" of type '" "esys::repo::GitHelper *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_set_repo_idx" "', argument " "1"" of type '" "esys::repo::GitHelper *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitHelper * >(argp1);
   ecode2 = SWIG_AsVal_int(swig_obj[1], &val2);
   if (!SWIG_IsOK(ecode2)) {
     SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "GitHelper_set_repo_idx" "', argument " "2"" of type '" "int""'");
-  }
+  } 
   arg2 = static_cast< int >(val2);
   (arg1)->set_repo_idx(arg2);
   resultobj = SWIG_Py_Void();
@@ -12703,12 +12703,12 @@ SWIGINTERN PyObject *_wrap_GitHelper_get_repo_idx(PyObject *SWIGUNUSEDPARM(self)
   int res1 = 0 ;
   PyObject *swig_obj[1] ;
   int result;
-
+  
   if (!args) SWIG_fail;
   swig_obj[0] = args;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitHelper, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_get_repo_idx" "', argument " "1"" of type '" "esys::repo::GitHelper const *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_get_repo_idx" "', argument " "1"" of type '" "esys::repo::GitHelper const *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitHelper * >(argp1);
   result = (int)((esys::repo::GitHelper const *)arg1)->get_repo_idx();
@@ -12728,17 +12728,17 @@ SWIGINTERN PyObject *_wrap_GitHelper_set_display_repo_idx(PyObject *SWIGUNUSEDPA
   bool val2 ;
   int ecode2 = 0 ;
   PyObject *swig_obj[2] ;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "GitHelper_set_display_repo_idx", 2, 2, swig_obj)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitHelper, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_set_display_repo_idx" "', argument " "1"" of type '" "esys::repo::GitHelper *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_set_display_repo_idx" "', argument " "1"" of type '" "esys::repo::GitHelper *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitHelper * >(argp1);
   ecode2 = SWIG_AsVal_bool(swig_obj[1], &val2);
   if (!SWIG_IsOK(ecode2)) {
     SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "GitHelper_set_display_repo_idx" "', argument " "2"" of type '" "bool""'");
-  }
+  } 
   arg2 = static_cast< bool >(val2);
   (arg1)->set_display_repo_idx(arg2);
   resultobj = SWIG_Py_Void();
@@ -12755,12 +12755,12 @@ SWIGINTERN PyObject *_wrap_GitHelper_get_display_repo_idx(PyObject *SWIGUNUSEDPA
   int res1 = 0 ;
   PyObject *swig_obj[1] ;
   bool result;
-
+  
   if (!args) SWIG_fail;
   swig_obj[0] = args;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitHelper, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_get_display_repo_idx" "', argument " "1"" of type '" "esys::repo::GitHelper const *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_get_display_repo_idx" "', argument " "1"" of type '" "esys::repo::GitHelper const *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitHelper * >(argp1);
   result = (bool)((esys::repo::GitHelper const *)arg1)->get_display_repo_idx();
@@ -12779,19 +12779,19 @@ SWIGINTERN PyObject *_wrap_GitHelper_init_oss__SWIG_0(PyObject *SWIGUNUSEDPARM(s
   int res1 = 0 ;
   void *argp2 = 0 ;
   int res2 = 0 ;
-
+  
   if ((nobjs < 2) || (nobjs > 2)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitHelper, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_init_oss" "', argument " "1"" of type '" "esys::repo::GitHelper *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_init_oss" "', argument " "1"" of type '" "esys::repo::GitHelper *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitHelper * >(argp1);
   res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_std__ostringstream,  0 );
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitHelper_init_oss" "', argument " "2"" of type '" "std::ostringstream &""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitHelper_init_oss" "', argument " "2"" of type '" "std::ostringstream &""'"); 
   }
   if (!argp2) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_init_oss" "', argument " "2"" of type '" "std::ostringstream &""'");
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_init_oss" "', argument " "2"" of type '" "std::ostringstream &""'"); 
   }
   arg2 = reinterpret_cast< std::ostringstream * >(argp2);
   (arg1)->init_oss(*arg2);
@@ -12812,29 +12812,29 @@ SWIGINTERN PyObject *_wrap_GitHelper_init_oss__SWIG_1(PyObject *SWIGUNUSEDPARM(s
   void *argp2 = 0 ;
   int res2 = 0 ;
   int res3 = SWIG_OLDOBJ ;
-
+  
   if ((nobjs < 3) || (nobjs > 3)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitHelper, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_init_oss" "', argument " "1"" of type '" "esys::repo::GitHelper *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_init_oss" "', argument " "1"" of type '" "esys::repo::GitHelper *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitHelper * >(argp1);
   res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_std__ostringstream,  0 );
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitHelper_init_oss" "', argument " "2"" of type '" "std::ostringstream &""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GitHelper_init_oss" "', argument " "2"" of type '" "std::ostringstream &""'"); 
   }
   if (!argp2) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_init_oss" "', argument " "2"" of type '" "std::ostringstream &""'");
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_init_oss" "', argument " "2"" of type '" "std::ostringstream &""'"); 
   }
   arg2 = reinterpret_cast< std::ostringstream * >(argp2);
   {
     std::string *ptr = (std::string *)0;
     res3 = SWIG_AsPtr_std_string(swig_obj[2], &ptr);
     if (!SWIG_IsOK(res3)) {
-      SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "GitHelper_init_oss" "', argument " "3"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "GitHelper_init_oss" "', argument " "3"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_init_oss" "', argument " "3"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GitHelper_init_oss" "', argument " "3"" of type '" "std::string const &""'"); 
     }
     arg3 = ptr;
   }
@@ -12853,7 +12853,7 @@ SWIGINTERN PyObject *_wrap_GitHelper_init_oss(PyObject *self, PyObject *args) {
   PyObject *argv[4] = {
     0
   };
-
+  
   if (!(argc = SWIG_Python_UnpackTuple(args, "GitHelper_init_oss", 0, 3, argv))) SWIG_fail;
   --argc;
   if (argc == 2) {
@@ -12888,7 +12888,7 @@ SWIGINTERN PyObject *_wrap_GitHelper_init_oss(PyObject *self, PyObject *args) {
       }
     }
   }
-
+  
 fail:
   SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'GitHelper_init_oss'.\n"
     "  Possible C/C++ prototypes are:\n"
@@ -12904,12 +12904,12 @@ SWIGINTERN PyObject *_wrap_GitHelper_init_oss_done(PyObject *SWIGUNUSEDPARM(self
   void *argp1 = 0 ;
   int res1 = 0 ;
   PyObject *swig_obj[1] ;
-
+  
   if (!args) SWIG_fail;
   swig_obj[0] = args;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitHelper, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_init_oss_done" "', argument " "1"" of type '" "esys::repo::GitHelper *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_init_oss_done" "', argument " "1"" of type '" "esys::repo::GitHelper *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitHelper * >(argp1);
   (arg1)->init_oss_done();
@@ -12926,12 +12926,12 @@ SWIGINTERN PyObject *_wrap_GitHelper_init_oss_clear(PyObject *SWIGUNUSEDPARM(sel
   void *argp1 = 0 ;
   int res1 = 0 ;
   PyObject *swig_obj[1] ;
-
+  
   if (!args) SWIG_fail;
   swig_obj[0] = args;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitHelper, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_init_oss_clear" "', argument " "1"" of type '" "esys::repo::GitHelper *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_init_oss_clear" "', argument " "1"" of type '" "esys::repo::GitHelper *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitHelper * >(argp1);
   (arg1)->init_oss_clear();
@@ -12949,12 +12949,12 @@ SWIGINTERN PyObject *_wrap_GitHelper_is_init_oss_done(PyObject *SWIGUNUSEDPARM(s
   int res1 = 0 ;
   PyObject *swig_obj[1] ;
   bool result;
-
+  
   if (!args) SWIG_fail;
   swig_obj[0] = args;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitHelper, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_is_init_oss_done" "', argument " "1"" of type '" "esys::repo::GitHelper *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_is_init_oss_done" "', argument " "1"" of type '" "esys::repo::GitHelper *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitHelper * >(argp1);
   result = (bool)(arg1)->is_init_oss_done();
@@ -12971,12 +12971,12 @@ SWIGINTERN PyObject *_wrap_GitHelper_clean_cout(PyObject *SWIGUNUSEDPARM(self), 
   void *argp1 = 0 ;
   int res1 = 0 ;
   PyObject *swig_obj[1] ;
-
+  
   if (!args) SWIG_fail;
   swig_obj[0] = args;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__GitHelper, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_clean_cout" "', argument " "1"" of type '" "esys::repo::GitHelper *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GitHelper_clean_cout" "', argument " "1"" of type '" "esys::repo::GitHelper *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::GitHelper * >(argp1);
   (arg1)->clean_cout();
@@ -13001,7 +13001,7 @@ SWIGINTERN PyObject *GitHelper_swiginit(PyObject *SWIGUNUSEDPARM(self), PyObject
 SWIGINTERN PyObject *_wrap_new_Git(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   esys::repo::libgit2::Git *result = 0 ;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "new_Git", 0, 0, 0)) SWIG_fail;
   result = (esys::repo::libgit2::Git *)new esys::repo::libgit2::Git();
   resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_esys__repo__libgit2__Git, SWIG_POINTER_NEW |  0 );
@@ -13017,12 +13017,12 @@ SWIGINTERN PyObject *_wrap_delete_Git(PyObject *SWIGUNUSEDPARM(self), PyObject *
   void *argp1 = 0 ;
   int res1 = 0 ;
   PyObject *swig_obj[1] ;
-
+  
   if (!args) SWIG_fail;
   swig_obj[0] = args;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__libgit2__Git, SWIG_POINTER_DISOWN |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_Git" "', argument " "1"" of type '" "esys::repo::libgit2::Git *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_Git" "', argument " "1"" of type '" "esys::repo::libgit2::Git *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::libgit2::Git * >(argp1);
   delete arg1;
@@ -13036,7 +13036,7 @@ fail:
 SWIGINTERN PyObject *_wrap_Git_new_ptr(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   SwigValueWrapper< std::shared_ptr< esys::repo::GitBase > > result;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "Git_new_ptr", 0, 0, 0)) SWIG_fail;
   result = esys::repo::libgit2::Git::new_ptr();
   resultobj = SWIG_NewPointerObj((new std::shared_ptr< esys::repo::GitBase >(static_cast< const std::shared_ptr< esys::repo::GitBase >& >(result))), SWIGTYPE_p_std__shared_ptrT_esys__repo__GitBase_t, SWIG_POINTER_OWN |  0 );
@@ -13055,21 +13055,21 @@ SWIGINTERN PyObject *_wrap_Git_open_folder(PyObject *SWIGUNUSEDPARM(self), PyObj
   int res2 = SWIG_OLDOBJ ;
   PyObject *swig_obj[2] ;
   int result;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "Git_open_folder", 2, 2, swig_obj)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__libgit2__Git, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Git_open_folder" "', argument " "1"" of type '" "esys::repo::libgit2::Git *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Git_open_folder" "', argument " "1"" of type '" "esys::repo::libgit2::Git *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::libgit2::Git * >(argp1);
   {
     std::string *ptr = (std::string *)0;
     res2 = SWIG_AsPtr_std_string(swig_obj[1], &ptr);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Git_open_folder" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Git_open_folder" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Git_open_folder" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Git_open_folder" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     arg2 = ptr;
   }
@@ -13090,12 +13090,12 @@ SWIGINTERN PyObject *_wrap_Git_is_open(PyObject *SWIGUNUSEDPARM(self), PyObject 
   int res1 = 0 ;
   PyObject *swig_obj[1] ;
   bool result;
-
+  
   if (!args) SWIG_fail;
   swig_obj[0] = args;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__libgit2__Git, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Git_is_open" "', argument " "1"" of type '" "esys::repo::libgit2::Git *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Git_is_open" "', argument " "1"" of type '" "esys::repo::libgit2::Git *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::libgit2::Git * >(argp1);
   result = (bool)(arg1)->is_open();
@@ -13113,12 +13113,12 @@ SWIGINTERN PyObject *_wrap_Git_close(PyObject *SWIGUNUSEDPARM(self), PyObject *a
   int res1 = 0 ;
   PyObject *swig_obj[1] ;
   int result;
-
+  
   if (!args) SWIG_fail;
   swig_obj[0] = args;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__libgit2__Git, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Git_close" "', argument " "1"" of type '" "esys::repo::libgit2::Git *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Git_close" "', argument " "1"" of type '" "esys::repo::libgit2::Git *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::libgit2::Git * >(argp1);
   result = (int)(arg1)->close();
@@ -13139,19 +13139,19 @@ SWIGINTERN PyObject *_wrap_Git_get_remotes(PyObject *SWIGUNUSEDPARM(self), PyObj
   int res2 = 0 ;
   PyObject *swig_obj[2] ;
   int result;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "Git_get_remotes", 2, 2, swig_obj)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__libgit2__Git, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Git_get_remotes" "', argument " "1"" of type '" "esys::repo::libgit2::Git *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Git_get_remotes" "', argument " "1"" of type '" "esys::repo::libgit2::Git *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::libgit2::Git * >(argp1);
   res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_std__vectorT_esys__repo__git__Remote_std__allocatorT_esys__repo__git__Remote_t_t,  0 );
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Git_get_remotes" "', argument " "2"" of type '" "std::vector< esys::repo::git::Remote,std::allocator< esys::repo::git::Remote > > &""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Git_get_remotes" "', argument " "2"" of type '" "std::vector< esys::repo::git::Remote,std::allocator< esys::repo::git::Remote > > &""'"); 
   }
   if (!argp2) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Git_get_remotes" "', argument " "2"" of type '" "std::vector< esys::repo::git::Remote,std::allocator< esys::repo::git::Remote > > &""'");
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Git_get_remotes" "', argument " "2"" of type '" "std::vector< esys::repo::git::Remote,std::allocator< esys::repo::git::Remote > > &""'"); 
   }
   arg2 = reinterpret_cast< std::vector< esys::repo::git::Remote,std::allocator< esys::repo::git::Remote > > * >(argp2);
   result = (int)(arg1)->get_remotes(*arg2);
@@ -13174,25 +13174,25 @@ SWIGINTERN PyObject *_wrap_Git_get_branches__SWIG_0(PyObject *SWIGUNUSEDPARM(sel
   int val3 ;
   int ecode3 = 0 ;
   int result;
-
+  
   if ((nobjs < 3) || (nobjs > 3)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__libgit2__Git, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Git_get_branches" "', argument " "1"" of type '" "esys::repo::libgit2::Git *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Git_get_branches" "', argument " "1"" of type '" "esys::repo::libgit2::Git *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::libgit2::Git * >(argp1);
   res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_esys__repo__git__Branches,  0 );
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Git_get_branches" "', argument " "2"" of type '" "esys::repo::git::Branches &""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Git_get_branches" "', argument " "2"" of type '" "esys::repo::git::Branches &""'"); 
   }
   if (!argp2) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Git_get_branches" "', argument " "2"" of type '" "esys::repo::git::Branches &""'");
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Git_get_branches" "', argument " "2"" of type '" "esys::repo::git::Branches &""'"); 
   }
   arg2 = reinterpret_cast< esys::repo::git::Branches * >(argp2);
   ecode3 = SWIG_AsVal_int(swig_obj[2], &val3);
   if (!SWIG_IsOK(ecode3)) {
     SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "Git_get_branches" "', argument " "3"" of type '" "esys::repo::git::BranchType""'");
-  }
+  } 
   arg3 = static_cast< esys::repo::git::BranchType >(val3);
   result = (int)(arg1)->get_branches(*arg2,arg3);
   resultobj = SWIG_From_int(static_cast< int >(result));
@@ -13211,19 +13211,19 @@ SWIGINTERN PyObject *_wrap_Git_get_branches__SWIG_1(PyObject *SWIGUNUSEDPARM(sel
   void *argp2 = 0 ;
   int res2 = 0 ;
   int result;
-
+  
   if ((nobjs < 2) || (nobjs > 2)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__libgit2__Git, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Git_get_branches" "', argument " "1"" of type '" "esys::repo::libgit2::Git *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Git_get_branches" "', argument " "1"" of type '" "esys::repo::libgit2::Git *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::libgit2::Git * >(argp1);
   res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_esys__repo__git__Branches,  0 );
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Git_get_branches" "', argument " "2"" of type '" "esys::repo::git::Branches &""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Git_get_branches" "', argument " "2"" of type '" "esys::repo::git::Branches &""'"); 
   }
   if (!argp2) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Git_get_branches" "', argument " "2"" of type '" "esys::repo::git::Branches &""'");
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Git_get_branches" "', argument " "2"" of type '" "esys::repo::git::Branches &""'"); 
   }
   arg2 = reinterpret_cast< esys::repo::git::Branches * >(argp2);
   result = (int)(arg1)->get_branches(*arg2);
@@ -13239,7 +13239,7 @@ SWIGINTERN PyObject *_wrap_Git_get_branches(PyObject *self, PyObject *args) {
   PyObject *argv[4] = {
     0
   };
-
+  
   if (!(argc = SWIG_Python_UnpackTuple(args, "Git_get_branches", 0, 3, argv))) SWIG_fail;
   --argc;
   if (argc == 2) {
@@ -13276,7 +13276,7 @@ SWIGINTERN PyObject *_wrap_Git_get_branches(PyObject *self, PyObject *args) {
       }
     }
   }
-
+  
 fail:
   SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'Git_get_branches'.\n"
     "  Possible C/C++ prototypes are:\n"
@@ -13298,21 +13298,21 @@ SWIGINTERN PyObject *_wrap_Git_clone__SWIG_0(PyObject *SWIGUNUSEDPARM(self), Py_
   int res3 = SWIG_OLDOBJ ;
   int res4 = SWIG_OLDOBJ ;
   int result;
-
+  
   if ((nobjs < 4) || (nobjs > 4)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__libgit2__Git, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Git_clone" "', argument " "1"" of type '" "esys::repo::libgit2::Git *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Git_clone" "', argument " "1"" of type '" "esys::repo::libgit2::Git *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::libgit2::Git * >(argp1);
   {
     std::string *ptr = (std::string *)0;
     res2 = SWIG_AsPtr_std_string(swig_obj[1], &ptr);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Git_clone" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Git_clone" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Git_clone" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Git_clone" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     arg2 = ptr;
   }
@@ -13320,10 +13320,10 @@ SWIGINTERN PyObject *_wrap_Git_clone__SWIG_0(PyObject *SWIGUNUSEDPARM(self), Py_
     std::string *ptr = (std::string *)0;
     res3 = SWIG_AsPtr_std_string(swig_obj[2], &ptr);
     if (!SWIG_IsOK(res3)) {
-      SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "Git_clone" "', argument " "3"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "Git_clone" "', argument " "3"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Git_clone" "', argument " "3"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Git_clone" "', argument " "3"" of type '" "std::string const &""'"); 
     }
     arg3 = ptr;
   }
@@ -13331,10 +13331,10 @@ SWIGINTERN PyObject *_wrap_Git_clone__SWIG_0(PyObject *SWIGUNUSEDPARM(self), Py_
     std::string *ptr = (std::string *)0;
     res4 = SWIG_AsPtr_std_string(swig_obj[3], &ptr);
     if (!SWIG_IsOK(res4)) {
-      SWIG_exception_fail(SWIG_ArgError(res4), "in method '" "Git_clone" "', argument " "4"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res4), "in method '" "Git_clone" "', argument " "4"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Git_clone" "', argument " "4"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Git_clone" "', argument " "4"" of type '" "std::string const &""'"); 
     }
     arg4 = ptr;
   }
@@ -13362,21 +13362,21 @@ SWIGINTERN PyObject *_wrap_Git_clone__SWIG_1(PyObject *SWIGUNUSEDPARM(self), Py_
   int res2 = SWIG_OLDOBJ ;
   int res3 = SWIG_OLDOBJ ;
   int result;
-
+  
   if ((nobjs < 3) || (nobjs > 3)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__libgit2__Git, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Git_clone" "', argument " "1"" of type '" "esys::repo::libgit2::Git *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Git_clone" "', argument " "1"" of type '" "esys::repo::libgit2::Git *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::libgit2::Git * >(argp1);
   {
     std::string *ptr = (std::string *)0;
     res2 = SWIG_AsPtr_std_string(swig_obj[1], &ptr);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Git_clone" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Git_clone" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Git_clone" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Git_clone" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     arg2 = ptr;
   }
@@ -13384,10 +13384,10 @@ SWIGINTERN PyObject *_wrap_Git_clone__SWIG_1(PyObject *SWIGUNUSEDPARM(self), Py_
     std::string *ptr = (std::string *)0;
     res3 = SWIG_AsPtr_std_string(swig_obj[2], &ptr);
     if (!SWIG_IsOK(res3)) {
-      SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "Git_clone" "', argument " "3"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "Git_clone" "', argument " "3"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Git_clone" "', argument " "3"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Git_clone" "', argument " "3"" of type '" "std::string const &""'"); 
     }
     arg3 = ptr;
   }
@@ -13408,7 +13408,7 @@ SWIGINTERN PyObject *_wrap_Git_clone(PyObject *self, PyObject *args) {
   PyObject *argv[5] = {
     0
   };
-
+  
   if (!(argc = SWIG_Python_UnpackTuple(args, "Git_clone", 0, 4, argv))) SWIG_fail;
   --argc;
   if (argc == 3) {
@@ -13449,7 +13449,7 @@ SWIGINTERN PyObject *_wrap_Git_clone(PyObject *self, PyObject *args) {
       }
     }
   }
-
+  
 fail:
   SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'Git_clone'.\n"
     "  Possible C/C++ prototypes are:\n"
@@ -13470,28 +13470,28 @@ SWIGINTERN PyObject *_wrap_Git_checkout__SWIG_0(PyObject *SWIGUNUSEDPARM(self), 
   bool val3 ;
   int ecode3 = 0 ;
   int result;
-
+  
   if ((nobjs < 3) || (nobjs > 3)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__libgit2__Git, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Git_checkout" "', argument " "1"" of type '" "esys::repo::libgit2::Git *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Git_checkout" "', argument " "1"" of type '" "esys::repo::libgit2::Git *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::libgit2::Git * >(argp1);
   {
     std::string *ptr = (std::string *)0;
     res2 = SWIG_AsPtr_std_string(swig_obj[1], &ptr);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Git_checkout" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Git_checkout" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Git_checkout" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Git_checkout" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     arg2 = ptr;
   }
   ecode3 = SWIG_AsVal_bool(swig_obj[2], &val3);
   if (!SWIG_IsOK(ecode3)) {
     SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "Git_checkout" "', argument " "3"" of type '" "bool""'");
-  }
+  } 
   arg3 = static_cast< bool >(val3);
   result = (int)(arg1)->checkout((std::string const &)*arg2,arg3);
   resultobj = SWIG_From_int(static_cast< int >(result));
@@ -13511,21 +13511,21 @@ SWIGINTERN PyObject *_wrap_Git_checkout__SWIG_1(PyObject *SWIGUNUSEDPARM(self), 
   int res1 = 0 ;
   int res2 = SWIG_OLDOBJ ;
   int result;
-
+  
   if ((nobjs < 2) || (nobjs > 2)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__libgit2__Git, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Git_checkout" "', argument " "1"" of type '" "esys::repo::libgit2::Git *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Git_checkout" "', argument " "1"" of type '" "esys::repo::libgit2::Git *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::libgit2::Git * >(argp1);
   {
     std::string *ptr = (std::string *)0;
     res2 = SWIG_AsPtr_std_string(swig_obj[1], &ptr);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Git_checkout" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Git_checkout" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Git_checkout" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Git_checkout" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     arg2 = ptr;
   }
@@ -13544,7 +13544,7 @@ SWIGINTERN PyObject *_wrap_Git_checkout(PyObject *self, PyObject *args) {
   PyObject *argv[4] = {
     0
   };
-
+  
   if (!(argc = SWIG_Python_UnpackTuple(args, "Git_checkout", 0, 3, argv))) SWIG_fail;
   --argc;
   if (argc == 2) {
@@ -13579,7 +13579,7 @@ SWIGINTERN PyObject *_wrap_Git_checkout(PyObject *self, PyObject *args) {
       }
     }
   }
-
+  
 fail:
   SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'Git_checkout'.\n"
     "  Possible C/C++ prototypes are:\n"
@@ -13601,26 +13601,26 @@ SWIGINTERN PyObject *_wrap_Git_reset__SWIG_0(PyObject *SWIGUNUSEDPARM(self), Py_
   void *argp3 ;
   int res3 = 0 ;
   int result;
-
+  
   if ((nobjs < 3) || (nobjs > 3)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__libgit2__Git, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Git_reset" "', argument " "1"" of type '" "esys::repo::libgit2::Git *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Git_reset" "', argument " "1"" of type '" "esys::repo::libgit2::Git *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::libgit2::Git * >(argp1);
   res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_esys__repo__git__CommitHash,  0  | 0);
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Git_reset" "', argument " "2"" of type '" "esys::repo::git::CommitHash const &""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Git_reset" "', argument " "2"" of type '" "esys::repo::git::CommitHash const &""'"); 
   }
   if (!argp2) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Git_reset" "', argument " "2"" of type '" "esys::repo::git::CommitHash const &""'");
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Git_reset" "', argument " "2"" of type '" "esys::repo::git::CommitHash const &""'"); 
   }
   arg2 = reinterpret_cast< esys::repo::git::CommitHash * >(argp2);
   {
     res3 = SWIG_ConvertPtr(swig_obj[2], &argp3, SWIGTYPE_p_esys__repo__git__ResetType,  0  | 0);
     if (!SWIG_IsOK(res3)) {
-      SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "Git_reset" "', argument " "3"" of type '" "esys::repo::git::ResetType""'");
-    }
+      SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "Git_reset" "', argument " "3"" of type '" "esys::repo::git::ResetType""'"); 
+    }  
     if (!argp3) {
       SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Git_reset" "', argument " "3"" of type '" "esys::repo::git::ResetType""'");
     } else {
@@ -13646,19 +13646,19 @@ SWIGINTERN PyObject *_wrap_Git_reset__SWIG_1(PyObject *SWIGUNUSEDPARM(self), Py_
   void *argp2 = 0 ;
   int res2 = 0 ;
   int result;
-
+  
   if ((nobjs < 2) || (nobjs > 2)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__libgit2__Git, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Git_reset" "', argument " "1"" of type '" "esys::repo::libgit2::Git *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Git_reset" "', argument " "1"" of type '" "esys::repo::libgit2::Git *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::libgit2::Git * >(argp1);
   res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_esys__repo__git__CommitHash,  0  | 0);
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Git_reset" "', argument " "2"" of type '" "esys::repo::git::CommitHash const &""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Git_reset" "', argument " "2"" of type '" "esys::repo::git::CommitHash const &""'"); 
   }
   if (!argp2) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Git_reset" "', argument " "2"" of type '" "esys::repo::git::CommitHash const &""'");
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Git_reset" "', argument " "2"" of type '" "esys::repo::git::CommitHash const &""'"); 
   }
   arg2 = reinterpret_cast< esys::repo::git::CommitHash * >(argp2);
   result = (int)(arg1)->reset((esys::repo::git::CommitHash const &)*arg2);
@@ -13674,7 +13674,7 @@ SWIGINTERN PyObject *_wrap_Git_reset(PyObject *self, PyObject *args) {
   PyObject *argv[4] = {
     0
   };
-
+  
   if (!(argc = SWIG_Python_UnpackTuple(args, "Git_reset", 0, 3, argv))) SWIG_fail;
   --argc;
   if (argc == 2) {
@@ -13707,7 +13707,7 @@ SWIGINTERN PyObject *_wrap_Git_reset(PyObject *self, PyObject *args) {
       }
     }
   }
-
+  
 fail:
   SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'Git_reset'.\n"
     "  Possible C/C++ prototypes are:\n"
@@ -13727,19 +13727,19 @@ SWIGINTERN PyObject *_wrap_Git_fastforward(PyObject *SWIGUNUSEDPARM(self), PyObj
   int res2 = 0 ;
   PyObject *swig_obj[2] ;
   int result;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "Git_fastforward", 2, 2, swig_obj)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__libgit2__Git, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Git_fastforward" "', argument " "1"" of type '" "esys::repo::libgit2::Git *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Git_fastforward" "', argument " "1"" of type '" "esys::repo::libgit2::Git *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::libgit2::Git * >(argp1);
   res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_esys__repo__git__CommitHash,  0  | 0);
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Git_fastforward" "', argument " "2"" of type '" "esys::repo::git::CommitHash const &""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Git_fastforward" "', argument " "2"" of type '" "esys::repo::git::CommitHash const &""'"); 
   }
   if (!argp2) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Git_fastforward" "', argument " "2"" of type '" "esys::repo::git::CommitHash const &""'");
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Git_fastforward" "', argument " "2"" of type '" "esys::repo::git::CommitHash const &""'"); 
   }
   arg2 = reinterpret_cast< esys::repo::git::CommitHash * >(argp2);
   result = (int)(arg1)->fastforward((esys::repo::git::CommitHash const &)*arg2);
@@ -13760,19 +13760,19 @@ SWIGINTERN PyObject *_wrap_Git_get_last_commit(PyObject *SWIGUNUSEDPARM(self), P
   int res2 = 0 ;
   PyObject *swig_obj[2] ;
   int result;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "Git_get_last_commit", 2, 2, swig_obj)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__libgit2__Git, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Git_get_last_commit" "', argument " "1"" of type '" "esys::repo::libgit2::Git *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Git_get_last_commit" "', argument " "1"" of type '" "esys::repo::libgit2::Git *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::libgit2::Git * >(argp1);
   res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_esys__repo__git__CommitHash,  0 );
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Git_get_last_commit" "', argument " "2"" of type '" "esys::repo::git::CommitHash &""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Git_get_last_commit" "', argument " "2"" of type '" "esys::repo::git::CommitHash &""'"); 
   }
   if (!argp2) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Git_get_last_commit" "', argument " "2"" of type '" "esys::repo::git::CommitHash &""'");
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Git_get_last_commit" "', argument " "2"" of type '" "esys::repo::git::CommitHash &""'"); 
   }
   arg2 = reinterpret_cast< esys::repo::git::CommitHash * >(argp2);
   result = (int)(arg1)->get_last_commit(*arg2);
@@ -13798,33 +13798,33 @@ SWIGINTERN PyObject *_wrap_Git_get_parent_commit__SWIG_0(PyObject *SWIGUNUSEDPAR
   int val4 ;
   int ecode4 = 0 ;
   int result;
-
+  
   if ((nobjs < 4) || (nobjs > 4)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__libgit2__Git, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Git_get_parent_commit" "', argument " "1"" of type '" "esys::repo::libgit2::Git *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Git_get_parent_commit" "', argument " "1"" of type '" "esys::repo::libgit2::Git *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::libgit2::Git * >(argp1);
   res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_esys__repo__git__CommitHash,  0  | 0);
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Git_get_parent_commit" "', argument " "2"" of type '" "esys::repo::git::CommitHash const &""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Git_get_parent_commit" "', argument " "2"" of type '" "esys::repo::git::CommitHash const &""'"); 
   }
   if (!argp2) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Git_get_parent_commit" "', argument " "2"" of type '" "esys::repo::git::CommitHash const &""'");
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Git_get_parent_commit" "', argument " "2"" of type '" "esys::repo::git::CommitHash const &""'"); 
   }
   arg2 = reinterpret_cast< esys::repo::git::CommitHash * >(argp2);
   res3 = SWIG_ConvertPtr(swig_obj[2], &argp3, SWIGTYPE_p_esys__repo__git__CommitHash,  0 );
   if (!SWIG_IsOK(res3)) {
-    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "Git_get_parent_commit" "', argument " "3"" of type '" "esys::repo::git::CommitHash &""'");
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "Git_get_parent_commit" "', argument " "3"" of type '" "esys::repo::git::CommitHash &""'"); 
   }
   if (!argp3) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Git_get_parent_commit" "', argument " "3"" of type '" "esys::repo::git::CommitHash &""'");
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Git_get_parent_commit" "', argument " "3"" of type '" "esys::repo::git::CommitHash &""'"); 
   }
   arg3 = reinterpret_cast< esys::repo::git::CommitHash * >(argp3);
   ecode4 = SWIG_AsVal_int(swig_obj[3], &val4);
   if (!SWIG_IsOK(ecode4)) {
     SWIG_exception_fail(SWIG_ArgError(ecode4), "in method '" "Git_get_parent_commit" "', argument " "4"" of type '" "int""'");
-  }
+  } 
   arg4 = static_cast< int >(val4);
   result = (int)(arg1)->get_parent_commit((esys::repo::git::CommitHash const &)*arg2,*arg3,arg4);
   resultobj = SWIG_From_int(static_cast< int >(result));
@@ -13846,27 +13846,27 @@ SWIGINTERN PyObject *_wrap_Git_get_parent_commit__SWIG_1(PyObject *SWIGUNUSEDPAR
   void *argp3 = 0 ;
   int res3 = 0 ;
   int result;
-
+  
   if ((nobjs < 3) || (nobjs > 3)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__libgit2__Git, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Git_get_parent_commit" "', argument " "1"" of type '" "esys::repo::libgit2::Git *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Git_get_parent_commit" "', argument " "1"" of type '" "esys::repo::libgit2::Git *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::libgit2::Git * >(argp1);
   res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_esys__repo__git__CommitHash,  0  | 0);
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Git_get_parent_commit" "', argument " "2"" of type '" "esys::repo::git::CommitHash const &""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Git_get_parent_commit" "', argument " "2"" of type '" "esys::repo::git::CommitHash const &""'"); 
   }
   if (!argp2) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Git_get_parent_commit" "', argument " "2"" of type '" "esys::repo::git::CommitHash const &""'");
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Git_get_parent_commit" "', argument " "2"" of type '" "esys::repo::git::CommitHash const &""'"); 
   }
   arg2 = reinterpret_cast< esys::repo::git::CommitHash * >(argp2);
   res3 = SWIG_ConvertPtr(swig_obj[2], &argp3, SWIGTYPE_p_esys__repo__git__CommitHash,  0 );
   if (!SWIG_IsOK(res3)) {
-    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "Git_get_parent_commit" "', argument " "3"" of type '" "esys::repo::git::CommitHash &""'");
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "Git_get_parent_commit" "', argument " "3"" of type '" "esys::repo::git::CommitHash &""'"); 
   }
   if (!argp3) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Git_get_parent_commit" "', argument " "3"" of type '" "esys::repo::git::CommitHash &""'");
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Git_get_parent_commit" "', argument " "3"" of type '" "esys::repo::git::CommitHash &""'"); 
   }
   arg3 = reinterpret_cast< esys::repo::git::CommitHash * >(argp3);
   result = (int)(arg1)->get_parent_commit((esys::repo::git::CommitHash const &)*arg2,*arg3);
@@ -13882,7 +13882,7 @@ SWIGINTERN PyObject *_wrap_Git_get_parent_commit(PyObject *self, PyObject *args)
   PyObject *argv[5] = {
     0
   };
-
+  
   if (!(argc = SWIG_Python_UnpackTuple(args, "Git_get_parent_commit", 0, 4, argv))) SWIG_fail;
   --argc;
   if (argc == 3) {
@@ -13927,7 +13927,7 @@ SWIGINTERN PyObject *_wrap_Git_get_parent_commit(PyObject *self, PyObject *args)
       }
     }
   }
-
+  
 fail:
   SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'Git_get_parent_commit'.\n"
     "  Possible C/C++ prototypes are:\n"
@@ -13947,19 +13947,19 @@ SWIGINTERN PyObject *_wrap_Git_is_dirty(PyObject *SWIGUNUSEDPARM(self), PyObject
   int res2 = 0 ;
   PyObject *swig_obj[2] ;
   int result;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "Git_is_dirty", 2, 2, swig_obj)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__libgit2__Git, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Git_is_dirty" "', argument " "1"" of type '" "esys::repo::libgit2::Git *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Git_is_dirty" "', argument " "1"" of type '" "esys::repo::libgit2::Git *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::libgit2::Git * >(argp1);
   res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_bool,  0 );
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Git_is_dirty" "', argument " "2"" of type '" "bool &""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Git_is_dirty" "', argument " "2"" of type '" "bool &""'"); 
   }
   if (!argp2) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Git_is_dirty" "', argument " "2"" of type '" "bool &""'");
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Git_is_dirty" "', argument " "2"" of type '" "bool &""'"); 
   }
   arg2 = reinterpret_cast< bool * >(argp2);
   result = (int)(arg1)->is_dirty(*arg2);
@@ -13980,19 +13980,19 @@ SWIGINTERN PyObject *_wrap_Git_is_detached(PyObject *SWIGUNUSEDPARM(self), PyObj
   int res2 = 0 ;
   PyObject *swig_obj[2] ;
   int result;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "Git_is_detached", 2, 2, swig_obj)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__libgit2__Git, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Git_is_detached" "', argument " "1"" of type '" "esys::repo::libgit2::Git *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Git_is_detached" "', argument " "1"" of type '" "esys::repo::libgit2::Git *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::libgit2::Git * >(argp1);
   res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_bool,  0 );
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Git_is_detached" "', argument " "2"" of type '" "bool &""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Git_is_detached" "', argument " "2"" of type '" "bool &""'"); 
   }
   if (!argp2) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Git_is_detached" "', argument " "2"" of type '" "bool &""'");
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Git_is_detached" "', argument " "2"" of type '" "bool &""'"); 
   }
   arg2 = reinterpret_cast< bool * >(argp2);
   result = (int)(arg1)->is_detached(*arg2);
@@ -14013,19 +14013,19 @@ SWIGINTERN PyObject *_wrap_Git_get_status(PyObject *SWIGUNUSEDPARM(self), PyObje
   int res2 = 0 ;
   PyObject *swig_obj[2] ;
   int result;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "Git_get_status", 2, 2, swig_obj)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__libgit2__Git, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Git_get_status" "', argument " "1"" of type '" "esys::repo::libgit2::Git *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Git_get_status" "', argument " "1"" of type '" "esys::repo::libgit2::Git *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::libgit2::Git * >(argp1);
   res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_esys__repo__git__RepoStatus,  0 );
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Git_get_status" "', argument " "2"" of type '" "esys::repo::git::RepoStatus &""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Git_get_status" "', argument " "2"" of type '" "esys::repo::git::RepoStatus &""'"); 
   }
   if (!argp2) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Git_get_status" "', argument " "2"" of type '" "esys::repo::git::RepoStatus &""'");
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Git_get_status" "', argument " "2"" of type '" "esys::repo::git::RepoStatus &""'"); 
   }
   arg2 = reinterpret_cast< esys::repo::git::RepoStatus * >(argp2);
   result = (int)(arg1)->get_status(*arg2);
@@ -14045,17 +14045,17 @@ SWIGINTERN PyObject *_wrap_Git_is_ssh_agent_running__SWIG_0(PyObject *SWIGUNUSED
   bool val2 ;
   int ecode2 = 0 ;
   bool result;
-
+  
   if ((nobjs < 2) || (nobjs > 2)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__libgit2__Git, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Git_is_ssh_agent_running" "', argument " "1"" of type '" "esys::repo::libgit2::Git *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Git_is_ssh_agent_running" "', argument " "1"" of type '" "esys::repo::libgit2::Git *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::libgit2::Git * >(argp1);
   ecode2 = SWIG_AsVal_bool(swig_obj[1], &val2);
   if (!SWIG_IsOK(ecode2)) {
     SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "Git_is_ssh_agent_running" "', argument " "2"" of type '" "bool""'");
-  }
+  } 
   arg2 = static_cast< bool >(val2);
   result = (bool)(arg1)->is_ssh_agent_running(arg2);
   resultobj = SWIG_From_bool(static_cast< bool >(result));
@@ -14071,11 +14071,11 @@ SWIGINTERN PyObject *_wrap_Git_is_ssh_agent_running__SWIG_1(PyObject *SWIGUNUSED
   void *argp1 = 0 ;
   int res1 = 0 ;
   bool result;
-
+  
   if ((nobjs < 1) || (nobjs > 1)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__libgit2__Git, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Git_is_ssh_agent_running" "', argument " "1"" of type '" "esys::repo::libgit2::Git *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Git_is_ssh_agent_running" "', argument " "1"" of type '" "esys::repo::libgit2::Git *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::libgit2::Git * >(argp1);
   result = (bool)(arg1)->is_ssh_agent_running();
@@ -14091,7 +14091,7 @@ SWIGINTERN PyObject *_wrap_Git_is_ssh_agent_running(PyObject *self, PyObject *ar
   PyObject *argv[3] = {
     0
   };
-
+  
   if (!(argc = SWIG_Python_UnpackTuple(args, "Git_is_ssh_agent_running", 0, 2, argv))) SWIG_fail;
   --argc;
   if (argc == 1) {
@@ -14118,7 +14118,7 @@ SWIGINTERN PyObject *_wrap_Git_is_ssh_agent_running(PyObject *self, PyObject *ar
       }
     }
   }
-
+  
 fail:
   SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'Git_is_ssh_agent_running'.\n"
     "  Possible C/C++ prototypes are:\n"
@@ -14136,17 +14136,17 @@ SWIGINTERN PyObject *_wrap_Git_detect_ssh_agent__SWIG_0(PyObject *SWIGUNUSEDPARM
   int res1 = 0 ;
   bool val2 ;
   int ecode2 = 0 ;
-
+  
   if ((nobjs < 2) || (nobjs > 2)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__libgit2__Git, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Git_detect_ssh_agent" "', argument " "1"" of type '" "esys::repo::libgit2::Git *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Git_detect_ssh_agent" "', argument " "1"" of type '" "esys::repo::libgit2::Git *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::libgit2::Git * >(argp1);
   ecode2 = SWIG_AsVal_bool(swig_obj[1], &val2);
   if (!SWIG_IsOK(ecode2)) {
     SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "Git_detect_ssh_agent" "', argument " "2"" of type '" "bool""'");
-  }
+  } 
   arg2 = static_cast< bool >(val2);
   (arg1)->detect_ssh_agent(arg2);
   resultobj = SWIG_Py_Void();
@@ -14161,11 +14161,11 @@ SWIGINTERN PyObject *_wrap_Git_detect_ssh_agent__SWIG_1(PyObject *SWIGUNUSEDPARM
   esys::repo::libgit2::Git *arg1 = (esys::repo::libgit2::Git *) 0 ;
   void *argp1 = 0 ;
   int res1 = 0 ;
-
+  
   if ((nobjs < 1) || (nobjs > 1)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__libgit2__Git, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Git_detect_ssh_agent" "', argument " "1"" of type '" "esys::repo::libgit2::Git *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Git_detect_ssh_agent" "', argument " "1"" of type '" "esys::repo::libgit2::Git *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::libgit2::Git * >(argp1);
   (arg1)->detect_ssh_agent();
@@ -14181,7 +14181,7 @@ SWIGINTERN PyObject *_wrap_Git_detect_ssh_agent(PyObject *self, PyObject *args) 
   PyObject *argv[3] = {
     0
   };
-
+  
   if (!(argc = SWIG_Python_UnpackTuple(args, "Git_detect_ssh_agent", 0, 2, argv))) SWIG_fail;
   --argc;
   if (argc == 1) {
@@ -14208,7 +14208,7 @@ SWIGINTERN PyObject *_wrap_Git_detect_ssh_agent(PyObject *self, PyObject *args) 
       }
     }
   }
-
+  
 fail:
   SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'Git_detect_ssh_agent'.\n"
     "  Possible C/C++ prototypes are:\n"
@@ -14234,35 +14234,35 @@ SWIGINTERN PyObject *_wrap_Git_merge_analysis(PyObject *SWIGUNUSEDPARM(self), Py
   int res4 = 0 ;
   PyObject *swig_obj[4] ;
   int result;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "Git_merge_analysis", 4, 4, swig_obj)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__libgit2__Git, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Git_merge_analysis" "', argument " "1"" of type '" "esys::repo::libgit2::Git *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Git_merge_analysis" "', argument " "1"" of type '" "esys::repo::libgit2::Git *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::libgit2::Git * >(argp1);
   res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_std__vectorT_std__string_std__allocatorT_std__string_t_t,  0  | 0);
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Git_merge_analysis" "', argument " "2"" of type '" "std::vector< std::string,std::allocator< std::string > > const &""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Git_merge_analysis" "', argument " "2"" of type '" "std::vector< std::string,std::allocator< std::string > > const &""'"); 
   }
   if (!argp2) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Git_merge_analysis" "', argument " "2"" of type '" "std::vector< std::string,std::allocator< std::string > > const &""'");
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Git_merge_analysis" "', argument " "2"" of type '" "std::vector< std::string,std::allocator< std::string > > const &""'"); 
   }
   arg2 = reinterpret_cast< std::vector< std::string,std::allocator< std::string > > * >(argp2);
   res3 = SWIG_ConvertPtr(swig_obj[2], &argp3, SWIGTYPE_p_esys__repo__git__MergeAnalysisResult,  0 );
   if (!SWIG_IsOK(res3)) {
-    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "Git_merge_analysis" "', argument " "3"" of type '" "esys::repo::git::MergeAnalysisResult &""'");
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "Git_merge_analysis" "', argument " "3"" of type '" "esys::repo::git::MergeAnalysisResult &""'"); 
   }
   if (!argp3) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Git_merge_analysis" "', argument " "3"" of type '" "esys::repo::git::MergeAnalysisResult &""'");
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Git_merge_analysis" "', argument " "3"" of type '" "esys::repo::git::MergeAnalysisResult &""'"); 
   }
   arg3 = reinterpret_cast< esys::repo::git::MergeAnalysisResult * >(argp3);
   res4 = SWIG_ConvertPtr(swig_obj[3], &argp4, SWIGTYPE_p_std__vectorT_esys__repo__git__CommitHash_std__allocatorT_esys__repo__git__CommitHash_t_t,  0 );
   if (!SWIG_IsOK(res4)) {
-    SWIG_exception_fail(SWIG_ArgError(res4), "in method '" "Git_merge_analysis" "', argument " "4"" of type '" "std::vector< esys::repo::git::CommitHash,std::allocator< esys::repo::git::CommitHash > > &""'");
+    SWIG_exception_fail(SWIG_ArgError(res4), "in method '" "Git_merge_analysis" "', argument " "4"" of type '" "std::vector< esys::repo::git::CommitHash,std::allocator< esys::repo::git::CommitHash > > &""'"); 
   }
   if (!argp4) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Git_merge_analysis" "', argument " "4"" of type '" "std::vector< esys::repo::git::CommitHash,std::allocator< esys::repo::git::CommitHash > > &""'");
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Git_merge_analysis" "', argument " "4"" of type '" "std::vector< esys::repo::git::CommitHash,std::allocator< esys::repo::git::CommitHash > > &""'"); 
   }
   arg4 = reinterpret_cast< std::vector< esys::repo::git::CommitHash,std::allocator< esys::repo::git::CommitHash > > * >(argp4);
   result = (int)(arg1)->merge_analysis((std::vector< std::string,std::allocator< std::string > > const &)*arg2,*arg3,*arg4);
@@ -14281,21 +14281,21 @@ SWIGINTERN PyObject *_wrap_Git_fetch__SWIG_0(PyObject *SWIGUNUSEDPARM(self), Py_
   int res1 = 0 ;
   int res2 = SWIG_OLDOBJ ;
   int result;
-
+  
   if ((nobjs < 2) || (nobjs > 2)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__libgit2__Git, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Git_fetch" "', argument " "1"" of type '" "esys::repo::libgit2::Git *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Git_fetch" "', argument " "1"" of type '" "esys::repo::libgit2::Git *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::libgit2::Git * >(argp1);
   {
     std::string *ptr = (std::string *)0;
     res2 = SWIG_AsPtr_std_string(swig_obj[1], &ptr);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Git_fetch" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Git_fetch" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Git_fetch" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Git_fetch" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     arg2 = ptr;
   }
@@ -14315,11 +14315,11 @@ SWIGINTERN PyObject *_wrap_Git_fetch__SWIG_1(PyObject *SWIGUNUSEDPARM(self), Py_
   void *argp1 = 0 ;
   int res1 = 0 ;
   int result;
-
+  
   if ((nobjs < 1) || (nobjs > 1)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__libgit2__Git, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Git_fetch" "', argument " "1"" of type '" "esys::repo::libgit2::Git *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Git_fetch" "', argument " "1"" of type '" "esys::repo::libgit2::Git *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::libgit2::Git * >(argp1);
   result = (int)(arg1)->fetch();
@@ -14335,7 +14335,7 @@ SWIGINTERN PyObject *_wrap_Git_fetch(PyObject *self, PyObject *args) {
   PyObject *argv[3] = {
     0
   };
-
+  
   if (!(argc = SWIG_Python_UnpackTuple(args, "Git_fetch", 0, 2, argv))) SWIG_fail;
   --argc;
   if (argc == 1) {
@@ -14360,7 +14360,7 @@ SWIGINTERN PyObject *_wrap_Git_fetch(PyObject *self, PyObject *args) {
       }
     }
   }
-
+  
 fail:
   SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'Git_fetch'.\n"
     "  Possible C/C++ prototypes are:\n"
@@ -14381,28 +14381,28 @@ SWIGINTERN PyObject *_wrap_Git_has_branch__SWIG_0(PyObject *SWIGUNUSEDPARM(self)
   int val3 ;
   int ecode3 = 0 ;
   bool result;
-
+  
   if ((nobjs < 3) || (nobjs > 3)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__libgit2__Git, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Git_has_branch" "', argument " "1"" of type '" "esys::repo::libgit2::Git *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Git_has_branch" "', argument " "1"" of type '" "esys::repo::libgit2::Git *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::libgit2::Git * >(argp1);
   {
     std::string *ptr = (std::string *)0;
     res2 = SWIG_AsPtr_std_string(swig_obj[1], &ptr);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Git_has_branch" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Git_has_branch" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Git_has_branch" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Git_has_branch" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     arg2 = ptr;
   }
   ecode3 = SWIG_AsVal_int(swig_obj[2], &val3);
   if (!SWIG_IsOK(ecode3)) {
     SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "Git_has_branch" "', argument " "3"" of type '" "esys::repo::git::BranchType""'");
-  }
+  } 
   arg3 = static_cast< esys::repo::git::BranchType >(val3);
   result = (bool)(arg1)->has_branch((std::string const &)*arg2,arg3);
   resultobj = SWIG_From_bool(static_cast< bool >(result));
@@ -14422,21 +14422,21 @@ SWIGINTERN PyObject *_wrap_Git_has_branch__SWIG_1(PyObject *SWIGUNUSEDPARM(self)
   int res1 = 0 ;
   int res2 = SWIG_OLDOBJ ;
   bool result;
-
+  
   if ((nobjs < 2) || (nobjs > 2)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__libgit2__Git, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Git_has_branch" "', argument " "1"" of type '" "esys::repo::libgit2::Git *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Git_has_branch" "', argument " "1"" of type '" "esys::repo::libgit2::Git *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::libgit2::Git * >(argp1);
   {
     std::string *ptr = (std::string *)0;
     res2 = SWIG_AsPtr_std_string(swig_obj[1], &ptr);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Git_has_branch" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Git_has_branch" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Git_has_branch" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Git_has_branch" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     arg2 = ptr;
   }
@@ -14455,7 +14455,7 @@ SWIGINTERN PyObject *_wrap_Git_has_branch(PyObject *self, PyObject *args) {
   PyObject *argv[4] = {
     0
   };
-
+  
   if (!(argc = SWIG_Python_UnpackTuple(args, "Git_has_branch", 0, 3, argv))) SWIG_fail;
   --argc;
   if (argc == 2) {
@@ -14490,7 +14490,7 @@ SWIGINTERN PyObject *_wrap_Git_has_branch(PyObject *self, PyObject *args) {
       }
     }
   }
-
+  
 fail:
   SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'Git_has_branch'.\n"
     "  Possible C/C++ prototypes are:\n"
@@ -14514,36 +14514,36 @@ SWIGINTERN PyObject *_wrap_Git_get_hash__SWIG_0(PyObject *SWIGUNUSEDPARM(self), 
   int val4 ;
   int ecode4 = 0 ;
   int result;
-
+  
   if ((nobjs < 4) || (nobjs > 4)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__libgit2__Git, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Git_get_hash" "', argument " "1"" of type '" "esys::repo::libgit2::Git *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Git_get_hash" "', argument " "1"" of type '" "esys::repo::libgit2::Git *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::libgit2::Git * >(argp1);
   {
     std::string *ptr = (std::string *)0;
     res2 = SWIG_AsPtr_std_string(swig_obj[1], &ptr);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Git_get_hash" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Git_get_hash" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Git_get_hash" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Git_get_hash" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     arg2 = ptr;
   }
   res3 = SWIG_ConvertPtr(swig_obj[2], &argp3, SWIGTYPE_p_std__string,  0 );
   if (!SWIG_IsOK(res3)) {
-    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "Git_get_hash" "', argument " "3"" of type '" "std::string &""'");
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "Git_get_hash" "', argument " "3"" of type '" "std::string &""'"); 
   }
   if (!argp3) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Git_get_hash" "', argument " "3"" of type '" "std::string &""'");
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Git_get_hash" "', argument " "3"" of type '" "std::string &""'"); 
   }
   arg3 = reinterpret_cast< std::string * >(argp3);
   ecode4 = SWIG_AsVal_int(swig_obj[3], &val4);
   if (!SWIG_IsOK(ecode4)) {
     SWIG_exception_fail(SWIG_ArgError(ecode4), "in method '" "Git_get_hash" "', argument " "4"" of type '" "esys::repo::git::BranchType""'");
-  }
+  } 
   arg4 = static_cast< esys::repo::git::BranchType >(val4);
   result = (int)(arg1)->get_hash((std::string const &)*arg2,*arg3,arg4);
   resultobj = SWIG_From_int(static_cast< int >(result));
@@ -14566,30 +14566,30 @@ SWIGINTERN PyObject *_wrap_Git_get_hash__SWIG_1(PyObject *SWIGUNUSEDPARM(self), 
   void *argp3 = 0 ;
   int res3 = 0 ;
   int result;
-
+  
   if ((nobjs < 3) || (nobjs > 3)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__libgit2__Git, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Git_get_hash" "', argument " "1"" of type '" "esys::repo::libgit2::Git *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Git_get_hash" "', argument " "1"" of type '" "esys::repo::libgit2::Git *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::libgit2::Git * >(argp1);
   {
     std::string *ptr = (std::string *)0;
     res2 = SWIG_AsPtr_std_string(swig_obj[1], &ptr);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Git_get_hash" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Git_get_hash" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Git_get_hash" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Git_get_hash" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     arg2 = ptr;
   }
   res3 = SWIG_ConvertPtr(swig_obj[2], &argp3, SWIGTYPE_p_std__string,  0 );
   if (!SWIG_IsOK(res3)) {
-    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "Git_get_hash" "', argument " "3"" of type '" "std::string &""'");
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "Git_get_hash" "', argument " "3"" of type '" "std::string &""'"); 
   }
   if (!argp3) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Git_get_hash" "', argument " "3"" of type '" "std::string &""'");
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Git_get_hash" "', argument " "3"" of type '" "std::string &""'"); 
   }
   arg3 = reinterpret_cast< std::string * >(argp3);
   result = (int)(arg1)->get_hash((std::string const &)*arg2,*arg3);
@@ -14607,7 +14607,7 @@ SWIGINTERN PyObject *_wrap_Git_get_hash(PyObject *self, PyObject *args) {
   PyObject *argv[5] = {
     0
   };
-
+  
   if (!(argc = SWIG_Python_UnpackTuple(args, "Git_get_hash", 0, 4, argv))) SWIG_fail;
   --argc;
   if (argc == 3) {
@@ -14652,7 +14652,7 @@ SWIGINTERN PyObject *_wrap_Git_get_hash(PyObject *self, PyObject *args) {
       }
     }
   }
-
+  
 fail:
   SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'Git_get_hash'.\n"
     "  Possible C/C++ prototypes are:\n"
@@ -14672,18 +14672,18 @@ SWIGINTERN PyObject *_wrap_Git_walk_commits(PyObject *SWIGUNUSEDPARM(self), PyOb
   int res2 = 0 ;
   PyObject *swig_obj[2] ;
   int result;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "Git_walk_commits", 2, 2, swig_obj)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__libgit2__Git, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Git_walk_commits" "', argument " "1"" of type '" "esys::repo::libgit2::Git *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Git_walk_commits" "', argument " "1"" of type '" "esys::repo::libgit2::Git *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::libgit2::Git * >(argp1);
   {
     res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_std__shared_ptrT_esys__repo__git__WalkCommit_t,  0  | 0);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Git_walk_commits" "', argument " "2"" of type '" "std::shared_ptr< esys::repo::git::WalkCommit >""'");
-    }
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Git_walk_commits" "', argument " "2"" of type '" "std::shared_ptr< esys::repo::git::WalkCommit >""'"); 
+    }  
     if (!argp2) {
       SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Git_walk_commits" "', argument " "2"" of type '" "std::shared_ptr< esys::repo::git::WalkCommit >""'");
     } else {
@@ -14713,18 +14713,18 @@ SWIGINTERN PyObject *_wrap_Git_diff(PyObject *SWIGUNUSEDPARM(self), PyObject *ar
   int res3 = 0 ;
   PyObject *swig_obj[3] ;
   int result;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "Git_diff", 3, 3, swig_obj)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__libgit2__Git, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Git_diff" "', argument " "1"" of type '" "esys::repo::libgit2::Git *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Git_diff" "', argument " "1"" of type '" "esys::repo::libgit2::Git *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::libgit2::Git * >(argp1);
   {
     res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_esys__repo__git__CommitHash,  0  | 0);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Git_diff" "', argument " "2"" of type '" "esys::repo::git::CommitHash const""'");
-    }
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Git_diff" "', argument " "2"" of type '" "esys::repo::git::CommitHash const""'"); 
+    }  
     if (!argp2) {
       SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Git_diff" "', argument " "2"" of type '" "esys::repo::git::CommitHash const""'");
     } else {
@@ -14736,8 +14736,8 @@ SWIGINTERN PyObject *_wrap_Git_diff(PyObject *SWIGUNUSEDPARM(self), PyObject *ar
   {
     res3 = SWIG_ConvertPtr(swig_obj[2], &argp3, SWIGTYPE_p_std__shared_ptrT_esys__repo__git__Diff_t,  0  | 0);
     if (!SWIG_IsOK(res3)) {
-      SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "Git_diff" "', argument " "3"" of type '" "std::shared_ptr< esys::repo::git::Diff >""'");
-    }
+      SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "Git_diff" "', argument " "3"" of type '" "std::shared_ptr< esys::repo::git::Diff >""'"); 
+    }  
     if (!argp3) {
       SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Git_diff" "', argument " "3"" of type '" "std::shared_ptr< esys::repo::git::Diff >""'");
     } else {
@@ -14762,21 +14762,21 @@ SWIGINTERN PyObject *_wrap_Git_set_url(PyObject *SWIGUNUSEDPARM(self), PyObject 
   int res1 = 0 ;
   int res2 = SWIG_OLDOBJ ;
   PyObject *swig_obj[2] ;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "Git_set_url", 2, 2, swig_obj)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__libgit2__Git, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Git_set_url" "', argument " "1"" of type '" "esys::repo::libgit2::Git *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Git_set_url" "', argument " "1"" of type '" "esys::repo::libgit2::Git *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::libgit2::Git * >(argp1);
   {
     std::string *ptr = (std::string *)0;
     res2 = SWIG_AsPtr_std_string(swig_obj[1], &ptr);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Git_set_url" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Git_set_url" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Git_set_url" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Git_set_url" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     arg2 = ptr;
   }
@@ -14797,12 +14797,12 @@ SWIGINTERN PyObject *_wrap_Git_get_url(PyObject *SWIGUNUSEDPARM(self), PyObject 
   int res1 = 0 ;
   PyObject *swig_obj[1] ;
   std::string *result = 0 ;
-
+  
   if (!args) SWIG_fail;
   swig_obj[0] = args;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__libgit2__Git, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Git_get_url" "', argument " "1"" of type '" "esys::repo::libgit2::Git *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Git_get_url" "', argument " "1"" of type '" "esys::repo::libgit2::Git *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::libgit2::Git * >(argp1);
   result = (std::string *) &(arg1)->get_url();
@@ -14821,21 +14821,21 @@ SWIGINTERN PyObject *_wrap_Git_set_folder(PyObject *SWIGUNUSEDPARM(self), PyObje
   int res1 = 0 ;
   int res2 = SWIG_OLDOBJ ;
   PyObject *swig_obj[2] ;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "Git_set_folder", 2, 2, swig_obj)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__libgit2__Git, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Git_set_folder" "', argument " "1"" of type '" "esys::repo::libgit2::Git *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Git_set_folder" "', argument " "1"" of type '" "esys::repo::libgit2::Git *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::libgit2::Git * >(argp1);
   {
     std::string *ptr = (std::string *)0;
     res2 = SWIG_AsPtr_std_string(swig_obj[1], &ptr);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Git_set_folder" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Git_set_folder" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Git_set_folder" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Git_set_folder" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     arg2 = ptr;
   }
@@ -14856,12 +14856,12 @@ SWIGINTERN PyObject *_wrap_Git_get_folder(PyObject *SWIGUNUSEDPARM(self), PyObje
   int res1 = 0 ;
   PyObject *swig_obj[1] ;
   std::string *result = 0 ;
-
+  
   if (!args) SWIG_fail;
   swig_obj[0] = args;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__libgit2__Git, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Git_get_folder" "', argument " "1"" of type '" "esys::repo::libgit2::Git *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Git_get_folder" "', argument " "1"" of type '" "esys::repo::libgit2::Git *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::libgit2::Git * >(argp1);
   result = (std::string *) &(arg1)->get_folder();
@@ -14879,12 +14879,12 @@ SWIGINTERN PyObject *_wrap_Git_get_version(PyObject *SWIGUNUSEDPARM(self), PyObj
   int res1 = 0 ;
   PyObject *swig_obj[1] ;
   std::string *result = 0 ;
-
+  
   if (!args) SWIG_fail;
   swig_obj[0] = args;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__libgit2__Git, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Git_get_version" "', argument " "1"" of type '" "esys::repo::libgit2::Git *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Git_get_version" "', argument " "1"" of type '" "esys::repo::libgit2::Git *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::libgit2::Git * >(argp1);
   result = (std::string *) &(arg1)->get_version();
@@ -14902,12 +14902,12 @@ SWIGINTERN PyObject *_wrap_Git_get_lib_name(PyObject *SWIGUNUSEDPARM(self), PyOb
   int res1 = 0 ;
   PyObject *swig_obj[1] ;
   std::string *result = 0 ;
-
+  
   if (!args) SWIG_fail;
   swig_obj[0] = args;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__libgit2__Git, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Git_get_lib_name" "', argument " "1"" of type '" "esys::repo::libgit2::Git *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Git_get_lib_name" "', argument " "1"" of type '" "esys::repo::libgit2::Git *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::libgit2::Git * >(argp1);
   result = (std::string *) &(arg1)->get_lib_name();
@@ -14929,26 +14929,26 @@ SWIGINTERN PyObject *_wrap_Git_debug(PyObject *SWIGUNUSEDPARM(self), PyObject *a
   int ecode2 = 0 ;
   int res3 = SWIG_OLDOBJ ;
   PyObject *swig_obj[3] ;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "Git_debug", 3, 3, swig_obj)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__libgit2__Git, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Git_debug" "', argument " "1"" of type '" "esys::repo::libgit2::Git *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Git_debug" "', argument " "1"" of type '" "esys::repo::libgit2::Git *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::libgit2::Git * >(argp1);
   ecode2 = SWIG_AsVal_int(swig_obj[1], &val2);
   if (!SWIG_IsOK(ecode2)) {
     SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "Git_debug" "', argument " "2"" of type '" "int""'");
-  }
+  } 
   arg2 = static_cast< int >(val2);
   {
     std::string *ptr = (std::string *)0;
     res3 = SWIG_AsPtr_std_string(swig_obj[2], &ptr);
     if (!SWIG_IsOK(res3)) {
-      SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "Git_debug" "', argument " "3"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "Git_debug" "', argument " "3"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Git_debug" "', argument " "3"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Git_debug" "', argument " "3"" of type '" "std::string const &""'"); 
     }
     arg3 = ptr;
   }
@@ -14965,7 +14965,7 @@ fail:
 SWIGINTERN PyObject *_wrap_Git_s_get_version(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   std::string *result = 0 ;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "Git_s_get_version", 0, 0, 0)) SWIG_fail;
   result = (std::string *) &esys::repo::libgit2::Git::s_get_version();
   resultobj = SWIG_From_std_string(static_cast< std::string >(*result));
@@ -14978,7 +14978,7 @@ fail:
 SWIGINTERN PyObject *_wrap_Git_s_get_lib_name(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   std::string *result = 0 ;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "Git_s_get_lib_name", 0, 0, 0)) SWIG_fail;
   result = (std::string *) &esys::repo::libgit2::Git::s_get_lib_name();
   resultobj = SWIG_From_std_string(static_cast< std::string >(*result));
@@ -14991,7 +14991,7 @@ fail:
 SWIGINTERN PyObject *_wrap_Git_s_get_ssh_version(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   std::string *result = 0 ;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "Git_s_get_ssh_version", 0, 0, 0)) SWIG_fail;
   result = (std::string *) &esys::repo::libgit2::Git::s_get_ssh_version();
   resultobj = SWIG_From_std_string(static_cast< std::string >(*result));
@@ -15004,7 +15004,7 @@ fail:
 SWIGINTERN PyObject *_wrap_Git_s_get_ssh_lib_name(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   std::string *result = 0 ;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "Git_s_get_ssh_lib_name", 0, 0, 0)) SWIG_fail;
   result = (std::string *) &esys::repo::libgit2::Git::s_get_ssh_lib_name();
   resultobj = SWIG_From_std_string(static_cast< std::string >(*result));
@@ -15021,12 +15021,12 @@ SWIGINTERN PyObject *_wrap_Git_get_impl(PyObject *SWIGUNUSEDPARM(self), PyObject
   int res1 = 0 ;
   PyObject *swig_obj[1] ;
   esys::repo::libgit2::GitImpl *result = 0 ;
-
+  
   if (!args) SWIG_fail;
   swig_obj[0] = args;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__libgit2__Git, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Git_get_impl" "', argument " "1"" of type '" "esys::repo::libgit2::Git const *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Git_get_impl" "', argument " "1"" of type '" "esys::repo::libgit2::Git const *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::libgit2::Git * >(argp1);
   result = (esys::repo::libgit2::GitImpl *)((esys::repo::libgit2::Git const *)arg1)->get_impl();
@@ -15046,18 +15046,18 @@ SWIGINTERN PyObject *_wrap_Git_set_logger_if(PyObject *SWIGUNUSEDPARM(self), PyO
   void *argp2 ;
   int res2 = 0 ;
   PyObject *swig_obj[2] ;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "Git_set_logger_if", 2, 2, swig_obj)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__libgit2__Git, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Git_set_logger_if" "', argument " "1"" of type '" "esys::repo::libgit2::Git *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Git_set_logger_if" "', argument " "1"" of type '" "esys::repo::libgit2::Git *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::libgit2::Git * >(argp1);
   {
     res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_std__shared_ptrT_esys__log__Logger_if_t,  0  | 0);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Git_set_logger_if" "', argument " "2"" of type '" "std::shared_ptr< esys::log::Logger_if >""'");
-    }
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Git_set_logger_if" "', argument " "2"" of type '" "std::shared_ptr< esys::log::Logger_if >""'"); 
+    }  
     if (!argp2) {
       SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Git_set_logger_if" "', argument " "2"" of type '" "std::shared_ptr< esys::log::Logger_if >""'");
     } else {
@@ -15092,13 +15092,13 @@ SWIGINTERN PyObject *_wrap_convert_format_to_text(PyObject *SWIGUNUSEDPARM(self)
   int ecode1 = 0 ;
   PyObject *swig_obj[1] ;
   std::string result;
-
+  
   if (!args) SWIG_fail;
   swig_obj[0] = args;
   ecode1 = SWIG_AsVal_int(swig_obj[0], &val1);
   if (!SWIG_IsOK(ecode1)) {
     SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "convert_format_to_text" "', argument " "1"" of type '" "esys::repo::manifest::Format""'");
-  }
+  } 
   arg1 = static_cast< esys::repo::manifest::Format >(val1);
   result = esys::repo::manifest::convert(arg1);
   resultobj = SWIG_From_std_string(static_cast< std::string >(result));
@@ -15113,16 +15113,16 @@ SWIGINTERN PyObject *_wrap_convert_text_to_format__SWIG_0(PyObject *SWIGUNUSEDPA
   std::string *arg1 = 0 ;
   int res1 = SWIG_OLDOBJ ;
   esys::repo::manifest::Format result;
-
+  
   if ((nobjs < 1) || (nobjs > 1)) SWIG_fail;
   {
     std::string *ptr = (std::string *)0;
     res1 = SWIG_AsPtr_std_string(swig_obj[0], &ptr);
     if (!SWIG_IsOK(res1)) {
-      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "convert_text_to_format" "', argument " "1"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "convert_text_to_format" "', argument " "1"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "convert_text_to_format" "', argument " "1"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "convert_text_to_format" "', argument " "1"" of type '" "std::string const &""'"); 
     }
     arg1 = ptr;
   }
@@ -15139,7 +15139,7 @@ fail:
 SWIGINTERN PyObject *_wrap_new_Repository__SWIG_0(PyObject *SWIGUNUSEDPARM(self), Py_ssize_t nobjs, PyObject **SWIGUNUSEDPARM(swig_obj)) {
   PyObject *resultobj = 0;
   esys::repo::manifest::Repository *result = 0 ;
-
+  
   if ((nobjs < 0) || (nobjs > 0)) SWIG_fail;
   result = (esys::repo::manifest::Repository *)new esys::repo::manifest::Repository();
   {
@@ -15159,16 +15159,16 @@ SWIGINTERN PyObject *_wrap_new_Repository__SWIG_1(PyObject *SWIGUNUSEDPARM(self)
   int res1 = SWIG_OLDOBJ ;
   int res2 = SWIG_OLDOBJ ;
   esys::repo::manifest::Repository *result = 0 ;
-
+  
   if ((nobjs < 2) || (nobjs > 2)) SWIG_fail;
   {
     std::string *ptr = (std::string *)0;
     res1 = SWIG_AsPtr_std_string(swig_obj[0], &ptr);
     if (!SWIG_IsOK(res1)) {
-      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "new_Repository" "', argument " "1"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "new_Repository" "', argument " "1"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "new_Repository" "', argument " "1"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "new_Repository" "', argument " "1"" of type '" "std::string const &""'"); 
     }
     arg1 = ptr;
   }
@@ -15176,10 +15176,10 @@ SWIGINTERN PyObject *_wrap_new_Repository__SWIG_1(PyObject *SWIGUNUSEDPARM(self)
     std::string *ptr = (std::string *)0;
     res2 = SWIG_AsPtr_std_string(swig_obj[1], &ptr);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "new_Repository" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "new_Repository" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "new_Repository" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "new_Repository" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     arg2 = ptr;
   }
@@ -15203,7 +15203,7 @@ SWIGINTERN PyObject *_wrap_new_Repository(PyObject *self, PyObject *args) {
   PyObject *argv[3] = {
     0
   };
-
+  
   if (!(argc = SWIG_Python_UnpackTuple(args, "new_Repository", 0, 2, argv))) SWIG_fail;
   --argc;
   if (argc == 0) {
@@ -15221,7 +15221,7 @@ SWIGINTERN PyObject *_wrap_new_Repository(PyObject *self, PyObject *args) {
       }
     }
   }
-
+  
 fail:
   SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'new_Repository'.\n"
     "  Possible C/C++ prototypes are:\n"
@@ -15239,7 +15239,7 @@ SWIGINTERN PyObject *_wrap_delete_Repository(PyObject *SWIGUNUSEDPARM(self), PyO
   std::shared_ptr< esys::repo::manifest::Repository > tempshared1 ;
   std::shared_ptr< esys::repo::manifest::Repository > *smartarg1 = 0 ;
   PyObject *swig_obj[1] ;
-
+  
   if (!args) SWIG_fail;
   swig_obj[0] = args;
   {
@@ -15275,7 +15275,7 @@ SWIGINTERN PyObject *_wrap_Repository_set_name(PyObject *SWIGUNUSEDPARM(self), P
   std::shared_ptr< esys::repo::manifest::Repository > *smartarg1 = 0 ;
   int res2 = SWIG_OLDOBJ ;
   PyObject *swig_obj[2] ;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "Repository_set_name", 2, 2, swig_obj)) SWIG_fail;
   {
     int newmem = 0;
@@ -15296,10 +15296,10 @@ SWIGINTERN PyObject *_wrap_Repository_set_name(PyObject *SWIGUNUSEDPARM(self), P
     std::string *ptr = (std::string *)0;
     res2 = SWIG_AsPtr_std_string(swig_obj[1], &ptr);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Repository_set_name" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Repository_set_name" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Repository_set_name" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Repository_set_name" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     arg2 = ptr;
   }
@@ -15322,7 +15322,7 @@ SWIGINTERN PyObject *_wrap_Repository_get_name(PyObject *SWIGUNUSEDPARM(self), P
   std::shared_ptr< esys::repo::manifest::Repository const > *smartarg1 = 0 ;
   PyObject *swig_obj[1] ;
   std::string *result = 0 ;
-
+  
   if (!args) SWIG_fail;
   swig_obj[0] = args;
   {
@@ -15358,7 +15358,7 @@ SWIGINTERN PyObject *_wrap_Repository_set_path(PyObject *SWIGUNUSEDPARM(self), P
   std::shared_ptr< esys::repo::manifest::Repository > *smartarg1 = 0 ;
   int res2 = SWIG_OLDOBJ ;
   PyObject *swig_obj[2] ;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "Repository_set_path", 2, 2, swig_obj)) SWIG_fail;
   {
     int newmem = 0;
@@ -15379,10 +15379,10 @@ SWIGINTERN PyObject *_wrap_Repository_set_path(PyObject *SWIGUNUSEDPARM(self), P
     std::string *ptr = (std::string *)0;
     res2 = SWIG_AsPtr_std_string(swig_obj[1], &ptr);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Repository_set_path" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Repository_set_path" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Repository_set_path" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Repository_set_path" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     arg2 = ptr;
   }
@@ -15405,7 +15405,7 @@ SWIGINTERN PyObject *_wrap_Repository_get_path(PyObject *SWIGUNUSEDPARM(self), P
   std::shared_ptr< esys::repo::manifest::Repository const > *smartarg1 = 0 ;
   PyObject *swig_obj[1] ;
   std::string *result = 0 ;
-
+  
   if (!args) SWIG_fail;
   swig_obj[0] = args;
   {
@@ -15441,7 +15441,7 @@ SWIGINTERN PyObject *_wrap_Repository_set_revision(PyObject *SWIGUNUSEDPARM(self
   std::shared_ptr< esys::repo::manifest::Repository > *smartarg1 = 0 ;
   int res2 = SWIG_OLDOBJ ;
   PyObject *swig_obj[2] ;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "Repository_set_revision", 2, 2, swig_obj)) SWIG_fail;
   {
     int newmem = 0;
@@ -15462,10 +15462,10 @@ SWIGINTERN PyObject *_wrap_Repository_set_revision(PyObject *SWIGUNUSEDPARM(self
     std::string *ptr = (std::string *)0;
     res2 = SWIG_AsPtr_std_string(swig_obj[1], &ptr);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Repository_set_revision" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Repository_set_revision" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Repository_set_revision" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Repository_set_revision" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     arg2 = ptr;
   }
@@ -15488,7 +15488,7 @@ SWIGINTERN PyObject *_wrap_Repository_get_revision(PyObject *SWIGUNUSEDPARM(self
   std::shared_ptr< esys::repo::manifest::Repository const > *smartarg1 = 0 ;
   PyObject *swig_obj[1] ;
   std::string *result = 0 ;
-
+  
   if (!args) SWIG_fail;
   swig_obj[0] = args;
   {
@@ -15523,7 +15523,7 @@ SWIGINTERN PyObject *_wrap_Repository_set_location__SWIG_0(PyObject *SWIGUNUSEDP
   std::shared_ptr< esys::repo::manifest::Repository > tempshared1 ;
   std::shared_ptr< esys::repo::manifest::Repository > *smartarg1 = 0 ;
   int res2 = SWIG_OLDOBJ ;
-
+  
   if ((nobjs < 2) || (nobjs > 2)) SWIG_fail;
   {
     int newmem = 0;
@@ -15544,10 +15544,10 @@ SWIGINTERN PyObject *_wrap_Repository_set_location__SWIG_0(PyObject *SWIGUNUSEDP
     std::string *ptr = (std::string *)0;
     res2 = SWIG_AsPtr_std_string(swig_obj[1], &ptr);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Repository_set_location" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Repository_set_location" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Repository_set_location" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Repository_set_location" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     arg2 = ptr;
   }
@@ -15570,7 +15570,7 @@ SWIGINTERN PyObject *_wrap_Repository_get_location_str(PyObject *SWIGUNUSEDPARM(
   std::shared_ptr< esys::repo::manifest::Repository const > *smartarg1 = 0 ;
   PyObject *swig_obj[1] ;
   std::string *result = 0 ;
-
+  
   if (!args) SWIG_fail;
   swig_obj[0] = args;
   {
@@ -15606,7 +15606,7 @@ SWIGINTERN PyObject *_wrap_Repository_set_location__SWIG_1(PyObject *SWIGUNUSEDP
   std::shared_ptr< esys::repo::manifest::Repository > *smartarg1 = 0 ;
   void *argp2 = 0 ;
   int res2 = 0 ;
-
+  
   if ((nobjs < 2) || (nobjs > 2)) SWIG_fail;
   {
     int newmem = 0;
@@ -15625,7 +15625,7 @@ SWIGINTERN PyObject *_wrap_Repository_set_location__SWIG_1(PyObject *SWIGUNUSEDP
   }
   res2 = SWIG_ConvertPtr(swig_obj[1], &argp2,SWIGTYPE_p_esys__repo__manifest__Location, 0 |  0 );
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Repository_set_location" "', argument " "2"" of type '" "esys::repo::manifest::Location *""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Repository_set_location" "', argument " "2"" of type '" "esys::repo::manifest::Location *""'"); 
   }
   arg2 = reinterpret_cast< esys::repo::manifest::Location * >(argp2);
   (arg1)->set_location(arg2);
@@ -15641,7 +15641,7 @@ SWIGINTERN PyObject *_wrap_Repository_set_location(PyObject *self, PyObject *arg
   PyObject *argv[3] = {
     0
   };
-
+  
   if (!(argc = SWIG_Python_UnpackTuple(args, "Repository_set_location", 0, 2, argv))) SWIG_fail;
   --argc;
   if (argc == 2) {
@@ -15669,7 +15669,7 @@ SWIGINTERN PyObject *_wrap_Repository_set_location(PyObject *self, PyObject *arg
       }
     }
   }
-
+  
 fail:
   SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'Repository_set_location'.\n"
     "  Possible C/C++ prototypes are:\n"
@@ -15688,7 +15688,7 @@ SWIGINTERN PyObject *_wrap_Repository_get_location(PyObject *SWIGUNUSEDPARM(self
   std::shared_ptr< esys::repo::manifest::Repository const > *smartarg1 = 0 ;
   PyObject *swig_obj[1] ;
   esys::repo::manifest::Location *result = 0 ;
-
+  
   if (!args) SWIG_fail;
   swig_obj[0] = args;
   {
@@ -15723,7 +15723,7 @@ SWIGINTERN PyObject *_wrap_Repository_get_groups(PyObject *SWIGUNUSEDPARM(self),
   std::shared_ptr< esys::repo::manifest::Repository > *smartarg1 = 0 ;
   PyObject *swig_obj[1] ;
   std::vector< esys::repo::manifest::Group *,std::allocator< esys::repo::manifest::Group * > > *result = 0 ;
-
+  
   if (!args) SWIG_fail;
   swig_obj[0] = args;
   {
@@ -15762,7 +15762,7 @@ SWIGINTERN PyObject *_wrap_Repository___eq__(PyObject *SWIGUNUSEDPARM(self), PyO
   std::shared_ptr< esys::repo::manifest::Repository const > tempshared2 ;
   PyObject *swig_obj[2] ;
   bool result;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "Repository___eq__", 2, 2, swig_obj)) SWIG_fail;
   {
     int newmem = 0;
@@ -15786,7 +15786,7 @@ SWIGINTERN PyObject *_wrap_Repository___eq__(PyObject *SWIGUNUSEDPARM(self), PyO
       SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Repository___eq__" "', argument " "2"" of type '" "esys::repo::manifest::Repository const &""'");
     }
     if (!argp2) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Repository___eq__" "', argument " "2"" of type '" "esys::repo::manifest::Repository const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Repository___eq__" "', argument " "2"" of type '" "esys::repo::manifest::Repository const &""'"); 
     }
     if (newmem & SWIG_CAST_NEW_MEMORY) {
       tempshared2 = *reinterpret_cast< std::shared_ptr< const esys::repo::manifest::Repository > * >(argp2);
@@ -15819,7 +15819,7 @@ SWIGINTERN PyObject *_wrap_Repository___ne__(PyObject *SWIGUNUSEDPARM(self), PyO
   std::shared_ptr< esys::repo::manifest::Repository const > tempshared2 ;
   PyObject *swig_obj[2] ;
   bool result;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "Repository___ne__", 2, 2, swig_obj)) SWIG_fail;
   {
     int newmem = 0;
@@ -15843,7 +15843,7 @@ SWIGINTERN PyObject *_wrap_Repository___ne__(PyObject *SWIGUNUSEDPARM(self), PyO
       SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Repository___ne__" "', argument " "2"" of type '" "esys::repo::manifest::Repository const &""'");
     }
     if (!argp2) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Repository___ne__" "', argument " "2"" of type '" "esys::repo::manifest::Repository const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Repository___ne__" "', argument " "2"" of type '" "esys::repo::manifest::Repository const &""'"); 
     }
     if (newmem & SWIG_CAST_NEW_MEMORY) {
       tempshared2 = *reinterpret_cast< std::shared_ptr< const esys::repo::manifest::Repository > * >(argp2);
@@ -15877,7 +15877,7 @@ SWIGINTERN PyObject *Repository_swiginit(PyObject *SWIGUNUSEDPARM(self), PyObjec
 SWIGINTERN PyObject *_wrap_new_Group__SWIG_0(PyObject *SWIGUNUSEDPARM(self), Py_ssize_t nobjs, PyObject **SWIGUNUSEDPARM(swig_obj)) {
   PyObject *resultobj = 0;
   esys::repo::manifest::Group *result = 0 ;
-
+  
   if ((nobjs < 0) || (nobjs > 0)) SWIG_fail;
   result = (esys::repo::manifest::Group *)new esys::repo::manifest::Group();
   {
@@ -15895,16 +15895,16 @@ SWIGINTERN PyObject *_wrap_new_Group__SWIG_1(PyObject *SWIGUNUSEDPARM(self), Py_
   std::string *arg1 = 0 ;
   int res1 = SWIG_OLDOBJ ;
   esys::repo::manifest::Group *result = 0 ;
-
+  
   if ((nobjs < 1) || (nobjs > 1)) SWIG_fail;
   {
     std::string *ptr = (std::string *)0;
     res1 = SWIG_AsPtr_std_string(swig_obj[0], &ptr);
     if (!SWIG_IsOK(res1)) {
-      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "new_Group" "', argument " "1"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "new_Group" "', argument " "1"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "new_Group" "', argument " "1"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "new_Group" "', argument " "1"" of type '" "std::string const &""'"); 
     }
     arg1 = ptr;
   }
@@ -15926,7 +15926,7 @@ SWIGINTERN PyObject *_wrap_new_Group(PyObject *self, PyObject *args) {
   PyObject *argv[2] = {
     0
   };
-
+  
   if (!(argc = SWIG_Python_UnpackTuple(args, "new_Group", 0, 1, argv))) SWIG_fail;
   --argc;
   if (argc == 0) {
@@ -15940,7 +15940,7 @@ SWIGINTERN PyObject *_wrap_new_Group(PyObject *self, PyObject *args) {
       return _wrap_new_Group__SWIG_1(self, argc, argv);
     }
   }
-
+  
 fail:
   SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'new_Group'.\n"
     "  Possible C/C++ prototypes are:\n"
@@ -15958,7 +15958,7 @@ SWIGINTERN PyObject *_wrap_delete_Group(PyObject *SWIGUNUSEDPARM(self), PyObject
   std::shared_ptr< esys::repo::manifest::Group > tempshared1 ;
   std::shared_ptr< esys::repo::manifest::Group > *smartarg1 = 0 ;
   PyObject *swig_obj[1] ;
-
+  
   if (!args) SWIG_fail;
   swig_obj[0] = args;
   {
@@ -15994,7 +15994,7 @@ SWIGINTERN PyObject *_wrap_Group_set_name(PyObject *SWIGUNUSEDPARM(self), PyObje
   std::shared_ptr< esys::repo::manifest::Group > *smartarg1 = 0 ;
   int res2 = SWIG_OLDOBJ ;
   PyObject *swig_obj[2] ;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "Group_set_name", 2, 2, swig_obj)) SWIG_fail;
   {
     int newmem = 0;
@@ -16015,10 +16015,10 @@ SWIGINTERN PyObject *_wrap_Group_set_name(PyObject *SWIGUNUSEDPARM(self), PyObje
     std::string *ptr = (std::string *)0;
     res2 = SWIG_AsPtr_std_string(swig_obj[1], &ptr);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Group_set_name" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Group_set_name" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Group_set_name" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Group_set_name" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     arg2 = ptr;
   }
@@ -16041,7 +16041,7 @@ SWIGINTERN PyObject *_wrap_Group_get_name(PyObject *SWIGUNUSEDPARM(self), PyObje
   std::shared_ptr< esys::repo::manifest::Group const > *smartarg1 = 0 ;
   PyObject *swig_obj[1] ;
   std::string *result = 0 ;
-
+  
   if (!args) SWIG_fail;
   swig_obj[0] = args;
   {
@@ -16078,7 +16078,7 @@ SWIGINTERN PyObject *_wrap_Group_add_repo(PyObject *SWIGUNUSEDPARM(self), PyObje
   void *argp2 ;
   int res2 = 0 ;
   PyObject *swig_obj[2] ;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "Group_add_repo", 2, 2, swig_obj)) SWIG_fail;
   {
     int newmem = 0;
@@ -16121,7 +16121,7 @@ SWIGINTERN PyObject *_wrap_Group_get_repos(PyObject *SWIGUNUSEDPARM(self), PyObj
   std::shared_ptr< esys::repo::manifest::Group > *smartarg1 = 0 ;
   PyObject *swig_obj[1] ;
   std::vector< std::shared_ptr< esys::repo::manifest::Repository >,std::allocator< std::shared_ptr< esys::repo::manifest::Repository > > > *result = 0 ;
-
+  
   if (!args) SWIG_fail;
   swig_obj[0] = args;
   {
@@ -16158,7 +16158,7 @@ SWIGINTERN PyObject *_wrap_Group_find_repo_by_path(PyObject *SWIGUNUSEDPARM(self
   int res2 = SWIG_OLDOBJ ;
   PyObject *swig_obj[2] ;
   std::shared_ptr< esys::repo::manifest::Repository > result;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "Group_find_repo_by_path", 2, 2, swig_obj)) SWIG_fail;
   {
     int newmem = 0;
@@ -16179,10 +16179,10 @@ SWIGINTERN PyObject *_wrap_Group_find_repo_by_path(PyObject *SWIGUNUSEDPARM(self
     std::string *ptr = (std::string *)0;
     res2 = SWIG_AsPtr_std_string(swig_obj[1], &ptr);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Group_find_repo_by_path" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Group_find_repo_by_path" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Group_find_repo_by_path" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Group_find_repo_by_path" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     arg2 = ptr;
   }
@@ -16210,7 +16210,7 @@ SWIGINTERN PyObject *_wrap_Group_find_repo_by_name(PyObject *SWIGUNUSEDPARM(self
   int res2 = SWIG_OLDOBJ ;
   PyObject *swig_obj[2] ;
   std::shared_ptr< esys::repo::manifest::Repository > result;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "Group_find_repo_by_name", 2, 2, swig_obj)) SWIG_fail;
   {
     int newmem = 0;
@@ -16231,10 +16231,10 @@ SWIGINTERN PyObject *_wrap_Group_find_repo_by_name(PyObject *SWIGUNUSEDPARM(self
     std::string *ptr = (std::string *)0;
     res2 = SWIG_AsPtr_std_string(swig_obj[1], &ptr);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Group_find_repo_by_name" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Group_find_repo_by_name" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Group_find_repo_by_name" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Group_find_repo_by_name" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     arg2 = ptr;
   }
@@ -16265,7 +16265,7 @@ SWIGINTERN PyObject *Group_swiginit(PyObject *SWIGUNUSEDPARM(self), PyObject *ar
 SWIGINTERN PyObject *_wrap_new_Location__SWIG_0(PyObject *SWIGUNUSEDPARM(self), Py_ssize_t nobjs, PyObject **SWIGUNUSEDPARM(swig_obj)) {
   PyObject *resultobj = 0;
   esys::repo::manifest::Location *result = 0 ;
-
+  
   if ((nobjs < 0) || (nobjs > 0)) SWIG_fail;
   result = (esys::repo::manifest::Location *)new esys::repo::manifest::Location();
   resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_esys__repo__manifest__Location, SWIG_POINTER_NEW |  0 );
@@ -16282,16 +16282,16 @@ SWIGINTERN PyObject *_wrap_new_Location__SWIG_1(PyObject *SWIGUNUSEDPARM(self), 
   int res1 = SWIG_OLDOBJ ;
   int res2 = SWIG_OLDOBJ ;
   esys::repo::manifest::Location *result = 0 ;
-
+  
   if ((nobjs < 2) || (nobjs > 2)) SWIG_fail;
   {
     std::string *ptr = (std::string *)0;
     res1 = SWIG_AsPtr_std_string(swig_obj[0], &ptr);
     if (!SWIG_IsOK(res1)) {
-      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "new_Location" "', argument " "1"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "new_Location" "', argument " "1"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "new_Location" "', argument " "1"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "new_Location" "', argument " "1"" of type '" "std::string const &""'"); 
     }
     arg1 = ptr;
   }
@@ -16299,10 +16299,10 @@ SWIGINTERN PyObject *_wrap_new_Location__SWIG_1(PyObject *SWIGUNUSEDPARM(self), 
     std::string *ptr = (std::string *)0;
     res2 = SWIG_AsPtr_std_string(swig_obj[1], &ptr);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "new_Location" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "new_Location" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "new_Location" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "new_Location" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     arg2 = ptr;
   }
@@ -16323,7 +16323,7 @@ SWIGINTERN PyObject *_wrap_new_Location(PyObject *self, PyObject *args) {
   PyObject *argv[3] = {
     0
   };
-
+  
   if (!(argc = SWIG_Python_UnpackTuple(args, "new_Location", 0, 2, argv))) SWIG_fail;
   --argc;
   if (argc == 0) {
@@ -16341,7 +16341,7 @@ SWIGINTERN PyObject *_wrap_new_Location(PyObject *self, PyObject *args) {
       }
     }
   }
-
+  
 fail:
   SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'new_Location'.\n"
     "  Possible C/C++ prototypes are:\n"
@@ -16357,12 +16357,12 @@ SWIGINTERN PyObject *_wrap_delete_Location(PyObject *SWIGUNUSEDPARM(self), PyObj
   void *argp1 = 0 ;
   int res1 = 0 ;
   PyObject *swig_obj[1] ;
-
+  
   if (!args) SWIG_fail;
   swig_obj[0] = args;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__manifest__Location, SWIG_POINTER_DISOWN |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_Location" "', argument " "1"" of type '" "esys::repo::manifest::Location *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_Location" "', argument " "1"" of type '" "esys::repo::manifest::Location *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::manifest::Location * >(argp1);
   delete arg1;
@@ -16381,21 +16381,21 @@ SWIGINTERN PyObject *_wrap_Location_set_name(PyObject *SWIGUNUSEDPARM(self), PyO
   int res1 = 0 ;
   int res2 = SWIG_OLDOBJ ;
   PyObject *swig_obj[2] ;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "Location_set_name", 2, 2, swig_obj)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__manifest__Location, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Location_set_name" "', argument " "1"" of type '" "esys::repo::manifest::Location *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Location_set_name" "', argument " "1"" of type '" "esys::repo::manifest::Location *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::manifest::Location * >(argp1);
   {
     std::string *ptr = (std::string *)0;
     res2 = SWIG_AsPtr_std_string(swig_obj[1], &ptr);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Location_set_name" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Location_set_name" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Location_set_name" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Location_set_name" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     arg2 = ptr;
   }
@@ -16416,12 +16416,12 @@ SWIGINTERN PyObject *_wrap_Location_get_name(PyObject *SWIGUNUSEDPARM(self), PyO
   int res1 = 0 ;
   PyObject *swig_obj[1] ;
   std::string *result = 0 ;
-
+  
   if (!args) SWIG_fail;
   swig_obj[0] = args;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__manifest__Location, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Location_get_name" "', argument " "1"" of type '" "esys::repo::manifest::Location const *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Location_get_name" "', argument " "1"" of type '" "esys::repo::manifest::Location const *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::manifest::Location * >(argp1);
   result = (std::string *) &((esys::repo::manifest::Location const *)arg1)->get_name();
@@ -16440,21 +16440,21 @@ SWIGINTERN PyObject *_wrap_Location_set_address(PyObject *SWIGUNUSEDPARM(self), 
   int res1 = 0 ;
   int res2 = SWIG_OLDOBJ ;
   PyObject *swig_obj[2] ;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "Location_set_address", 2, 2, swig_obj)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__manifest__Location, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Location_set_address" "', argument " "1"" of type '" "esys::repo::manifest::Location *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Location_set_address" "', argument " "1"" of type '" "esys::repo::manifest::Location *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::manifest::Location * >(argp1);
   {
     std::string *ptr = (std::string *)0;
     res2 = SWIG_AsPtr_std_string(swig_obj[1], &ptr);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Location_set_address" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Location_set_address" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Location_set_address" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Location_set_address" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     arg2 = ptr;
   }
@@ -16475,12 +16475,12 @@ SWIGINTERN PyObject *_wrap_Location_get_address(PyObject *SWIGUNUSEDPARM(self), 
   int res1 = 0 ;
   PyObject *swig_obj[1] ;
   std::string *result = 0 ;
-
+  
   if (!args) SWIG_fail;
   swig_obj[0] = args;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__manifest__Location, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Location_get_address" "', argument " "1"" of type '" "esys::repo::manifest::Location const *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Location_get_address" "', argument " "1"" of type '" "esys::repo::manifest::Location const *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::manifest::Location * >(argp1);
   result = (std::string *) &((esys::repo::manifest::Location const *)arg1)->get_address();
@@ -16498,12 +16498,12 @@ SWIGINTERN PyObject *_wrap_Location_is_address_ssh(PyObject *SWIGUNUSEDPARM(self
   int res1 = 0 ;
   PyObject *swig_obj[1] ;
   bool result;
-
+  
   if (!args) SWIG_fail;
   swig_obj[0] = args;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__manifest__Location, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Location_is_address_ssh" "', argument " "1"" of type '" "esys::repo::manifest::Location const *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Location_is_address_ssh" "', argument " "1"" of type '" "esys::repo::manifest::Location const *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::manifest::Location * >(argp1);
   result = (bool)((esys::repo::manifest::Location const *)arg1)->is_address_ssh();
@@ -16522,21 +16522,21 @@ SWIGINTERN PyObject *_wrap_Location_set_alt_address(PyObject *SWIGUNUSEDPARM(sel
   int res1 = 0 ;
   int res2 = SWIG_OLDOBJ ;
   PyObject *swig_obj[2] ;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "Location_set_alt_address", 2, 2, swig_obj)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__manifest__Location, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Location_set_alt_address" "', argument " "1"" of type '" "esys::repo::manifest::Location *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Location_set_alt_address" "', argument " "1"" of type '" "esys::repo::manifest::Location *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::manifest::Location * >(argp1);
   {
     std::string *ptr = (std::string *)0;
     res2 = SWIG_AsPtr_std_string(swig_obj[1], &ptr);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Location_set_alt_address" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Location_set_alt_address" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Location_set_alt_address" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Location_set_alt_address" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     arg2 = ptr;
   }
@@ -16557,12 +16557,12 @@ SWIGINTERN PyObject *_wrap_Location_get_alt_address(PyObject *SWIGUNUSEDPARM(sel
   int res1 = 0 ;
   PyObject *swig_obj[1] ;
   std::string *result = 0 ;
-
+  
   if (!args) SWIG_fail;
   swig_obj[0] = args;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__manifest__Location, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Location_get_alt_address" "', argument " "1"" of type '" "esys::repo::manifest::Location const *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Location_get_alt_address" "', argument " "1"" of type '" "esys::repo::manifest::Location const *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::manifest::Location * >(argp1);
   result = (std::string *) &((esys::repo::manifest::Location const *)arg1)->get_alt_address();
@@ -16580,12 +16580,12 @@ SWIGINTERN PyObject *_wrap_Location_is_alt_address_ssh(PyObject *SWIGUNUSEDPARM(
   int res1 = 0 ;
   PyObject *swig_obj[1] ;
   bool result;
-
+  
   if (!args) SWIG_fail;
   swig_obj[0] = args;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__manifest__Location, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Location_is_alt_address_ssh" "', argument " "1"" of type '" "esys::repo::manifest::Location const *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Location_is_alt_address_ssh" "', argument " "1"" of type '" "esys::repo::manifest::Location const *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::manifest::Location * >(argp1);
   result = (bool)((esys::repo::manifest::Location const *)arg1)->is_alt_address_ssh();
@@ -16606,21 +16606,21 @@ SWIGINTERN PyObject *_wrap_Location_add_repo__SWIG_0(PyObject *SWIGUNUSEDPARM(se
   int res2 = SWIG_OLDOBJ ;
   int res3 = SWIG_OLDOBJ ;
   std::shared_ptr< esys::repo::manifest::Repository > result;
-
+  
   if ((nobjs < 3) || (nobjs > 3)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__manifest__Location, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Location_add_repo" "', argument " "1"" of type '" "esys::repo::manifest::Location *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Location_add_repo" "', argument " "1"" of type '" "esys::repo::manifest::Location *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::manifest::Location * >(argp1);
   {
     std::string *ptr = (std::string *)0;
     res2 = SWIG_AsPtr_std_string(swig_obj[1], &ptr);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Location_add_repo" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Location_add_repo" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Location_add_repo" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Location_add_repo" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     arg2 = ptr;
   }
@@ -16628,10 +16628,10 @@ SWIGINTERN PyObject *_wrap_Location_add_repo__SWIG_0(PyObject *SWIGUNUSEDPARM(se
     std::string *ptr = (std::string *)0;
     res3 = SWIG_AsPtr_std_string(swig_obj[2], &ptr);
     if (!SWIG_IsOK(res3)) {
-      SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "Location_add_repo" "', argument " "3"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "Location_add_repo" "', argument " "3"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Location_add_repo" "', argument " "3"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Location_add_repo" "', argument " "3"" of type '" "std::string const &""'"); 
     }
     arg3 = ptr;
   }
@@ -16658,11 +16658,11 @@ SWIGINTERN PyObject *_wrap_Location_add_repo__SWIG_1(PyObject *SWIGUNUSEDPARM(se
   int res1 = 0 ;
   void *argp2 ;
   int res2 = 0 ;
-
+  
   if ((nobjs < 2) || (nobjs > 2)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__manifest__Location, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Location_add_repo" "', argument " "1"" of type '" "esys::repo::manifest::Location *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Location_add_repo" "', argument " "1"" of type '" "esys::repo::manifest::Location *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::manifest::Location * >(argp1);
   {
@@ -16687,7 +16687,7 @@ SWIGINTERN PyObject *_wrap_Location_add_repo(PyObject *self, PyObject *args) {
   PyObject *argv[4] = {
     0
   };
-
+  
   if (!(argc = SWIG_Python_UnpackTuple(args, "Location_add_repo", 0, 3, argv))) SWIG_fail;
   --argc;
   if (argc == 2) {
@@ -16720,7 +16720,7 @@ SWIGINTERN PyObject *_wrap_Location_add_repo(PyObject *self, PyObject *args) {
       }
     }
   }
-
+  
 fail:
   SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'Location_add_repo'.\n"
     "  Possible C/C++ prototypes are:\n"
@@ -16737,12 +16737,12 @@ SWIGINTERN PyObject *_wrap_Location_get_repos(PyObject *SWIGUNUSEDPARM(self), Py
   int res1 = 0 ;
   PyObject *swig_obj[1] ;
   std::vector< std::shared_ptr< esys::repo::manifest::Repository >,std::allocator< std::shared_ptr< esys::repo::manifest::Repository > > > *result = 0 ;
-
+  
   if (!args) SWIG_fail;
   swig_obj[0] = args;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__manifest__Location, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Location_get_repos" "', argument " "1"" of type '" "esys::repo::manifest::Location *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Location_get_repos" "', argument " "1"" of type '" "esys::repo::manifest::Location *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::manifest::Location * >(argp1);
   result = (std::vector< std::shared_ptr< esys::repo::manifest::Repository >,std::allocator< std::shared_ptr< esys::repo::manifest::Repository > > > *) &(arg1)->get_repos();
@@ -16762,21 +16762,21 @@ SWIGINTERN PyObject *_wrap_Location_find_repo_by_path(PyObject *SWIGUNUSEDPARM(s
   int res2 = SWIG_OLDOBJ ;
   PyObject *swig_obj[2] ;
   std::shared_ptr< esys::repo::manifest::Repository > result;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "Location_find_repo_by_path", 2, 2, swig_obj)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__manifest__Location, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Location_find_repo_by_path" "', argument " "1"" of type '" "esys::repo::manifest::Location *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Location_find_repo_by_path" "', argument " "1"" of type '" "esys::repo::manifest::Location *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::manifest::Location * >(argp1);
   {
     std::string *ptr = (std::string *)0;
     res2 = SWIG_AsPtr_std_string(swig_obj[1], &ptr);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Location_find_repo_by_path" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Location_find_repo_by_path" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Location_find_repo_by_path" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Location_find_repo_by_path" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     arg2 = ptr;
   }
@@ -16802,21 +16802,21 @@ SWIGINTERN PyObject *_wrap_Location_find_repo_by_name(PyObject *SWIGUNUSEDPARM(s
   int res2 = SWIG_OLDOBJ ;
   PyObject *swig_obj[2] ;
   std::shared_ptr< esys::repo::manifest::Repository > result;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "Location_find_repo_by_name", 2, 2, swig_obj)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__manifest__Location, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Location_find_repo_by_name" "', argument " "1"" of type '" "esys::repo::manifest::Location *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Location_find_repo_by_name" "', argument " "1"" of type '" "esys::repo::manifest::Location *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::manifest::Location * >(argp1);
   {
     std::string *ptr = (std::string *)0;
     res2 = SWIG_AsPtr_std_string(swig_obj[1], &ptr);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Location_find_repo_by_name" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Location_find_repo_by_name" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Location_find_repo_by_name" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Location_find_repo_by_name" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     arg2 = ptr;
   }
@@ -16842,21 +16842,21 @@ SWIGINTERN PyObject *_wrap_Location_find_path_by_repo(PyObject *SWIGUNUSEDPARM(s
   int res2 = SWIG_OLDOBJ ;
   PyObject *swig_obj[2] ;
   std::string result;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "Location_find_path_by_repo", 2, 2, swig_obj)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__manifest__Location, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Location_find_path_by_repo" "', argument " "1"" of type '" "esys::repo::manifest::Location *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Location_find_path_by_repo" "', argument " "1"" of type '" "esys::repo::manifest::Location *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::manifest::Location * >(argp1);
   {
     std::string *ptr = (std::string *)0;
     res2 = SWIG_AsPtr_std_string(swig_obj[1], &ptr);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Location_find_path_by_repo" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Location_find_path_by_repo" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Location_find_path_by_repo" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Location_find_path_by_repo" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     arg2 = ptr;
   }
@@ -16880,19 +16880,19 @@ SWIGINTERN PyObject *_wrap_Location___eq__(PyObject *SWIGUNUSEDPARM(self), PyObj
   int res2 = 0 ;
   PyObject *swig_obj[2] ;
   bool result;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "Location___eq__", 2, 2, swig_obj)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__manifest__Location, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Location___eq__" "', argument " "1"" of type '" "esys::repo::manifest::Location const *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Location___eq__" "', argument " "1"" of type '" "esys::repo::manifest::Location const *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::manifest::Location * >(argp1);
   res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_esys__repo__manifest__Location,  0  | 0);
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Location___eq__" "', argument " "2"" of type '" "esys::repo::manifest::Location const &""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Location___eq__" "', argument " "2"" of type '" "esys::repo::manifest::Location const &""'"); 
   }
   if (!argp2) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Location___eq__" "', argument " "2"" of type '" "esys::repo::manifest::Location const &""'");
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Location___eq__" "', argument " "2"" of type '" "esys::repo::manifest::Location const &""'"); 
   }
   arg2 = reinterpret_cast< esys::repo::manifest::Location * >(argp2);
   result = (bool)((esys::repo::manifest::Location const *)arg1)->operator ==((esys::repo::manifest::Location const &)*arg2);
@@ -16915,19 +16915,19 @@ SWIGINTERN PyObject *_wrap_Location___ne__(PyObject *SWIGUNUSEDPARM(self), PyObj
   int res2 = 0 ;
   PyObject *swig_obj[2] ;
   bool result;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "Location___ne__", 2, 2, swig_obj)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__manifest__Location, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Location___ne__" "', argument " "1"" of type '" "esys::repo::manifest::Location const *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Location___ne__" "', argument " "1"" of type '" "esys::repo::manifest::Location const *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::manifest::Location * >(argp1);
   res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_esys__repo__manifest__Location,  0  | 0);
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Location___ne__" "', argument " "2"" of type '" "esys::repo::manifest::Location const &""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Location___ne__" "', argument " "2"" of type '" "esys::repo::manifest::Location const &""'"); 
   }
   if (!argp2) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Location___ne__" "', argument " "2"" of type '" "esys::repo::manifest::Location const &""'");
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Location___ne__" "', argument " "2"" of type '" "esys::repo::manifest::Location const &""'"); 
   }
   arg2 = reinterpret_cast< esys::repo::manifest::Location * >(argp2);
   result = (bool)((esys::repo::manifest::Location const *)arg1)->operator !=((esys::repo::manifest::Location const &)*arg2);
@@ -16961,22 +16961,22 @@ SWIGINTERN PyObject *_wrap___lshift__(PyObject *SWIGUNUSEDPARM(self), PyObject *
   int res2 = 0 ;
   PyObject *swig_obj[2] ;
   std::ostream *result = 0 ;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "__lshift__", 2, 2, swig_obj)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1, SWIGTYPE_p_std__ostream,  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "__lshift__" "', argument " "1"" of type '" "std::ostream &""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "__lshift__" "', argument " "1"" of type '" "std::ostream &""'"); 
   }
   if (!argp1) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "__lshift__" "', argument " "1"" of type '" "std::ostream &""'");
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "__lshift__" "', argument " "1"" of type '" "std::ostream &""'"); 
   }
   arg1 = reinterpret_cast< std::ostream * >(argp1);
   res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_esys__repo__manifest__Location,  0  | 0);
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "__lshift__" "', argument " "2"" of type '" "esys::repo::manifest::Location const &""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "__lshift__" "', argument " "2"" of type '" "esys::repo::manifest::Location const &""'"); 
   }
   if (!argp2) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "__lshift__" "', argument " "2"" of type '" "esys::repo::manifest::Location const &""'");
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "__lshift__" "', argument " "2"" of type '" "esys::repo::manifest::Location const &""'"); 
   }
   arg2 = reinterpret_cast< esys::repo::manifest::Location * >(argp2);
   result = (std::ostream *) &esys::repo::manifest::operator <<(*arg1,(esys::repo::manifest::Location const &)*arg2);
@@ -16998,19 +16998,19 @@ SWIGINTERN PyObject *_wrap_convert_text_to_format__SWIG_1(PyObject *SWIGUNUSEDPA
   void *argp2 = 0 ;
   int res2 = 0 ;
   int result;
-
+  
   if ((nobjs < 2) || (nobjs > 2)) SWIG_fail;
   ecode1 = SWIG_AsVal_int(swig_obj[0], &val1);
   if (!SWIG_IsOK(ecode1)) {
     SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "convert_text_to_format" "', argument " "1"" of type '" "esys::repo::manifest::Type""'");
-  }
+  } 
   arg1 = static_cast< esys::repo::manifest::Type >(val1);
   res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_std__string,  0 );
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "convert_text_to_format" "', argument " "2"" of type '" "std::string &""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "convert_text_to_format" "', argument " "2"" of type '" "std::string &""'"); 
   }
   if (!argp2) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "convert_text_to_format" "', argument " "2"" of type '" "std::string &""'");
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "convert_text_to_format" "', argument " "2"" of type '" "std::string &""'"); 
   }
   arg2 = reinterpret_cast< std::string * >(argp2);
   result = (int)esys::repo::manifest::convert(arg1,*arg2);
@@ -17029,25 +17029,25 @@ SWIGINTERN PyObject *_wrap_convert_text_to_format__SWIG_2(PyObject *SWIGUNUSEDPA
   void *argp2 = 0 ;
   int res2 = 0 ;
   int result;
-
+  
   if ((nobjs < 2) || (nobjs > 2)) SWIG_fail;
   {
     std::string *ptr = (std::string *)0;
     res1 = SWIG_AsPtr_std_string(swig_obj[0], &ptr);
     if (!SWIG_IsOK(res1)) {
-      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "convert_text_to_format" "', argument " "1"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "convert_text_to_format" "', argument " "1"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "convert_text_to_format" "', argument " "1"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "convert_text_to_format" "', argument " "1"" of type '" "std::string const &""'"); 
     }
     arg1 = ptr;
   }
   res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_esys__repo__manifest__Type,  0 );
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "convert_text_to_format" "', argument " "2"" of type '" "esys::repo::manifest::Type &""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "convert_text_to_format" "', argument " "2"" of type '" "esys::repo::manifest::Type &""'"); 
   }
   if (!argp2) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "convert_text_to_format" "', argument " "2"" of type '" "esys::repo::manifest::Type &""'");
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "convert_text_to_format" "', argument " "2"" of type '" "esys::repo::manifest::Type &""'"); 
   }
   arg2 = reinterpret_cast< esys::repo::manifest::Type * >(argp2);
   result = (int)esys::repo::manifest::convert((std::string const &)*arg1,*arg2);
@@ -17065,7 +17065,7 @@ SWIGINTERN PyObject *_wrap_convert_text_to_format(PyObject *self, PyObject *args
   PyObject *argv[3] = {
     0
   };
-
+  
   if (!(argc = SWIG_Python_UnpackTuple(args, "convert_text_to_format", 0, 2, argv))) SWIG_fail;
   --argc;
   if (argc == 1) {
@@ -17104,7 +17104,7 @@ SWIGINTERN PyObject *_wrap_convert_text_to_format(PyObject *self, PyObject *args
       }
     }
   }
-
+  
 fail:
   SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'convert_text_to_format'.\n"
     "  Possible C/C++ prototypes are:\n"
@@ -17118,7 +17118,7 @@ fail:
 SWIGINTERN PyObject *_wrap_new_FileError(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   esys::repo::manifest::FileError *result = 0 ;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "new_FileError", 0, 0, 0)) SWIG_fail;
   result = (esys::repo::manifest::FileError *)new esys::repo::manifest::FileError();
   resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_esys__repo__manifest__FileError, SWIG_POINTER_NEW |  0 );
@@ -17134,12 +17134,12 @@ SWIGINTERN PyObject *_wrap_delete_FileError(PyObject *SWIGUNUSEDPARM(self), PyOb
   void *argp1 = 0 ;
   int res1 = 0 ;
   PyObject *swig_obj[1] ;
-
+  
   if (!args) SWIG_fail;
   swig_obj[0] = args;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__manifest__FileError, SWIG_POINTER_DISOWN |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_FileError" "', argument " "1"" of type '" "esys::repo::manifest::FileError *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_FileError" "', argument " "1"" of type '" "esys::repo::manifest::FileError *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::manifest::FileError * >(argp1);
   delete arg1;
@@ -17158,21 +17158,21 @@ SWIGINTERN PyObject *_wrap_FileError_set_msg(PyObject *SWIGUNUSEDPARM(self), PyO
   int res1 = 0 ;
   int res2 = SWIG_OLDOBJ ;
   PyObject *swig_obj[2] ;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "FileError_set_msg", 2, 2, swig_obj)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__manifest__FileError, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "FileError_set_msg" "', argument " "1"" of type '" "esys::repo::manifest::FileError *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "FileError_set_msg" "', argument " "1"" of type '" "esys::repo::manifest::FileError *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::manifest::FileError * >(argp1);
   {
     std::string *ptr = (std::string *)0;
     res2 = SWIG_AsPtr_std_string(swig_obj[1], &ptr);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "FileError_set_msg" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "FileError_set_msg" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "FileError_set_msg" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "FileError_set_msg" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     arg2 = ptr;
   }
@@ -17193,12 +17193,12 @@ SWIGINTERN PyObject *_wrap_FileError_get_msg(PyObject *SWIGUNUSEDPARM(self), PyO
   int res1 = 0 ;
   PyObject *swig_obj[1] ;
   std::string *result = 0 ;
-
+  
   if (!args) SWIG_fail;
   swig_obj[0] = args;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__manifest__FileError, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "FileError_get_msg" "', argument " "1"" of type '" "esys::repo::manifest::FileError *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "FileError_get_msg" "', argument " "1"" of type '" "esys::repo::manifest::FileError *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::manifest::FileError * >(argp1);
   result = (std::string *) &(arg1)->get_msg();
@@ -17218,17 +17218,17 @@ SWIGINTERN PyObject *_wrap_FileError_set_value(PyObject *SWIGUNUSEDPARM(self), P
   int val2 ;
   int ecode2 = 0 ;
   PyObject *swig_obj[2] ;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "FileError_set_value", 2, 2, swig_obj)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__manifest__FileError, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "FileError_set_value" "', argument " "1"" of type '" "esys::repo::manifest::FileError *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "FileError_set_value" "', argument " "1"" of type '" "esys::repo::manifest::FileError *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::manifest::FileError * >(argp1);
   ecode2 = SWIG_AsVal_int(swig_obj[1], &val2);
   if (!SWIG_IsOK(ecode2)) {
     SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "FileError_set_value" "', argument " "2"" of type '" "int""'");
-  }
+  } 
   arg2 = static_cast< int >(val2);
   (arg1)->set_value(arg2);
   resultobj = SWIG_Py_Void();
@@ -17245,12 +17245,12 @@ SWIGINTERN PyObject *_wrap_FileError_get_value(PyObject *SWIGUNUSEDPARM(self), P
   int res1 = 0 ;
   PyObject *swig_obj[1] ;
   int result;
-
+  
   if (!args) SWIG_fail;
   swig_obj[0] = args;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__manifest__FileError, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "FileError_get_value" "', argument " "1"" of type '" "esys::repo::manifest::FileError const *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "FileError_get_value" "', argument " "1"" of type '" "esys::repo::manifest::FileError const *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::manifest::FileError * >(argp1);
   result = (int)((esys::repo::manifest::FileError const *)arg1)->get_value();
@@ -17270,17 +17270,17 @@ SWIGINTERN PyObject *_wrap_FileError_set_line_number(PyObject *SWIGUNUSEDPARM(se
   int val2 ;
   int ecode2 = 0 ;
   PyObject *swig_obj[2] ;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "FileError_set_line_number", 2, 2, swig_obj)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__manifest__FileError, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "FileError_set_line_number" "', argument " "1"" of type '" "esys::repo::manifest::FileError *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "FileError_set_line_number" "', argument " "1"" of type '" "esys::repo::manifest::FileError *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::manifest::FileError * >(argp1);
   ecode2 = SWIG_AsVal_int(swig_obj[1], &val2);
   if (!SWIG_IsOK(ecode2)) {
     SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "FileError_set_line_number" "', argument " "2"" of type '" "int""'");
-  }
+  } 
   arg2 = static_cast< int >(val2);
   (arg1)->set_line_number(arg2);
   resultobj = SWIG_Py_Void();
@@ -17297,12 +17297,12 @@ SWIGINTERN PyObject *_wrap_FileError_get_line_number(PyObject *SWIGUNUSEDPARM(se
   int res1 = 0 ;
   PyObject *swig_obj[1] ;
   int result;
-
+  
   if (!args) SWIG_fail;
   swig_obj[0] = args;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__manifest__FileError, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "FileError_get_line_number" "', argument " "1"" of type '" "esys::repo::manifest::FileError const *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "FileError_get_line_number" "', argument " "1"" of type '" "esys::repo::manifest::FileError const *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::manifest::FileError * >(argp1);
   result = (int)((esys::repo::manifest::FileError const *)arg1)->get_line_number();
@@ -17327,7 +17327,7 @@ SWIGINTERN PyObject *FileError_swiginit(PyObject *SWIGUNUSEDPARM(self), PyObject
 SWIGINTERN PyObject *_wrap_new_Manifest(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   esys::repo::Manifest *result = 0 ;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "new_Manifest", 0, 0, 0)) SWIG_fail;
   result = (esys::repo::Manifest *)new esys::repo::Manifest();
   {
@@ -17348,7 +17348,7 @@ SWIGINTERN PyObject *_wrap_delete_Manifest(PyObject *SWIGUNUSEDPARM(self), PyObj
   std::shared_ptr< esys::repo::Manifest > tempshared1 ;
   std::shared_ptr< esys::repo::Manifest > *smartarg1 = 0 ;
   PyObject *swig_obj[1] ;
-
+  
   if (!args) SWIG_fail;
   swig_obj[0] = args;
   {
@@ -17385,7 +17385,7 @@ SWIGINTERN PyObject *_wrap_Manifest_set_type(PyObject *SWIGUNUSEDPARM(self), PyO
   int val2 ;
   int ecode2 = 0 ;
   PyObject *swig_obj[2] ;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "Manifest_set_type", 2, 2, swig_obj)) SWIG_fail;
   {
     int newmem = 0;
@@ -17405,7 +17405,7 @@ SWIGINTERN PyObject *_wrap_Manifest_set_type(PyObject *SWIGUNUSEDPARM(self), PyO
   ecode2 = SWIG_AsVal_int(swig_obj[1], &val2);
   if (!SWIG_IsOK(ecode2)) {
     SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "Manifest_set_type" "', argument " "2"" of type '" "esys::repo::manifest::Type""'");
-  }
+  } 
   arg2 = static_cast< esys::repo::manifest::Type >(val2);
   (arg1)->set_type(arg2);
   resultobj = SWIG_Py_Void();
@@ -17424,7 +17424,7 @@ SWIGINTERN PyObject *_wrap_Manifest_get_type(PyObject *SWIGUNUSEDPARM(self), PyO
   std::shared_ptr< esys::repo::Manifest const > *smartarg1 = 0 ;
   PyObject *swig_obj[1] ;
   esys::repo::manifest::Type result;
-
+  
   if (!args) SWIG_fail;
   swig_obj[0] = args;
   {
@@ -17461,7 +17461,7 @@ SWIGINTERN PyObject *_wrap_Manifest_set_kind(PyObject *SWIGUNUSEDPARM(self), PyO
   void *argp2 ;
   int res2 = 0 ;
   PyObject *swig_obj[2] ;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "Manifest_set_kind", 2, 2, swig_obj)) SWIG_fail;
   {
     int newmem = 0;
@@ -17481,8 +17481,8 @@ SWIGINTERN PyObject *_wrap_Manifest_set_kind(PyObject *SWIGUNUSEDPARM(self), PyO
   {
     res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_esys__repo__manifest__Kind,  0  | 0);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Manifest_set_kind" "', argument " "2"" of type '" "esys::repo::manifest::Kind""'");
-    }
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Manifest_set_kind" "', argument " "2"" of type '" "esys::repo::manifest::Kind""'"); 
+    }  
     if (!argp2) {
       SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Manifest_set_kind" "', argument " "2"" of type '" "esys::repo::manifest::Kind""'");
     } else {
@@ -17508,7 +17508,7 @@ SWIGINTERN PyObject *_wrap_Manifest_get_kind(PyObject *SWIGUNUSEDPARM(self), PyO
   std::shared_ptr< esys::repo::Manifest const > *smartarg1 = 0 ;
   PyObject *swig_obj[1] ;
   esys::repo::manifest::Kind result;
-
+  
   if (!args) SWIG_fail;
   swig_obj[0] = args;
   {
@@ -17545,7 +17545,7 @@ SWIGINTERN PyObject *_wrap_Manifest_set_format(PyObject *SWIGUNUSEDPARM(self), P
   int val2 ;
   int ecode2 = 0 ;
   PyObject *swig_obj[2] ;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "Manifest_set_format", 2, 2, swig_obj)) SWIG_fail;
   {
     int newmem = 0;
@@ -17565,7 +17565,7 @@ SWIGINTERN PyObject *_wrap_Manifest_set_format(PyObject *SWIGUNUSEDPARM(self), P
   ecode2 = SWIG_AsVal_int(swig_obj[1], &val2);
   if (!SWIG_IsOK(ecode2)) {
     SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "Manifest_set_format" "', argument " "2"" of type '" "esys::repo::manifest::Format""'");
-  }
+  } 
   arg2 = static_cast< esys::repo::manifest::Format >(val2);
   (arg1)->set_format(arg2);
   resultobj = SWIG_Py_Void();
@@ -17584,7 +17584,7 @@ SWIGINTERN PyObject *_wrap_Manifest_get_format(PyObject *SWIGUNUSEDPARM(self), P
   std::shared_ptr< esys::repo::Manifest const > *smartarg1 = 0 ;
   PyObject *swig_obj[1] ;
   esys::repo::manifest::Format result;
-
+  
   if (!args) SWIG_fail;
   swig_obj[0] = args;
   {
@@ -17624,7 +17624,7 @@ SWIGINTERN PyObject *_wrap_Manifest_add_location__SWIG_0(PyObject *SWIGUNUSEDPAR
   bool val3 ;
   int ecode3 = 0 ;
   int result;
-
+  
   if ((nobjs < 3) || (nobjs > 3)) SWIG_fail;
   {
     int newmem = 0;
@@ -17644,8 +17644,8 @@ SWIGINTERN PyObject *_wrap_Manifest_add_location__SWIG_0(PyObject *SWIGUNUSEDPAR
   {
     res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_std__shared_ptrT_esys__repo__manifest__Location_t,  0  | 0);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Manifest_add_location" "', argument " "2"" of type '" "std::shared_ptr< esys::repo::manifest::Location >""'");
-    }
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Manifest_add_location" "', argument " "2"" of type '" "std::shared_ptr< esys::repo::manifest::Location >""'"); 
+    }  
     if (!argp2) {
       SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Manifest_add_location" "', argument " "2"" of type '" "std::shared_ptr< esys::repo::manifest::Location >""'");
     } else {
@@ -17657,7 +17657,7 @@ SWIGINTERN PyObject *_wrap_Manifest_add_location__SWIG_0(PyObject *SWIGUNUSEDPAR
   ecode3 = SWIG_AsVal_bool(swig_obj[2], &val3);
   if (!SWIG_IsOK(ecode3)) {
     SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "Manifest_add_location" "', argument " "3"" of type '" "bool""'");
-  }
+  } 
   arg3 = static_cast< bool >(val3);
   result = (int)(arg1)->add_location(arg2,arg3);
   resultobj = SWIG_From_int(static_cast< int >(result));
@@ -17678,7 +17678,7 @@ SWIGINTERN PyObject *_wrap_Manifest_add_location__SWIG_1(PyObject *SWIGUNUSEDPAR
   void *argp2 ;
   int res2 = 0 ;
   int result;
-
+  
   if ((nobjs < 2) || (nobjs > 2)) SWIG_fail;
   {
     int newmem = 0;
@@ -17698,8 +17698,8 @@ SWIGINTERN PyObject *_wrap_Manifest_add_location__SWIG_1(PyObject *SWIGUNUSEDPAR
   {
     res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_std__shared_ptrT_esys__repo__manifest__Location_t,  0  | 0);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Manifest_add_location" "', argument " "2"" of type '" "std::shared_ptr< esys::repo::manifest::Location >""'");
-    }
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Manifest_add_location" "', argument " "2"" of type '" "std::shared_ptr< esys::repo::manifest::Location >""'"); 
+    }  
     if (!argp2) {
       SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Manifest_add_location" "', argument " "2"" of type '" "std::shared_ptr< esys::repo::manifest::Location >""'");
     } else {
@@ -17721,7 +17721,7 @@ SWIGINTERN PyObject *_wrap_Manifest_add_location(PyObject *self, PyObject *args)
   PyObject *argv[4] = {
     0
   };
-
+  
   if (!(argc = SWIG_Python_UnpackTuple(args, "Manifest_add_location", 0, 3, argv))) SWIG_fail;
   --argc;
   if (argc == 2) {
@@ -17754,7 +17754,7 @@ SWIGINTERN PyObject *_wrap_Manifest_add_location(PyObject *self, PyObject *args)
       }
     }
   }
-
+  
 fail:
   SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'Manifest_add_location'.\n"
     "  Possible C/C++ prototypes are:\n"
@@ -17773,7 +17773,7 @@ SWIGINTERN PyObject *_wrap_Manifest_get_locations(PyObject *SWIGUNUSEDPARM(self)
   std::shared_ptr< esys::repo::Manifest > *smartarg1 = 0 ;
   PyObject *swig_obj[1] ;
   std::vector< std::shared_ptr< esys::repo::manifest::Location >,std::allocator< std::shared_ptr< esys::repo::manifest::Location > > > *result = 0 ;
-
+  
   if (!args) SWIG_fail;
   swig_obj[0] = args;
   {
@@ -17808,7 +17808,7 @@ SWIGINTERN PyObject *_wrap_Manifest_get_map_locations(PyObject *SWIGUNUSEDPARM(s
   std::shared_ptr< esys::repo::Manifest > *smartarg1 = 0 ;
   PyObject *swig_obj[1] ;
   std::map< std::string,std::shared_ptr< esys::repo::manifest::Location > > *result = 0 ;
-
+  
   if (!args) SWIG_fail;
   swig_obj[0] = args;
   {
@@ -17845,7 +17845,7 @@ SWIGINTERN PyObject *_wrap_Manifest_find_location(PyObject *SWIGUNUSEDPARM(self)
   int res2 = SWIG_OLDOBJ ;
   PyObject *swig_obj[2] ;
   SwigValueWrapper< std::shared_ptr< esys::repo::manifest::Location > > result;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "Manifest_find_location", 2, 2, swig_obj)) SWIG_fail;
   {
     int newmem = 0;
@@ -17866,10 +17866,10 @@ SWIGINTERN PyObject *_wrap_Manifest_find_location(PyObject *SWIGUNUSEDPARM(self)
     std::string *ptr = (std::string *)0;
     res2 = SWIG_AsPtr_std_string(swig_obj[1], &ptr);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Manifest_find_location" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Manifest_find_location" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Manifest_find_location" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Manifest_find_location" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     arg2 = ptr;
   }
@@ -17894,7 +17894,7 @@ SWIGINTERN PyObject *_wrap_Manifest_find_repo_by_path(PyObject *SWIGUNUSEDPARM(s
   int res2 = SWIG_OLDOBJ ;
   PyObject *swig_obj[2] ;
   std::shared_ptr< esys::repo::manifest::Repository > result;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "Manifest_find_repo_by_path", 2, 2, swig_obj)) SWIG_fail;
   {
     int newmem = 0;
@@ -17915,10 +17915,10 @@ SWIGINTERN PyObject *_wrap_Manifest_find_repo_by_path(PyObject *SWIGUNUSEDPARM(s
     std::string *ptr = (std::string *)0;
     res2 = SWIG_AsPtr_std_string(swig_obj[1], &ptr);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Manifest_find_repo_by_path" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Manifest_find_repo_by_path" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Manifest_find_repo_by_path" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Manifest_find_repo_by_path" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     arg2 = ptr;
   }
@@ -17946,7 +17946,7 @@ SWIGINTERN PyObject *_wrap_Manifest_find_path_by_repo(PyObject *SWIGUNUSEDPARM(s
   int res2 = SWIG_OLDOBJ ;
   PyObject *swig_obj[2] ;
   std::string result;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "Manifest_find_path_by_repo", 2, 2, swig_obj)) SWIG_fail;
   {
     int newmem = 0;
@@ -17967,10 +17967,10 @@ SWIGINTERN PyObject *_wrap_Manifest_find_path_by_repo(PyObject *SWIGUNUSEDPARM(s
     std::string *ptr = (std::string *)0;
     res2 = SWIG_AsPtr_std_string(swig_obj[1], &ptr);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Manifest_find_path_by_repo" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Manifest_find_path_by_repo" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Manifest_find_path_by_repo" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Manifest_find_path_by_repo" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     arg2 = ptr;
   }
@@ -17994,7 +17994,7 @@ SWIGINTERN PyObject *_wrap_Manifest_set_default_location__SWIG_0(PyObject *SWIGU
   std::shared_ptr< esys::repo::Manifest > *smartarg1 = 0 ;
   void *argp2 ;
   int res2 = 0 ;
-
+  
   if ((nobjs < 2) || (nobjs > 2)) SWIG_fail;
   {
     int newmem = 0;
@@ -18014,8 +18014,8 @@ SWIGINTERN PyObject *_wrap_Manifest_set_default_location__SWIG_0(PyObject *SWIGU
   {
     res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_std__shared_ptrT_esys__repo__manifest__Location_t,  0  | 0);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Manifest_set_default_location" "', argument " "2"" of type '" "std::shared_ptr< esys::repo::manifest::Location >""'");
-    }
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Manifest_set_default_location" "', argument " "2"" of type '" "std::shared_ptr< esys::repo::manifest::Location >""'"); 
+    }  
     if (!argp2) {
       SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Manifest_set_default_location" "', argument " "2"" of type '" "std::shared_ptr< esys::repo::manifest::Location >""'");
     } else {
@@ -18041,7 +18041,7 @@ SWIGINTERN PyObject *_wrap_Manifest_get_default_location(PyObject *SWIGUNUSEDPAR
   std::shared_ptr< esys::repo::Manifest > *smartarg1 = 0 ;
   PyObject *swig_obj[1] ;
   SwigValueWrapper< std::shared_ptr< esys::repo::manifest::Location > > result;
-
+  
   if (!args) SWIG_fail;
   swig_obj[0] = args;
   {
@@ -18076,7 +18076,7 @@ SWIGINTERN PyObject *_wrap_Manifest_set_default_location__SWIG_1(PyObject *SWIGU
   std::shared_ptr< esys::repo::Manifest > tempshared1 ;
   std::shared_ptr< esys::repo::Manifest > *smartarg1 = 0 ;
   int res2 = SWIG_OLDOBJ ;
-
+  
   if ((nobjs < 2) || (nobjs > 2)) SWIG_fail;
   {
     int newmem = 0;
@@ -18097,10 +18097,10 @@ SWIGINTERN PyObject *_wrap_Manifest_set_default_location__SWIG_1(PyObject *SWIGU
     std::string *ptr = (std::string *)0;
     res2 = SWIG_AsPtr_std_string(swig_obj[1], &ptr);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Manifest_set_default_location" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Manifest_set_default_location" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Manifest_set_default_location" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Manifest_set_default_location" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     arg2 = ptr;
   }
@@ -18119,7 +18119,7 @@ SWIGINTERN PyObject *_wrap_Manifest_set_default_location(PyObject *self, PyObjec
   PyObject *argv[3] = {
     0
   };
-
+  
   if (!(argc = SWIG_Python_UnpackTuple(args, "Manifest_set_default_location", 0, 2, argv))) SWIG_fail;
   --argc;
   if (argc == 2) {
@@ -18146,7 +18146,7 @@ SWIGINTERN PyObject *_wrap_Manifest_set_default_location(PyObject *self, PyObjec
       }
     }
   }
-
+  
 fail:
   SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'Manifest_set_default_location'.\n"
     "  Possible C/C++ prototypes are:\n"
@@ -18165,7 +18165,7 @@ SWIGINTERN PyObject *_wrap_Manifest_get_default_location_str(PyObject *SWIGUNUSE
   std::shared_ptr< esys::repo::Manifest const > *smartarg1 = 0 ;
   PyObject *swig_obj[1] ;
   std::string *result = 0 ;
-
+  
   if (!args) SWIG_fail;
   swig_obj[0] = args;
   {
@@ -18201,7 +18201,7 @@ SWIGINTERN PyObject *_wrap_Manifest_set_default_revision(PyObject *SWIGUNUSEDPAR
   std::shared_ptr< esys::repo::Manifest > *smartarg1 = 0 ;
   int res2 = SWIG_OLDOBJ ;
   PyObject *swig_obj[2] ;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "Manifest_set_default_revision", 2, 2, swig_obj)) SWIG_fail;
   {
     int newmem = 0;
@@ -18222,10 +18222,10 @@ SWIGINTERN PyObject *_wrap_Manifest_set_default_revision(PyObject *SWIGUNUSEDPAR
     std::string *ptr = (std::string *)0;
     res2 = SWIG_AsPtr_std_string(swig_obj[1], &ptr);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Manifest_set_default_revision" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Manifest_set_default_revision" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Manifest_set_default_revision" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Manifest_set_default_revision" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     arg2 = ptr;
   }
@@ -18248,7 +18248,7 @@ SWIGINTERN PyObject *_wrap_Manifest_get_default_revision(PyObject *SWIGUNUSEDPAR
   std::shared_ptr< esys::repo::Manifest const > *smartarg1 = 0 ;
   PyObject *swig_obj[1] ;
   std::string *result = 0 ;
-
+  
   if (!args) SWIG_fail;
   swig_obj[0] = args;
   {
@@ -18285,7 +18285,7 @@ SWIGINTERN PyObject *_wrap_Manifest_set_default_job_count(PyObject *SWIGUNUSEDPA
   int val2 ;
   int ecode2 = 0 ;
   PyObject *swig_obj[2] ;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "Manifest_set_default_job_count", 2, 2, swig_obj)) SWIG_fail;
   {
     int newmem = 0;
@@ -18305,7 +18305,7 @@ SWIGINTERN PyObject *_wrap_Manifest_set_default_job_count(PyObject *SWIGUNUSEDPA
   ecode2 = SWIG_AsVal_int(swig_obj[1], &val2);
   if (!SWIG_IsOK(ecode2)) {
     SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "Manifest_set_default_job_count" "', argument " "2"" of type '" "int""'");
-  }
+  } 
   arg2 = static_cast< int >(val2);
   (arg1)->set_default_job_count(arg2);
   resultobj = SWIG_Py_Void();
@@ -18324,7 +18324,7 @@ SWIGINTERN PyObject *_wrap_Manifest_get_default_job_count(PyObject *SWIGUNUSEDPA
   std::shared_ptr< esys::repo::Manifest const > *smartarg1 = 0 ;
   PyObject *swig_obj[1] ;
   int result;
-
+  
   if (!args) SWIG_fail;
   swig_obj[0] = args;
   {
@@ -18362,7 +18362,7 @@ SWIGINTERN PyObject *_wrap_Manifest_get_repo_revision(PyObject *SWIGUNUSEDPARM(s
   int res2 = 0 ;
   PyObject *swig_obj[2] ;
   std::string result;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "Manifest_get_repo_revision", 2, 2, swig_obj)) SWIG_fail;
   {
     int newmem = 0;
@@ -18404,7 +18404,7 @@ SWIGINTERN PyObject *_wrap_Manifest_clear(PyObject *SWIGUNUSEDPARM(self), PyObje
   std::shared_ptr< esys::repo::Manifest > tempshared1 ;
   std::shared_ptr< esys::repo::Manifest > *smartarg1 = 0 ;
   PyObject *swig_obj[1] ;
-
+  
   if (!args) SWIG_fail;
   swig_obj[0] = args;
   {
@@ -18439,7 +18439,7 @@ SWIGINTERN PyObject *_wrap_Manifest_get_groups(PyObject *SWIGUNUSEDPARM(self), P
   std::shared_ptr< esys::repo::Manifest > *smartarg1 = 0 ;
   PyObject *swig_obj[1] ;
   esys::repo::manifest::Groups *result = 0 ;
-
+  
   if (!args) SWIG_fail;
   swig_obj[0] = args;
   {
@@ -18478,7 +18478,7 @@ SWIGINTERN PyObject *_wrap_Manifest___eq__(PyObject *SWIGUNUSEDPARM(self), PyObj
   std::shared_ptr< esys::repo::Manifest const > tempshared2 ;
   PyObject *swig_obj[2] ;
   bool result;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "Manifest___eq__", 2, 2, swig_obj)) SWIG_fail;
   {
     int newmem = 0;
@@ -18502,7 +18502,7 @@ SWIGINTERN PyObject *_wrap_Manifest___eq__(PyObject *SWIGUNUSEDPARM(self), PyObj
       SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Manifest___eq__" "', argument " "2"" of type '" "esys::repo::Manifest const &""'");
     }
     if (!argp2) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Manifest___eq__" "', argument " "2"" of type '" "esys::repo::Manifest const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Manifest___eq__" "', argument " "2"" of type '" "esys::repo::Manifest const &""'"); 
     }
     if (newmem & SWIG_CAST_NEW_MEMORY) {
       tempshared2 = *reinterpret_cast< std::shared_ptr< const esys::repo::Manifest > * >(argp2);
@@ -18535,7 +18535,7 @@ SWIGINTERN PyObject *_wrap_Manifest___ne__(PyObject *SWIGUNUSEDPARM(self), PyObj
   std::shared_ptr< esys::repo::Manifest const > tempshared2 ;
   PyObject *swig_obj[2] ;
   bool result;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "Manifest___ne__", 2, 2, swig_obj)) SWIG_fail;
   {
     int newmem = 0;
@@ -18559,7 +18559,7 @@ SWIGINTERN PyObject *_wrap_Manifest___ne__(PyObject *SWIGUNUSEDPARM(self), PyObj
       SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Manifest___ne__" "', argument " "2"" of type '" "esys::repo::Manifest const &""'");
     }
     if (!argp2) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Manifest___ne__" "', argument " "2"" of type '" "esys::repo::Manifest const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Manifest___ne__" "', argument " "2"" of type '" "esys::repo::Manifest const &""'"); 
     }
     if (newmem & SWIG_CAST_NEW_MEMORY) {
       tempshared2 = *reinterpret_cast< std::shared_ptr< const esys::repo::Manifest > * >(argp2);
@@ -18596,12 +18596,12 @@ SWIGINTERN PyObject *_wrap_delete_FileBase(PyObject *SWIGUNUSEDPARM(self), PyObj
   void *argp1 = 0 ;
   int res1 = 0 ;
   PyObject *swig_obj[1] ;
-
+  
   if (!args) SWIG_fail;
   swig_obj[0] = args;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__manifest__FileBase, SWIG_POINTER_DISOWN |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_FileBase" "', argument " "1"" of type '" "esys::repo::manifest::FileBase *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_FileBase" "', argument " "1"" of type '" "esys::repo::manifest::FileBase *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::manifest::FileBase * >(argp1);
   delete arg1;
@@ -18621,11 +18621,11 @@ SWIGINTERN PyObject *_wrap_FileBase_set_data(PyObject *SWIGUNUSEDPARM(self), PyO
   void *argp2 ;
   int res2 = 0 ;
   PyObject *swig_obj[2] ;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "FileBase_set_data", 2, 2, swig_obj)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__manifest__FileBase, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "FileBase_set_data" "', argument " "1"" of type '" "esys::repo::manifest::FileBase *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "FileBase_set_data" "', argument " "1"" of type '" "esys::repo::manifest::FileBase *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::manifest::FileBase * >(argp1);
   {
@@ -18652,12 +18652,12 @@ SWIGINTERN PyObject *_wrap_FileBase_get_data(PyObject *SWIGUNUSEDPARM(self), PyO
   int res1 = 0 ;
   PyObject *swig_obj[1] ;
   std::shared_ptr< esys::repo::Manifest > result;
-
+  
   if (!args) SWIG_fail;
   swig_obj[0] = args;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__manifest__FileBase, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "FileBase_get_data" "', argument " "1"" of type '" "esys::repo::manifest::FileBase const *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "FileBase_get_data" "', argument " "1"" of type '" "esys::repo::manifest::FileBase const *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::manifest::FileBase * >(argp1);
   result = ((esys::repo::manifest::FileBase const *)arg1)->get_data();
@@ -18680,21 +18680,21 @@ SWIGINTERN PyObject *_wrap_FileBase_read(PyObject *SWIGUNUSEDPARM(self), PyObjec
   int res2 = SWIG_OLDOBJ ;
   PyObject *swig_obj[2] ;
   int result;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "FileBase_read", 2, 2, swig_obj)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__manifest__FileBase, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "FileBase_read" "', argument " "1"" of type '" "esys::repo::manifest::FileBase *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "FileBase_read" "', argument " "1"" of type '" "esys::repo::manifest::FileBase *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::manifest::FileBase * >(argp1);
   {
     std::string *ptr = (std::string *)0;
     res2 = SWIG_AsPtr_std_string(swig_obj[1], &ptr);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "FileBase_read" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "FileBase_read" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "FileBase_read" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "FileBase_read" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     arg2 = ptr;
   }
@@ -18716,21 +18716,21 @@ SWIGINTERN PyObject *_wrap_FileBase_write__SWIG_0(PyObject *SWIGUNUSEDPARM(self)
   int res1 = 0 ;
   int res2 = SWIG_OLDOBJ ;
   int result;
-
+  
   if ((nobjs < 2) || (nobjs > 2)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__manifest__FileBase, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "FileBase_write" "', argument " "1"" of type '" "esys::repo::manifest::FileBase *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "FileBase_write" "', argument " "1"" of type '" "esys::repo::manifest::FileBase *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::manifest::FileBase * >(argp1);
   {
     std::string *ptr = (std::string *)0;
     res2 = SWIG_AsPtr_std_string(swig_obj[1], &ptr);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "FileBase_write" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "FileBase_write" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "FileBase_write" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "FileBase_write" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     arg2 = ptr;
   }
@@ -18753,19 +18753,19 @@ SWIGINTERN PyObject *_wrap_FileBase_write__SWIG_1(PyObject *SWIGUNUSEDPARM(self)
   void *argp2 = 0 ;
   int res2 = 0 ;
   int result;
-
+  
   if ((nobjs < 2) || (nobjs > 2)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__manifest__FileBase, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "FileBase_write" "', argument " "1"" of type '" "esys::repo::manifest::FileBase *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "FileBase_write" "', argument " "1"" of type '" "esys::repo::manifest::FileBase *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::manifest::FileBase * >(argp1);
   res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_std__ostream,  0 );
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "FileBase_write" "', argument " "2"" of type '" "std::ostream &""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "FileBase_write" "', argument " "2"" of type '" "std::ostream &""'"); 
   }
   if (!argp2) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "FileBase_write" "', argument " "2"" of type '" "std::ostream &""'");
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "FileBase_write" "', argument " "2"" of type '" "std::ostream &""'"); 
   }
   arg2 = reinterpret_cast< std::ostream * >(argp2);
   result = (int)(arg1)->write(*arg2);
@@ -18781,7 +18781,7 @@ SWIGINTERN PyObject *_wrap_FileBase_write(PyObject *self, PyObject *args) {
   PyObject *argv[3] = {
     0
   };
-
+  
   if (!(argc = SWIG_Python_UnpackTuple(args, "FileBase_write", 0, 2, argv))) SWIG_fail;
   --argc;
   if (argc == 2) {
@@ -18811,7 +18811,7 @@ SWIGINTERN PyObject *_wrap_FileBase_write(PyObject *self, PyObject *args) {
       }
     }
   }
-
+  
 fail:
   SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'FileBase_write'.\n"
     "  Possible C/C++ prototypes are:\n"
@@ -18828,12 +18828,12 @@ SWIGINTERN PyObject *_wrap_FileBase_get_errors(PyObject *SWIGUNUSEDPARM(self), P
   int res1 = 0 ;
   PyObject *swig_obj[1] ;
   std::vector< std::shared_ptr< esys::repo::manifest::FileError >,std::allocator< std::shared_ptr< esys::repo::manifest::FileError > > > *result = 0 ;
-
+  
   if (!args) SWIG_fail;
   swig_obj[0] = args;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__manifest__FileBase, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "FileBase_get_errors" "', argument " "1"" of type '" "esys::repo::manifest::FileBase *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "FileBase_get_errors" "', argument " "1"" of type '" "esys::repo::manifest::FileBase *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::manifest::FileBase * >(argp1);
   result = (std::vector< std::shared_ptr< esys::repo::manifest::FileError >,std::allocator< std::shared_ptr< esys::repo::manifest::FileError > > > *) &(arg1)->get_errors();
@@ -18852,18 +18852,18 @@ SWIGINTERN PyObject *_wrap_FileBase_add_error__SWIG_0(PyObject *SWIGUNUSEDPARM(s
   int res1 = 0 ;
   void *argp2 ;
   int res2 = 0 ;
-
+  
   if ((nobjs < 2) || (nobjs > 2)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__manifest__FileBase, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "FileBase_add_error" "', argument " "1"" of type '" "esys::repo::manifest::FileBase *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "FileBase_add_error" "', argument " "1"" of type '" "esys::repo::manifest::FileBase *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::manifest::FileBase * >(argp1);
   {
     res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_std__shared_ptrT_esys__repo__manifest__FileError_t,  0  | 0);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "FileBase_add_error" "', argument " "2"" of type '" "std::shared_ptr< esys::repo::manifest::FileError >""'");
-    }
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "FileBase_add_error" "', argument " "2"" of type '" "std::shared_ptr< esys::repo::manifest::FileError >""'"); 
+    }  
     if (!argp2) {
       SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "FileBase_add_error" "', argument " "2"" of type '" "std::shared_ptr< esys::repo::manifest::FileError >""'");
     } else {
@@ -18890,26 +18890,26 @@ SWIGINTERN PyObject *_wrap_FileBase_add_error__SWIG_1(PyObject *SWIGUNUSEDPARM(s
   int val2 ;
   int ecode2 = 0 ;
   int res3 = SWIG_OLDOBJ ;
-
+  
   if ((nobjs < 3) || (nobjs > 3)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__manifest__FileBase, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "FileBase_add_error" "', argument " "1"" of type '" "esys::repo::manifest::FileBase *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "FileBase_add_error" "', argument " "1"" of type '" "esys::repo::manifest::FileBase *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::manifest::FileBase * >(argp1);
   ecode2 = SWIG_AsVal_int(swig_obj[1], &val2);
   if (!SWIG_IsOK(ecode2)) {
     SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "FileBase_add_error" "', argument " "2"" of type '" "int""'");
-  }
+  } 
   arg2 = static_cast< int >(val2);
   {
     std::string *ptr = (std::string *)0;
     res3 = SWIG_AsPtr_std_string(swig_obj[2], &ptr);
     if (!SWIG_IsOK(res3)) {
-      SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "FileBase_add_error" "', argument " "3"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "FileBase_add_error" "', argument " "3"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "FileBase_add_error" "', argument " "3"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "FileBase_add_error" "', argument " "3"" of type '" "std::string const &""'"); 
     }
     arg3 = ptr;
   }
@@ -18936,33 +18936,33 @@ SWIGINTERN PyObject *_wrap_FileBase_add_error__SWIG_2(PyObject *SWIGUNUSEDPARM(s
   int res3 = SWIG_OLDOBJ ;
   int val4 ;
   int ecode4 = 0 ;
-
+  
   if ((nobjs < 4) || (nobjs > 4)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__manifest__FileBase, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "FileBase_add_error" "', argument " "1"" of type '" "esys::repo::manifest::FileBase *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "FileBase_add_error" "', argument " "1"" of type '" "esys::repo::manifest::FileBase *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::manifest::FileBase * >(argp1);
   ecode2 = SWIG_AsVal_int(swig_obj[1], &val2);
   if (!SWIG_IsOK(ecode2)) {
     SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "FileBase_add_error" "', argument " "2"" of type '" "int""'");
-  }
+  } 
   arg2 = static_cast< int >(val2);
   {
     std::string *ptr = (std::string *)0;
     res3 = SWIG_AsPtr_std_string(swig_obj[2], &ptr);
     if (!SWIG_IsOK(res3)) {
-      SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "FileBase_add_error" "', argument " "3"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "FileBase_add_error" "', argument " "3"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "FileBase_add_error" "', argument " "3"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "FileBase_add_error" "', argument " "3"" of type '" "std::string const &""'"); 
     }
     arg3 = ptr;
   }
   ecode4 = SWIG_AsVal_int(swig_obj[3], &val4);
   if (!SWIG_IsOK(ecode4)) {
     SWIG_exception_fail(SWIG_ArgError(ecode4), "in method '" "FileBase_add_error" "', argument " "4"" of type '" "int""'");
-  }
+  } 
   arg4 = static_cast< int >(val4);
   (arg1)->add_error(arg2,(std::string const &)*arg3,arg4);
   resultobj = SWIG_Py_Void();
@@ -18979,7 +18979,7 @@ SWIGINTERN PyObject *_wrap_FileBase_add_error(PyObject *self, PyObject *args) {
   PyObject *argv[5] = {
     0
   };
-
+  
   if (!(argc = SWIG_Python_UnpackTuple(args, "FileBase_add_error", 0, 4, argv))) SWIG_fail;
   --argc;
   if (argc == 2) {
@@ -19039,7 +19039,7 @@ SWIGINTERN PyObject *_wrap_FileBase_add_error(PyObject *self, PyObject *args) {
       }
     }
   }
-
+  
 fail:
   SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'FileBase_add_error'.\n"
     "  Possible C/C++ prototypes are:\n"
@@ -19060,7 +19060,7 @@ SWIGINTERN PyObject *FileBase_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObj
 SWIGINTERN PyObject *_wrap_new_GRepoManifest(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   esys::repo::grepo::Manifest *result = 0 ;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "new_GRepoManifest", 0, 0, 0)) SWIG_fail;
   result = (esys::repo::grepo::Manifest *)new esys::repo::grepo::Manifest();
   resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_esys__repo__grepo__Manifest, SWIG_POINTER_NEW |  0 );
@@ -19076,12 +19076,12 @@ SWIGINTERN PyObject *_wrap_delete_GRepoManifest(PyObject *SWIGUNUSEDPARM(self), 
   void *argp1 = 0 ;
   int res1 = 0 ;
   PyObject *swig_obj[1] ;
-
+  
   if (!args) SWIG_fail;
   swig_obj[0] = args;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__grepo__Manifest, SWIG_POINTER_DISOWN |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_GRepoManifest" "', argument " "1"" of type '" "esys::repo::grepo::Manifest *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_GRepoManifest" "', argument " "1"" of type '" "esys::repo::grepo::Manifest *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::grepo::Manifest * >(argp1);
   delete arg1;
@@ -19101,21 +19101,21 @@ SWIGINTERN PyObject *_wrap_GRepoManifest_read(PyObject *SWIGUNUSEDPARM(self), Py
   int res2 = SWIG_OLDOBJ ;
   PyObject *swig_obj[2] ;
   int result;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "GRepoManifest_read", 2, 2, swig_obj)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__grepo__Manifest, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GRepoManifest_read" "', argument " "1"" of type '" "esys::repo::grepo::Manifest *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GRepoManifest_read" "', argument " "1"" of type '" "esys::repo::grepo::Manifest *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::grepo::Manifest * >(argp1);
   {
     std::string *ptr = (std::string *)0;
     res2 = SWIG_AsPtr_std_string(swig_obj[1], &ptr);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GRepoManifest_read" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GRepoManifest_read" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GRepoManifest_read" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GRepoManifest_read" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     arg2 = ptr;
   }
@@ -19137,21 +19137,21 @@ SWIGINTERN PyObject *_wrap_GRepoManifest_write__SWIG_0(PyObject *SWIGUNUSEDPARM(
   int res1 = 0 ;
   int res2 = SWIG_OLDOBJ ;
   int result;
-
+  
   if ((nobjs < 2) || (nobjs > 2)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__grepo__Manifest, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GRepoManifest_write" "', argument " "1"" of type '" "esys::repo::grepo::Manifest *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GRepoManifest_write" "', argument " "1"" of type '" "esys::repo::grepo::Manifest *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::grepo::Manifest * >(argp1);
   {
     std::string *ptr = (std::string *)0;
     res2 = SWIG_AsPtr_std_string(swig_obj[1], &ptr);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GRepoManifest_write" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GRepoManifest_write" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GRepoManifest_write" "', argument " "2"" of type '" "std::string const &""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GRepoManifest_write" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     arg2 = ptr;
   }
@@ -19174,19 +19174,19 @@ SWIGINTERN PyObject *_wrap_GRepoManifest_write__SWIG_1(PyObject *SWIGUNUSEDPARM(
   void *argp2 = 0 ;
   int res2 = 0 ;
   int result;
-
+  
   if ((nobjs < 2) || (nobjs > 2)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__grepo__Manifest, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GRepoManifest_write" "', argument " "1"" of type '" "esys::repo::grepo::Manifest *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GRepoManifest_write" "', argument " "1"" of type '" "esys::repo::grepo::Manifest *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::grepo::Manifest * >(argp1);
   res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_std__ostream,  0 );
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GRepoManifest_write" "', argument " "2"" of type '" "std::ostream &""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GRepoManifest_write" "', argument " "2"" of type '" "std::ostream &""'"); 
   }
   if (!argp2) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GRepoManifest_write" "', argument " "2"" of type '" "std::ostream &""'");
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GRepoManifest_write" "', argument " "2"" of type '" "std::ostream &""'"); 
   }
   arg2 = reinterpret_cast< std::ostream * >(argp2);
   result = (int)(arg1)->write(*arg2);
@@ -19202,7 +19202,7 @@ SWIGINTERN PyObject *_wrap_GRepoManifest_write(PyObject *self, PyObject *args) {
   PyObject *argv[3] = {
     0
   };
-
+  
   if (!(argc = SWIG_Python_UnpackTuple(args, "GRepoManifest_write", 0, 2, argv))) SWIG_fail;
   --argc;
   if (argc == 2) {
@@ -19232,7 +19232,7 @@ SWIGINTERN PyObject *_wrap_GRepoManifest_write(PyObject *self, PyObject *args) {
       }
     }
   }
-
+  
 fail:
   SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'GRepoManifest_write'.\n"
     "  Possible C/C++ prototypes are:\n"
@@ -19252,19 +19252,19 @@ SWIGINTERN PyObject *_wrap_GRepoManifest___eq__(PyObject *SWIGUNUSEDPARM(self), 
   int res2 = 0 ;
   PyObject *swig_obj[2] ;
   bool result;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "GRepoManifest___eq__", 2, 2, swig_obj)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__grepo__Manifest, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GRepoManifest___eq__" "', argument " "1"" of type '" "esys::repo::grepo::Manifest const *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GRepoManifest___eq__" "', argument " "1"" of type '" "esys::repo::grepo::Manifest const *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::grepo::Manifest * >(argp1);
   res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_esys__repo__grepo__Manifest,  0  | 0);
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GRepoManifest___eq__" "', argument " "2"" of type '" "esys::repo::grepo::Manifest const &""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GRepoManifest___eq__" "', argument " "2"" of type '" "esys::repo::grepo::Manifest const &""'"); 
   }
   if (!argp2) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GRepoManifest___eq__" "', argument " "2"" of type '" "esys::repo::grepo::Manifest const &""'");
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GRepoManifest___eq__" "', argument " "2"" of type '" "esys::repo::grepo::Manifest const &""'"); 
   }
   arg2 = reinterpret_cast< esys::repo::grepo::Manifest * >(argp2);
   result = (bool)((esys::repo::grepo::Manifest const *)arg1)->operator ==((esys::repo::grepo::Manifest const &)*arg2);
@@ -19287,19 +19287,19 @@ SWIGINTERN PyObject *_wrap_GRepoManifest___ne__(PyObject *SWIGUNUSEDPARM(self), 
   int res2 = 0 ;
   PyObject *swig_obj[2] ;
   bool result;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "GRepoManifest___ne__", 2, 2, swig_obj)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__grepo__Manifest, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GRepoManifest___ne__" "', argument " "1"" of type '" "esys::repo::grepo::Manifest const *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GRepoManifest___ne__" "', argument " "1"" of type '" "esys::repo::grepo::Manifest const *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::grepo::Manifest * >(argp1);
   res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_esys__repo__grepo__Manifest,  0  | 0);
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GRepoManifest___ne__" "', argument " "2"" of type '" "esys::repo::grepo::Manifest const &""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GRepoManifest___ne__" "', argument " "2"" of type '" "esys::repo::grepo::Manifest const &""'"); 
   }
   if (!argp2) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GRepoManifest___ne__" "', argument " "2"" of type '" "esys::repo::grepo::Manifest const &""'");
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GRepoManifest___ne__" "', argument " "2"" of type '" "esys::repo::grepo::Manifest const &""'"); 
   }
   arg2 = reinterpret_cast< esys::repo::grepo::Manifest * >(argp2);
   result = (bool)((esys::repo::grepo::Manifest const *)arg1)->operator !=((esys::repo::grepo::Manifest const &)*arg2);
@@ -19319,12 +19319,12 @@ SWIGINTERN PyObject *_wrap_GRepoManifest_get_impl(PyObject *SWIGUNUSEDPARM(self)
   int res1 = 0 ;
   PyObject *swig_obj[1] ;
   esys::repo::grepo::ManifestImpl *result = 0 ;
-
+  
   if (!args) SWIG_fail;
   swig_obj[0] = args;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_esys__repo__grepo__Manifest, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GRepoManifest_get_impl" "', argument " "1"" of type '" "esys::repo::grepo::Manifest *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GRepoManifest_get_impl" "', argument " "1"" of type '" "esys::repo::grepo::Manifest *""'"); 
   }
   arg1 = reinterpret_cast< esys::repo::grepo::Manifest * >(argp1);
   result = (esys::repo::grepo::ManifestImpl *)(arg1)->get_impl();
@@ -19338,7 +19338,7 @@ fail:
 SWIGINTERN PyObject *_wrap_GRepoManifest_get_folder_name(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   std::string *result = 0 ;
-
+  
   if (!SWIG_Python_UnpackTuple(args, "GRepoManifest_get_folder_name", 0, 0, 0)) SWIG_fail;
   result = (std::string *) &esys::repo::grepo::Manifest::get_folder_name();
   resultobj = SWIG_From_std_string(static_cast< std::string >(*result));
@@ -20018,7 +20018,7 @@ SWIG_InitializeModule(void *clientdata) {
   size_t i;
   swig_module_info *module_head, *iter;
   int init;
-
+  
   /* check to see if the circular list has been setup, if not, set it up */
   if (swig_module.next==0) {
     /* Initialize the swig_module */
@@ -20029,7 +20029,7 @@ SWIG_InitializeModule(void *clientdata) {
   } else {
     init = 0;
   }
-
+  
   /* Try and load any already created modules */
   module_head = SWIG_GetModule(clientdata);
   if (!module_head) {
@@ -20046,18 +20046,18 @@ SWIG_InitializeModule(void *clientdata) {
       }
       iter=iter->next;
     } while (iter!= module_head);
-
+    
     /* otherwise we must add our module into the list */
     swig_module.next = module_head->next;
     module_head->next = &swig_module;
   }
-
+  
   /* When multiple interpreters are used, a module could have already been initialized in
        a different interpreter, but not yet have a pointer in this interpreter.
        In this case, we do not want to continue adding types... everything should be
        set up already */
   if (init == 0) return;
-
+  
   /* Now work on filling in swig_module.types */
 #ifdef SWIGRUNTIME_DEBUG
   printf("SWIG_InitializeModule: size %lu\n", (unsigned long)swig_module.size);
@@ -20066,11 +20066,11 @@ SWIG_InitializeModule(void *clientdata) {
     swig_type_info *type = 0;
     swig_type_info *ret;
     swig_cast_info *cast;
-
+    
 #ifdef SWIGRUNTIME_DEBUG
     printf("SWIG_InitializeModule: type %lu %s\n", (unsigned long)i, swig_module.type_initial[i]->name);
 #endif
-
+    
     /* if there is another module already loaded */
     if (swig_module.next != &swig_module) {
       type = SWIG_MangledTypeQueryModule(swig_module.next, &swig_module, swig_module.type_initial[i]->name);
@@ -20089,7 +20089,7 @@ SWIG_InitializeModule(void *clientdata) {
     } else {
       type = swig_module.type_initial[i];
     }
-
+    
     /* Insert casting types */
     cast = swig_module.cast_initial[i];
     while (cast->type) {
@@ -20120,7 +20120,7 @@ SWIG_InitializeModule(void *clientdata) {
           if (!ocast) ret = 0;
         }
       }
-
+      
       if (!ret) {
 #ifdef SWIGRUNTIME_DEBUG
         printf("SWIG_InitializeModule: adding cast %s\n", cast->type->name);
@@ -20137,7 +20137,7 @@ SWIG_InitializeModule(void *clientdata) {
     swig_module.types[i] = type;
   }
   swig_module.types[i] = 0;
-
+  
 #ifdef SWIGRUNTIME_DEBUG
   printf("**** SWIG_InitializeModule: Cast List ******\n");
   for (i = 0; i < swig_module.size; ++i) {
@@ -20165,10 +20165,10 @@ SWIG_PropagateClientData(void) {
   size_t i;
   swig_cast_info *equiv;
   static int init_run = 0;
-
+  
   if (init_run) return;
   init_run = 1;
-
+  
   for (i = 0; i < swig_module.size; i++) {
     if (swig_module.types[i]->clientdata) {
       equiv = swig_module.types[i]->cast;
@@ -20196,28 +20196,28 @@ SWIG_PropagateClientData(void) {
 #ifdef __cplusplus
 extern "C" {
 #endif
-
+  
   /* Python-specific SWIG API */
 #define SWIG_newvarlink()                             SWIG_Python_newvarlink()
 #define SWIG_addvarlink(p, name, get_attr, set_attr)  SWIG_Python_addvarlink(p, name, get_attr, set_attr)
 #define SWIG_InstallConstants(d, constants)           SWIG_Python_InstallConstants(d, constants)
-
+  
   /* -----------------------------------------------------------------------------
    * global variable support code.
    * ----------------------------------------------------------------------------- */
-
+  
   typedef struct swig_globalvar {
     char       *name;                  /* Name of global variable */
     PyObject *(*get_attr)(void);       /* Return the current value */
     int       (*set_attr)(PyObject *); /* Set the value */
     struct swig_globalvar *next;
   } swig_globalvar;
-
+  
   typedef struct swig_varlinkobject {
     PyObject_HEAD
     swig_globalvar *vars;
   } swig_varlinkobject;
-
+  
   SWIGINTERN PyObject *
   swig_varlink_repr(swig_varlinkobject *SWIGUNUSEDPARM(v)) {
 #if PY_VERSION_HEX >= 0x03000000
@@ -20226,7 +20226,7 @@ extern "C" {
     return PyString_FromString("<Swig global variables>");
 #endif
   }
-
+  
   SWIGINTERN PyObject *
   swig_varlink_str(swig_varlinkobject *v) {
 #if PY_VERSION_HEX >= 0x03000000
@@ -20264,7 +20264,7 @@ extern "C" {
 #endif
     return str;
   }
-
+  
   SWIGINTERN void
   swig_varlink_dealloc(swig_varlinkobject *v) {
     swig_globalvar *var = v->vars;
@@ -20275,7 +20275,7 @@ extern "C" {
       var = n;
     }
   }
-
+  
   SWIGINTERN PyObject *
   swig_varlink_getattr(swig_varlinkobject *v, char *n) {
     PyObject *res = NULL;
@@ -20292,7 +20292,7 @@ extern "C" {
     }
     return res;
   }
-
+  
   SWIGINTERN int
   swig_varlink_setattr(swig_varlinkobject *v, char *n, PyObject *p) {
     int res = 1;
@@ -20309,7 +20309,7 @@ extern "C" {
     }
     return res;
   }
-
+  
   SWIGINTERN PyTypeObject*
   swig_varlink_type(void) {
     static char varlink__doc__[] = "Swig var link object";
@@ -20374,7 +20374,7 @@ extern "C" {
     }
     return &varlink_type;
   }
-
+  
   /* Create a variable linking object for use later */
   SWIGINTERN PyObject *
   SWIG_Python_newvarlink(void) {
@@ -20384,8 +20384,8 @@ extern "C" {
     }
     return ((PyObject*) result);
   }
-
-  SWIGINTERN void
+  
+  SWIGINTERN void 
   SWIG_Python_addvarlink(PyObject *p, const char *name, PyObject *(*get_attr)(void), int (*set_attr)(PyObject *p)) {
     swig_varlinkobject *v = (swig_varlinkobject *) p;
     swig_globalvar *gv = (swig_globalvar *) malloc(sizeof(swig_globalvar));
@@ -20401,7 +20401,7 @@ extern "C" {
     }
     v->vars = gv;
   }
-
+  
   SWIGINTERN PyObject *
   SWIG_globals(void) {
     static PyObject *globals = 0;
@@ -20410,11 +20410,11 @@ extern "C" {
     }
     return globals;
   }
-
+  
   /* -----------------------------------------------------------------------------
    * constants/methods manipulation
    * ----------------------------------------------------------------------------- */
-
+  
   /* Install Constants */
   SWIGINTERN void
   SWIG_Python_InstallConstants(PyObject *d, swig_const_info constants[]) {
@@ -20438,11 +20438,11 @@ extern "C" {
       }
     }
   }
-
+  
   /* -----------------------------------------------------------------------------*/
   /* Fix SwigMethods to carry the callback ptrs when needed */
   /* -----------------------------------------------------------------------------*/
-
+  
   SWIGINTERN void
   SWIG_Python_FixMethods(PyMethodDef *methods,
     swig_const_info *const_table,
@@ -20458,7 +20458,7 @@ extern "C" {
         swig_const_info *ci = 0;
         const char *name = c + 10;
         for (j = 0; const_table[j].type; ++j) {
-          if (strncmp(const_table[j].name, name,
+          if (strncmp(const_table[j].name, name, 
               strlen(const_table[j].name)) == 0) {
             ci = &(const_table[j]);
             break;
@@ -20485,17 +20485,17 @@ extern "C" {
         }
       }
     }
-  }
-
+  } 
+  
   /* -----------------------------------------------------------------------------
    * Method creation and docstring support functions
    * ----------------------------------------------------------------------------- */
-
+  
   /* -----------------------------------------------------------------------------
    * Function to find the method definition with the correct docstring for the
    * proxy module as opposed to the low-level API
    * ----------------------------------------------------------------------------- */
-
+  
   SWIGINTERN PyMethodDef *SWIG_PythonGetProxyDoc(const char *name) {
     /* Find the function in the modified method table */
     size_t offset = 0;
@@ -20510,12 +20510,12 @@ extern "C" {
     /* Use the copy with the modified docstring if available */
     return found ? &SwigMethods_proxydocs[offset] : NULL;
   }
-
+  
   /* -----------------------------------------------------------------------------
    * Wrapper of PyInstanceMethod_New() used in Python 3
    * It is exported to the generated module, used for -fastproxy
    * ----------------------------------------------------------------------------- */
-
+  
   SWIGINTERN PyObject *SWIG_PyInstanceMethod_New(PyObject *SWIGUNUSEDPARM(self), PyObject *func) {
     if (PyCFunction_Check(func)) {
       PyCFunctionObject *funcobj = (PyCFunctionObject *)func;
@@ -20529,12 +20529,12 @@ extern "C" {
     return PyMethod_New(func, NULL, NULL);
 #endif
   }
-
+  
   /* -----------------------------------------------------------------------------
    * Wrapper of PyStaticMethod_New()
    * It is exported to the generated module, used for -fastproxy
    * ----------------------------------------------------------------------------- */
-
+  
   SWIGINTERN PyObject *SWIG_PyStaticMethod_New(PyObject *SWIGUNUSEDPARM(self), PyObject *func) {
     if (PyCFunction_Check(func)) {
       PyCFunctionObject *funcobj = (PyCFunctionObject *)func;
@@ -20544,7 +20544,7 @@ extern "C" {
     }
     return PyStaticMethod_New(func);
   }
-
+  
 #ifdef __cplusplus
 }
 #endif
@@ -20557,7 +20557,7 @@ extern "C" {
 extern "C"
 #endif
 
-SWIGEXPORT
+SWIGEXPORT 
 #if PY_VERSION_HEX >= 0x03000000
 PyObject*
 #else
@@ -20565,7 +20565,7 @@ void
 #endif
 SWIG_init(void) {
   PyObject *m, *d, *md, *globals;
-
+  
 #if PY_VERSION_HEX >= 0x03000000
   static struct PyModuleDef SWIG_module = {
     PyModuleDef_HEAD_INIT,
@@ -20579,7 +20579,7 @@ SWIG_init(void) {
     NULL
   };
 #endif
-
+  
 #if defined(SWIGPYTHON_BUILTIN)
   static SwigPyClientData SwigPyObject_clientdata = {
     0, 0, 0, 0, 0, 0, 0
@@ -20607,21 +20607,21 @@ SWIG_init(void) {
   PyObject *thisown_descr;
   PyObject *self = 0;
   int i;
-
+  
   (void)builtin_pytype;
   (void)builtin_base_count;
   (void)builtin_basetype;
   (void)tuple;
   (void)static_getset;
   (void)self;
-
+  
   /* Metaclass is used to implement static member variables */
   metatype = SwigPyObjectType();
   assert(metatype);
 #endif
-
+  
   (void)globals;
-
+  
   /* Create singletons now to avoid potential deadlocks with multi-threaded usage after module initialization */
   SWIG_This();
   SWIG_Python_TypeCache();
@@ -20629,24 +20629,24 @@ SWIG_init(void) {
 #ifndef SWIGPYTHON_BUILTIN
   SwigPyObject_type();
 #endif
-
+  
   /* Fix SwigMethods to carry the callback ptrs when needed */
   SWIG_Python_FixMethods(SwigMethods, swig_const_table, swig_types, swig_type_initial);
-
+  
 #if PY_VERSION_HEX >= 0x03000000
   m = PyModule_Create(&SWIG_module);
 #else
   m = Py_InitModule(SWIG_name, SwigMethods);
 #endif
-
+  
   md = d = PyModule_GetDict(m);
   (void)md;
-
+  
   SWIG_InitializeModule(0);
-
+  
 #ifdef SWIGPYTHON_BUILTIN
   swigpyobject = SwigPyObject_TypeOnce();
-
+  
   SwigPyObject_stype = SWIG_MangledTypeQuery("_p_SwigPyObject");
   assert(SwigPyObject_stype);
   cd = (SwigPyClientData*) SwigPyObject_stype->clientdata;
@@ -20661,19 +20661,19 @@ SWIG_init(void) {
     return;
 # endif
   }
-
+  
   /* All objects have a 'this' attribute */
   this_descr = PyDescr_NewGetSet(SwigPyObject_type(), &this_getset_def);
   (void)this_descr;
-
+  
   /* All objects have a 'thisown' attribute */
   thisown_descr = PyDescr_NewGetSet(SwigPyObject_type(), &thisown_getset_def);
   (void)thisown_descr;
-
+  
   public_interface = PyList_New(0);
   public_symbol = 0;
   (void)public_symbol;
-
+  
   PyDict_SetItemString(md, "__all__", public_interface);
   Py_DECREF(public_interface);
   for (i = 0; SwigMethods[i].ml_name != NULL; ++i)
@@ -20681,9 +20681,9 @@ SWIG_init(void) {
   for (i = 0; swig_const_table[i].name != 0; ++i)
   SwigPyBuiltin_AddPublicSymbol(public_interface, swig_const_table[i].name);
 #endif
-
+  
   SWIG_InstallConstants(d,swig_const_table);
-
+  
   SWIG_Python_SetConstant(d, "SHARED_PTR_DISOWN",SWIG_From_int(static_cast< int >(0)));
   SWIG_Python_SetConstant(d, "BranchType_NOT_SET",SWIG_From_int(static_cast< int >(esys::repo::git::BranchType::NOT_SET)));
   SWIG_Python_SetConstant(d, "BranchType_LOCAL",SWIG_From_int(static_cast< int >(esys::repo::git::BranchType::LOCAL)));
@@ -20707,3 +20707,4 @@ SWIG_init(void) {
   return;
 #endif
 }
+
