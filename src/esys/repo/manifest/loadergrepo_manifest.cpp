@@ -33,17 +33,33 @@ LoaderGRepo::~LoaderGRepo() = default;
 
 int LoaderGRepo::run()
 {
-    if (get_config_folder() == nullptr) return -1;
-    if (get_config_folder()->get_config() == nullptr) return -1;
-    if (get_config_folder()->get_config()->get_manifest_type() != manifest::Type::GOOGLE_MANIFEST) return -1;
-    if (get_config_folder()->get_config()->get_manifest_path().empty()) return -1;
-
+    std::shared_ptr<Config> config;
     boost::filesystem::path path;
-    grepo::Manifest loader;
 
-    path = get_config_folder()->get_path();
-    path /= get_config_folder()->get_config()->get_manifest_path();
+    if (get_config_folder() != nullptr)
+    {
+        config = get_config_folder()->get_config();
+        if (config == nullptr) return -1;
+
+        path = get_config_folder()->get_path();
+        path /= get_config_folder()->get_config()->get_manifest_path();
+    }
+    else if (get_config() != nullptr)
+    {
+        config = get_config();
+        path = config->get_manifest_path();
+    }
+    else
+        return -2;
+
     path = boost::filesystem::absolute(path).make_preferred();
+    if (path.empty()) return -4;
+
+    if ((config->get_manifest_type() != manifest::Type::GOOGLE_MANIFEST)
+        && (config->get_manifest_type() != manifest::Type::RAW_GOOGLE_MANIFEST))
+        return -3;
+
+    grepo::Manifest loader;
 
     if (get_manifest() == nullptr) set_manifest(std::make_shared<Manifest>());
 

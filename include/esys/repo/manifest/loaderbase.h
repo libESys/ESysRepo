@@ -57,7 +57,7 @@ public:
     /*!
      * \return the manifest data
      */
-    std::shared_ptr<Manifest> get_manifest() const;
+    virtual std::shared_ptr<Manifest> get_manifest() const;
 
     //! Set the ESysRepo configuration
     /*!

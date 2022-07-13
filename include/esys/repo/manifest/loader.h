@@ -55,7 +55,9 @@ public:
     /*!
      * \return the actual loader to use
      */
-    std::shared_ptr<LoaderBase> get_loader();
+    std::shared_ptr<LoaderBase> get_loader() const;
+
+    std::shared_ptr<Manifest> get_manifest() const override;
 
 private:
     //!< \cond DOXY_IMPL
