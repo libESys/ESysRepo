@@ -264,6 +264,7 @@
     <ClCompile Include="..\..\src\esys\repo\libgit2\test\opengitrepo01_libgit2.cpp" />
     <ClCompile Include="..\..\src\esys\repo\libgit2\test\sshagent01.cpp" />
     <ClCompile Include="..\..\src\esys\repo\libgit2\test\walkcommits01_libgit2.cpp" />
+    <ClCompile Include="..\..\src\esys\repo\manifest\test\detect01_manifest.cpp" />
     <ClCompile Include="..\..\src\esys\repo\manifest\test\globymatch01.cpp" />
     <ClCompile Include="..\..\src\esys\repo\manifest\test\task_t01_manifest.cpp" />
     <ClCompile Include="..\..\src\esys\repo\manifest\test\xmlfileread01_manifest.cpp" />

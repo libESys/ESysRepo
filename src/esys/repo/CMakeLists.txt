@@ -244,6 +244,7 @@ set(ESYSREPO_LIBSSH2_CXX_SOURCES libssh2/ssh_libssh2.cpp
 
 set(ESYSREPO_MANIFEST_PUB_HEADERS
     manifest/base.h
+    manifest/detect.h
     manifest/filebase.h
     manifest/fileerror.h
     manifest/file.h
@@ -278,6 +279,7 @@ list(TRANSFORM ESYSREPO_MANIFEST_PRIV_HEADERS
 
 set(ESYSREPO_MANIFEST_CXX_SOURCES
     manifest/base_manifest.cpp
+    manifest/detect_manifest.cpp
     manifest/file_manifest.cpp
     manifest/filebase_manifest.cpp
     manifest/fileerror_manifest.cpp

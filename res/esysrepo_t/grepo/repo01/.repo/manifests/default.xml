@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Manifest for ESysRepo development
+-->
+<manifest>
+    <!-- Remotes -->
+    <remote name="origin" fetch="ssh://git@gitlab.com/libesys"/>
+    <remote name="github" fetch="https://github.com"/>
+
+    <default revision="refs/heads/master" remote="origin" sync-j="4" />
+
+    <!-- ESysRepo repositories -->
+    <project name="esysrepo/dev" path="."/>
+    <project name="esysrepo/esysrepo" path="src/esysrepo"/>
+
+    <!-- ESys libraries -->
+    <project name="esyscli/esyscli" path="src/esyscli"/>
+    <project name="esysssh/esysssh" path="src/esysssh"/>
+    <project name="esysbase" path="src/esysbase"/>
+    <project name="esysbuild/esysbuild" path="src/esysbuild"/>
+    <project name="esyscibuild" path="src/esyscibuild"/>
+    <project name="esysfile" path="src/esysfile"/>
+    <project name="esyslog/esyslog" path="src/esyslog"/>
+    <project name="esystest"  path="src/esystest"/>
+    <project name="esys_cmake_scripts" path="src/esys_cmake_scripts"/>
+    <project name="esysmsvc" path="src/esysmsvc"/>
+    <project name="esys_hugo_theme" path="src/esys_hugo_theme" revision="develop"/>
+    <project name="esyssdk/esyssdk" path="src/esyssdk"/>
+
+    <!-- ESys libraries but not named as such -->
+    <project name="extlib/pyswig" path="extlib/pyswig"/>
+    <project name="msword2md/msword2md" path="extlib/msword2md"/>
+    <project name="extlib/dbg_log" path="extlib/dbg_log"/>
+
+    <!-- ESys forks of external libraries -->
+    <project name="extlib/libgit2" path="extlib/libgit2" revision="libesys_dev"/>
+    <project name="extlib/libssh2" path="extlib/libssh2" revision="libesys_dev"/>
+    <project name="libESys/openssh-portable" remote="github" path="extlib/openssh-portable" revision="libopenssh"/>
+    <project name="libESys/spdlog.git" remote="github" path="extlib/spdlog" revision="add_getter_for_console_mutex"/>
+
+    <!-- External libraries -->
+    <project name="nlohmann/json" remote="github" path="extlib/nlohmann_json" revision="refs/tags/v3.6.1"/>
+    <project name="ikalnytskyi/termcolor.git" remote="github" path="extlib/termcolor" revision="refs/tags/v2.0.0"/>
+    <project name="matcornic/hugo-theme-learn.git" remote="github" path="src/esysrepo/doc/web/themes/hugo-theme-learn"/>
+    <project name="bilke/cmake-modules" path="extlib/cmake-modules" remote="github"/>
+    <project name="jpwhite3/gitinspector.git" path="extlib/gitinspector" remote="github" revision="feature/Drop-Python-2.7"/>
+</manifest>

@@ -204,8 +204,13 @@
     <ClCompile Include="..\..\src\esys\repo\grepo\test\find_path_by_repo01_grepo.cpp">
       <Filter>Source Files\grepo</Filter>
     </ClCompile>
+<<<<<<< HEAD
     <ClCompile Include="..\..\src\esys\repo\test\result01.cpp">
       <Filter>Source Files</Filter>
+=======
+    <ClCompile Include="..\..\src\esys\repo\manifest\test\detect01_manifest.cpp">
+      <Filter>Source Files\manifest</Filter>
+>>>>>>> ca51bc4 (Detect manifest format in a superbuild folder)
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

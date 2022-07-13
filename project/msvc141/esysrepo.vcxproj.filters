@@ -393,6 +393,9 @@
     <ClCompile Include="..\..\src\esys\repo\resultcode.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\manifest\detect_manifest.cpp">
+      <Filter>Source Files\manifest</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\src\esys\repo\manifest\include_manifest.cpp">
       <Filter>Source Files\manifest</Filter>
     </ClCompile>
@@ -754,6 +757,10 @@
     </ClInclude>
     <ClInclude Include="..\..\include\esys\repo\errorinfo.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\manifest\detect.h">
+      <Filter>Header Files\manifest</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\include\esys\repo\manifest\include.h">
       <Filter>Header Files\manifest</Filter>
     </ClInclude>
