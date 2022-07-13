@@ -396,6 +396,9 @@
     <ClCompile Include="..\..\src\esys\repo\manifest\detect_manifest.cpp">
       <Filter>Source Files\manifest</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\grepo\folder_grepo.cpp">
+      <Filter>Source Files\grepo</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\src\esys\repo\manifest\include_manifest.cpp">
       <Filter>Source Files\manifest</Filter>
     </ClCompile>
@@ -760,6 +763,9 @@
     </ClInclude>
     <ClInclude Include="..\..\include\esys\repo\manifest\detect.h">
       <Filter>Header Files\manifest</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\grepo\folder.h">
+      <Filter>Header Files\grepo</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\esys\repo\manifest\include.h">
       <Filter>Header Files\manifest</Filter>

@@ -341,6 +341,7 @@
     <ClCompile Include="..\..\src\esys\repo\git\status_git.cpp" />
     <ClCompile Include="..\..\src\esys\repo\git\updatetip_git.cpp" />
     <ClCompile Include="..\..\src\esys\repo\git\walkcommit_git.cpp" />
+    <ClCompile Include="..\..\src\esys\repo\grepo\folder_grepo.cpp" />
     <ClCompile Include="..\..\src\esys\repo\grepo\manifestimpl_grepo.cpp" />
     <ClCompile Include="..\..\src\esys\repo\grepo\manifest_grepo.cpp" />
     <ClCompile Include="..\..\src\esys\repo\libgit2\gitimpl_libgit2.cpp" />
@@ -454,6 +455,7 @@
     <ClInclude Include="..\..\include\esys\repo\git\updatetip.h" />
     <ClInclude Include="..\..\include\esys\repo\git\updatetiptype.h" />
     <ClInclude Include="..\..\include\esys\repo\git\walkcommit.h" />
+    <ClInclude Include="..\..\include\esys\repo\grepo\folder.h" />
     <ClInclude Include="..\..\include\esys\repo\grepo\manifest.h" />
     <ClInclude Include="..\..\include\esys\repo\libgit2\git.h" />
     <ClInclude Include="..\..\include\esys\repo\libssh2\ssh.h" />

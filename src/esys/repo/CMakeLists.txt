@@ -2,7 +2,7 @@
 # cmake-format: off
 # __legal_b__
 #
-# Copyright (c) 2020-2021 Michel Gillet
+# Copyright (c) 2020-2022 Michel Gillet
 # Distributed under the wxWindows Library Licence, Version 3.1.
 # (See accompanying file LICENSE_3_1.txt or
 # copy at http://www.wxwidgets.org/about/licence)
@@ -201,14 +201,14 @@ set(ESYSREPO_GITSTATS_CXX_SOURCES
     gitstats/dataperiod.cpp
     gitstats/datayear.cpp)
 
-set(ESYSREPO_GREPO_PUB_HEADERS grepo/manifest.h)
+set(ESYSREPO_GREPO_PUB_HEADERS grepo/manifest.h grepo/folder.h)
 list(TRANSFORM ESYSREPO_GREPO_PUB_HEADERS
      PREPEND ${CMAKE_CURRENT_SOURCE_DIR}/../../../include/esys/repo/)
 
 set(ESYSREPO_GREPO_PRIV_HEADERS grepo/manifestimpl.h)
 list(TRANSFORM ESYSREPO_GREPO_PRIV_HEADERS PREPEND ${CMAKE_CURRENT_SOURCE_DIR}/)
 
-set(ESYSREPO_GREPO_CXX_SOURCES grepo/manifest_grepo.cpp
+set(ESYSREPO_GREPO_CXX_SOURCES grepo/folder_grepo.cpp grepo/manifest_grepo.cpp
                                grepo/manifestimpl_grepo.cpp)
 
 set(ESYSREPO_LIBGIT2_PUB_HEADERS libgit2/git.h)

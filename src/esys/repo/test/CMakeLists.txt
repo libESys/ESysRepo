@@ -68,6 +68,7 @@ set(ESYSREPO_T_GIT_CXX_SOURCES ../git/test/sortbranches01.cpp)
 set(ESYSREPO_T_GITSTATS_CXX_SOURCES ../gitstats/test/basic01.cpp)
 
 set(ESYSREPO_T_GREPO_CXX_SOURCES
+    ../grepo/test/openfolder01_grepo.cpp
     ../grepo/test/readmanifest01_grepo.cpp
     ../grepo/test/readmanifest02_grepo.cpp
     ../grepo/test/readmanifest03_grepo.cpp
