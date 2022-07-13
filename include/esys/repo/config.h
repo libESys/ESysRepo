@@ -5,7 +5,7 @@
  * \cond
  * __legal_b__
  *
- * Copyright (c) 2020 Michel Gillet
+ * Copyright (c) 2020-2022 Michel Gillet
  * Distributed under the wxWindows Library Licence, Version 3.1.
  * (See accompanying file LICENSE_3_1.txt or
  * copy at http://www.wxwidgets.org/about/licence)
@@ -24,10 +24,7 @@
 
 #include <string>
 
-namespace esys
-{
-
-namespace repo
+namespace esys::repo
 {
 
 /*! \class Config esys/repo/config.h "esys/repo/config.h"
@@ -96,8 +93,14 @@ public:
     //! Not equal to comparison operator
     bool operator!=(const Config &cfg) const;
 
-    //! Assignement operator
+    //! Assignment operator
     Config &operator=(const Config &cfg);
+
+    //! Tells if a esysrepo folder exists or not
+    /*!
+     * \return true if there is a esysrepo folder; otherwise false
+     */
+    bool has_esysrepo_folder() const;
 
 private:
     //!< \cond DOXY_IMPL
@@ -108,6 +111,4 @@ private:
     //!< \endcond
 };
 
-} // namespace repo
-
-} // namespace esys
+} // namespace esys::repo

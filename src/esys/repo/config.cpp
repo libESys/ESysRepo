@@ -88,4 +88,12 @@ Config &Config::operator=(const Config &cfg)
     return *this;
 }
 
+bool Config::has_esysrepo_folder() const
+{
+    if ((get_manifest_type() == manifest::Type::GOOGLE_MANIFEST)
+        || (get_manifest_type() == manifest::Type::ESYSREPO_MANIFEST))
+        return true;
+    return false;
+}
+
 } // namespace esys::repo
