@@ -115,7 +115,9 @@ public:
 
     std::shared_ptr<Repository> find_repo_by_path(const std::string &path);
     std::shared_ptr<Repository> find_repo_by_name(const std::string &name);
-    std::string find_path_by_repo(const std::string &git_repo_name);
+    std::string find_repo_path_by_url(const std::string &url);
+
+    std::shared_ptr<manifest::Repository> find_repo_by_url(const std::string &url);
 
     //! Equal to comparison operator
     bool operator==(const Location &location) const;

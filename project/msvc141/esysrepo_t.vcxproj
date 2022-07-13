@@ -280,6 +280,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseDLL|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="..\..\src\esys\repo\test\fscopynorecur01.cpp" />
+    <ClCompile Include="..\..\src\esys\repo\test\loadfolder01.cpp" />
     <ClCompile Include="..\..\src\esys\repo\test\main.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseDLL|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseDLL|x64'">NotUsing</PrecompiledHeader>

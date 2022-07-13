@@ -402,6 +402,9 @@
     <ClCompile Include="..\..\src\esys\repo\manifest\include_manifest.cpp">
       <Filter>Source Files\manifest</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\loadfolder.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\esys\repo\esysrepo_defs.h">
@@ -769,6 +772,9 @@
     </ClInclude>
     <ClInclude Include="..\..\include\esys\repo\manifest\include.h">
       <Filter>Header Files\manifest</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\loadfolder.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -18,6 +18,7 @@
 #include "esys/repo/esysrepo_prec.h"
 #include "esys/repo/manifest/repository.h"
 #include "esys/repo/manifest/group.h"
+#include "esys/repo/manifest/location.h"
 
 #include <boost/filesystem.hpp>
 
@@ -79,6 +80,9 @@ const std::string &Repository::get_location_str() const
 void Repository::set_location(Location *location)
 {
     m_location = location;
+    if (location == nullptr) return;
+
+    set_location(location->get_name());
 }
 
 Location *Repository::get_location() const

@@ -133,12 +133,19 @@ public:
      */
     std::shared_ptr<manifest::Repository> find_repo_by_path(const std::string &path);
 
-    //! Find the path of a git repo identified by its url or name
+    //! Find the path of a git repo identified by its url
     /*!
-     * \param[in] git_repo_name the url or name of the git repo to find
+     * \param[in] git_repo_name the urlthe git repo to find
      * \return the path if found, empty string otherwise
      */
-    std::string find_path_by_repo(const std::string &git_repo_name);
+    std::string find_repo_path_by_url(const std::string &url);
+
+    //! Find the reposotiry of a git repo identified by its url
+    /*!
+     * \param[in] url the url of the git repo to find
+     * \return the repository if found, otherwise nullptr
+     */
+    std::shared_ptr<manifest::Repository> find_repo_by_url(const std::string &url);
 
     //! Set the default location
     /*!

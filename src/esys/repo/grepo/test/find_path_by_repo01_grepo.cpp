@@ -45,16 +45,19 @@ ESYSTEST_AUTO_TEST_CASE(find_path_by_repo01GRepo)
     auto data = manifest.get_data();
     ESYSTEST_REQUIRE_EQUAL(data->get_locations().size(), 3);
 
-    std::string path = data->find_path_by_repo("ssh://git@gitlab.com/libesys/esysos");
+    std::string path = data->find_repo_path_by_url("ssh://git@gitlab.com/libesys/esysos");
     ESYSTEST_REQUIRE_EQUAL(path, "src/esysos");
 
-    path = data->find_path_by_repo("https://gitlab.com/libesys/esysos");
+    path = data->find_repo_path_by_url("ssh://git@gitlab.com/libesys/esysos.git");
     ESYSTEST_REQUIRE_EQUAL(path, "src/esysos");
 
-    path = data->find_path_by_repo("ssh://git@gitlab.com/libesys/extlib/arduino1710");
+    path = data->find_repo_path_by_url("https://gitlab.com/libesys/esysos");
+    ESYSTEST_REQUIRE_EQUAL(path, "src/esysos");
+
+    path = data->find_repo_path_by_url("ssh://git@gitlab.com/libesys/extlib/arduino1710");
     ESYSTEST_REQUIRE_EQUAL(path, "extlib/arduino1710");
 
-    path = data->find_path_by_repo("https://gitlab.com/libesys/extlib/arduino1710");
+    path = data->find_repo_path_by_url("https://gitlab.com/libesys/extlib/arduino1710");
     ESYSTEST_REQUIRE_EQUAL(path, "extlib/arduino1710");
 }
 

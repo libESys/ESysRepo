@@ -40,6 +40,7 @@ set(ESYSREPO_PUB_HEADERS
     git.h
     githelper.h
     gitmngr.h
+    loadfolder.h
     manifestfilebase.h
     manifest.h
     progresscallbackbase.h
@@ -65,6 +66,7 @@ set(ESYSREPO_CXX_SOURCES
     gitbase.cpp
     githelper.cpp
     gitmngr.cpp
+    loadfolder.cpp
     manifest.cpp
     progresscallbackbase.cpp
     result.cpp

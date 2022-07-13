@@ -352,6 +352,7 @@
     <ClCompile Include="..\..\src\esys\repo\libgit2\libgit2.cpp" />
     <ClCompile Include="..\..\src\esys\repo\libssh2\sshimpl_libssh2.cpp" />
     <ClCompile Include="..\..\src\esys\repo\libssh2\ssh_libssh2.cpp" />
+    <ClCompile Include="..\..\src\esys\repo\loadfolder.cpp" />
     <ClCompile Include="..\..\src\esys\repo\manifest.cpp" />
     <ClCompile Include="..\..\src\esys\repo\manifest\base_manifest.cpp" />
     <ClCompile Include="..\..\src\esys\repo\manifest\detect_manifest.cpp" />
@@ -459,6 +460,7 @@
     <ClInclude Include="..\..\include\esys\repo\grepo\manifest.h" />
     <ClInclude Include="..\..\include\esys\repo\libgit2\git.h" />
     <ClInclude Include="..\..\include\esys\repo\libssh2\ssh.h" />
+    <ClInclude Include="..\..\include\esys\repo\loadfolder.h" />
     <ClInclude Include="..\..\include\esys\repo\manifest.h" />
     <ClInclude Include="..\..\include\esys\repo\manifest\base.h" />
     <ClInclude Include="..\..\include\esys\repo\manifest\detect.h" />

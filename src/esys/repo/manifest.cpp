@@ -114,16 +114,29 @@ std::shared_ptr<manifest::Repository> Manifest::find_repo_by_path(const std::str
     return nullptr;
 }
 
-std::string Manifest::find_path_by_repo(const std::string &git_repo_name)
+std::string Manifest::find_repo_path_by_url(const std::string &git_repo_name)
 {
     std::string path;
 
     for (auto &location : get_locations())
     {
-        path = location->find_path_by_repo(git_repo_name);
+        path = location->find_repo_path_by_url(git_repo_name);
         if (!path.empty()) return path;
     }
     return "";
+}
+
+std::shared_ptr<manifest::Repository> Manifest::find_repo_by_url(const std::string &url)
+{
+    std::shared_ptr<manifest::Repository> repo;
+
+    for (auto &location : get_locations())
+    {
+        repo = location->find_repo_by_url(url);
+        if (repo != nullptr) return repo;
+    }
+    return nullptr;
+
 }
 
 void Manifest::set_default_location(std::shared_ptr<manifest::Location> default_location)

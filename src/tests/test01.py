@@ -22,15 +22,15 @@ class TestSomething(unittest.TestCase):
         result = repocfg.read("src/esysrepo/res/esysrepo_t/grepo/default02.xml")
         self.assertEqual(result, 0)
         manifest = repocfg.get_data()
-        path = manifest.find_path_by_repo("ssh://git@gitlab.com/libesys/esysos")
+        path = manifest.find_repo_path_by_url("ssh://git@gitlab.com/libesys/esysos")
         self.assertEqual(path, "src/esysos")
-        path = manifest.find_path_by_repo("https://gitlab.com/libesys/esysos")
+        path = manifest.find_repo_path_by_url("https://gitlab.com/libesys/esysos")
         self.assertEqual(path, "src/esysos")
-        path = manifest.find_path_by_repo(
+        path = manifest.find_repo_path_by_url(
             "ssh://git@gitlab.com/libesys/extlib/arduino1710"
         )
         self.assertEqual(path, "extlib/arduino1710")
-        path = manifest.find_path_by_repo(
+        path = manifest.find_repo_path_by_url(
             "https://gitlab.com/libesys/extlib/arduino1710"
         )
         self.assertEqual(path, "extlib/arduino1710")

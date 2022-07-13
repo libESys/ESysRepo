@@ -27,6 +27,7 @@ set(ESYSREPO_T_CXX_SOURCES
     configfilewrite01.cpp
     configfoldercreate01.cpp
     esysrepo_t_prec.cpp
+    loadfolder01.cpp
     main.cpp
     queuemt01.cpp
     result01.cpp
