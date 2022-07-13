@@ -5,7 +5,7 @@
  * \cond
  * __legal_b__
  *
- * Copyright (c) 2020-2021 Michel Gillet
+ * Copyright (c) 2020-2022 Michel Gillet
  * Distributed under the wxWindows Library Licence, Version 3.1.
  * (See accompanying file LICENSE_3_1.txt or
  * copy at http://www.wxwidgets.org/about/licence)
@@ -79,8 +79,14 @@ public:
     void add_error(int value, const std::string &msg);
     void add_error(int value, const std::string &msg, int line_number);
 
-private:
+    const std::string &get_filename() const;
+
+protected:
     //!< \cond DOXY_IMPL
+    void set_filename(const std::string &filename);
+
+private:
+    std::string m_filename;
     std::shared_ptr<Manifest> m_data; //!< The abstract data of a manifest
     std::vector<std::shared_ptr<FileError>> m_errors;
     //!< \endcond

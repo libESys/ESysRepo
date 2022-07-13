@@ -65,4 +65,14 @@ void FileBase::add_error(int value, const std::string &msg, int line_number)
     m_errors.push_back(error);
 }
 
+const std::string &FileBase::get_filename() const
+{
+    return m_filename;
+}
+
+void FileBase::set_filename(const std::string &filename)
+{
+    m_filename = filename;
+}
+
 } // namespace esys::repo::manifest

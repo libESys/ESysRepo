@@ -32,6 +32,8 @@ int File::read(const std::string &path)
 {
     std::ifstream ifs;
 
+    set_filename(path);
+
     ifs.open(path);
     if (!ifs.is_open()) return -1;
 
@@ -60,6 +62,8 @@ int File::read(const std::string &path)
 
 int File::write(const std::string &path)
 {
+    set_filename(path);
+
     std::ofstream ofs(path);
 
     if (!ofs.is_open()) return -1;

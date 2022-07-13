@@ -39,11 +39,15 @@ Manifest::~Manifest() = default;
 
 int Manifest::read(const std::string &filename)
 {
+    set_filename(filename);
+
     return m_impl->read(filename);
 }
 
 int Manifest::write(const std::string &filename)
 {
+    set_filename(filename);
+
     return m_impl->write(filename);
 }
 
