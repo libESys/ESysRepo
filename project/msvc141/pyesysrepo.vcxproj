@@ -78,7 +78,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugDLL|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <TargetName>_esysrepo_d</TargetName>
+    <TargetName>_esysrepo$(PYESYSREPO_DLL_SUFFIX)_d</TargetName>
     <TargetExt>.pyd</TargetExt>
     <OutDir>$(esysdevLibOutDir)</OutDir>
     <IntDir>$(ESYSREPO_DEV)\$(esysdevIntRootDir)\</IntDir>
@@ -87,12 +87,12 @@
     <OutDir>$(esysdevLibOutDir)</OutDir>
     <IntDir>$(ESYSREPO_DEV)\$(esysdevIntRootDir)\</IntDir>
     <LinkIncremental>false</LinkIncremental>
-    <TargetName>_esysrepo</TargetName>
+    <TargetName>_esysrepo$(PYESYS_UNIV_DLL_SUFFIX)</TargetName>
     <TargetExt>.pyd</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseDLL|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <TargetName>_esysrepo</TargetName>
+    <TargetName>_esysrepo$(PYESYS_UNIV_DLL_SUFFIX)</TargetName>
     <TargetExt>.pyd</TargetExt>
     <OutDir>$(esysdevLibOutDir)</OutDir>
     <IntDir>$(ESYSREPO_DEV)\$(esysdevIntRootDir)\</IntDir>
@@ -100,7 +100,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DebugDLL|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\include;$(ESYSMSVC)\include;$(ESYSLOG)\include;$(ESYS_PYTHON)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\include;$(ESYSMSVC)\include;$(ESYSLOG)\include;$(ESYS_PYTHON_INC);$(ESYS_PYTHON)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_WINDOWS;_USRDLL;PYESYSREPO_EXPORTS;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -119,7 +119,7 @@
       <SubSystem>Windows</SubSystem>
       <ImportLibrary>$(OutDir)$(TargetName).lib</ImportLibrary>
       <TargetMachine>MachineX86</TargetMachine>
-      <AdditionalLibraryDirectories>$(esysdevLibOutDir);$(ESYSLOG)\$(esysdevLibDir);$(ESYS_BOOST)\$(boostLibDir);$(ESYS_PYTHON)\lib\vc14_x32_dll;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(esysdevLibOutDir);$(ESYSLOG)\$(esysdevLibDir);$(ESYS_BOOST)\$(boostLibDir);$(ESYS_PYTHON_LIB);$(ESYS_PYTHON)\lib\vc14_x32_dll;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
@@ -133,7 +133,7 @@ $(ESYSSDK_INST_DIR)\bin\esysdep.exe --copy --x32 $(ESYSREPO_DEV)\$(esysdevExeOut
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DebugDLL|x64'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\include;$(ESYSMSVC)\include;$(ESYSLOG)\include;$(ESYS_PYTHON)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\include;$(ESYSMSVC)\include;$(ESYSLOG)\include;$(ESYS_PYTHON_INC);$(ESYS_PYTHON)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_WINDOWS;_USRDLL;PYESYSREPO_EXPORTS;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -151,7 +151,7 @@ $(ESYSSDK_INST_DIR)\bin\esysdep.exe --copy --x32 $(ESYSREPO_DEV)\$(esysdevExeOut
       <ProgramDatabaseFile>$(OutDir)$(TargetName).pdb</ProgramDatabaseFile>
       <SubSystem>Windows</SubSystem>
       <ImportLibrary>$(OutDir)$(TargetName).lib</ImportLibrary>
-      <AdditionalLibraryDirectories>$(esysdevLibOutDir);$(ESYSLOG)\$(esysdevLibDir);$(ESYS_BOOST)\$(boostLibDir);$(ESYS_PYTHON)\lib\vc14_x64_dll;$(ESYS_PYTHON)\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(esysdevLibOutDir);$(ESYSLOG)\$(esysdevLibDir);$(ESYS_BOOST)\$(boostLibDir);$(ESYS_PYTHON_LIB);$(ESYS_PYTHON)\lib\vc14_x64_dll;$(ESYS_PYTHON)\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
@@ -164,7 +164,7 @@ $(ESYSSDK_INST_DIR)\bin\esysdep.exe --copy --x64 $(OutDir)</Command>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseDLL|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\..\include;$(ESYSMSVC)\include;$(ESYSLOG)\include;$(ESYS_PYTHON)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\include;$(ESYSMSVC)\include;$(ESYSLOG)\include;$(ESYS_PYTHON_INC);$(ESYS_PYTHON)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_WINDOWS;_USRDLL;PYESYSREPO_EXPORTS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -183,7 +183,7 @@ $(ESYSSDK_INST_DIR)\bin\esysdep.exe --copy --x64 $(OutDir)</Command>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <ImportLibrary>$(OutDir)$(TargetName).lib</ImportLibrary>
       <TargetMachine>MachineX86</TargetMachine>
-      <AdditionalLibraryDirectories>$(esysdevLibOutDir);$(ESYSLOG)\$(esysdevLibDir);$(ESYS_BOOST)\$(boostLibDir);$(ESYS_PYTHON)\lib\vc14_x32_dll;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(esysdevLibOutDir);$(ESYSLOG)\$(esysdevLibDir);$(ESYS_BOOST)\$(boostLibDir);$(ESYS_PYTHON_LIB);$(ESYS_PYTHON)\lib\vc14_x32_dll;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
@@ -196,7 +196,7 @@ $(ESYSSDK_INST_DIR)\bin\esysdep.exe --copy --x32 $(ESYSREPO_DEV)\$(esysdevExeOut
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseDLL|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\..\include;$(ESYSMSVC)\include;$(ESYSLOG)\include;$(ESYS_PYTHON)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\include;$(ESYSMSVC)\include;$(ESYSLOG)\include;$(ESYS_PYTHON_INC);$(ESYS_PYTHON)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_WINDOWS;_USRDLL;PYESYSREPO_EXPORTS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -215,7 +215,7 @@ $(ESYSSDK_INST_DIR)\bin\esysdep.exe --copy --x32 $(ESYSREPO_DEV)\$(esysdevExeOut
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <ImportLibrary>$(OutDir)$(TargetName).lib</ImportLibrary>
-      <AdditionalLibraryDirectories>$(esysdevLibOutDir);$(ESYSLOG)\$(esysdevLibDir);$(ESYS_BOOST)\$(boostLibDir);$(ESYS_PYTHON)\lib\vc14_x64_dll;$(ESYS_PYTHON)\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(esysdevLibOutDir);$(ESYSLOG)\$(esysdevLibDir);$(ESYS_BOOST)\$(boostLibDir);$(ESYS_PYTHON_LIB);$(ESYS_PYTHON)\lib\vc14_x64_dll;$(ESYS_PYTHON)\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
@@ -227,7 +227,7 @@ $(ESYSSDK_INST_DIR)\bin\esysdep.exe --copy --x64 $(ESYSREPO_DEV)\$(esysdevExeOut
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\src\pyesysrepo\esysrepo_wrap.cxx">
+    <ClCompile Include="..\..\src\pyesysrepo\esysrepo_$(PYESYS_UNIV_WARP_PREFIX)wrap.cxx">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseDLL|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseDLL|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugDLL|Win32'">NotUsing</PrecompiledHeader>
@@ -265,13 +265,17 @@ $(ESYSSDK_INST_DIR)\bin\esysdep.exe --copy --x64 $(ESYSREPO_DEV)\$(esysdevExeOut
     <CustomBuild Include="..\..\src\pyesysrepo.py">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='ReleaseDLL|Win32'">cd %(RootDir)%(Directory)
-"$(ESYS_PYTHONEXE32)\python" %(Filename)%(Extension) --copy-shadow=$(ESYSREPO_DEV)\$(esysdevExeOutDir)</Command>
+"$(ESYS_PYTHONEXE32)\python" %(Filename)%(Extension) --copy-shadow=$(ESYSREPO_DEV)\$(esysdevExeOutDir)
+xcopy /y pyesysrepo\esysrepo.py $(ESYSREPO_DEV)\$(esysdevExeOutDir)</Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='ReleaseDLL|x64'">cd %(RootDir)%(Directory)
-"$(ESYS_PYTHONEXE32)\python" %(Filename)%(Extension) --copy-shadow=$(ESYSREPO_DEV)\$(esysdevExeOutDir)</Command>
+"$(ESYS_PYTHONEXE32)\python" %(Filename)%(Extension) --copy-shadow=$(ESYSREPO_DEV)\$(esysdevExeOutDir)
+xcopy /y pyesysrepo\esysrepo.py $(ESYSREPO_DEV)\$(esysdevExeOutDir)</Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='DebugDLL|Win32'">cd %(RootDir)%(Directory)
-"$(ESYS_PYTHONEXE32)\python" %(Filename)%(Extension) --copy-shadow=$(ESYSREPO_DEV)\$(esysdevExeOutDir)</Command>
+"$(ESYS_PYTHONEXE32)\python" %(Filename)%(Extension) --copy-shadow=$(ESYSREPO_DEV)\$(esysdevExeOutDir)
+xcopy /y pyesysrepo\esysrepo.py $(ESYSREPO_DEV)\$(esysdevExeOutDir)</Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='DebugDLL|x64'">cd %(RootDir)%(Directory)
-"$(ESYS_PYTHONEXE32)\python" %(Filename)%(Extension) --copy-shadow=$(ESYSREPO_DEV)\$(esysdevExeOutDir)</Command>
+"$(ESYS_PYTHONEXE32)\python" %(Filename)%(Extension) --copy-shadow=$(ESYSREPO_DEV)\$(esysdevExeOutDir)
+xcopy /y pyesysrepo\esysrepo.py $(ESYSREPO_DEV)\$(esysdevExeOutDir)</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='ReleaseDLL|Win32'">%(RootDir)%(Directory)\pyesysrepo\esysrepo.hh;%(RootDir)%(Directory)\pyesysrepo\esysrepo_wrap.cxx</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='ReleaseDLL|x64'">%(RootDir)%(Directory)\pyesysrepo\esysrepo.hh;%(RootDir)%(Directory)\pyesysrepo\esysrepo_wrap.cxx</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='DebugDLL|Win32'">%(RootDir)%(Directory)\pyesysrepo\esysrepo.hh;%(RootDir)%(Directory)\pyesysrepo\esysrepo_wrap.cxx</Outputs>

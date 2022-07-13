@@ -24,6 +24,10 @@
 
 #include <string>
 
+//<swig_inc/>
+
+//<swig>%shared_ptr(esys::repo::Config);</swig>
+
 namespace esys::repo
 {
 

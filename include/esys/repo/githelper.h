@@ -62,6 +62,7 @@ public:
     void error(const std::string &msg, int result) override;
     void done(const std::string &msg, uint64_t elapsed_time);
 
+    //<swig>%rename(open_folder) open;</swig>
     int open(const std::string &folder, log::Level log_level, int debug_level = 0);
 
     int clone(const std::string &url, const std::string &path, bool do_close, log::Level log_level,

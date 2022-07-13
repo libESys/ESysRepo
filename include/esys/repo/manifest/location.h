@@ -26,7 +26,8 @@
 
 //<swig_inc/>
 
-//<swig>%shared_ptr(esys::repo::Location);</swig>
+//<swig>%shared_ptr(esys::repo::manifest::Location);</swig>
+//<swig>%template(VecSPtrLocation) std::vector<std::shared_ptr<esys::repo::manifest::Location>>;</swig>
 
 namespace esys::repo::manifest
 {

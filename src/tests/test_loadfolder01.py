@@ -13,9 +13,6 @@ import unittest
 import esysrepo
 import os
 
-print(__file__)
-print("cwd = %s" % os.getcwd())
-
 
 class LoadFolder01(unittest.TestCase):
     def test_loading_grepo(self):

@@ -5,7 +5,7 @@
  * \cond
  * __legal_b__
  *
- * Copyright (c) 2020 Michel Gillet
+ * Copyright (c) 2020-2022 Michel Gillet
  * Distributed under the wxWindows Library Licence, Version 3.1.
  * (See accompanying file LICENSE_3_1.txt or
  * copy at http://www.wxwidgets.org/about/licence)
@@ -26,10 +26,11 @@
 #include <vector>
 #include <memory>
 
-namespace esys
-{
+//<swig_inc/>
 
-namespace repo
+//<swig>%shared_ptr(esys::repo::ConfigFolder);</swig>
+
+namespace esys::repo
 {
 
 /*! \class ConfigFolder esys/repo/configfolder.h "esys/repo/configfolder.h"
@@ -66,6 +67,7 @@ public:
     /*!
      * \param[in] parent_path the parent path of the ConfigFolder
      */
+    //<swig>%rename(open_folder) open;</swig>
     int open(const std::string &parent_path = "");
 
     //! Write and update a ConfigFolder
@@ -149,6 +151,4 @@ private:
     //!< \endcond
 };
 
-} // namespace repo
-
-} // namespace esys
+} // namespace esys::repo

@@ -40,7 +40,7 @@ const std::string &LoadFolder::get_folder_path() const
     return m_folder_path;
 }
 
-int LoadFolder::open(const std::string &folder_path)
+int LoadFolder::run(const std::string &folder_path)
 {
     if (!folder_path.empty()) set_folder_path(folder_path);
 

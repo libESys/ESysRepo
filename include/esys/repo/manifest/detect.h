@@ -24,6 +24,8 @@
 #include <memory>
 #include <string>
 
+//<swig_inc/>
+
 namespace esys::repo::manifest
 {
 

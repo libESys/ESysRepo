@@ -11,6 +11,7 @@
 
 import unittest
 import esysrepo
+import os
 
 print(__file__)
 print("cwd = %s" % os.getcwd())

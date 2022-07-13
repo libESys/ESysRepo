@@ -46,9 +46,14 @@ source = [
     "manifest/location.h",
     "manifest/type.h",
     "manifest/fileerror.h",
+    "manifest/include.h",
+    "config.h",
+    "configfolder.h",
+    "manifest/detect.h",
     "manifest.h",
     "manifest/filebase.h",
     "grepo/manifest.h",
+    "loadfolder.h",
 ]
 
 file_config.set_source_files(source)
@@ -68,7 +73,16 @@ file_config_extra.set_source_files(source_extra)
 pyswig_obj.add_file_config(file_config_extra)
 
 # Configure the generation of the input files for Swig
-pyswig_obj.set_module_name("esysrepo")
+py_ver = ""
+module_name = "esysrepo"
+if "SWIG_TARGET_PYTHON_VERSION" in os.environ:
+    target_version = os.environ["SWIG_TARGET_PYTHON_VERSION"]
+    print("WARNING: SWIG_TARGET_PYTHON_VERSION = %s" % target_version)
+    target_version = target_version.replace(".", "_")
+    py_ver = "_py" + target_version
+    module_name += py_ver
+
+pyswig_obj.set_module_name(module_name)
 pyswig_obj.set_use_director(True)
 pyswig_obj.set_src_output_dir("./pyesysrepo")
 pyswig_obj.set_inc_output_dir("../include/pyesysrepo")
@@ -86,7 +100,7 @@ pyswig_obj.add_include("esys/log/loggerbase.h", False)
 pyswig_obj.add_define("ESYSREPO_API")
 pyswig_obj.add_define("PYESYSREPO_API")
 
-pyswig_obj.add_import("esyslog.hh")
+pyswig_obj.add_import("esyslog" + py_ver + ".hh")
 if "ESYSLOG" in os.environ:
     esyslog_dir = os.environ["ESYSLOG"] + os.sep + "src" + os.sep + "pyesyslog"
     pyswig_obj.add_include_lib(esyslog_dir)

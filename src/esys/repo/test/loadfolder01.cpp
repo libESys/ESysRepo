@@ -41,7 +41,7 @@ ESYSTEST_AUTO_TEST_CASE(LoadFolder01)
 
     LoadFolder load_folder;
 
-    int result = load_folder.open(folder_path.string());
+    int result = load_folder.run(folder_path.string());
     ESYSTEST_REQUIRE_EQUAL(result, 0);
 
     auto manifest = load_folder.get_manifest();

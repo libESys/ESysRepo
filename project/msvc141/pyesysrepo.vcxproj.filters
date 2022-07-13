@@ -30,8 +30,8 @@
     <ClCompile Include="..\..\src\pyesysrepo\pyesysrepo_prec.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\pyesysrepo\esysrepo_wrap.cxx">
-      <Filter>Source Files\Swig_cxx</Filter>
+    <ClCompile Include="..\..\src\pyesysrepo\esysrepo_$(PYESYS_UNIV_WARP_PREFIX)wrap.cxx">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
