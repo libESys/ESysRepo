@@ -30,9 +30,10 @@ enum class Type
 {
     NOT_SET,
     UNKNOWN,
-    GOOGLE_MANIFEST,
+    GOOGLE_MANIFEST,    //!< Google repo manifest in ESysRepo folder
     ESYSREPO_MANIFEST,
-    GIT_SUPER_PROJECT
+    GIT_SUPER_PROJECT,
+    RAW_GOOGLE_MANIFEST //!< Google repo manifest in Google repo tool folder
 };
 
 ESYSREPO_API int convert(Type type, std::string &text);

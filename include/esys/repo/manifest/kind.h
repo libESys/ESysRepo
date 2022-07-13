@@ -34,8 +34,8 @@ enum class Kind
 {
     NOT_SET,
     UNKNOWN,
-    ISOLATED,
-    EMBEDDED
+    ISOLATED, //!< Manifest is in its own git repo
+    EMBEDDED  //!< Manifest is embedded in a git repo with source code
 };
 
 int convert(Kind type, std::string &text);
