@@ -250,6 +250,7 @@ set(ESYSREPO_MANIFEST_PUB_HEADERS
     manifest/format.h
     manifest/group.h
     manifest/groups.h
+    manifest/include.h
     manifest/jsonfile.h
     manifest/kind.h
     manifest/loaderbase.h
@@ -277,13 +278,13 @@ list(TRANSFORM ESYSREPO_MANIFEST_PRIV_HEADERS
 
 set(ESYSREPO_MANIFEST_CXX_SOURCES
     manifest/base_manifest.cpp
-    manifest/base_manifest.cpp
     manifest/file_manifest.cpp
     manifest/filebase_manifest.cpp
     manifest/fileerror_manifest.cpp
     manifest/format_manifest.cpp
     manifest/group_manifest.cpp
     manifest/groups_manifest.cpp
+    manifest/include_manifest.cpp
     manifest/kind_manifest.cpp
     manifest/loader_manifest.cpp
     manifest/loaderbase_manifest.cpp

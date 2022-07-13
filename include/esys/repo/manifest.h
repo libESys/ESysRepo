@@ -5,7 +5,7 @@
  * \cond
  * __legal_b__
  *
- * Copyright (c) 2020-2021 Michel Gillet
+ * Copyright (c) 2020-2022 Michel Gillet
  * Distributed under the wxWindows Library Licence, Version 3.1.
  * (See accompanying file LICENSE_3_1.txt or
  * copy at http://www.wxwidgets.org/about/licence)
@@ -23,11 +23,12 @@
 #include "esys/repo/manifest/format.h"
 #include "esys/repo/manifest/location.h"
 #include "esys/repo/manifest/groups.h"
+#include "esys/repo/manifest/include.h"
 
-#include <string>
-#include <vector>
 #include <memory>
 #include <map>
+#include <string>
+#include <vector>
 
 //<swig_inc/>
 
@@ -199,6 +200,24 @@ public:
     manifest::Groups &get_groups();
     const manifest::Groups &get_groups() const; //<swig_out/>
 
+    //! Add an include to the manifest
+    /*!
+     * \param[in] location the location
+     */
+    void add_include(std::shared_ptr<manifest::Include> include);
+
+    //! Get all includes of this manifest
+    /*!
+     * \return all includes of this manifest
+     */
+    std::vector<std::shared_ptr<manifest::Include>> &get_includes();
+
+    //! Get all includes of this manifest
+    /*!
+     * \return all includes of this manifest
+     */
+    const std::vector<std::shared_ptr<manifest::Include>> &get_includes() const; //<swig_out/>
+
     //! Equal to comparison operator
     bool operator==(const Manifest &other) const;
 
@@ -219,6 +238,7 @@ private:
     std::string m_default_location_str;                     //!< The name of the default location
     std::string m_default_revision = "master";              //!< The default revision
     int m_default_job_count = 1;                            //!< The default number of concurrent jobs
+    std::vector<std::shared_ptr<manifest::Include>> m_includes;
     //!< \endcond
 };
 

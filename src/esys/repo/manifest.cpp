@@ -200,6 +200,22 @@ const manifest::Groups &Manifest::get_groups() const
     return m_groups;
 }
 
+void Manifest::add_include(std::shared_ptr<manifest::Include> include)
+{
+    m_includes.push_back(include);
+}
+
+
+std::vector<std::shared_ptr<manifest::Include>> &Manifest::get_includes()
+{
+    return m_includes;
+}
+
+const std::vector<std::shared_ptr<manifest::Include>> &Manifest::get_includes() const
+{
+    return m_includes;
+}
+
 bool Manifest::operator==(const Manifest &other) const
 {
     if (get_type() != other.get_type()) return false;
@@ -210,6 +226,11 @@ bool Manifest::operator==(const Manifest &other) const
     {
         if (*get_locations()[idx] != *other.get_locations()[idx]) return false;
     }
+
+    if (get_includes().size() != other.get_includes().size()) return false;
+
+
+
     return true;
 }
 

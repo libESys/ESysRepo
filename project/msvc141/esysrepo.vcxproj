@@ -358,6 +358,7 @@
     <ClCompile Include="..\..\src\esys\repo\manifest\format_manifest.cpp" />
     <ClCompile Include="..\..\src\esys\repo\manifest\groups_manifest.cpp" />
     <ClCompile Include="..\..\src\esys\repo\manifest\group_manifest.cpp" />
+    <ClCompile Include="..\..\src\esys\repo\manifest\include_manifest.cpp" />
     <ClCompile Include="..\..\src\esys\repo\manifest\kind_manifest.cpp" />
     <ClCompile Include="..\..\src\esys\repo\manifest\runtasks_manifest.cpp" />
     <ClCompile Include="..\..\src\esys\repo\manifest\syncrepos_manifest.cpp" />
@@ -462,6 +463,7 @@
     <ClInclude Include="..\..\include\esys\repo\manifest\format.h" />
     <ClInclude Include="..\..\include\esys\repo\manifest\group.h" />
     <ClInclude Include="..\..\include\esys\repo\manifest\groups.h" />
+    <ClInclude Include="..\..\include\esys\repo\manifest\include.h" />
     <ClInclude Include="..\..\include\esys\repo\manifest\kind.h" />
     <ClInclude Include="..\..\include\esys\repo\manifest\runtasks.h" />
     <ClInclude Include="..\..\include\esys\repo\manifest\sync.h" />
