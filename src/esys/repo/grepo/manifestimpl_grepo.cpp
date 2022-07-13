@@ -23,6 +23,7 @@
 #include <esysfile/xml/writer.h>
 #include <esysfile/xml/attr.h>
 
+#include <boost/filesystem.hpp>
 #include <boost/tokenizer.hpp>
 
 namespace esys::repo::grepo
@@ -223,7 +224,9 @@ int ManifestImpl::read(std::shared_ptr<esysfile::xml::Element> el)
         result = read_default(el);
     else if (el->get_name() == "project")
         result = read_project(el);
-    else
+    else if (el->get_name() == "include")
+        result = read_include(el);
+    else if (el->get_name() != "#comment")
     {
         return -1;
     }
@@ -334,6 +337,46 @@ int ManifestImpl::read_project(std::shared_ptr<esysfile::xml::Element> el)
             return -1;
     }
 
+    return 0;
+}
+
+int ManifestImpl::read_include(std::shared_ptr<esysfile::xml::Element> el)
+{
+    if (el->get_name() != "include") return -1;
+
+    auto include = std::make_shared<manifest::Include>();
+    std::string name;
+    std::string value;
+
+    for (auto attr : el->get_attrs())
+    {
+        name = attr->get_name();
+        value = attr->get_value();
+        if (name == "name")
+        {
+            if (boost::filesystem::exists(value))
+            {
+                include->set_name(value);
+            }
+            else
+            {
+                // Here we assume that the include is relative to the folder "manifests"
+                boost::filesystem::path full_path = self()->get_filename();
+                boost::filesystem::path rel_path = "manifests";
+                full_path = full_path.parent_path();
+                rel_path /= value;
+                full_path /= rel_path;
+
+                if (boost::filesystem::exists(full_path))
+                    include->set_name(full_path.string());
+                else
+                {
+                    // TBD: ERROR
+                }
+            }
+        }
+    }
+    self()->get_data()->add_include(include);
     return 0;
 }
 
