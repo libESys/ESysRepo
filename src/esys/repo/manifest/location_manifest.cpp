@@ -149,12 +149,21 @@ std::shared_ptr<manifest::Repository> Location::find_repo_by_url(const std::stri
         std::string uri_txt = get_address();
         if (repo->get_name()[0] != '/') uri_txt += "/";
         uri_txt += repo->get_name();
+        remove_dot_git(uri_txt);
         Poco::URI this_uri_repo(uri_txt);
         if ((auth == this_uri_repo.getAuthority()) && (path == this_uri_repo.getPath())) return repo;
         if ((host == this_uri_repo.getHost()) && (path == this_uri_repo.getPath())) return repo;
     }
 
     return nullptr;
+}
+
+void Location::remove_dot_git(std::string &text)
+{
+    auto idx = text.rfind(".git");
+    if (idx == text.npos) return;
+
+    text = text.substr(0, idx);
 }
 
 bool Location::operator==(const Location &location) const

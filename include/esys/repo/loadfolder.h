@@ -40,7 +40,7 @@ public:
     void set_folder_path(const std::string &folder_path);
     const std::string &get_folder_path() const;
 
-    int open(const std::string &folder_path = "");
+    int run(const std::string &folder_path = "");
     std::shared_ptr<Manifest> get_manifest();
 
     std::string find_repo_path_by_url(const std::string &url);

@@ -129,6 +129,8 @@ public:
     Location(const Location &) = delete;
     Location(Location &&) = delete;
 
+    static void remove_dot_git(std::string &text);
+
 private:
     //!< \cond DOXY_IMPL
     std::string m_name;                               //!< The name of this location
