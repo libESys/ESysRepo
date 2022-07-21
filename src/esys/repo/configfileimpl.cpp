@@ -5,7 +5,7 @@
  * \cond
  * __legal_b__
  *
- * Copyright (c) 2020 Michel Gillet
+ * Copyright (c) 2020-2022 Michel Gillet
  * Distributed under the wxWindows Library Licence, Version 3.1.
  * (See accompanying file LICENSE_3_1.txt or
  * copy at http://www.wxwidgets.org/about/licence)
@@ -60,6 +60,9 @@ int ConfigFileImpl::open(const std::string &path)
 
     self()->get_config()->set_manifest_type(type);
 
+    if (!obj.contains("manifest_url")) return -1;
+    self()->get_config()->set_manifest_url(obj["manifest_url"]);
+
     if (obj.contains("manifest_path"))
     {
         self()->get_config()->set_manifest_path(obj["manifest_path"]);
@@ -102,6 +105,7 @@ int ConfigFileImpl::write(const std::string &path)
 
     cfg_json["manifest_type"] = text;
     if (!cfg->get_manifest_path().empty()) cfg_json["manifest_path"] = cfg->get_manifest_path();
+    if (!cfg->get_manifest_url().empty()) cfg_json["manifest_url"] = cfg->get_manifest_url();
 
     std::string kind;
     result = convert(cfg->get_manifest_kind(), kind);
