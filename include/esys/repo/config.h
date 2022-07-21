@@ -91,6 +91,18 @@ public:
      */
     const std::string &get_manifest_path() const;
 
+    //! Set the manifest url
+    /*!
+     * \param[in] manifest_url the manifest url
+     */
+    void set_manifest_url(const std::string &manifest_url);
+
+    //! Get the manifest url
+    /*!
+     * \return the manifest url
+     */
+    const std::string &get_manifest_url() const;
+
     //! Equal to comparison operator
     bool operator==(const Config &cfg) const;
 
@@ -112,6 +124,7 @@ private:
     manifest::Kind m_manifest_kind = manifest::Kind::ISOLATED;      //!< The manifest kind
     manifest::Format m_manifest_format = manifest::Format::NOT_SET; //!< The manifest format
     std::string m_manifest_path;                                    //!< The manifest path
+    std::string m_manifest_url;                                     //!< The manifest url
     //!< \endcond
 };
 

@@ -5,7 +5,7 @@
  * \cond
  * __legal_b__
  *
- * Copyright (c) 2020 Michel Gillet
+ * Copyright (c) 2020-2022 Michel Gillet
  * Distributed under the wxWindows Library Licence, Version 3.1.
  * (See accompanying file LICENSE_3_1.txt or
  * copy at http://www.wxwidgets.org/about/licence)
@@ -65,10 +65,22 @@ const std::string &Config::get_manifest_path() const
     return m_manifest_path;
 }
 
+void Config::set_manifest_url(const std::string &manifest_url)
+{
+    m_manifest_url = manifest_url;
+}
+
+const std::string &Config::get_manifest_url() const
+{
+    return m_manifest_url;
+}
+
 bool Config::operator==(const Config &cfg) const
 {
     if (get_manifest_type() != cfg.get_manifest_type()) return false;
     if (get_manifest_path() != cfg.get_manifest_path()) return false;
+    if (get_manifest_format() != cfg.get_manifest_format()) return false;
+    if (get_manifest_url() != cfg.get_manifest_url()) return false;
 
     return true;
 }
@@ -84,6 +96,8 @@ Config &Config::operator=(const Config &cfg)
 
     set_manifest_type(cfg.get_manifest_type());
     set_manifest_path(cfg.get_manifest_path());
+    set_manifest_format(cfg.get_manifest_format());
+    set_manifest_url(cfg.get_manifest_url());
 
     return *this;
 }

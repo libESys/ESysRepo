@@ -70,6 +70,7 @@ ESYSTEST_AUTO_TEST_CASE(ConfigFileWrite01)
     cfg->set_manifest_kind(manifest::Kind::ISOLATED);
     cfg->set_manifest_format(manifest::Format::XML);
     cfg->set_manifest_path("grepo/default.xml");
+    cfg->set_manifest_url("https://gitlab.com/libesys/esysrepo/esysrepo.git");
 
     path /= "config.json";
     config_file.set_config(cfg);

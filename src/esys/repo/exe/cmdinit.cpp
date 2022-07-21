@@ -163,6 +163,7 @@ int CmdInit::fetch_esysrepo_manifest(GitHelper &git_helper, const std::string &g
     auto config_file = get_config_folder()->get_or_new_config();
 
     config_file->set_manifest_type(manifest::Type::ESYSREPO_MANIFEST);
+    config_file->set_manifest_url(get_url());
 
     boost::filesystem::path source = git_repo_path;
     boost::filesystem::path rel_source = boost::filesystem::relative(source);
@@ -332,6 +333,7 @@ int CmdInit::fetch_unknown_manifest()
         auto config = get_config_folder()->get_or_new_config();
         config->set_manifest_type(manifest::Type::GOOGLE_MANIFEST);
         config->set_manifest_format(manifest::Format::XML);
+        config->set_manifest_url(get_url());
 
         boost::filesystem::path source = path.string();
         boost::filesystem::path rel_source = boost::filesystem::relative(source);
