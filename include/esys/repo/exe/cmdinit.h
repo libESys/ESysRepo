@@ -5,7 +5,7 @@
  * \cond
  * __legal_b__
  *
- * Copyright (c) 2020 Michel Gillet
+ * Copyright (c) 2020-2022 Michel Gillet
  * Distributed under the wxWindows Library Licence, Version 3.1.
  * (See accompanying file LICENSE_3_1.txt or
  * copy at http://www.wxwidgets.org/about/licence)
@@ -25,13 +25,9 @@
 #include <vector>
 #include <memory>
 
-namespace esys
-{
+//<swig_inc/>
 
-namespace repo
-{
-
-namespace exe
+namespace esys::repo::exe
 {
 
 /*! \class CmdInit esys/repo/exe/cmdinit.h "esys/repo/exe/cmdinit.h"
@@ -143,9 +139,27 @@ public:
 
     //! Create the ESysRepo config folder
     /*!
-     *  \return 0 if successdful, < 0 otherwise
+     *  \return 0 if successful, < 0 otherwise
      */
     int create_esysrepo_folder();
+
+    //! Load the ESysRepo config folder
+    /*!
+     * \return 0 if successful, < 0 otherwise
+     */
+    int load_esysrepo_folder();
+
+    //! Init was already called before, calling it again on a valid ESysRepo config folder
+    /*!
+     * \return 0 if successful, < 0 otherwise
+     */
+    int load_esysrepo_folder_succeeded();
+
+    //! Init was never already called before, or we failed to load the ESysRepo config folder
+    /*!
+     * \return 0 if successful, < 0 otherwise
+     */
+    int load_esysrepo_folder_failed();
 
     std::string get_extra_start_msg() override;
 
@@ -163,8 +177,4 @@ private:
     //!< \endcond
 };
 
-} // namespace exe
-
-} // namespace repo
-
-} // namespace esys
+} // namespace esys::repo::exe

@@ -5,7 +5,7 @@
  * \cond
  * __legal_b__
  *
- * Copyright (c) 2020 Michel Gillet
+ * Copyright (c) 2020-2022 Michel Gillet
  * Distributed under the wxWindows Library Licence, Version 3.1.
  * (See accompanying file LICENSE_3_1.txt or
  * copy at http://www.wxwidgets.org/about/licence)
@@ -30,10 +30,9 @@
 #include <chrono>
 #include <memory>
 
-namespace esys
-{
+//<swig_inc/>
 
-namespace repo
+namespace esys::repo
 {
 
 namespace cli
@@ -256,6 +255,4 @@ private:
 
 } // namespace exe
 
-} // namespace repo
-
-} // namespace esys
+} // namespace esys::repo

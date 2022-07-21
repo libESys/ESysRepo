@@ -216,6 +216,12 @@
     <ClCompile Include="..\..\src\esys\repo\test\loadfolder01.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\test\result01.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\exe\test\cmdinit02.cpp">
+      <Filter>Source Files\exe</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\esys\repo\test\esysrepo_t_prec.h">

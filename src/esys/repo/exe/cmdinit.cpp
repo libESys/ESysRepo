@@ -24,7 +24,9 @@
 
 #include <boost/filesystem.hpp>
 
+#include <cassert>
 #include <iostream>
+#include <sstream>
 
 namespace esys::repo::exe
 {
@@ -101,9 +103,82 @@ int CmdInit::impl_run()
     int result = only_one_folder_or_workspace();
     if (result < 0) return 0;
 
-    result = create_esysrepo_folder();
+    result = load_esysrepo_folder();
+    if (result == 0) return load_esysrepo_folder_succeeded();
+    return load_esysrepo_folder_failed();
+}
+
+int CmdInit::load_esysrepo_folder_succeeded()
+{
+    assert(get_config_folder() != nullptr);
+    if (get_config_folder() == nullptr)
+    {
+        error("Internal error [CmdInit::load_esysrepo_folder_succeeded] get_config_folder() == nullptr");
+        return -1;
+    }
+
+    auto config = get_config_folder()->get_config();
+    assert(config != nullptr);
+    if (config == nullptr)
+    {
+        error("Internal error [CmdInit::load_esysrepo_folder_succeeded] config == nullptr");
+        return -1;
+    }
+
+    if (get_url() != config->get_manifest_url())
+    {
+        std::stringstream oss;
+
+        oss << "Current manifest url is:" << std::endl;
+        oss << "    " << config->get_manifest_url() << std::endl;
+        oss << "But manifest url given is different:" << std::endl;
+        oss << "    " << get_url() << std::endl;
+        oss << "Use --force if this is really wanted.";
+        error(oss.str());
+        return -1;
+    }
+
+    if (get_branch().empty())
+    {
+        warn("Nothing to do as a branch is not provided");
+        return 0;
+    }
+
+    boost::filesystem::path manifest_git_path = get_config_folder()->get_manifest_repo_path();
+
+    auto git_helper = new_git_helper();
+
+    debug(1, "Test debug, before git_helper");
+    git_helper->debug(1, "Test debug with git_helper");
+
+    int result = git_helper->open(manifest_git_path.normalize().make_preferred().string(), log::DEBUG);
+    if (result < 0)
+    {
+        error("Opening git repo holding the manifest failed.");
+        return -1;
+    }
+
+    result = get_git()->checkout(get_branch() /*, get_force()*/);
+    if (result < 0)
+    {
+        error("Checkout branch failed.");
+        return -1;
+    }
+
+    get_git()->close();
+
+    return 0;
+}
+
+int CmdInit::load_esysrepo_folder_failed()
+{
+    // Since it failed, either there is no .esysrepo folder or the xml config
+    // file is corrupted
+    int result = create_esysrepo_folder();
     if (result < 0) return result;
 
+    // Now there are 2 cases, we couldn't load be the ESysRepo config folder because
+    // it got corrupted, or it's not there at all.
     result = fetch_manifest();
     if (result < 0) return result;
 
@@ -274,7 +349,7 @@ int CmdInit::fetch_unknown_manifest()
     int result = git_helper->clone(get_url(), path.normalize().make_preferred().string(), false, log::DEBUG);
     if (result < 0)
     {
-        error("Cloníng failed.");
+        error("Cloning failed.");
         return -1;
     }
 
@@ -371,8 +446,10 @@ int CmdInit::fetch_unknown_manifest()
     if (boost::filesystem::exists(file_path))
     {
         info("Git submodule detected.");
-        get_config_folder()->get_or_new_config()->set_manifest_type(manifest::Type::GIT_SUPER_PROJECT);
+        auto config = get_config_folder()->get_or_new_config();
 
+        config->set_manifest_type(manifest::Type::GIT_SUPER_PROJECT);
+        config->set_manifest_url(get_url());
         boost::filesystem::path source = path.string();
         boost::filesystem::path target = get_config_folder()->get_workspace_path();
 
@@ -384,14 +461,34 @@ int CmdInit::fetch_unknown_manifest()
     return -1;
 }
 
-int CmdInit::create_esysrepo_folder()
+int CmdInit::load_esysrepo_folder()
 {
-    debug(0, "[CmdInit::create_esysrepo_folder] begin ...");
+    debug(0, "[CmdInit::load_esysrepo_folder] begin ...");
 
     auto config_folder = std::make_shared<ConfigFolder>();
     config_folder->set_logger_if(get_logger_if());
 
     set_config_folder(config_folder);
+
+    debug(0, "[CmdInit::load_esysrepo_folder] parent_path = " + get_workspace_path());
+
+    int result = config_folder->open(get_workspace_path(), false);
+    debug(0, "[CmdInit::create_esysrepo_folder] end.");
+    return result;
+}
+
+int CmdInit::create_esysrepo_folder()
+{
+    debug(0, "[CmdInit::create_esysrepo_folder] begin ...");
+
+    auto config_folder = get_config_folder();
+    if (config_folder == nullptr)
+    {
+        config_folder = std::make_shared<ConfigFolder>();
+        config_folder->set_logger_if(get_logger_if());
+
+        set_config_folder(config_folder);
+    }
 
     debug(0, "[CmdInit::create_esysrepo_folder] parent_path = " + get_workspace_path());
 

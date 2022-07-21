@@ -22,10 +22,9 @@
 
 #include <memory>
 
-namespace esys
-{
+//<swig_inc/>
 
-namespace repo
+namespace esys::repo
 {
 
 namespace libgit2
@@ -47,6 +46,7 @@ public:
 
     static std::shared_ptr<GitBase> new_ptr();
 
+    //<swig>%rename(open_folder) open;</swig>
     int open(const std::string &folder) override;
     bool is_open() override;
 
@@ -143,6 +143,4 @@ private:
 using namespace libgit2;
 #endif
 
-} // namespace repo
-
-} // namespace esys
+} // namespace esys::repo

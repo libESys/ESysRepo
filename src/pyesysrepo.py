@@ -35,6 +35,7 @@ source = [
     "result.h",
     "git/branchtype.h",
     "git/branch.h",
+    "git/branches.h",
     "git/commithash.h",
     "git/commit.h",
     "git/remote.h",
@@ -57,6 +58,9 @@ source = [
     "manifest/filebase.h",
     "grepo/manifest.h",
     "loadfolder.h",
+    "exe/cmd.h",
+    "exe/cmdinit.h",
+    "exe/cmdsync.h",
 ]
 
 file_config.set_source_files(source)

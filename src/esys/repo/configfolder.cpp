@@ -64,14 +64,14 @@ void ConfigFolder::populate_all_pathes()
     m_config_file_path = config_file.string();
 }
 
-int ConfigFolder::create(const std::string &parent_path)
+int ConfigFolder::create(const std::string &parent_path, bool ok_if_exists)
 {
     if (!parent_path.empty()) set_workspace_path(parent_path);
 
+    boost::filesystem::path rel_parent_path = boost::filesystem::relative(get_workspace_path());
+
     if (!boost::filesystem::exists(get_workspace_path()))
     {
-        boost::filesystem::path rel_parent_path = boost::filesystem::relative(get_workspace_path());
-
         bool result = boost::filesystem::create_directories(get_workspace_path());
         if (result)
         {
@@ -83,39 +83,69 @@ int ConfigFolder::create(const std::string &parent_path)
             return -1;
         }
     }
+    else
+    {
+        if (!ok_if_exists)
+        {
+            error("The following folder already exits : " + rel_parent_path.string());
+            return -1;
+        }
+        else
+            warn("The following folder already exits : " + rel_parent_path.string());
+    }
 
     populate_all_pathes();
 
     boost::filesystem::path rel_path = boost::filesystem::relative(get_path());
 
-    if (boost::filesystem::exists(get_path()))
+    if (!boost::filesystem::exists(get_path()))
     {
-        error("The following folder already exits : " + rel_path.string());
-        return -1;
-    }
-
-    bool result = boost::filesystem::create_directory(get_path());
-    if (!result)
-    {
-        error("The following folder couldn't be created : " + rel_path.string());
-        return -1;
+        bool result = boost::filesystem::create_directory(get_path());
+        if (!result)
+        {
+            error("The following folder couldn't be created : " + rel_path.string());
+            return -1;
+        }
+        else
+            info("Created folder : " + rel_path.string());
     }
     else
-        info("Created folder : " + rel_path.string());
+    {
+        if (!ok_if_exists)
+        {
+            error("The following folder already exits : " + rel_path.string());
+            return -1;
+        }
+        else
+            warn("The following folder already exits : " + rel_path.string());
+    }
 
     boost::filesystem::path rel_temp_path = boost::filesystem::relative(get_temp_path());
-    result = boost::filesystem::create_directory(get_temp_path());
-    if (!result)
+    if (!boost::filesystem::exists(get_temp_path()))
     {
-        error("The following folder couldn't be created : " + rel_temp_path.string());
-        return -1;
+        bool result = boost::filesystem::create_directory(get_temp_path());
+        if (!result)
+        {
+            error("The following folder couldn't be created : " + rel_temp_path.string());
+            return -1;
+        }
+        else
+            info("Created folder : " + rel_temp_path.string());
     }
     else
-        info("Created folder : " + rel_temp_path.string());
+    {
+        if (!ok_if_exists)
+        {
+            error("The following folder already exits : " + rel_temp_path.string());
+            return -1;
+        }
+        else
+            warn("The following folder already exits : " + rel_temp_path.string());
+    }
     return 0;
 }
 
-int ConfigFolder::open(const std::string &parent_path)
+int ConfigFolder::open(const std::string &parent_path, bool print_error)
 {
     if (!parent_path.empty()) set_workspace_path(parent_path);
 
@@ -124,14 +154,14 @@ int ConfigFolder::open(const std::string &parent_path)
     boost::filesystem::path rel_path = boost::filesystem::relative(get_path());
     if (!boost::filesystem::exists(get_path()))
     {
-        error("The following folder is not existing : " + rel_path.string());
+        if (print_error) error("The following folder is not existing : " + rel_path.string());
         return -1;
     }
 
     boost::filesystem::path rel_config_file_path = boost::filesystem::relative(get_config_file_path());
     if (!boost::filesystem::exists(get_config_file_path()))
     {
-        error("The esysrepo config file can't be found : " + rel_config_file_path.string());
+        if (print_error) error("The esysrepo config file can't be found : " + rel_config_file_path.string());
         return -1;
     }
 
@@ -139,7 +169,7 @@ int ConfigFolder::open(const std::string &parent_path)
     int result = m_config_file->open(get_config_file_path());
     if (result < 0)
     {
-        error("The esysrepo config file couldn't opened : " + rel_config_file_path.string());
+        if (print_error) error("The esysrepo config file couldn't opened : " + rel_config_file_path.string());
         return result;
     }
     set_config(m_config_file->get_config());

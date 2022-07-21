@@ -61,14 +61,14 @@ public:
     /*!
      * \param[in] parent_path the parent path of the ConfigFolder
      */
-    int create(const std::string &parent_path = "");
+    int create(const std::string &parent_path = "", bool ok_if_exists = false);
 
     //! Open a ConfigFolder
     /*!
      * \param[in] parent_path the parent path of the ConfigFolder
      */
     //<swig>%rename(open_folder) open;</swig>
-    int open(const std::string &parent_path = "");
+    int open(const std::string &parent_path = "", bool print_error = true);
 
     //! Write and update a ConfigFolder
     /*!
