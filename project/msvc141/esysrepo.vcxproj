@@ -297,6 +297,7 @@
     <ClCompile Include="..\..\src\esys\repo\configfile.cpp" />
     <ClCompile Include="..\..\src\esys\repo\configfileimpl.cpp" />
     <ClCompile Include="..\..\src\esys\repo\configfolder.cpp" />
+    <ClCompile Include="..\..\src\esys\repo\errorinfo.cpp" />
     <ClCompile Include="..\..\src\esys\repo\esysrepo_dll.cpp" />
     <ClCompile Include="..\..\src\esys\repo\esysrepo_prec.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugDLL|Win32'">Create</PrecompiledHeader>
@@ -376,6 +377,8 @@
     <ClCompile Include="..\..\src\esys\repo\manifest\xmlfile.cpp" />
     <ClCompile Include="..\..\src\esys\repo\manifest\xmlfileimpl_manifest.cpp" />
     <ClCompile Include="..\..\src\esys\repo\progresscallbackbase.cpp" />
+    <ClCompile Include="..\..\src\esys\repo\result.cpp" />
+    <ClCompile Include="..\..\src\esys\repo\resultcode.cpp" />
     <ClCompile Include="..\..\src\esys\repo\sshbase.cpp" />
     <ClCompile Include="..\..\src\esys\repo\win32\cmdlineapp_win32.cpp" />
   </ItemGroup>
@@ -400,6 +403,7 @@
     <ClInclude Include="..\..\include\esys\repo\configfile.h" />
     <ClInclude Include="..\..\include\esys\repo\configfolder.h" />
     <ClInclude Include="..\..\include\esys\repo\config_defs.h" />
+    <ClInclude Include="..\..\include\esys\repo\errorinfo.h" />
     <ClInclude Include="..\..\include\esys\repo\esysrepo_defs.h" />
     <ClInclude Include="..\..\include\esys\repo\esysrepo_prec.h" />
     <ClInclude Include="..\..\include\esys\repo\exe\cmd.h" />
@@ -481,6 +485,8 @@
     <ClInclude Include="..\..\include\esys\repo\progresscallbackbase.h" />
     <ClInclude Include="..\..\include\esys\repo\progresscallback_t.h" />
     <ClInclude Include="..\..\include\esys\repo\queuemt.h" />
+    <ClInclude Include="..\..\include\esys\repo\result.h" />
+    <ClInclude Include="..\..\include\esys\repo\resultcode.h" />
     <ClInclude Include="..\..\include\esys\repo\ssh.h" />
     <ClInclude Include="..\..\include\esys\repo\sshbase.h" />
     <ClInclude Include="..\..\include\esys\repo\version.h" />

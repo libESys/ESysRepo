@@ -285,6 +285,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugDLL|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="..\..\src\esys\repo\test\queuemt01.cpp" />
+    <ClCompile Include="..\..\src\esys\repo\test\result01.cpp" />
     <ClCompile Include="..\..\src\esys\repo\test\testcasectrl.cpp" />
   </ItemGroup>
   <ItemGroup>

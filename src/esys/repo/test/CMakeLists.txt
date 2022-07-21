@@ -23,8 +23,14 @@ set(ESYSTEST_USE_BOOST 1)
 include_directories(../../../../include ${LIBSSH2_INCLUDE_DIRS}
                     ${termcolor_DIR}/include)
 
-set(ESYSREPO_T_CXX_SOURCES configfilewrite01.cpp configfoldercreate01.cpp
-                           esysrepo_t_prec.cpp main.cpp testcasectrl.cpp)
+set(ESYSREPO_T_CXX_SOURCES
+    configfilewrite01.cpp
+    configfoldercreate01.cpp
+    esysrepo_t_prec.cpp
+    main.cpp
+    queuemt01.cpp
+    result01.cpp
+    testcasectrl.cpp)
 
 set(ESYSREPO_T_CLI_CXX_SOURCES
     ../cli/test/app01.cpp

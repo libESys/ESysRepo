@@ -59,6 +59,7 @@ set(ESYSREPO_CXX_SOURCES
     configfile.cpp
     configfileimpl.cpp
     configfolder.cpp
+    errorinfo.cpp
     esysrepo_prec.cpp
     filesystem.cpp
     gitbase.cpp
@@ -66,6 +67,8 @@ set(ESYSREPO_CXX_SOURCES
     gitmngr.cpp
     manifest.cpp
     progresscallbackbase.cpp
+    result.cpp
+    resultcode.cpp
     sshbase.cpp)
 
 set(ESYSREPO_CLI_PUB_HEADERS
