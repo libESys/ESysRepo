@@ -74,7 +74,7 @@ public:
     void sort();
 
     std::vector<std::shared_ptr<Branch>> &get();
-    const std::vector<std::shared_ptr<Branch>> &get() const;
+    const std::vector<std::shared_ptr<Branch>> &get() const; //<swig_out/>
 
     std::shared_ptr<Branch> find(const std::string &name);
 

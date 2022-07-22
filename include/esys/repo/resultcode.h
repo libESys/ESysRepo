@@ -35,6 +35,6 @@ enum class ResultCode
 namespace std
 {
 
-ESYSREPO_API ostream &operator<<(ostream &os, const esys::repo::ResultCode &result);
+ESYSREPO_API ostream &operator<<(ostream &os, const esys::repo::ResultCode &result); //<swig_out/>
 
 }

@@ -30,6 +30,9 @@ file_config.set_base_inc_dir("esys/repo")
 # path to all sources, but relative to the input directory given above
 source = [
     "version.h",
+    "resultcode.h",
+    "errorinfo.h",
+    "result.h",
     "git/branchtype.h",
     "git/branch.h",
     "git/commithash.h",

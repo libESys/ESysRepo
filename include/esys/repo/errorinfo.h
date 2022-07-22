@@ -131,6 +131,6 @@ private:
 namespace std
 {
 
-ESYSREPO_API ostream &operator<<(ostream &os, const esys::repo::ErrorInfo &error_info);
+ESYSREPO_API ostream &operator<<(ostream &os, const esys::repo::ErrorInfo &error_info); //<swig_out/>
 
 }

@@ -105,7 +105,7 @@ public:
     /*!
      * \return the error information
      */
-    const std::shared_ptr<ErrorInfo> get_error_info() const;
+    const std::shared_ptr<ErrorInfo> get_error_info() const; //<swig_out/>
 
     //! Returns if the Result is successful, meaning no error occured
     /*!
@@ -123,13 +123,13 @@ public:
     /*!
      * \return the result ode
      */
-    operator ResultCode() const;
+    operator ResultCode() const; //<swig_out/>
 
     //! Assignment operator
     /*!
      * \return the result ode
      */
-    Result &operator=(const Result &other);
+    Result &operator=(const Result &other); //<swig_out/>
 
 private:
     //!< \cond DOXY_IMPL
@@ -143,6 +143,6 @@ private:
 namespace std
 {
 
-ESYSREPO_API ostream &operator<<(ostream &os, const esys::repo::Result &result);
+ESYSREPO_API ostream &operator<<(ostream &os, const esys::repo::Result &result); //<swig_out/>
 
 }

@@ -110,7 +110,7 @@ public:
     bool operator!=(const Config &cfg) const;
 
     //! Assignment operator
-    Config &operator=(const Config &cfg);
+    Config &operator=(const Config &cfg); //<swig_out/>
 
     //! Tells if a esysrepo folder exists or not
     /*!
