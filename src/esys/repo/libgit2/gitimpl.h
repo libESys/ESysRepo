@@ -45,15 +45,15 @@ public:
     GitImpl(Git *self);
     ~GitImpl();
 
-    int open(const std::string &folder);
+    Result open(const std::string &folder);
     bool is_open();
 
-    int close();
+    Result close();
     int get_remotes(std::vector<git::Remote> &remotes);
     int get_branches(git::Branches &branches, git::BranchType branch_type = git::BranchType::LOCAL);
 
-    int clone(const std::string &url, const std::string &path, const std::string &branch = "");
-    int checkout(const std::string &branch, bool force = false);
+    Result clone(const std::string &url, const std::string &path, const std::string &branch = "");
+    Result checkout(const std::string &branch, bool force = false);
     int reset(const git::CommitHash &commit, git::ResetType type = git::ResetType::SOFT);
     int fastforward(const git::CommitHash &commit);
 
@@ -81,6 +81,7 @@ public:
     int from_to(const git_diff_file &file, git::DiffFile &diff_file);
 
     int check_error(int result, const std::string &action = "", bool show_result = true);
+    Result check_error(Result result, bool show_result = true);
 
     const std::string &get_version();
     const std::string &get_lib_name();

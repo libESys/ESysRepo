@@ -54,7 +54,7 @@ public:
 
 protected:
     //!< \cond DOXY_IMPL
-    int impl_run() override;
+    Result impl_run() override;
 
 private:
     bool m_force = false;

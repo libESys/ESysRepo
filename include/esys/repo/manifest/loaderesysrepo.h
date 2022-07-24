@@ -41,7 +41,7 @@ public:
     //! Destructor
     ~LoaderESysRepo() override;
 
-    int run() override;
+    Result run() override;
 };
 
 } // namespace manifest

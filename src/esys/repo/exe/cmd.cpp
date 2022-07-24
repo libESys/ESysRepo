@@ -54,7 +54,7 @@ int Cmd::get_job_count() const
     return m_job_count;
 }
 
-int Cmd::run()
+Result Cmd::run()
 {
     m_start_time = std::chrono::steady_clock::now();
 
@@ -63,7 +63,7 @@ int Cmd::run()
     if (get_git() == nullptr) set_git(GitMngr::new_ptr());
     if (get_logger_if() != nullptr) get_git()->set_logger_if(get_logger_if());
 
-    int result = impl_run();
+    Result result = impl_run();
 
     auto stop_time = std::chrono::steady_clock::now();
     auto d_milli = std::chrono::duration_cast<std::chrono::milliseconds>(stop_time - m_start_time).count();
@@ -73,7 +73,7 @@ int Cmd::run()
 
     msg = get_name();
     oss << "    elapsed time (s): " << (d_milli / THOUSAND) << "." << (d_milli % THOUSAND);
-    if (result == 0)
+    if (result.ok())
     {
         msg += " done.\n";
         msg += oss.str();
@@ -85,7 +85,7 @@ int Cmd::run()
         msg += oss.str();
         error(msg);
     }
-    return result;
+    return ESYSREPO_RESULT(result);
 }
 
 void Cmd::set_manifest(std::shared_ptr<Manifest> manifest)
@@ -340,13 +340,13 @@ int Cmd::open_esysrepo_folder()
     set_config_folder(config_folder);
 
     boost::filesystem::path rel_parent_path = boost::filesystem::relative(get_workspace_path());
-    int result = config_folder->open(get_workspace_path());
-    if (result < 0)
+    Result result = config_folder->open(get_workspace_path());
+    if (result.error())
         error("Failed to open esysrepo folder : " + rel_parent_path.string());
     else
         debug(0, "Opened esysrepo folder : " + rel_parent_path.string());
 
-    return result;
+    return result.get_result_code_int();
 }
 
 int Cmd::load_manifest()
@@ -361,8 +361,8 @@ int Cmd::load_manifest()
     get_loader()->set_config_folder(get_config_folder());
 
     get_loader()->set_logger_if(get_logger_if());
-    int result = get_loader()->run();
-    return result;
+    Result result = get_loader()->run();
+    return result.get_result_code_int();
 }
 
 int Cmd::default_handling_folder_workspace()
@@ -403,12 +403,13 @@ int Cmd::default_handling_folder_workspace()
     return 0;
 }
 
-int Cmd::only_one_folder_or_workspace()
+Result Cmd::only_one_folder_or_workspace()
 {
     if (!get_folder().empty() && !get_workspace_path().empty())
     {
-        error("--folder and --workspace can't be specified at the same time");
-        return -1;
+        std::string err_str = "--folder and --workspace can't be specified at the same time";
+        error(err_str);
+        return ESYSREPO_RESULT(ResultCode::CMD_INCORRECT_PARAMETERS_COMBINATION, err_str);
     }
     else if (!get_folder().empty() || !get_workspace_path().empty())
     {
@@ -422,7 +423,7 @@ int Cmd::only_one_folder_or_workspace()
     }
     else
         set_workspace_path(boost::filesystem::current_path().normalize().make_preferred().string());
-    return 0;
+    return ESYSREPO_RESULT(ResultCode::OK);
 }
 
 std::string Cmd::get_extra_start_msg()
@@ -530,6 +531,14 @@ void Cmd::print_cmd_name()
 void Cmd::print_cmd_name(std::ostream &os)
 {
     os << get_name() + " ...";
+}
+
+Result Cmd::generic_error(int error)
+{
+    if (error < 0)
+        return ESYSREPO_RESULT(ResultCode::CMD_GENERIC_RAW_ERROR, error);
+    else
+        return ESYSREPO_RESULT(ResultCode::OK);
 }
 
 } // namespace esys::repo::exe

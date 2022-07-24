@@ -122,19 +122,19 @@ void FixCmd::test_repo_head(const std::string &path, const std::string &head_nam
     boost::filesystem::path repo_path = get_file_path();
     repo_path /= path;
 
-    int result = git.open(repo_path.string());
-    ESYSTEST_REQUIRE_EQUAL(result, 0);
+    Result result = git.open(repo_path.string());
+    ESYSTEST_REQUIRE_EQUAL(result.ok(), true);
 
     git::Branches branches;
 
-    result = git.get_branches(branches);
-    ESYSTEST_REQUIRE_EQUAL(result, 0);
+    int result_int = git.get_branches(branches);
+    ESYSTEST_REQUIRE_EQUAL(result_int, 0);
 
     ESYSTEST_REQUIRE_NE(branches.get_head(), nullptr);
     ESYSTEST_REQUIRE_EQUAL(branches.get_head()->get_name(), head_name);
 
     result = git.close();
-    ESYSTEST_REQUIRE_EQUAL(result, 0);
+    ESYSTEST_REQUIRE_EQUAL(result.ok(), true);
 }
 
 void FixCmd::test_manifest_repo_head(const std::string &head_name)
@@ -197,8 +197,8 @@ void FixCmd::init()
     m_cmd_init.set_logger_if(m_logger);
     m_cmd_init.set_debug(true);
 
-    int result = m_cmd_init.run();
-    ESYSTEST_REQUIRE_EQUAL(result, 0);
+    Result result = m_cmd_init.run();
+    ESYSTEST_REQUIRE_EQUAL(result.ok(), true);
 }
 
 void FixCmd::sync()
@@ -209,8 +209,8 @@ void FixCmd::sync()
     m_cmd_sync.set_logger_if(m_logger);
     m_cmd_sync.set_debug(true);
 
-    int result = m_cmd_sync.run();
-    ESYSTEST_REQUIRE_EQUAL(result, 0);
+    Result result = m_cmd_sync.run();
+    ESYSTEST_REQUIRE_EQUAL(result.ok(), true);
 }
 
 void FixCmd::sync(const std::vector<std::string> folders)
@@ -223,8 +223,8 @@ void FixCmd::sync(const std::vector<std::string> folders)
 
     m_cmd_sync.set_sub_args(folders);
 
-    int result = m_cmd_sync.run();
-    ESYSTEST_REQUIRE_EQUAL(result, 0);
+    Result result = m_cmd_sync.run();
+    ESYSTEST_REQUIRE_EQUAL(result.ok(), true);
 }
 
 void FixCmd::manifest()
@@ -234,8 +234,8 @@ void FixCmd::manifest()
     m_cmd_manifest.set_logger_if(m_logger);
     m_cmd_manifest.set_debug(true);
 
-    int result = m_cmd_manifest.run();
-    ESYSTEST_REQUIRE_EQUAL(result, 0);
+    Result result = m_cmd_manifest.run();
+    ESYSTEST_REQUIRE_EQUAL(result.ok(), true);
 }
 
 void FixCmd::run()
@@ -256,8 +256,8 @@ int FixCmd::open_git_manifest_repo()
     boost::filesystem::path manifest_path = config_folder->get_path();
     manifest_path /= config->get_manifest_path();
     manifest_path = manifest_path.parent_path().normalize().make_preferred();
-
-    return get_git()->open(manifest_path.string());
+    auto result = get_git()->open(manifest_path.string());
+    return result.get_result_code_int();
 }
 
 int FixCmd::close_git()

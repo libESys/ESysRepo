@@ -51,14 +51,18 @@ GitImpl::~GitImpl()
     if (m_repo != nullptr) close();
 }
 
-int GitImpl::open(const std::string &folder)
+Result GitImpl::open(const std::string &folder)
 {
     self()->open_time();
 
     int result = git_repository_open(&m_repo, folder.c_str());
-    if (result < 0) return check_error(result, "open git repo " + folder);
+    if (result < 0)
+    {
+        Result rresult = ESYSREPO_RESULT(ResultCode::GIT_ERROR_OPENING_REPO, "open git repo " + folder);
+        return check_error(rresult);
+    }
 
-    return 0;
+    return ESYSREPO_RESULT(ResultCode::OK);
 }
 
 bool GitImpl::is_open()
@@ -66,9 +70,9 @@ bool GitImpl::is_open()
     return (m_repo != nullptr);
 }
 
-int GitImpl::close()
+Result GitImpl::close()
 {
-    if (m_repo == nullptr) return -1;
+    if (m_repo == nullptr) return ESYSREPO_RESULT(ResultCode::INTERNAL_ERROR);
 
     git_repository_free(m_repo);
 
@@ -76,7 +80,7 @@ int GitImpl::close()
 
     self()->close_time();
 
-    return 0;
+    return ESYSREPO_RESULT(ResultCode::OK);
 }
 
 int GitImpl::get_remotes(std::vector<git::Remote> &remotes)
@@ -376,7 +380,7 @@ int GitImpl::diff(const git::CommitHash commit_hash, std::shared_ptr<git::Diff> 
     return 0;
 }
 
-int GitImpl::clone(const std::string &url, const std::string &path, const std::string &branch)
+Result GitImpl::clone(const std::string &url, const std::string &path, const std::string &branch)
 {
     std::string new_ref;
     int result = 0;
@@ -402,7 +406,12 @@ int GitImpl::clone(const std::string &url, const std::string &path, const std::s
     else if ((url.find("ssh:") == 0))
     {
         self()->debug(1, "[GitImpl::clone] ssh]");
-        if (!is_ssh_agent_running()) return check_error(-1, "Only authentication via an ssh agent is supported", false);
+        if (!is_ssh_agent_running())
+        {
+            Result result = ESYSREPO_RESULT(ResultCode::GIT_GENERIC_ERROR, "Only authentication via an ssh agent is "
+                                                                           "supported");
+            return check_error(result, false);
+        }
 
         self()->cmd_start();
         self()->open_time();
@@ -424,12 +433,17 @@ int GitImpl::clone(const std::string &url, const std::string &path, const std::s
         result = git_clone(&m_repo, url.c_str(), path.c_str(), &opts);
     }
     else
-        return check_error(-1, "Unknown protocol.");
+    {
+        Result result = ESYSREPO_RESULT(ResultCode::GIT_UNKNOWN_PROTOCOL, "Unknown protocol.");
+        return check_error(result);
+    }
 
-    return check_error(result, "Clone failed");
+    if (result == 0) return ESYSREPO_RESULT(ResultCode::OK);
+    Result rresult = ESYSREPO_RESULT(ResultCode::GIT_RAW_INT_ERROR, result, "Clone failed");
+    return check_error(rresult);
 }
 
-int GitImpl::checkout(const std::string &branch, bool force)
+Result GitImpl::checkout(const std::string &branch, bool force)
 {
     Guard<git_annotated_commit> annotated_commit;
     Guard<git_object> treeish;
@@ -449,7 +463,12 @@ int GitImpl::checkout(const std::string &branch, bool force)
         // try to to guess
 
         result = find_ref(input_branch_ref.get_p(), annotated_commit.get_p(), branch, new_ref);
-        if (result < 0) return check_error(result);
+        if (result < 0)
+        {
+            Result rresult = ESYSREPO_RESULT(ResultCode::GIT_RAW_INT_ERROR, result);
+
+            return check_error(rresult);
+        }
     }
 
     result = git_commit_lookup(target_commit.get_p(), m_repo, git_annotated_commit_id(annotated_commit.get()));
@@ -465,20 +484,32 @@ int GitImpl::checkout(const std::string &branch, bool force)
 
     auto t_commit = static_cast<git_object *>(static_cast<void *>(target_commit.get()));
     result = git_checkout_tree(m_repo, t_commit, &opts);
-    if (result < 0) return check_error(result);
+    if (result < 0)
+    {
+        Result rresult = ESYSREPO_RESULT(ResultCode::GIT_RAW_INT_ERROR, result);
+        return check_error(rresult);
+    }
 
     if (git_annotated_commit_ref(annotated_commit.get()))
     {
         const char *target_head = nullptr;
 
         result = git_reference_lookup(ref.get_p(), m_repo, git_annotated_commit_ref(annotated_commit.get()));
-        if (result < 0) return check_error(result);
+        if (result < 0)
+        {
+            Result rresult = ESYSREPO_RESULT(ResultCode::GIT_RAW_INT_ERROR, result);
+            return check_error(rresult);
+        }
 
         if (git_reference_is_remote(ref.get()))
         {
             result =
                 git_branch_create_from_annotated(branch_ref.get_p(), m_repo, branch.c_str(), annotated_commit.get(), 0);
-            if (result < 0) return check_error(result);
+            if (result < 0)
+            {
+                Result rresult = ESYSREPO_RESULT(ResultCode::GIT_RAW_INT_ERROR, result);
+                return check_error(rresult);
+            }
 
             target_head = git_reference_name(branch_ref.get());
 
@@ -487,11 +518,11 @@ int GitImpl::checkout(const std::string &branch, bool force)
             const char *branch_name = nullptr;
             result = git_branch_name(&branch_name, input_branch_ref.get());
             if (result < 0)
-                check_error(result, "can't get the name of the branch");
+                check_error(result, "can't get the name of the branch"); //!  \TODO check if this is correct
             else
             {
                 result = git_branch_set_upstream(branch_ref.get(), branch_name);
-                if (result < 0) check_error(result, "set branch upstream");
+                if (result < 0) check_error(result, "set branch upstream"); //!  \TODO check if this is correct
             }
         }
         else
@@ -500,12 +531,24 @@ int GitImpl::checkout(const std::string &branch, bool force)
         }
 
         result = git_repository_set_head(m_repo, target_head);
-        return check_error(result);
+        Result rresult;
+
+        if (result < 0)
+            rresult = ESYSREPO_RESULT(ResultCode::GIT_RAW_INT_ERROR, result);
+        else
+            rresult = ESYSREPO_RESULT(ResultCode::OK);
+        return check_error(rresult);
     }
     else
     {
         result = git_repository_set_head_detached_from_annotated(m_repo, annotated_commit.get());
-        return check_error(result);
+        Result rresult;
+        if (result < 0)
+            rresult = ESYSREPO_RESULT(ResultCode::GIT_RAW_INT_ERROR, result);
+        else
+            rresult = ESYSREPO_RESULT(ResultCode::OK);
+
+        return check_error(rresult);
     }
 }
 
@@ -861,6 +904,30 @@ int GitImpl::check_error(int result, const std::string &action, bool show_result
     if (show_result)
     {
         oss << " (" << result << ").";
+        if (error && error->message)
+        {
+            oss << " - " << error->message;
+        }
+    }
+    self()->error(oss.str());
+
+    return result;
+}
+
+Result GitImpl::check_error(Result result, bool show_result)
+{
+    self()->cmd_end();
+
+    if (result.ok()) return result;
+
+    const git_error *error = git_error_last();
+
+    std::ostringstream oss;
+    // oss << "ERROR " << result << " : " << action;
+    if (result.get_error_info() != nullptr) oss << result.get_error_info()->get_text();
+    if (show_result)
+    {
+        oss << " (" << result.get_result_code_int() << ").";
         if (error && error->message)
         {
             oss << " - " << error->message;

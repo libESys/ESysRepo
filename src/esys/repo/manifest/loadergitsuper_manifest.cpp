@@ -28,9 +28,9 @@ LoaderGitSuper::LoaderGitSuper()
 
 LoaderGitSuper::~LoaderGitSuper() = default;
 
-int LoaderGitSuper::run()
+Result LoaderGitSuper::run()
 {
-    return -1;
+    return ESYSREPO_RESULT(ResultCode::NOT_IMPLEMENTED);
 }
 
 } // namespace esys::repo::manifest

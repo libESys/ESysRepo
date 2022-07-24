@@ -43,7 +43,7 @@ public:
     //! Destructor
     ~Loader() override;
 
-    int run() override;
+    Result run() override;
 
     //! Set the actual loader to use
     /*!

@@ -5,7 +5,7 @@
  * \cond
  * __legal_b__
  *
- * Copyright (c) 2020-2021 Michel Gillet
+ * Copyright (c) 2020-2022 Michel Gillet
  * Distributed under the wxWindows Library Licence, Version 3.1.
  * (See accompanying file LICENSE_3_1.txt or
  * copy at http://www.wxwidgets.org/about/licence)
@@ -61,17 +61,17 @@ bool CmdList::get_path_only() const
     return m_path_only;
 }
 
-int CmdList::impl_run()
+Result CmdList::impl_run()
 {
     if (get_fullpath()) warn("Option --fullpath is not implemented yet.");
     if (get_name_only()) warn("Option --name-only is not implemented yet.");
     if (get_path_only()) warn("Option --path-only is not implemtented yet.");
 
     int result = default_handling_folder_workspace();
-    if (result < 0) return result;
+    if (result < 0) return generic_error(result);
 
     result = open_esysrepo_folder();
-    if (result < 0) return result;
+    if (result < 0) return generic_error(result);
 
     result = load_manifest();
 
@@ -89,7 +89,7 @@ int CmdList::impl_run()
 
     info(oss.str());
 
-    return result;
+    return generic_error(result);
 }
 
 void CmdList::print_info(std::ostream &os, std::shared_ptr<manifest::Repository> repo)

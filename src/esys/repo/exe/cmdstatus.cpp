@@ -47,7 +47,7 @@ bool CmdStatus::get_quiet() const
     return m_quiet;
 }
 
-int CmdStatus::impl_run()
+Result CmdStatus::impl_run()
 {
     if (get_quiet()) warn("The option --quiet is not implemented yet");
 
@@ -55,17 +55,17 @@ int CmdStatus::impl_run()
     if (result < 0)
     {
         error("No ESysRepo folder found");
-        return -1;
+        return generic_error(-1);
     }
 
     result = open_esysrepo_folder();
-    if (result < 0) return result;
+    if (result < 0) return generic_error(result);
 
     result = load_manifest();
-    if (result < 0) return result;
+    if (result < 0) return generic_error(result);
 
     result = process_sub_args_as_git_repo_paths();
-    if (result < 0) return result;
+    if (result < 0) return generic_error(result);
 
     std::map<std::string, int> map_input_repo_paths;
 
@@ -92,7 +92,7 @@ int CmdStatus::impl_run()
         }
     }
 
-    return result;
+    return generic_error(result);
 }
 
 int CmdStatus::open_repo(std::shared_ptr<manifest::Repository> repo)
@@ -109,12 +109,12 @@ int CmdStatus::open_repo(std::shared_ptr<manifest::Repository> repo)
     m_rel_repo_path = rel_repo_path.string();
     m_repo_path = repo_path.string();
 
-    int result = git_helper->open(repo_path.string(), log::Level::DEBUG);
-    if (result < 0) return result;
+    Result rresult = git_helper->open(repo_path.string(), log::Level::DEBUG);
+    if (rresult.error() < 0) return rresult.get_result_code_int();
 
     m_repo_status = std::make_shared<git::RepoStatus>();
 
-    result = git_helper->get_status(*m_repo_status, log::Level::DEBUG);
+    int result = git_helper->get_status(*m_repo_status, log::Level::DEBUG);
     if (result < 0) return result;
 
     m_repo_status->sort_file_status();
@@ -126,7 +126,7 @@ int CmdStatus::open_repo(std::shared_ptr<manifest::Repository> repo)
 
     m_branches.sort();
 
-    return git_helper->close(log::Level::DEBUG);
+    return git_helper->close(log::Level::DEBUG).get_result_code_int();
 }
 
 void CmdStatus::print_repo(std::shared_ptr<manifest::Repository> repo)

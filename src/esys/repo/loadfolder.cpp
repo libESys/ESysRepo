@@ -40,15 +40,15 @@ const std::string &LoadFolder::get_folder_path() const
     return m_folder_path;
 }
 
-int LoadFolder::run(const std::string &folder_path)
+Result LoadFolder::run(const std::string &folder_path)
 {
     if (!folder_path.empty()) set_folder_path(folder_path);
 
     auto detect = std::make_unique<manifest::Detect>();
 
     detect->set_folder_path(folder_path);
-    int result = detect->detect();
-    if (result < 0) return -1;
+    Result result = detect->detect();
+    if (result.error()) return ESYSREPO_RESULT(result);
 
     auto loader = std::make_unique<manifest::Loader>();
     if (detect->get_config_folder() != nullptr)
@@ -60,12 +60,12 @@ int LoadFolder::run(const std::string &folder_path)
         loader->set_config(detect->get_config());
     }
     else
-        return -2;
+        return ESYSREPO_RESULT(ResultCode::INTERNAL_ERROR);
 
     result = loader->run();
-    if (result < 0) return -3;
+    if (result.error()) return ESYSREPO_RESULT(result);
     set_manifest(loader->get_manifest());
-    return 0;
+    return ESYSREPO_RESULT(ResultCode::OK);
 }
 
 std::string LoadFolder::find_repo_path_by_url(const std::string &url)

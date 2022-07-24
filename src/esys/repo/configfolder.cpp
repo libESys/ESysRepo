@@ -64,7 +64,7 @@ void ConfigFolder::populate_all_pathes()
     m_config_file_path = config_file.string();
 }
 
-int ConfigFolder::create(const std::string &parent_path, bool ok_if_exists)
+Result ConfigFolder::create(const std::string &parent_path, bool ok_if_exists)
 {
     if (!parent_path.empty()) set_workspace_path(parent_path);
 
@@ -80,18 +80,8 @@ int ConfigFolder::create(const std::string &parent_path, bool ok_if_exists)
         else
         {
             error("Couldn't create output folder : " + rel_parent_path.string());
-            return -1;
+            return ESYSREPO_RESULT(ResultCode::FOLDER_CREATION_ERROR, get_workspace_path());
         }
-    }
-    else
-    {
-        if (!ok_if_exists)
-        {
-            error("The following folder already exits : " + rel_parent_path.string());
-            return -1;
-        }
-        else
-            warn("The following folder already exits : " + rel_parent_path.string());
     }
 
     populate_all_pathes();
@@ -104,7 +94,7 @@ int ConfigFolder::create(const std::string &parent_path, bool ok_if_exists)
         if (!result)
         {
             error("The following folder couldn't be created : " + rel_path.string());
-            return -1;
+            return ESYSREPO_RESULT(ResultCode::FOLDER_CREATION_ERROR, get_path());
         }
         else
             info("Created folder : " + rel_path.string());
@@ -114,7 +104,7 @@ int ConfigFolder::create(const std::string &parent_path, bool ok_if_exists)
         if (!ok_if_exists)
         {
             error("The following folder already exits : " + rel_path.string());
-            return -1;
+            return ESYSREPO_RESULT(ResultCode::FOLDER_ALREADY_EXISTS, get_path());
         }
         else
             warn("The following folder already exits : " + rel_path.string());
@@ -127,7 +117,7 @@ int ConfigFolder::create(const std::string &parent_path, bool ok_if_exists)
         if (!result)
         {
             error("The following folder couldn't be created : " + rel_temp_path.string());
-            return -1;
+            return ESYSREPO_RESULT(ResultCode::FOLDER_CREATION_ERROR, get_temp_path());
         }
         else
             info("Created folder : " + rel_temp_path.string());
@@ -137,15 +127,15 @@ int ConfigFolder::create(const std::string &parent_path, bool ok_if_exists)
         if (!ok_if_exists)
         {
             error("The following folder already exits : " + rel_temp_path.string());
-            return -1;
+            return ESYSREPO_RESULT(ResultCode::FOLDER_ALREADY_EXISTS, get_temp_path());
         }
         else
             warn("The following folder already exits : " + rel_temp_path.string());
     }
-    return 0;
+    return ESYSREPO_RESULT(ResultCode::OK);
 }
 
-int ConfigFolder::open(const std::string &parent_path, bool print_error)
+Result ConfigFolder::open(const std::string &parent_path, bool print_error)
 {
     if (!parent_path.empty()) set_workspace_path(parent_path);
 
@@ -155,26 +145,26 @@ int ConfigFolder::open(const std::string &parent_path, bool print_error)
     if (!boost::filesystem::exists(get_path()))
     {
         if (print_error) error("The following folder is not existing : " + rel_path.string());
-        return -1;
+        return ESYSREPO_RESULT(ResultCode::PATH_NOT_EXISTING, get_path());
     }
 
     boost::filesystem::path rel_config_file_path = boost::filesystem::relative(get_config_file_path());
     if (!boost::filesystem::exists(get_config_file_path()))
     {
         if (print_error) error("The esysrepo config file can't be found : " + rel_config_file_path.string());
-        return -1;
+        return ESYSREPO_RESULT(ResultCode::PATH_NOT_EXISTING, get_config_file_path());
     }
 
     m_config_file = std::make_shared<ConfigFile>();
-    int result = m_config_file->open(get_config_file_path());
-    if (result < 0)
+    Result result = m_config_file->open(get_config_file_path());
+    if (result.error())
     {
         if (print_error) error("The esysrepo config file couldn't opened : " + rel_config_file_path.string());
-        return result;
+        return ESYSREPO_RESULT(result);
     }
     set_config(m_config_file->get_config());
 
-    return 0;
+    return ESYSREPO_RESULT(ResultCode::OK);
 }
 
 int ConfigFolder::write(const std::string &parent_path)
@@ -250,13 +240,13 @@ std::shared_ptr<Config> ConfigFolder::get_or_new_config()
     return get_config();
 }
 
-int ConfigFolder::write_config_file()
+Result ConfigFolder::write_config_file()
 {
     m_config_file = std::make_shared<ConfigFile>();
     m_config_file->set_config(get_config());
-    int result = m_config_file->write(get_config_file_path());
+    Result result = m_config_file->write(get_config_file_path());
     boost::filesystem::path rel_config_file_path = boost::filesystem::relative(get_config_file_path());
-    if (result < 0)
+    if (result.error())
         error("Couldn't write the esysrepo config file : " + rel_config_file_path.string());
     else
         debug(0, "Wrote the esysrepo config file : " + rel_config_file_path.string());

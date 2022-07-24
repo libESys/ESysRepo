@@ -49,12 +49,12 @@ std::shared_ptr<Config> ConfigFile::get_config() const
     return m_config;
 }
 
-int ConfigFile::open(const std::string &path)
+Result ConfigFile::open(const std::string &path)
 {
     return get_impl()->open(path);
 }
 
-int ConfigFile::write(const std::string &path)
+Result ConfigFile::write(const std::string &path)
 {
     return get_impl()->write(path);
 }

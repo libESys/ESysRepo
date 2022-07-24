@@ -19,6 +19,7 @@
 
 #include "esys/repo/esysrepo_defs.h"
 #include "esys/repo/gitbase.h"
+#include "esys/repo/result.h"
 
 #include <esys/log/user.h>
 
@@ -63,16 +64,16 @@ public:
     void done(const std::string &msg, uint64_t elapsed_time);
 
     //<swig>%rename(open_folder) open;</swig>
-    int open(const std::string &folder, log::Level log_level, int debug_level = 0);
+    Result open(const std::string &folder, log::Level log_level, int debug_level = 0);
 
-    int clone(const std::string &url, const std::string &path, bool do_close, log::Level log_level,
+    Result clone(const std::string &url, const std::string &path, bool do_close, log::Level log_level,
               int debug_level = 0);
-    int clone_branch(const std::string &url, const std::string &branch, const std::string &path, bool do_close,
+    Result clone_branch(const std::string &url, const std::string &branch, const std::string &path, bool do_close,
                      log::Level log_level, int debug_level = 0);
     int clone(const std::string &url, const std::string &temp_path, const std::string &path, bool do_close,
               log::Level log_level, int debug_level = 0);
 
-    int close(log::Level log_level, int debug_level = 0);
+    Result close(log::Level log_level, int debug_level = 0);
 
     int fastforward(const git::CommitHash &commit, log::Level log_level, int debug_level = 0);
 
@@ -97,7 +98,7 @@ public:
     int merge_analysis(const std::vector<std::string> &refs, git::MergeAnalysisResult &merge_analysis_result,
                        std::vector<git::CommitHash> &commits, log::Level log_level, int debug_level = 0);
 
-    int move(const std::string &src, const std::string &dst, bool recursive, log::Level log_level, int debug_level = 0);
+    Result move(const std::string &src, const std::string &dst, bool recursive, log::Level log_level, int debug_level = 0);
 
     //! Set the GitBase instance to use
     /*!

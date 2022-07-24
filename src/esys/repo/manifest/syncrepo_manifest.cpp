@@ -101,11 +101,11 @@ int SyncRepo::clone()
     {
         // A simple clone can be made
         path /= get_repo()->get_path();
-        result = git_helper->clone(url, path.string(), false, log::Level::INFO);
-        if (result < 0)
+        Result rresult = git_helper->clone(url, path.string(), false, log::Level::INFO);
+        if (rresult.error())
         {
             git_helper->close(log::Level::DEBUG);
-            return result;
+            return rresult.get_result_code_int();
         }
 
         if (!get_branch().empty())
@@ -140,10 +140,10 @@ int SyncRepo::clone()
         return result;
     }
 
-    result = git_helper->open(path.string(), esys::log::INFO);
-    if (result < 0)
+    Result rresult = git_helper->open(path.string(), esys::log::INFO);
+    if (rresult.error())
     {
-        return result;
+        return rresult.get_result_code_int();
     }
 
     if (!get_branch().empty())
@@ -174,11 +174,11 @@ int SyncRepo::fetch_update()
     boost::filesystem::path path = get_config_folder()->get_workspace_path();
     if (get_repo()->get_path() != ".") path /= get_repo()->get_path();
 
-    int result = git_helper->open(path.string(), log::Level::INFO);
-    if (result < 0) return result;
+    Result rresult = git_helper->open(path.string(), log::Level::INFO);
+    if (rresult.error()) return rresult.get_result_code_int();
 
     bool dirty = false;
-    result = git_helper->is_dirty(dirty, log::Level::DEBUG);
+    int result = git_helper->is_dirty(dirty, log::Level::DEBUG);
     if (result < 0) return result;
 
     if (dirty)

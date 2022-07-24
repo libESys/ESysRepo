@@ -33,14 +33,14 @@ ConfigFileImpl::ConfigFileImpl(ConfigFile *self)
 
 ConfigFileImpl::~ConfigFileImpl() = default;
 
-int ConfigFileImpl::open(const std::string &path)
+Result ConfigFileImpl::open(const std::string &path)
 {
     if (self()->get_config() == nullptr) self()->set_config(std::make_shared<Config>());
 
     std::ifstream fin(path);
     json obj;
 
-    if (!fin.is_open()) return -1;
+    if (!fin.is_open()) return ESYSREPO_RESULT(ResultCode::ERROR_OPENING_FILE, path);
 
     try
     {
@@ -48,19 +48,20 @@ int ConfigFileImpl::open(const std::string &path)
     }
     catch (json::parse_error &err)
     {
-        return -1;
+        return ESYSREPO_RESULT(ResultCode::CFGFILE_ERROR_PARSING_FILE, path);
     }
 
-    if (!obj.contains("manifest_type")) return -1;
+    if (!obj.contains("manifest_type")) return ESYSREPO_RESULT(ResultCode::CFGFILE_NO_MANIFEST_TYPE, path);
 
     manifest::Type type = manifest::Type::NOT_SET;
 
-    int result = manifest::convert(obj["manifest_type"], type);
-    if (result < 0) return result;
+    std::string value = obj["manifest_type"];
+    int result = manifest::convert(value, type);
+    if (result < 0) return ESYSREPO_RESULT(ResultCode::CFGFILE_UNKNOWN_MANIFEST_TYPE, value);
 
     self()->get_config()->set_manifest_type(type);
 
-    if (!obj.contains("manifest_url")) return -1;
+    if (!obj.contains("manifest_url")) return ESYSREPO_RESULT(ResultCode::CFGFILE_NO_MANIFEST_URL, path);
     self()->get_config()->set_manifest_url(obj["manifest_url"]);
 
     if (obj.contains("manifest_path"))
@@ -72,8 +73,9 @@ int ConfigFileImpl::open(const std::string &path)
     {
         manifest::Kind kind;
 
-        result = convert(obj["manifest_kind"], kind);
-        if (result < 0) return result;
+        std::string value = obj["manifest_kind"];
+        result = convert(value, kind);
+        if (result < 0) return ESYSREPO_RESULT(ResultCode::CFGFILE_UNKNOWN_MANIFEST_KIND, value);
 
         self()->get_config()->set_manifest_kind(kind);
     }
@@ -82,26 +84,27 @@ int ConfigFileImpl::open(const std::string &path)
     {
         manifest::Format format;
 
-        result = convert(obj["manifest_format"], format);
-        if (result < 0) return result;
+        std::string value = obj["manifest_format"];
+        result = convert(value, format);
+        if (result < 0) return ESYSREPO_RESULT(ResultCode::CFGFILE_UNKNOWN_MANIFEST_FORMAT, value);
 
         self()->get_config()->set_manifest_format(format);
     }
-    return 0;
+    return ESYSREPO_RESULT(ResultCode::OK);
 }
 
-int ConfigFileImpl::write(const std::string &path)
+Result ConfigFileImpl::write(const std::string &path)
 {
-    if (self()->get_config() == nullptr) return -1;
+    if (self()->get_config() == nullptr) return ESYSREPO_RESULT(ResultCode::INTERNAL_ERROR);
 
     auto cfg = self()->get_config();
 
-    if (cfg == nullptr) return -1;
+    if (cfg == nullptr) return ESYSREPO_RESULT(ResultCode::INTERNAL_ERROR);
 
     json cfg_json;
     std::string text;
     int result = manifest::convert(cfg->get_manifest_type(), text);
-    if (result < 0) return result;
+    if (result < 0) return ESYSREPO_RESULT(ResultCode::INTERNAL_ERROR);
 
     cfg_json["manifest_type"] = text;
     if (!cfg->get_manifest_path().empty()) cfg_json["manifest_path"] = cfg->get_manifest_path();
@@ -109,12 +112,12 @@ int ConfigFileImpl::write(const std::string &path)
 
     std::string kind;
     result = convert(cfg->get_manifest_kind(), kind);
-    if (result < 0) return result;
+    if (result < 0) return ESYSREPO_RESULT(ResultCode::INTERNAL_ERROR);
     cfg_json["manifest_kind"] = kind;
 
     std::string format;
     result = convert(cfg->get_manifest_format(), format);
-    if (result < 0) return result;
+    if (result < 0) return ESYSREPO_RESULT(ResultCode::INTERNAL_ERROR);
     cfg_json["manifest_format"] = format;
 
     std::ofstream ofs;
@@ -124,7 +127,7 @@ int ConfigFileImpl::write(const std::string &path)
     else
         ofs.open(path.c_str(), std::ios_base::out);
 
-    if (!ofs.is_open()) return -1;
+    if (!ofs.is_open()) return ESYSREPO_RESULT(ResultCode::ERROR_OPENING_FILE, path);
 
     ofs << std::setw(4);
 
@@ -132,7 +135,7 @@ int ConfigFileImpl::write(const std::string &path)
 
     ofs.close();
 
-    return 0;
+    return ESYSREPO_RESULT(ResultCode::OK);
 }
 
 ConfigFile *ConfigFileImpl::self()

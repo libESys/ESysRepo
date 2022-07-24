@@ -405,6 +405,9 @@
     <ClCompile Include="..\..\src\esys\repo\loadfolder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\errorstack.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\esys\repo\esysrepo_defs.h">
@@ -774,6 +777,9 @@
       <Filter>Header Files\manifest</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\esys\repo\loadfolder.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\errorstack.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

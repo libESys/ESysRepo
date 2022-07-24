@@ -19,6 +19,7 @@
 
 #include "esys/repo/esysrepo_defs.h"
 #include "esys/repo/grepo/manifest.h"
+#include "esys/repo/result.h"
 
 #include <esysfile/xml/data.h>
 #include <esysfile/xml/file.h>
@@ -40,7 +41,7 @@ public:
     explicit ManifestImpl(Manifest *self);
     virtual ~ManifestImpl();
 
-    int read(const std::string &filename);
+    Result read(const std::string &filename);
     int write(const std::string &filename);
     int write(std::ostream &os);
 
@@ -51,13 +52,13 @@ public:
     int write_projects();
     int write_project(std::shared_ptr<esysfile::xml::Element> parent, std::shared_ptr<manifest::Repository> repository);
 
-    int read(std::shared_ptr<esysfile::xml::Data> data);
-    int read(std::shared_ptr<esysfile::xml::Element> el);
-    int read_remote(std::shared_ptr<esysfile::xml::Element> el);
-    int read_default(std::shared_ptr<esysfile::xml::Element> el);
-    int read_groups(std::shared_ptr<manifest::Repository> project, const std::string &groups_str);
-    int read_project(std::shared_ptr<esysfile::xml::Element> el);
-    int read_include(std::shared_ptr<esysfile::xml::Element> el);
+    Result read(std::shared_ptr<esysfile::xml::Data> data);
+    Result read(std::shared_ptr<esysfile::xml::Element> el);
+    Result read_remote(std::shared_ptr<esysfile::xml::Element> el);
+    Result read_default(std::shared_ptr<esysfile::xml::Element> el);
+    Result read_groups(std::shared_ptr<manifest::Repository> project, const std::string &groups_str);
+    Result read_project(std::shared_ptr<esysfile::xml::Element> el);
+    Result read_include(std::shared_ptr<esysfile::xml::Element> el);
 
     Manifest *self() const;
 

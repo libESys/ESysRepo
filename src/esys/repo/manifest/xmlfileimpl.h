@@ -41,19 +41,19 @@ public:
     explicit XMLFileImpl(XMLFile *self);
     virtual ~XMLFileImpl();
 
-    int read(const std::string &path);
+    Result read(const std::string &path);
     int write(const std::string &path);
     int write(std::ostream &os);
 
-    int read(std::shared_ptr<esysfile::xml::Data> data);
-    int read_root_attributes(std::shared_ptr<esysfile::xml::Element> root_el);
-    int read_root_attribute(std::shared_ptr<esysfile::xml::Attr> attr);
-    int read_location(std::shared_ptr<esysfile::xml::Element> el);
-    static int read_repository(std::shared_ptr<esysfile::xml::Element> el, std::shared_ptr<Location> location);
-    int read_default(std::shared_ptr<esysfile::xml::Element> el);
-    int read_default_attr(std::shared_ptr<esysfile::xml::Attr> attr);
-    int read_group(std::shared_ptr<esysfile::xml::Element> el);
-    int read_group_repo(std::shared_ptr<esysfile::xml::Element> el, std::shared_ptr<Group> group);
+    Result read(std::shared_ptr<esysfile::xml::Data> data);
+    Result read_root_attributes(std::shared_ptr<esysfile::xml::Element> root_el);
+    Result read_root_attribute(std::shared_ptr<esysfile::xml::Attr> attr);
+    Result read_location(std::shared_ptr<esysfile::xml::Element> el);
+    static Result read_repository(std::shared_ptr<esysfile::xml::Element> el, std::shared_ptr<Location> location);
+    Result read_default(std::shared_ptr<esysfile::xml::Element> el);
+    Result read_default_attr(std::shared_ptr<esysfile::xml::Attr> attr);
+    Result read_group(std::shared_ptr<esysfile::xml::Element> el);
+    Result read_group_repo(std::shared_ptr<esysfile::xml::Element> el, std::shared_ptr<Group> group);
 
     static int write(std::shared_ptr<esysfile::xml::Element> parent_el, std::shared_ptr<Location> location);
     static int write(std::shared_ptr<esysfile::xml::Element> parent_el, std::shared_ptr<Repository> repository);

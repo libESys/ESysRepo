@@ -19,6 +19,7 @@
 
 #include "esys/repo/esysrepo_defs.h"
 #include "esys/repo/config.h"
+#include "esys/repo/result.h"
 
 #include <memory>
 #include <string>
@@ -40,7 +41,7 @@ public:
 
     ~Folder();
 
-    int open(const std::string &folder_path = "");
+    Result open(const std::string &folder_path = "");
 
     void set_folder_path(const std::string &folder_path);
     const std::string &get_folder_path() const;

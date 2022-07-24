@@ -82,8 +82,8 @@ int Sync::run()
     if (get_git() == nullptr) return GIT_IS_NULL;
     if (get_git()->is_open()) return GIT_IS_NOT_OPENED;
 
-    int result = get_git()->open(get_config_folder()->get_manifest_repo_path());
-    if (result < 0)
+    Result result = get_git()->open(get_config_folder()->get_manifest_repo_path());
+    if (result.error())
     {
         error("Couldn't open the manifest git repo");
         return GIT_OPEN_FAILED;
@@ -97,8 +97,8 @@ int Sync::run()
         return 0;
     }
 
-    result = get_git()->fetch();
-    if (result < 0)
+    int result_int = get_git()->fetch();
+    if (result_int < 0)
     {
         error("Fetch failed on the manifest git repo");
         get_git()->close();
@@ -206,13 +206,13 @@ int Sync::branch_sync()
 
     if (!has_branch) return normal_sync();
 
-    result = get_git()->checkout(get_branch(), get_force());
-    if (result == 0)
+    Result rresult = get_git()->checkout(get_branch(), get_force());
+    if (rresult.ok())
         info("Manifest: checkout branch " + get_branch() + ".");
     else
         error("Manifest: failed to checkout branch " + get_branch() + ".");
     get_git()->close();
-    return result;
+    return rresult.get_result_code_int();
 }
 
 int Sync::process_repo()

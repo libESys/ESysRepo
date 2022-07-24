@@ -66,18 +66,18 @@ ESYSTEST_AUTO_TEST_CASE(Basic01)
 
     libgit2::Git git;
 
-    int result = git.clone("https://gitlab.com/libesys/esysrepo/test_google_manifest.git",
+    Result result = git.clone("https://gitlab.com/libesys/esysrepo/test_google_manifest.git",
                            file_path.normalize().make_preferred().string());
-    if (result != 0) std::cout << "ERROR " << result << std::endl;
-    ESYSTEST_REQUIRE_EQUAL(result, 0);
+    if (result.error()) std::cout << "ERROR " << result << std::endl;
+    ESYSTEST_REQUIRE_EQUAL(result.ok(), true);
 
     auto the_walk_commit = std::make_shared<Basic>();
 
-    result = git.walk_commits(the_walk_commit);
-    ESYSTEST_REQUIRE_EQUAL(result, 0);
+    int result_int = git.walk_commits(the_walk_commit);
+    ESYSTEST_REQUIRE_EQUAL(result_int, 0);
 
     result = git.close();
-    ESYSTEST_REQUIRE_EQUAL(result, 0);
+    ESYSTEST_REQUIRE_EQUAL(result.ok(), true);
 
     ESYSTEST_REQUIRE_EQUAL(the_walk_commit->get_data()->get_year_map().size(), 1);
 

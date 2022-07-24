@@ -72,10 +72,10 @@ ESYSTEST_AUTO_TEST_CASE(GetStatus01LibGit2)
 
     Git git;
 
-    int result =
+    Result result =
         git.clone("https://gitlab.com/libesys/esysmodbus/dev.git", file_path.normalize().make_preferred().string());
-    if (result != 0) std::cout << "ERROR " << result << std::endl;
-    ESYSTEST_REQUIRE_EQUAL(result, 0);
+    if (result.error()) std::cout << "ERROR " << result << std::endl;
+    ESYSTEST_REQUIRE_EQUAL(result.ok(), true);
 
     boost::filesystem::path new_file_path = file_path;
     new_file_path /= "new_file.txt";
@@ -95,15 +95,15 @@ ESYSTEST_AUTO_TEST_CASE(GetStatus01LibGit2)
 
     git::RepoStatus repo_status;
 
-    result = git.get_status(repo_status);
-    ESYSTEST_REQUIRE_EQUAL(result, 0);
+    int result_int = git.get_status(repo_status);
+    ESYSTEST_REQUIRE_EQUAL(result_int, 0);
 
     ESYSTEST_REQUIRE_EQUAL(repo_status.get_all().size(), 2);
     ESYSTEST_REQUIRE_EQUAL(repo_status.get_head_to_index().size(), 0);
     ESYSTEST_REQUIRE_EQUAL(repo_status.get_index_to_work_dir().size(), 2);
 
     result = git.close();
-    ESYSTEST_REQUIRE_EQUAL(result, 0);
+    ESYSTEST_REQUIRE_EQUAL(result.ok(), true);
 }
 
 } // namespace test

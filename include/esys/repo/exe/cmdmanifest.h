@@ -5,7 +5,7 @@
  * \cond
  * __legal_b__
  *
- * Copyright (c) 2021 Michel Gillet
+ * Copyright (c) 2021-2022 Michel Gillet
  * Distributed under the wxWindows Library Licence, Version 3.1.
  * (See accompanying file LICENSE_3_1.txt or
  * copy at http://www.wxwidgets.org/about/licence)
@@ -25,13 +25,7 @@
 #include <ostream>
 #include <vector>
 
-namespace esys
-{
-
-namespace repo
-{
-
-namespace exe
+namespace esys::repo::exe
 {
 
 /*! \class CmdManifest esys/repo/exe/cmdmanifest.h "esys/repo/exe/cmdmanifest.h"
@@ -52,12 +46,12 @@ public:
     void set_output_file(const std::string &output_file);
     const std::string &get_output_file() const;
 
-    int update_revision_as_head();
-    int update_revision_as_head(std::shared_ptr<manifest::Repository> repo);
+    Result update_revision_as_head();
+    Result update_revision_as_head(std::shared_ptr<manifest::Repository> repo);
 
 protected:
     //!< \cond DOXY_IMPL
-    int impl_run() override;
+    Result impl_run() override;
 
 private:
     bool m_revision_as_head = false;
@@ -65,8 +59,4 @@ private:
     //!< \endcond
 };
 
-} // namespace exe
-
-} // namespace repo
-
-} // namespace esys
+} // namespace esys::repo::exe

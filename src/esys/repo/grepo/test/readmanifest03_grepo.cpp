@@ -51,8 +51,8 @@ ESYSTEST_AUTO_TEST_CASE(ReadManifest03GRepo)
 
     Manifest manifest;
 
-    int result = manifest.read(file_path.string());
-    ESYSTEST_REQUIRE_EQUAL(result, 0);
+    Result result = manifest.read(file_path.string());
+    ESYSTEST_REQUIRE_EQUAL(result.ok(), true);
 
     auto data = manifest.get_data();
     ESYSTEST_REQUIRE_EQUAL(data->get_locations().size(), 1);
@@ -101,13 +101,13 @@ ESYSTEST_AUTO_TEST_CASE(ReadManifest03GRepo)
 
     temp_path /= "default03.xml";
 
-    result = manifest.write(temp_path.string());
-    ESYSTEST_REQUIRE_EQUAL(result, 0);
+    int result_int = manifest.write(temp_path.string());
+    ESYSTEST_REQUIRE_EQUAL(result_int, 0);
 
     Manifest new_manifest;
 
     result = new_manifest.read(temp_path.string());
-    ESYSTEST_REQUIRE_EQUAL(result, 0);
+    ESYSTEST_REQUIRE_EQUAL(result.ok(), true);
 
     ESYSTEST_REQUIRE_EQUAL(new_manifest, manifest);
 }

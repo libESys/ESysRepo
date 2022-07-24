@@ -5,7 +5,7 @@
  * \cond
  * __legal_b__
  *
- * Copyright (c) 2020 Michel Gillet
+ * Copyright (c) 2020-2022 Michel Gillet
  * Distributed under the wxWindows Library Licence, Version 3.1.
  * (See accompanying file LICENSE_3_1.txt or
  * copy at http://www.wxwidgets.org/about/licence)
@@ -25,13 +25,7 @@
 #include <ostream>
 #include <vector>
 
-namespace esys
-{
-
-namespace repo
-{
-
-namespace exe
+namespace esys::repo::exe
 {
 
 /*! \class CmdInfo esys/repo/exe/cmdinfo.h "esys/repo/exe/cmdinfo.h"
@@ -63,7 +57,7 @@ public:
 
 protected:
     //!< \cond DOXY_IMPL
-    int impl_run() override;
+    Result impl_run() override;
 
 private:
     bool m_diff = false;
@@ -77,8 +71,4 @@ private:
     //!< \endcond
 };
 
-} // namespace exe
-
-} // namespace repo
-
-} // namespace esys
+} // namespace esys::repo::exe

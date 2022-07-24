@@ -20,6 +20,7 @@
 #include "esys/repo/esysrepo_defs.h"
 #include "esys/repo/manifest.h"
 #include "esys/repo/manifest/fileerror.h"
+#include "esys/repo/result.h"
 
 #include <string>
 #include <memory>
@@ -56,9 +57,9 @@ public:
     //! Read the manifest
     /*!
      * \param[in] path the path of the manifest
-     * \return 0 if successful, < 0 otherwise
+     * \return ResultCode::OK if successful, otherwise an error
      */
-    virtual int read(const std::string &path) = 0;
+    virtual Result read(const std::string &path) = 0;
 
     //! Write this manifest to a file
     /*!

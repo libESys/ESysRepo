@@ -20,6 +20,7 @@
 #include "esys/repo/esysrepo_defs.h"
 #include "esys/repo/config.h"
 #include "esys/repo/configfolder.h"
+#include "esys/repo/result.h"
 
 #include <memory>
 #include <string>
@@ -44,7 +45,7 @@ public:
     void set_folder_path(const std::string &folder_path);
     const std::string &get_folder_path() const;
 
-    int detect(std::shared_ptr<Config> config = nullptr);
+    Result detect(std::shared_ptr<Config> config = nullptr);
 
     void set_config(std::shared_ptr<Config> config);
     std::shared_ptr<Config> get_config();

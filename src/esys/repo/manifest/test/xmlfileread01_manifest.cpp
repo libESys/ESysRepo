@@ -5,7 +5,7 @@
  * \cond
  * __legal_b__
  *
- * Copyright (c) 2020-2021 Michel Gillet
+ * Copyright (c) 2020-2022 Michel Gillet
  * Distributed under the wxWindows Library Licence, Version 3.1.
  * (See accompanying file LICENSE_3_1.txt or
  * copy at http://www.wxwidgets.org/about/licence)
@@ -24,16 +24,7 @@
 
 #include <iostream>
 
-namespace esys
-{
-
-namespace repo
-{
-
-namespace manifest
-{
-
-namespace test
+namespace esys::repo::manifest::test
 {
 
 /*! \class XMLFileRead01Manifest esys/repo/manifest/test/xmlfileread01_manifest.cpp
@@ -57,8 +48,8 @@ ESYSTEST_AUTO_TEST_CASE(XMLFileRead01Manifest)
     std::shared_ptr<manifest::Repository> repo;
 
     ESYSTEST_REQUIRE_EQUAL(boost::filesystem::exists(path), true);
-    int result = xml_file.read(path.string());
-    if (result < 0)
+    Result result = xml_file.read(path.string());
+    if (result.error())
     {
         std::cout << "ERROR : result = " << result << std::endl;
         int err_idx = 0;
@@ -78,7 +69,7 @@ ESYSTEST_AUTO_TEST_CASE(XMLFileRead01Manifest)
     else
         std::cout << "No read error." << std::endl;
 
-    ESYSTEST_REQUIRE_EQUAL(result, 0);
+    ESYSTEST_REQUIRE_EQUAL(result.ok(), true);
     ESYSTEST_REQUIRE_NE(xml_file.get_data(), nullptr);
 
     auto test_fct = [](std::vector<std::pair<std::string, std::string>> &values,
@@ -188,10 +179,4 @@ ESYSTEST_AUTO_TEST_CASE(XMLFileRead01Manifest)
     }
 }
 
-} // namespace test
-
-} // namespace manifest
-
-} // namespace repo
-
-} // namespace esys
+} // namespace esys::repo::manifest::test

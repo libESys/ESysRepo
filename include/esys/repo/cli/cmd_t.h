@@ -19,6 +19,7 @@
 
 #include "esys/repo/esysrepo_defs.h"
 #include "esys/repo/cli/cmd.h"
+#include "esys/repo/result.h"
 
 namespace esys
 {
@@ -103,7 +104,7 @@ int Cmd_t<CMD>::run()
 
     get_cmd().set_logger_if(this->get_logger_if());
     get_cmd().set_console_os(get_console_os());
-    return get_cmd().run();
+    return get_cmd().run().get_result_code_int();
 }
 
 } // namespace cli

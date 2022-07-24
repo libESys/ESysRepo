@@ -41,7 +41,7 @@ public:
     //! Destructor
     ~LoaderGRepo() override;
 
-    int run() override;
+    Result run() override;
 };
 
 } // namespace manifest

@@ -5,7 +5,7 @@
  * \cond
  * __legal_b__
  *
- * Copyright (c) 2020-2021 Michel Gillet
+ * Copyright (c) 2020-2022 Michel Gillet
  * Distributed under the wxWindows Library Licence, Version 3.1.
  * (See accompanying file LICENSE_3_1.txt or
  * copy at http://www.wxwidgets.org/about/licence)
@@ -27,16 +27,7 @@
 
 #include <iostream>
 
-namespace esys
-{
-
-namespace repo
-{
-
-namespace exe
-{
-
-namespace test
+namespace esys::repo::exe::test
 {
 
 /*! \class CmdStatus01 esys/repo/exe/test/cmdstatus01.cpp
@@ -65,8 +56,8 @@ ESYSTEST_AUTO_TEST_CASE(CmdStatus01)
     cmd_init.set_git(git);
     cmd_init.set_logger_if(logger);
 
-    int result = cmd_init.run();
-    ESYSTEST_REQUIRE_EQUAL(result, 0);
+    Result result = cmd_init.run();
+    ESYSTEST_REQUIRE_EQUAL(result.ok(), true);
 
     CmdSync cmd_sync;
 
@@ -75,7 +66,7 @@ ESYSTEST_AUTO_TEST_CASE(CmdStatus01)
     cmd_sync.set_logger_if(logger);
 
     result = cmd_sync.run();
-    ESYSTEST_REQUIRE_EQUAL(result, 0);
+    ESYSTEST_REQUIRE_EQUAL(result.ok(), true);
 
     CmdStatus cmd_status;
 
@@ -84,13 +75,7 @@ ESYSTEST_AUTO_TEST_CASE(CmdStatus01)
     cmd_status.set_logger_if(logger);
 
     result = cmd_status.run();
-    ESYSTEST_REQUIRE_EQUAL(result, 0);
+    ESYSTEST_REQUIRE_EQUAL(result.ok(), true);
 }
 
-} // namespace test
-
-} // namespace exe
-
-} // namespace repo
-
-} // namespace esys
+} // namespace esys::repo::exe::test

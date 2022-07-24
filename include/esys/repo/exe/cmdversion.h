@@ -5,7 +5,7 @@
  * \cond
  * __legal_b__
  *
- * Copyright (c) 2020-2021 Michel Gillet
+ * Copyright (c) 2020-2022 Michel Gillet
  * Distributed under the wxWindows Library Licence, Version 3.1.
  * (See accompanying file LICENSE_3_1.txt or
  * copy at http://www.wxwidgets.org/about/licence)
@@ -26,13 +26,7 @@
 #include <vector>
 #include <memory>
 
-namespace esys
-{
-
-namespace repo
-{
-
-namespace exe
+namespace esys::repo::exe
 {
 
 class ESYSREPO_API CmdVersion : public Cmd
@@ -48,15 +42,11 @@ public:
 
 protected:
     //!< \cond DOXY_IMPL
-    int impl_run() override;
+    Result impl_run() override;
 
 private:
     std::string m_version;
     //!< \endcond
 };
 
-} // namespace exe
-
-} // namespace repo
-
-} // namespace esys
+} // namespace esys::repo::exe

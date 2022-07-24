@@ -19,6 +19,7 @@
 
 #include "esys/repo/esysrepo_defs.h"
 #include "esys/repo/config.h"
+#include "esys/repo/result.h"
 
 #include <string>
 #include <memory>
@@ -71,13 +72,13 @@ public:
     /*!
      * \param[in] path the path of the config file to open and read
      */
-    int open(const std::string &path = "");
+    Result open(const std::string &path = "");
 
     //! Write a config file
     /*!
      * \param[in] path the path of the config file to write
      */
-    int write(const std::string &path = "");
+    Result write(const std::string &path = "");
 
     //! Get the PIMPL
     /*!

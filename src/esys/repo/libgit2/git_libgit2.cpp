@@ -38,7 +38,7 @@ Git::Git()
 
 Git::~Git() = default;
 
-int Git::open(const std::string &folder)
+Result Git::open(const std::string &folder)
 {
     set_folder(folder);
     return get_impl()->open(folder);
@@ -49,7 +49,7 @@ bool Git::is_open()
     return get_impl()->is_open();
 }
 
-int Git::close()
+Result Git::close()
 {
     return get_impl()->close();
 }
@@ -64,13 +64,13 @@ int Git::get_branches(git::Branches &branches, git::BranchType branch_type)
     return get_impl()->get_branches(branches, branch_type);
 }
 
-int Git::clone(const std::string &url, const std::string &path, const std::string &branch)
+Result Git::clone(const std::string &url, const std::string &path, const std::string &branch)
 {
     set_url(url);
     return get_impl()->clone(url, path, branch);
 }
 
-int Git::checkout(const std::string &branch, bool force)
+Result Git::checkout(const std::string &branch, bool force)
 {
     return get_impl()->checkout(branch, force);
 }

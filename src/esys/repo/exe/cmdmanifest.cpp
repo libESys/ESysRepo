@@ -58,20 +58,20 @@ const std::string &CmdManifest::get_output_file() const
     return m_output_file;
 }
 
-int CmdManifest::update_revision_as_head()
+Result CmdManifest::update_revision_as_head()
 {
     for (auto location : get_manifest()->get_locations())
     {
         for (auto repo : location->get_repos())
         {
-            int result = update_revision_as_head(repo);
-            if (result < 0) return -1;
+            Result result = update_revision_as_head(repo);
+            if (result.error()) return ESYSREPO_RESULT(result);
         }
     }
-    return 0;
+    return ESYSREPO_RESULT(ResultCode::OK);
 }
 
-int CmdManifest::update_revision_as_head(std::shared_ptr<manifest::Repository> repo)
+Result CmdManifest::update_revision_as_head(std::shared_ptr<manifest::Repository> repo)
 {
     auto git_helper = new_git_helper();
 
@@ -82,42 +82,43 @@ int CmdManifest::update_revision_as_head(std::shared_ptr<manifest::Repository> r
     std::string revision = repo->get_revision();
     if (revision.empty()) revision = get_manifest()->get_default_revision();
 
-    int result = git_helper->open(repo_path.string(), log::Level::DEBUG);
-    if (result < 0) return result;
+    Result rresult = git_helper->open(repo_path.string(), log::Level::DEBUG);
+    if (rresult.error()) return ESYSREPO_RESULT(rresult);
 
-    result = git_helper->fetch(log::Level::DEBUG);
-    if (result < 0) return result;
+    int result = git_helper->fetch(log::Level::DEBUG);
+    if (result < 0) return generic_error(result);
 
     std::string hash;
     result = git_helper->get_hash(revision, hash, log::Level::DEBUG);
     if (result < 0)
     {
         git_helper->close(log::Level::DEBUG);
-        return result;
+        return generic_error(result);
     }
     repo->set_revision(hash);
 
     return git_helper->close(log::Level::DEBUG);
 }
 
-int CmdManifest::impl_run()
+Result CmdManifest::impl_run()
 {
-    int result = only_one_folder_or_workspace();
-    if (result < 0) return result;
+    Result rresult = only_one_folder_or_workspace();
+    if (rresult.error()) return ESYSREPO_RESULT(rresult);
 
-    result = open_esysrepo_folder();
-    if (result < 0) return result;
+    int result = open_esysrepo_folder();
+    if (result < 0) return generic_error(result);
 
     result = load_manifest();
-    if (result < 0) return result;
+    if (result < 0) return generic_error(result);
 
     if (get_revision_as_head())
     {
-        result = update_revision_as_head();
-        if (result < 0)
+        rresult = update_revision_as_head();
+        if (rresult.error())
         {
-            error("Failed to get the revision as HEAD");
-            return result;
+            std::string err_str = "Failed to get the revision as HEAD";
+            error(err_str);
+            return ESYSREPO_RESULT(rresult, err_str);
         }
     }
 
@@ -138,14 +139,14 @@ int CmdManifest::impl_run()
     {
         case manifest::Type::GOOGLE_MANIFEST: file = std::make_shared<grepo::Manifest>(); break;
         case manifest::Type::ESYSREPO_MANIFEST: file = std::make_shared<manifest::XMLFile>(); break;
-        default: error("Manifest format not supported."); return -1;
+        default: error("Manifest format not supported."); return generic_error(-1);
     }
 
     file->set_data(get_manifest());
     result = file->write(*os);
 
     if (fos != nullptr) fos->close();
-    return result;
+    return generic_error(result);
 }
 
 } // namespace esys::repo::exe

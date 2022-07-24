@@ -5,7 +5,7 @@
  * \cond
  * __legal_b__
  *
- * Copyright (c) 2020-2021 Michel Gillet
+ * Copyright (c) 2020-2022 Michel Gillet
  * Distributed under the wxWindows Library Licence, Version 3.1.
  * (See accompanying file LICENSE_3_1.txt or
  * copy at http://www.wxwidgets.org/about/licence)
@@ -22,16 +22,7 @@
 
 #include <boost/filesystem.hpp>
 
-namespace esys
-{
-
-namespace repo
-{
-
-namespace grepo
-{
-
-namespace test
+namespace esys::repo::grepo::test
 {
 
 /*! \class ReadManifest02GRepo esys/repo/grepo/test/readmanifest02_grepo.cpp
@@ -50,8 +41,8 @@ ESYSTEST_AUTO_TEST_CASE(ReadManifest02GRepo)
 
     Manifest manifest;
 
-    int result = manifest.read(file_path.string());
-    ESYSTEST_REQUIRE_EQUAL(result, 0);
+    Result result = manifest.read(file_path.string());
+    ESYSTEST_REQUIRE_EQUAL(result.ok(), true);
 
     auto data = manifest.get_data();
     ESYSTEST_REQUIRE_EQUAL(data->get_locations().size(), 3);
@@ -142,10 +133,4 @@ ESYSTEST_AUTO_TEST_CASE(ReadManifest02GRepo)
     test_fct(extlib_repos, data->get_locations()[2]);
 }
 
-} // namespace test
-
-} // namespace grepo
-
-} // namespace repo
-
-} // namespace esys
+} // namespace esys::repo::grepo::test

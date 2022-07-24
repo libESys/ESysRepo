@@ -34,7 +34,7 @@ CmdEnv::CmdEnv()
 
 CmdEnv::~CmdEnv() = default;
 
-int CmdEnv::impl_run()
+Result CmdEnv::impl_run()
 {
     std::ostringstream oss;
 
@@ -58,7 +58,7 @@ int CmdEnv::impl_run()
     }
 
     info(oss.str());
-    return 0;
+    return ESYSREPO_RESULT(ResultCode::OK);
 }
 
 } // namespace esys::repo::exe

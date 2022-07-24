@@ -31,7 +31,7 @@ LoaderGRepo::LoaderGRepo()
 
 LoaderGRepo::~LoaderGRepo() = default;
 
-int LoaderGRepo::run()
+Result LoaderGRepo::run()
 {
     std::shared_ptr<Config> config;
     boost::filesystem::path path;
@@ -39,7 +39,7 @@ int LoaderGRepo::run()
     if (get_config_folder() != nullptr)
     {
         config = get_config_folder()->get_config();
-        if (config == nullptr) return -1;
+        if (config == nullptr) return ESYSREPO_RESULT(ResultCode::INTERNAL_ERROR);
 
         path = get_config_folder()->get_path();
         path /= get_config_folder()->get_config()->get_manifest_path();
@@ -50,14 +50,14 @@ int LoaderGRepo::run()
         path = config->get_manifest_path();
     }
     else
-        return -2;
+        return ESYSREPO_RESULT(ResultCode::INTERNAL_ERROR);
 
     path = boost::filesystem::absolute(path).make_preferred();
-    if (path.empty()) return -4;
+    if (path.empty()) return ESYSREPO_RESULT(ResultCode::EMPTY_PATH);
 
     if ((config->get_manifest_type() != manifest::Type::GOOGLE_MANIFEST)
         && (config->get_manifest_type() != manifest::Type::RAW_GOOGLE_MANIFEST))
-        return -3;
+        return ESYSREPO_RESULT(ResultCode::INTERNAL_ERROR);
 
     grepo::Manifest loader;
 
@@ -67,13 +67,13 @@ int LoaderGRepo::run()
 
     boost::filesystem::path rel_path = boost::filesystem::relative(path);
 
-    int result = loader.read(path.string());
-    if (result < 0)
+    Result result = loader.read(path.string());
+    if (result.error())
         error("Couldn't load Google repo manifest : " + rel_path.string());
     else
         debug(0, "Loaded Google repo manifest : " + rel_path.string());
 
-    return result;
+    return ESYSREPO_RESULT(result);
 }
 
 } // namespace esys::repo::manifest

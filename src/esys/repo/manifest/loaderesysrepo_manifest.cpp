@@ -31,12 +31,14 @@ LoaderESysRepo::LoaderESysRepo()
 
 LoaderESysRepo::~LoaderESysRepo() = default;
 
-int LoaderESysRepo::run()
+Result LoaderESysRepo::run()
 {
-    if (get_config_folder() == nullptr) return -1;
-    if (get_config_folder()->get_config() == nullptr) return -1;
-    if (get_config_folder()->get_config()->get_manifest_type() != manifest::Type::ESYSREPO_MANIFEST) return -1;
-    if (get_config_folder()->get_config()->get_manifest_path().empty()) return -1;
+    if (get_config_folder() == nullptr) return ESYSREPO_RESULT(ResultCode::INTERNAL_ERROR);
+    if (get_config_folder()->get_config() == nullptr) return ESYSREPO_RESULT(ResultCode::INTERNAL_ERROR);
+    if (get_config_folder()->get_config()->get_manifest_type() != manifest::Type::ESYSREPO_MANIFEST)
+        return ESYSREPO_RESULT(ResultCode::INTERNAL_ERROR);
+    if (get_config_folder()->get_config()->get_manifest_path().empty())
+        return ESYSREPO_RESULT(ResultCode::INTERNAL_ERROR);
 
     boost::filesystem::path path;
     manifest::File loader;
@@ -51,13 +53,13 @@ int LoaderESysRepo::run()
 
     boost::filesystem::path rel_path = boost::filesystem::relative(path);
 
-    int result = loader.read(path.string());
-    if (result < 0)
+    Result result = loader.read(path.string());
+    if (result.error())
         error("Couldn't load ESysRepo manifest : " + rel_path.string());
     else
         debug(0, "Loaded ESysRepo manifest : " + rel_path.string());
 
-    return result;
+    return ESYSREPO_RESULT(result);
 }
 
 } // namespace esys::repo::manifest

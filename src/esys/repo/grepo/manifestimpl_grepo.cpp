@@ -36,7 +36,7 @@ ManifestImpl::ManifestImpl(Manifest *self)
 
 ManifestImpl::~ManifestImpl() = default;
 
-int ManifestImpl::read(const std::string &filename)
+Result ManifestImpl::read(const std::string &filename)
 {
     m_repo_no_locations.clear();
 
@@ -48,7 +48,7 @@ int ManifestImpl::read(const std::string &filename)
     self()->get_data()->clear();
 
     int result = m_file->read(filename);
-    if (result < 0) return result;
+    if (result < 0) return ESYSREPO_RESULT(ResultCode::MANIFEST_ERROR_PARSING_FILE, filename);
 
     self()->get_data()->set_type(manifest::Type::GOOGLE_MANIFEST);
     self()->get_data()->set_kind(manifest::Kind::ISOLATED);
@@ -188,14 +188,14 @@ int ManifestImpl::write_project(std::shared_ptr<esysfile::xml::Element> parent,
     return 0;
 }
 
-int ManifestImpl::read(std::shared_ptr<esysfile::xml::Data> data)
+Result ManifestImpl::read(std::shared_ptr<esysfile::xml::Data> data)
 {
     std::shared_ptr<manifest::Location> location;
 
     for (auto element : data->get_elements())
     {
-        int result = read(element);
-        if (result < 0) return result;
+        Result result = read(element);
+        if (result.error()) return ESYSREPO_RESULT(result);
     }
 
     for (auto it = m_repo_no_locations.begin(); it != m_repo_no_locations.end();)
@@ -210,13 +210,13 @@ int ManifestImpl::read(std::shared_ptr<esysfile::xml::Data> data)
             ++it;
     }
 
-    if (m_repo_no_locations.size() != 0) return -1;
-    return 0;
+    if (m_repo_no_locations.size() != 0) return ESYSREPO_RESULT(ResultCode::MANIFEST_NO_LOCATIONS_DEFINED);
+    return ESYSREPO_RESULT(ResultCode::OK);
 }
 
-int ManifestImpl::read(std::shared_ptr<esysfile::xml::Element> el)
+Result ManifestImpl::read(std::shared_ptr<esysfile::xml::Element> el)
 {
-    int result = 0;
+    Result result;
 
     if (el->get_name() == "remote")
         result = read_remote(el);
@@ -228,12 +228,12 @@ int ManifestImpl::read(std::shared_ptr<esysfile::xml::Element> el)
         result = read_include(el);
     else if (el->get_name() != "#comment")
     {
-        return -1;
+        return ESYSREPO_RESULT(ResultCode::MANIFEST_UNKNOWN_ELEMENT, el->get_name());
     }
-    return result;
+    return ESYSREPO_RESULT(result);
 }
 
-int ManifestImpl::read_remote(std::shared_ptr<esysfile::xml::Element> el)
+Result ManifestImpl::read_remote(std::shared_ptr<esysfile::xml::Element> el)
 {
     auto location = std::make_shared<manifest::Location>();
 
@@ -245,16 +245,16 @@ int ManifestImpl::read_remote(std::shared_ptr<esysfile::xml::Element> el)
             location->set_address(attr->get_value());
         else
         {
-            return -1;
+            return ESYSREPO_RESULT(ResultCode::MANIFEST_UNKNOWN_ATTRIBUTE, el->get_name() + ": " + attr->get_name());
         }
     }
 
     self()->get_data()->add_location(location);
 
-    return 0;
+    return ESYSREPO_RESULT(ResultCode::OK);
 }
 
-int ManifestImpl::read_default(std::shared_ptr<esysfile::xml::Element> el)
+Result ManifestImpl::read_default(std::shared_ptr<esysfile::xml::Element> el)
 {
     for (auto attr : el->get_attrs())
     {
@@ -266,18 +266,20 @@ int ManifestImpl::read_default(std::shared_ptr<esysfile::xml::Element> el)
         {
             int value = 0;
             int result = attr->get_value(value);
-            if (result < 0) return result;
+            if (result < 0)
+                return ESYSREPO_RESULT(ResultCode::MANIFEST_INCORRECT_ATTRIBUTE_VALUE,
+                                       el->get_name() + "." + attr->get_name());
             self()->get_data()->set_default_job_count(value);
         }
         else
         {
-            return -1;
+            return ESYSREPO_RESULT(ResultCode::MANIFEST_UNKNOWN_ATTRIBUTE, el->get_name() + ": " + attr->get_name());
         }
     }
-    return 0;
+    return ESYSREPO_RESULT(ResultCode::OK);
 }
 
-int ManifestImpl::read_groups(std::shared_ptr<manifest::Repository> project, const std::string &groups_str)
+Result ManifestImpl::read_groups(std::shared_ptr<manifest::Repository> project, const std::string &groups_str)
 {
     typedef boost::tokenizer<boost::char_separator<char>> tokenizer;
     boost::char_separator<char> sep(", ");
@@ -289,10 +291,10 @@ int ManifestImpl::read_groups(std::shared_ptr<manifest::Repository> project, con
         project->get_groups().push_back(group.get());
         group->add_repo(project);
     }
-    return 0;
+    return ESYSREPO_RESULT(ResultCode::OK);
 }
 
-int ManifestImpl::read_project(std::shared_ptr<esysfile::xml::Element> el)
+Result ManifestImpl::read_project(std::shared_ptr<esysfile::xml::Element> el)
 {
     auto project = std::make_shared<manifest::Repository>();
     bool remote_found = false;
@@ -319,12 +321,12 @@ int ManifestImpl::read_project(std::shared_ptr<esysfile::xml::Element> el)
             project->set_revision(attr->get_value());
         else if (attr->get_name() == "groups")
         {
-            int result = read_groups(project, attr->get_value());
+            Result result = read_groups(project, attr->get_value());
             //! \TODO handle errors
         }
         else
         {
-            return -1;
+            return ESYSREPO_RESULT(ResultCode::MANIFEST_UNKNOWN_ATTRIBUTE, el->get_name() + ": " + attr->get_name());
         }
     }
 
@@ -334,15 +336,15 @@ int ManifestImpl::read_project(std::shared_ptr<esysfile::xml::Element> el)
         if (self()->get_data()->get_default_location() != nullptr)
             self()->get_data()->get_default_location()->add_repo(project);
         else
-            return -1;
+            return ESYSREPO_RESULT(ResultCode::MANIFEST_NO_DEFAULT_LOCATION);
     }
 
-    return 0;
+    return ESYSREPO_RESULT(ResultCode::OK);
 }
 
-int ManifestImpl::read_include(std::shared_ptr<esysfile::xml::Element> el)
+Result ManifestImpl::read_include(std::shared_ptr<esysfile::xml::Element> el)
 {
-    if (el->get_name() != "include") return -1;
+    if (el->get_name() != "include") return ESYSREPO_RESULT(ResultCode::INTERNAL_ERROR);
 
     auto include = std::make_shared<manifest::Include>();
     std::string name;
@@ -377,7 +379,7 @@ int ManifestImpl::read_include(std::shared_ptr<esysfile::xml::Element> el)
         }
     }
     self()->get_data()->add_include(include);
-    return 0;
+    return ESYSREPO_RESULT(ResultCode::OK);
 }
 
 Manifest *ManifestImpl::self() const

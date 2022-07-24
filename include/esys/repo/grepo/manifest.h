@@ -20,6 +20,7 @@
 #include "esys/repo/esysrepo_defs.h"
 #include "esys/repo/manifest.h"
 #include "esys/repo/manifest/filebase.h"
+#include "esys/repo/result.h"
 
 #include <memory>
 
@@ -43,7 +44,7 @@ public:
     //! Destructor
     ~Manifest() override;
 
-    int read(const std::string &filename) override;
+    Result read(const std::string &filename) override;
     int write(const std::string &filename) override;
     int write(std::ostream &os) override;
 

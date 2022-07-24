@@ -37,7 +37,7 @@ Manifest::Manifest()
 
 Manifest::~Manifest() = default;
 
-int Manifest::read(const std::string &filename)
+Result Manifest::read(const std::string &filename)
 {
     set_filename(filename);
 

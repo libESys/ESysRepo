@@ -72,8 +72,8 @@ ESYSTEST_AUTO_TEST_CASE(ConfigFolderCreate01)
     config_folder.set_config(cfg);
     config_folder.set_workspace_path(parent_path.string());
 
-    int result = config_folder.create();
-    ESYSTEST_REQUIRE_EQUAL(result, 0);
+    Result result = config_folder.create();
+    ESYSTEST_REQUIRE_EQUAL(result.ok(), true);
 }
 
 } // namespace test

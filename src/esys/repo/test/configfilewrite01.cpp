@@ -75,13 +75,13 @@ ESYSTEST_AUTO_TEST_CASE(ConfigFileWrite01)
     path /= "config.json";
     config_file.set_config(cfg);
 
-    int result = config_file.write(path.string());
-    ESYSTEST_REQUIRE_EQUAL(result, 0);
+    Result result = config_file.write(path.string());
+    ESYSTEST_REQUIRE_EQUAL(result.ok(), true);
 
     ConfigFile config_file_rd;
 
     result = config_file_rd.open(path.string());
-    ESYSTEST_REQUIRE_EQUAL(result, 0);
+    ESYSTEST_REQUIRE_EQUAL(result.ok(), true);
 
     auto cfg_rd = config_file_rd.get_config();
     ESYSTEST_REQUIRE_NE(cfg_rd, nullptr);

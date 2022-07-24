@@ -49,7 +49,7 @@ public:
      * \param[in] path the path of the ESysRepo manifest file to read
      * \return 0 if successful, < 0 otherwise
      */
-    int read(const std::string &path) override;
+    Result read(const std::string &path) override;
 
     //! Write a ESysRepo manifest file
     /*!

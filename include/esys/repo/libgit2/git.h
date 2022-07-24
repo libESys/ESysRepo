@@ -47,15 +47,15 @@ public:
     static std::shared_ptr<GitBase> new_ptr();
 
     //<swig>%rename(open_folder) open;</swig>
-    int open(const std::string &folder) override;
+    Result open(const std::string &folder) override;
     bool is_open() override;
 
-    int close() override;
+    Result close() override;
     int get_remotes(std::vector<git::Remote> &remotes) override;
     int get_branches(git::Branches &branches, git::BranchType branch_type = git::BranchType::LOCAL) override;
 
-    int clone(const std::string &url, const std::string &path, const std::string &branch = "") override;
-    int checkout(const std::string &branch, bool force = false) override;
+    Result clone(const std::string &url, const std::string &path, const std::string &branch = "") override;
+    Result checkout(const std::string &branch, bool force = false) override;
     int reset(const git::CommitHash &commit, git::ResetType type = git::ResetType::SOFT) override;
     int fastforward(const git::CommitHash &commit) override;
 

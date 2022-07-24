@@ -75,16 +75,16 @@ bool CmdInfo::get_local_only() const
     return m_local_only;
 }
 
-int CmdInfo::impl_run()
+Result CmdInfo::impl_run()
 {
     int result = default_handling_folder_workspace();
-    if (result < 0) return result;
+    if (result < 0) return generic_error(result);
 
     result = open_esysrepo_folder();
-    if (result < 0) return result;
+    if (result < 0) return generic_error(result);
 
     result = load_manifest();
-    if (result < 0) return result;
+    if (result < 0) return generic_error(result);
 
     for (auto location : get_manifest()->get_locations())
     {
@@ -96,7 +96,7 @@ int CmdInfo::impl_run()
         }
     }
 
-    return result;
+    return generic_error(result);
 }
 
 int CmdInfo::open_repo(std::shared_ptr<manifest::Repository> repo)
@@ -112,11 +112,11 @@ int CmdInfo::open_repo(std::shared_ptr<manifest::Repository> repo)
     m_rel_repo_path = rel_repo_path.string();
     m_repo_path = repo_path.string();
 
-    int result = git_helper->open(repo_path.string(), log::Level::DEBUG);
-    if (result < 0) return result;
+    Result rresult = git_helper->open(repo_path.string(), log::Level::DEBUG);
+    if (rresult.error()) return rresult.get_result_code_int();
 
     m_last_commit = std::make_shared<git::CommitHash>();
-    result = get_git()->get_last_commit(*m_last_commit);
+    int result = get_git()->get_last_commit(*m_last_commit);
     if (result < 0) m_last_commit.reset();
 
     m_branches.clear();
@@ -127,7 +127,7 @@ int CmdInfo::open_repo(std::shared_ptr<manifest::Repository> repo)
         git_helper->close(log::Level::DEBUG);
         return result;
     }
-    return git_helper->close(log::Level::DEBUG);
+    return git_helper->close(log::Level::DEBUG).get_result_code_int();
 }
 
 void CmdInfo::print_repo(std::shared_ptr<manifest::Repository> repo)

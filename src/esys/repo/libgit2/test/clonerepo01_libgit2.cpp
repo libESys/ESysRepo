@@ -70,12 +70,12 @@ ESYSTEST_AUTO_TEST_CASE(CloneRepo01LibGit2)
 
     Git git;
 
-    int result = git.clone("https://gitlab.com/libesys/esystest.git", file_path.normalize().make_preferred().string());
-    if (result != 0) std::cout << "ERROR " << result << std::endl;
-    ESYSTEST_REQUIRE_EQUAL(result, 0);
+    Result result = git.clone("https://gitlab.com/libesys/esystest.git", file_path.normalize().make_preferred().string());
+    if (result.error()) std::cout << "ERROR " << result << std::endl;
+    ESYSTEST_REQUIRE_EQUAL(result.ok(), true);
 
     result = git.close();
-    ESYSTEST_REQUIRE_EQUAL(result, 0);
+    ESYSTEST_REQUIRE_EQUAL(result.ok(), true);
 }
 
 } // namespace test

@@ -19,6 +19,7 @@
 
 #include "esys/repo/esysrepo_defs.h"
 #include "esys/repo/configfile.h"
+#include "esys/repo/result.h"
 
 #include <esys/log/user.h>
 
@@ -61,14 +62,14 @@ public:
     /*!
      * \param[in] parent_path the parent path of the ConfigFolder
      */
-    int create(const std::string &parent_path = "", bool ok_if_exists = false);
+    Result create(const std::string &parent_path = "", bool ok_if_exists = false);
 
     //! Open a ConfigFolder
     /*!
      * \param[in] parent_path the parent path of the ConfigFolder
      */
     //<swig>%rename(open_folder) open;</swig>
-    int open(const std::string &parent_path = "", bool print_error = true);
+    Result open(const std::string &parent_path = "", bool print_error = true);
 
     //! Write and update a ConfigFolder
     /*!
@@ -128,7 +129,7 @@ public:
     /*!
      * \return 0 if successful, < 0 otherwise
      */
-    int write_config_file();
+    Result write_config_file();
 
     //! Populate all paths based on the parent path
     void populate_all_pathes();

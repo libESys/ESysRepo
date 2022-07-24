@@ -46,8 +46,8 @@ ESYSTEST_AUTO_TEST_CASE(OpenFolder01GRepo)
 
     Folder folder;
 
-    int result = folder.open(file_path.string());
-    ESYSTEST_REQUIRE_EQUAL(result, 0);
+    Result result = folder.open(file_path.string());
+    ESYSTEST_REQUIRE_EQUAL(result.ok(), true);
 
     auto config = folder.get_config();
     ESYSTEST_REQUIRE_NE(config, nullptr);

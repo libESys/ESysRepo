@@ -24,6 +24,7 @@
 #include "esys/repo/manifest/loader.h"
 #include "esys/repo/configfolder.h"
 #include "esys/repo/githelper.h"
+#include "esys/repo/result.h"
 
 #include <esys/log/user.h>
 
@@ -141,7 +142,7 @@ public:
     /*!
      * \return 0 if successful, < 0 otherwise
      */
-    virtual int run();
+    virtual Result run();
 
     //! Set if debug information are printed or not
     /*!
@@ -194,7 +195,7 @@ public:
     std::ostream *get_console_os();
 
     int default_handling_folder_workspace();
-    int only_one_folder_or_workspace();
+    Result only_one_folder_or_workspace();
 
     void debug(int level, const std::string &msg) override;
     void info(const std::string &msg) override;
@@ -209,6 +210,7 @@ public:
     void print_cmd_name();
     void print_cmd_name(std::ostream &os);
 
+    Result generic_error(int error);
 protected:
     //!< \cond DOXY_IMPL
 
@@ -216,7 +218,7 @@ protected:
     bool get_print_cmd_name_by_base() const;
     std::shared_ptr<GitHelper> new_git_helper();
 
-    virtual int impl_run() = 0;
+    virtual Result impl_run() = 0;
 
     //! Helper function to open the ESysRep config folder and file
     /*!

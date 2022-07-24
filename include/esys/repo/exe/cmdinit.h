@@ -106,66 +106,66 @@ public:
     /*!
      *  \return 0 if successdful, < 0 otherwise
      */
-    int fetch_manifest();
+    Result fetch_manifest();
 
     //! Fetch the manifest of type Google repo tool
     /*!
      *  \return 0 if successdful, < 0 otherwise
      */
-    int fetch_google_manifest();
+    Result fetch_google_manifest();
 
     //! Fetch the manifest of type ESysRepo
     /*!
      *  \return 0 if successdful, < 0 otherwise
      */
-    int fetch_esysrepo_manifest(GitHelper &git_helper, const std::string &git_repo_path,
+    Result fetch_esysrepo_manifest(GitHelper &git_helper, const std::string &git_repo_path,
                                 const std::string &manifest_filename);
 
-    int read_esysrepo_manifest(std::shared_ptr<Manifest> manifest, const std::string &filename);
-    int read_esysrepo_manifest_xml(std::shared_ptr<Manifest> manifest, const std::string &filename);
-    int read_esysrepo_manifest_json(std::shared_ptr<Manifest> manifest, const std::string &filename);
+    Result read_esysrepo_manifest(std::shared_ptr<Manifest> manifest, const std::string &filename);
+    Result read_esysrepo_manifest_xml(std::shared_ptr<Manifest> manifest, const std::string &filename);
+    Result read_esysrepo_manifest_json(std::shared_ptr<Manifest> manifest, const std::string &filename);
 
     //! Fetch the "manifest" equivalent from a git super project
     /*!
      *  \return 0 if successdful, < 0 otherwise
      */
-    int fetch_git_super_project();
+    Result fetch_git_super_project();
 
     //! Fetch and detect the manifest
     /*!
      *  \return 0 if successdful, < 0 otherwise
      */
-    int fetch_unknown_manifest();
+    Result fetch_unknown_manifest();
 
     //! Create the ESysRepo config folder
     /*!
      *  \return 0 if successful, < 0 otherwise
      */
-    int create_esysrepo_folder();
+    Result create_esysrepo_folder();
 
     //! Load the ESysRepo config folder
     /*!
      * \return 0 if successful, < 0 otherwise
      */
-    int load_esysrepo_folder();
+    Result load_esysrepo_folder();
 
     //! Init was already called before, calling it again on a valid ESysRepo config folder
     /*!
      * \return 0 if successful, < 0 otherwise
      */
-    int load_esysrepo_folder_succeeded();
+    Result load_esysrepo_folder_succeeded();
 
     //! Init was never already called before, or we failed to load the ESysRepo config folder
     /*!
      * \return 0 if successful, < 0 otherwise
      */
-    int load_esysrepo_folder_failed();
+    Result load_esysrepo_folder_failed();
 
     std::string get_extra_start_msg() override;
 
 protected:
     //!< \cond DOXY_IMPL
-    int impl_run() override;
+    Result impl_run() override;
 
 private:
     std::string m_url;                                        //!< The url for the git repo with the manifest

@@ -36,7 +36,7 @@ CmdHelp::CmdHelp()
 
 CmdHelp::~CmdHelp() = default;
 
-int CmdHelp::impl_run()
+Result CmdHelp::impl_run()
 {
     std::ostringstream oss;
     std::ostringstream oss_help;
@@ -47,8 +47,9 @@ int CmdHelp::impl_run()
 
     if (get_sub_args().size() == 0)
     {
-        error("At least one command should be given.");
-        return -1;
+        std::string err_str = "At least one command should be given.";
+        error(err_str);
+        return ESYSREPO_RESULT(ResultCode::CMD_MISSING_PARAMETERS, err_str);
     }
 
     for (auto &cmd_txt : get_sub_args())
@@ -77,7 +78,7 @@ int CmdHelp::impl_run()
         }
     }
     // info("Help done.");
-    return 0;
+    return ESYSREPO_RESULT(ResultCode::OK);
 }
 
 } // namespace esys::repo::exe

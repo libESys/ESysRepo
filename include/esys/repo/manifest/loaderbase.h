@@ -21,6 +21,7 @@
 #include "esys/repo/manifest.h"
 #include "esys/repo/config.h"
 #include "esys/repo/configfolder.h"
+#include "esys/repo/result.h"
 
 #include <esys/log/user.h>
 
@@ -87,7 +88,7 @@ public:
     /*!
      * \return 0 if successful, < 0 otherwise
      */
-    virtual int run() = 0;
+    virtual Result run() = 0;
 
 private:
     //!< \cond DOXY_IMPL

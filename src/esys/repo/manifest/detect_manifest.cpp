@@ -41,9 +41,9 @@ const std::string &Detect::get_folder_path() const
     return m_folder_path;
 }
 
-int Detect::detect(std::shared_ptr<Config> config)
+Result Detect::detect(std::shared_ptr<Config> config)
 {
-    if (get_folder_path().empty()) return -1;
+    if (get_folder_path().empty()) return ESYSREPO_RESULT(ResultCode::EMPTY_PATH);
 
     if (config != nullptr) set_config(config);
     config = get_config_or_new();
@@ -56,9 +56,9 @@ int Detect::detect(std::shared_ptr<Config> config)
         std::shared_ptr<ConfigFolder> config_folder = std::make_shared<ConfigFolder>();
 
         config_folder->set_config(config);
-        int result = config_folder->open(get_folder_path());
-        if (result == 0) set_config_folder(config_folder);
-        return result;
+        Result result = config_folder->open(get_folder_path());
+        if (result.success()) set_config_folder(config_folder);
+        return ESYSREPO_RESULT(result);
     }
 
     file_path = get_folder_path();
@@ -69,8 +69,8 @@ int Detect::detect(std::shared_ptr<Config> config)
         std::shared_ptr<grepo::Folder> folder = std::make_shared<grepo::Folder>();
 
         folder->set_config(config);
-        int result = folder->open(get_folder_path());
-        return result;
+        Result result = folder->open(get_folder_path());
+        return ESYSREPO_RESULT(result);
     }
 
     file_path = get_folder_path();
@@ -82,7 +82,7 @@ int Detect::detect(std::shared_ptr<Config> config)
         config->set_manifest_kind(Kind::EMBEDDED);
         config->set_manifest_path(file_path.string());
         config->set_manifest_format(Format::UNKNOWN);
-        return 0;
+        return ESYSREPO_RESULT(ResultCode::OK);
     }
 
     file_path = get_folder_path();
@@ -94,7 +94,7 @@ int Detect::detect(std::shared_ptr<Config> config)
         config->set_manifest_kind(Kind::EMBEDDED);
         config->set_manifest_path(file_path.string());
         config->set_manifest_format(Format::XML);
-        return 0;
+        return ESYSREPO_RESULT(ResultCode::OK);
     }
 
     file_path = get_folder_path();
@@ -106,10 +106,10 @@ int Detect::detect(std::shared_ptr<Config> config)
         config->set_manifest_kind(Kind::EMBEDDED);
         config->set_manifest_path(file_path.string());
         config->set_manifest_format(Format::JSON);
-        return 0;
+        return ESYSREPO_RESULT(ResultCode::OK);
     }
 
-    return -1;
+    return ESYSREPO_RESULT(ResultCode::MANIFEST_FAILED_TO_DETECT);
 }
 
 void Detect::set_config(std::shared_ptr<Config> config)

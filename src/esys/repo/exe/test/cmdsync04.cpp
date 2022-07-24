@@ -96,8 +96,8 @@ ESYSTEST_AUTO_TEST_CASE(CmdSync04)
 
     ESYSTEST_REQUIRE_EQUAL(boost::filesystem::exists(repo_path), true);
 
-    result = m_fix_cmd_sync.get_git()->open(repo_path.normalize().make_preferred().string());
-    ESYSTEST_REQUIRE_EQUAL(result, 0);
+    Result rresult = m_fix_cmd_sync.get_git()->open(repo_path.normalize().make_preferred().string());
+    ESYSTEST_REQUIRE_EQUAL(rresult.ok(), true);
 
     result = m_fix_cmd_sync.get_git()->reset_to_parent();
     ESYSTEST_REQUIRE_EQUAL(result, 0);

@@ -5,7 +5,7 @@
  * \cond
  * __legal_b__
  *
- * Copyright (c) 2020-2021 Michel Gillet
+ * Copyright (c) 2020-2022 Michel Gillet
  * Distributed under the wxWindows Library Licence, Version 3.1.
  * (See accompanying file LICENSE_3_1.txt or
  * copy at http://www.wxwidgets.org/about/licence)
@@ -25,16 +25,7 @@
 #include <fstream>
 #include <iostream>
 
-namespace esys
-{
-
-namespace repo
-{
-
-namespace libgit2
-{
-
-namespace test
+namespace esys::repo::libgit2::test
 {
 
 /*! \class IsDirty01LibGit2 esys/build/libgit2/test/isdirty01_libgit2.cpp
@@ -70,14 +61,14 @@ ESYSTEST_AUTO_TEST_CASE(IsDirty01LibGit2)
 
     Git git;
 
-    int result =
+    Result result =
         git.clone("https://gitlab.com/libesys/esysmodbus/dev.git", file_path.normalize().make_preferred().string());
-    if (result != 0) std::cout << "ERROR " << result << std::endl;
-    ESYSTEST_REQUIRE_EQUAL(result, 0);
+    if (result.error()) std::cout << "ERROR " << result << std::endl;
+    ESYSTEST_REQUIRE_EQUAL(result.ok(), true);
 
     bool dirty = false;
-    result = git.is_dirty(dirty);
-    ESYSTEST_REQUIRE_EQUAL(result, 0);
+    int result_int = git.is_dirty(dirty);
+    ESYSTEST_REQUIRE_EQUAL(result_int, 0);
     ESYSTEST_REQUIRE_EQUAL(dirty, false);
 
     boost::filesystem::path new_file_path = file_path;
@@ -87,8 +78,8 @@ ESYSTEST_AUTO_TEST_CASE(IsDirty01LibGit2)
     nf << "Noting special" << std::endl;
     nf.close();
 
-    result = git.is_dirty(dirty);
-    ESYSTEST_REQUIRE_EQUAL(result, 0);
+    result_int = git.is_dirty(dirty);
+    ESYSTEST_REQUIRE_EQUAL(result_int, 0);
     ESYSTEST_REQUIRE_EQUAL(dirty, false);
 
     boost::filesystem::path old_file_path = file_path;
@@ -100,18 +91,12 @@ ESYSTEST_AUTO_TEST_CASE(IsDirty01LibGit2)
     f << "Append some silly text" << std::endl;
     f.close();
 
-    result = git.is_dirty(dirty);
-    ESYSTEST_REQUIRE_EQUAL(result, 0);
+    result_int = git.is_dirty(dirty);
+    ESYSTEST_REQUIRE_EQUAL(result_int, 0);
     ESYSTEST_REQUIRE_EQUAL(dirty, true);
 
     result = git.close();
-    ESYSTEST_REQUIRE_EQUAL(result, 0);
+    ESYSTEST_REQUIRE_EQUAL(result.ok(), true);
 }
 
 } // namespace test
-
-} // namespace libgit2
-
-} // namespace repo
-
-} // namespace esys

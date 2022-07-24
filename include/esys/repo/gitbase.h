@@ -28,6 +28,7 @@
 #include "esys/repo/git/repostatus.h"
 #include "esys/repo/git/resettype.h"
 #include "esys/repo/git/walkcommit.h"
+#include "esys/repo/result.h"
 
 #include "esys/repo/progresscallbackbase.h"
 
@@ -66,7 +67,7 @@ public:
      * \return 0 if successful, < 0 otherwise
      */
     //<swig>%rename(open_folder) open;</swig>
-    virtual int open(const std::string &folder) = 0;
+    virtual Result open(const std::string &folder) = 0;
 
     //! Tells if the git repository is open or not
     /*!
@@ -78,7 +79,7 @@ public:
     /*!
      * \return 0 if successful, < 0 otherwise
      */
-    virtual int close() = 0;
+    virtual Result close() = 0;
 
     //! Get all remotes of an open git repository
     /*!
@@ -101,7 +102,7 @@ public:
      * \param[in] path where to clone the repository
      * \return 0 if successful, < 0 otherwise
      */
-    virtual int clone(const std::string &url, const std::string &path, const std::string &branch = "") = 0;
+    virtual Result clone(const std::string &url, const std::string &path, const std::string &branch = "") = 0;
 
     //! Checkout a given branch of an open git repository
     /*!
@@ -109,7 +110,7 @@ public:
      * \param[in] force if the cloning will be forced or not
      * \return 0 if successful, < 0 otherwise
      */
-    virtual int checkout(const std::string &branch, bool force = false) = 0;
+    virtual Result checkout(const std::string &branch, bool force = false) = 0;
 
     //! Reset the git repo to a given commit
     /*!

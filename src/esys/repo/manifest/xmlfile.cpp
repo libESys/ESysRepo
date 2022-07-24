@@ -30,7 +30,7 @@ XMLFile::XMLFile()
 
 XMLFile::~XMLFile() = default;
 
-int XMLFile::read(const std::string &path)
+Result XMLFile::read(const std::string &path)
 {
     return get_impl()->read(path);
 }

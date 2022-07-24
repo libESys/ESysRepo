@@ -298,6 +298,7 @@
     <ClCompile Include="..\..\src\esys\repo\configfileimpl.cpp" />
     <ClCompile Include="..\..\src\esys\repo\configfolder.cpp" />
     <ClCompile Include="..\..\src\esys\repo\errorinfo.cpp" />
+    <ClCompile Include="..\..\src\esys\repo\errorstack.cpp" />
     <ClCompile Include="..\..\src\esys\repo\esysrepo_dll.cpp" />
     <ClCompile Include="..\..\src\esys\repo\esysrepo_prec.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugDLL|Win32'">Create</PrecompiledHeader>
@@ -408,6 +409,7 @@
     <ClInclude Include="..\..\include\esys\repo\configfolder.h" />
     <ClInclude Include="..\..\include\esys\repo\config_defs.h" />
     <ClInclude Include="..\..\include\esys\repo\errorinfo.h" />
+    <ClInclude Include="..\..\include\esys\repo\errorstack.h" />
     <ClInclude Include="..\..\include\esys\repo\esysrepo_defs.h" />
     <ClInclude Include="..\..\include\esys\repo\esysrepo_prec.h" />
     <ClInclude Include="..\..\include\esys\repo\exe\cmd.h" />

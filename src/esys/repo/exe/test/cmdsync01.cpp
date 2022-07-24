@@ -65,8 +65,8 @@ ESYSTEST_AUTO_TEST_CASE(CmdSync01)
     cmd_init.set_git(git);
     cmd_init.set_logger_if(logger);
 
-    int result = cmd_init.run();
-    ESYSTEST_REQUIRE_EQUAL(result, 0);
+    Result result = cmd_init.run();
+    ESYSTEST_REQUIRE_EQUAL(result.ok(), true);
 
     CmdSync cmd_sync;
 
@@ -76,7 +76,7 @@ ESYSTEST_AUTO_TEST_CASE(CmdSync01)
     cmd_sync.set_logger_if(logger);
 
     result = cmd_sync.run();
-    ESYSTEST_REQUIRE_EQUAL(result, 0);
+    ESYSTEST_REQUIRE_EQUAL(result.ok(), true);
 }
 
 } // namespace test

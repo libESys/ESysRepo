@@ -5,7 +5,7 @@
  * \cond
  * __legal_b__
  *
- * Copyright (c) 2020-2021 Michel Gillet
+ * Copyright (c) 2020-2022 Michel Gillet
  * Distributed under the wxWindows Library Licence, Version 3.1.
  * (See accompanying file LICENSE_3_1.txt or
  * copy at http://www.wxwidgets.org/about/licence)
@@ -25,16 +25,7 @@
 
 #include <iostream>
 
-namespace esys
-{
-
-namespace repo
-{
-
-namespace exe
-{
-
-namespace test
+namespace esys::repo::exe::test
 {
 
 /*! \class CmdInit01 esys/repo/exe/test/cmdinit01.cpp
@@ -54,20 +45,14 @@ ESYSTEST_AUTO_TEST_CASE(CmdInit01)
     ESYSTEST_REQUIRE_NE(logger, nullptr);
 
     CmdInit cmd_init;
-    
+
     file_path /= "manifest";
     cmd_init.set_url("https://gitlab.com/libesys/esysmodbus/manifest.git");
     cmd_init.set_workspace_path(file_path.string());
     cmd_init.set_logger_if(logger);
 
-    int result = cmd_init.run();
-    ESYSTEST_REQUIRE_EQUAL(result, 0);
+    Result result = cmd_init.run();
+    ESYSTEST_REQUIRE_EQUAL(result.ok(), true);
 }
 
-} // namespace test
-
-} // namespace exe
-
-} // namespace repo
-
-} // namespace esys
+} // namespace esys::repo::exe::test

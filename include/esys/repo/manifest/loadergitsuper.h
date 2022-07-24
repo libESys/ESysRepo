@@ -41,7 +41,7 @@ public:
     //! Destructor
     ~LoaderGitSuper() override;
 
-    int run() override;
+    Result run() override;
 };
 
 } // namespace manifest

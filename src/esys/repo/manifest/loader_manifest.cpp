@@ -28,7 +28,7 @@ Loader::Loader() = default;
 
 Loader::~Loader() = default;
 
-int Loader::run()
+Result Loader::run()
 {
     manifest::Type manifest_type = manifest::Type::NOT_SET;
     std::shared_ptr<Config> config;
@@ -41,11 +41,11 @@ int Loader::run()
     else if (get_config_folder() != nullptr)
     {
         config = get_config_folder()->get_config();
-        if (config == nullptr) return -1;
+        if (config == nullptr) return ESYSREPO_RESULT(ResultCode::INTERNAL_ERROR);
         manifest_type = config->get_manifest_type();
     }
     else
-        return -2;
+        return ESYSREPO_RESULT(ResultCode::INTERNAL_ERROR);
 
     switch (manifest_type)
     {
@@ -53,14 +53,15 @@ int Loader::run()
         case manifest::Type::GIT_SUPER_PROJECT: set_loader(std::make_shared<LoaderGitSuper>()); break;
         case manifest::Type::GOOGLE_MANIFEST:
         case manifest::Type::RAW_GOOGLE_MANIFEST: set_loader(std::make_shared<LoaderGRepo>()); break;
-        default: return -1;
+        default: return ESYSREPO_RESULT(ResultCode::MANIFEST_UNKNOWN_TYPE);
     }
 
     get_loader()->set_config(config);
     get_loader()->set_config_folder(get_config_folder());
     get_loader()->set_manifest(LoaderBase::get_manifest());
     get_loader()->set_logger_if(get_logger_if());
-    return get_loader()->run();
+    Result result = get_loader()->run();
+    return ESYSREPO_RESULT(result);
 }
 
 void Loader::set_loader(std::shared_ptr<LoaderBase> loader)

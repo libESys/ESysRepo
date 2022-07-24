@@ -28,14 +28,14 @@ File::File() = default;
 
 File::~File() = default;
 
-int File::read(const std::string &path)
+Result File::read(const std::string &path)
 {
     std::ifstream ifs;
 
     set_filename(path);
 
     ifs.open(path);
-    if (!ifs.is_open()) return -1;
+    if (!ifs.is_open()) return ESYSREPO_RESULT(ResultCode::ERROR_OPENING_FILE, path);
 
     std::string line;
     std::getline(ifs, line);
@@ -46,17 +46,17 @@ int File::read(const std::string &path)
         manifest::XMLFile xml_file;
 
         xml_file.set_data(get_data());
-        int result = xml_file.read(path);
-        if (result < 0) return result;
+        Result result = xml_file.read(path);
+        if (result.error()) return ESYSREPO_RESULT(result);
 
         xml_file.get_data()->set_format(manifest::Format::XML);
         set_data(xml_file.get_data());
-        return 0;
+        return ESYSREPO_RESULT(ResultCode::OK);
     }
     else
     {
         //! \TODO implement manifest with JSON format ... if ever ...
-        return -1;
+        return ESYSREPO_RESULT(ResultCode::NOT_IMPLEMENTED);
     }
 }
 

@@ -44,7 +44,7 @@ const std::string &CmdVersion::get_version() const
     return m_version;
 }
 
-int CmdVersion::impl_run()
+Result CmdVersion::impl_run()
 {
     std::ostringstream oss;
 
@@ -62,7 +62,7 @@ int CmdVersion::impl_run()
     oss << esys::repo::libgit2::Git::s_get_ssh_version();
 
     info(oss.str());
-    return 0;
+    return ESYSREPO_RESULT(ResultCode::OK);
 }
 
 } // namespace esys::repo::exe

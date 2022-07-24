@@ -95,26 +95,26 @@ std::string CmdInit::get_extra_start_msg()
     return "\n    url : " + get_url();
 }
 
-int CmdInit::impl_run()
+Result CmdInit::impl_run()
 {
     if (get_google_manifest()) warn("The option --google is not implemented yet");
     if (get_git_super_project()) warn("The option --git-super is not implemented yet");
 
-    int result = only_one_folder_or_workspace();
-    if (result < 0) return 0;
+    Result result = only_one_folder_or_workspace();
+    if (result.error()) return ESYSREPO_RESULT(result);
 
     result = load_esysrepo_folder();
-    if (result == 0) return load_esysrepo_folder_succeeded();
+    if (result.ok()) return load_esysrepo_folder_succeeded();
     return load_esysrepo_folder_failed();
 }
 
-int CmdInit::load_esysrepo_folder_succeeded()
+Result CmdInit::load_esysrepo_folder_succeeded()
 {
     assert(get_config_folder() != nullptr);
     if (get_config_folder() == nullptr)
     {
         error("Internal error [CmdInit::load_esysrepo_folder_succeeded] get_config_folder() == nullptr");
-        return -1;
+        return ESYSREPO_RESULT(ResultCode::INTERNAL_ERROR);
     }
 
     auto config = get_config_folder()->get_config();
@@ -122,7 +122,7 @@ int CmdInit::load_esysrepo_folder_succeeded()
     if (config == nullptr)
     {
         error("Internal error [CmdInit::load_esysrepo_folder_succeeded] config == nullptr");
-        return -1;
+        return ESYSREPO_RESULT(ResultCode::INTERNAL_ERROR);
     }
 
     if (get_url() != config->get_manifest_url())
@@ -135,13 +135,13 @@ int CmdInit::load_esysrepo_folder_succeeded()
         oss << "    " << get_url() << std::endl;
         oss << "Use --force if this is really wanted.";
         error(oss.str());
-        return -1;
+        return ESYSREPO_RESULT(ResultCode::CMD_INCORRECT_PARAMETERS_IN_CONTEXT, oss.str());
     }
 
     if (get_branch().empty())
     {
         warn("Nothing to do as a branch is not provided");
-        return 0;
+        return ESYSREPO_RESULT(ResultCode::OK);
     }
 
     boost::filesystem::path manifest_git_path = get_config_folder()->get_manifest_repo_path();
@@ -151,41 +151,43 @@ int CmdInit::load_esysrepo_folder_succeeded()
     debug(1, "Test debug, before git_helper");
     git_helper->debug(1, "Test debug with git_helper");
 
-    int result = git_helper->open(manifest_git_path.normalize().make_preferred().string(), log::DEBUG);
-    if (result < 0)
+    Result result = git_helper->open(manifest_git_path.normalize().make_preferred().string(), log::DEBUG);
+    if (result.error())
     {
-        error("Opening git repo holding the manifest failed.");
-        return -1;
+        std::string err_str = "Opening git repo holding the manifest failed.";
+        error(err_str);
+        return ESYSREPO_RESULT(result, err_str);
     }
 
     result = get_git()->checkout(get_branch() /*, get_force()*/);
-    if (result < 0)
+    if (result.error())
     {
-        error("Checkout branch failed.");
-        return -1;
+        std::string err_str = "Checkout branch failed.";
+        error(err_str);
+        return ESYSREPO_RESULT(result, err_str);
     }
 
     get_git()->close();
 
-    return 0;
+    return ESYSREPO_RESULT(ResultCode::OK);
 }
 
-int CmdInit::load_esysrepo_folder_failed()
+Result CmdInit::load_esysrepo_folder_failed()
 {
     // Since it failed, either there is no .esysrepo folder or the xml config
     // file is corrupted
-    int result = create_esysrepo_folder();
-    if (result < 0) return result;
+    Result result = create_esysrepo_folder();
+    if (result.error()) return ESYSREPO_RESULT(result);
 
     // Now there are 2 cases, we couldn't load be the ESysRepo config folder because
     // it got corrupted, or it's not there at all.
     result = fetch_manifest();
-    if (result < 0) return result;
+    if (result.error()) return ESYSREPO_RESULT(result);
 
-    return 0;
+    return ESYSREPO_RESULT(ResultCode::OK);
 }
 
-int CmdInit::fetch_manifest()
+Result CmdInit::fetch_manifest()
 {
     if (get_google_manifest())
         return fetch_google_manifest();
@@ -196,37 +198,37 @@ int CmdInit::fetch_manifest()
     return fetch_unknown_manifest();
 }
 
-int CmdInit::fetch_google_manifest()
+Result CmdInit::fetch_google_manifest()
 {
-    return -1;
+    return ESYSREPO_RESULT(ResultCode::NOT_IMPLEMENTED);
 }
 
-int CmdInit::read_esysrepo_manifest(std::shared_ptr<Manifest> manifest, const std::string &filename)
+Result CmdInit::read_esysrepo_manifest(std::shared_ptr<Manifest> manifest, const std::string &filename)
 {
     manifest::File manifest_file;
 
     manifest_file.set_data(manifest);
-
-    return manifest_file.read(filename);
+    Result result = manifest_file.read(filename);
+    return ESYSREPO_RESULT(result);
 }
 
-int CmdInit::read_esysrepo_manifest_xml(std::shared_ptr<Manifest> manifest, const std::string &filename)
+Result CmdInit::read_esysrepo_manifest_xml(std::shared_ptr<Manifest> manifest, const std::string &filename)
 {
     manifest::XMLFile manifest_file;
 
     manifest_file.set_data(manifest);
-
-    return manifest_file.read(filename);
+    Result result = manifest_file.read(filename);
+    return ESYSREPO_RESULT(result);
 }
 
-int CmdInit::read_esysrepo_manifest_json(std::shared_ptr<Manifest> manifest, const std::string &filename)
+Result CmdInit::read_esysrepo_manifest_json(std::shared_ptr<Manifest> manifest, const std::string &filename)
 {
     //! \TODO
-    return -1;
+    return ESYSREPO_RESULT(ResultCode::NOT_IMPLEMENTED);
 }
 
-int CmdInit::fetch_esysrepo_manifest(GitHelper &git_helper, const std::string &git_repo_path,
-                                     const std::string &manifest_filename)
+Result CmdInit::fetch_esysrepo_manifest(GitHelper &git_helper, const std::string &git_repo_path,
+                                        const std::string &manifest_filename)
 {
     std::string manifest_path;
     boost::filesystem::path manifest_filename_path = manifest_filename;
@@ -250,26 +252,26 @@ int CmdInit::fetch_esysrepo_manifest(GitHelper &git_helper, const std::string &g
 
     if (manifest_filename_ext == ".manifest")
     {
-        int result = read_esysrepo_manifest(manifest, file_path.string());
-        if (result < 0) return -1;
+        Result result = read_esysrepo_manifest(manifest, file_path.string());
+        if (result.error()) return ESYSREPO_RESULT(result);
     }
     else if (manifest_filename_ext == ".xml")
     {
-        int result = read_esysrepo_manifest_xml(manifest, file_path.string());
-        if (result < 0) return -1;
+        Result result = read_esysrepo_manifest_xml(manifest, file_path.string());
+        if (result.error()) return ESYSREPO_RESULT(result);
         manifest->set_format(manifest::Format::XML);
         config_file->set_manifest_format(manifest::Format::XML);
     }
     else if (manifest_filename_ext == ".json")
     {
-        int result = read_esysrepo_manifest_json(manifest, file_path.string());
-        if (result < 0) return -1;
+        Result result = read_esysrepo_manifest_json(manifest, file_path.string());
+        if (result.error()) return ESYSREPO_RESULT(result);
         manifest->set_format(manifest::Format::JSON);
         config_file->set_manifest_format(manifest::Format::JSON);
     }
     else
     {
-        return -2;
+        return ESYSREPO_RESULT(ResultCode::MANIFEST_UNKNOWN_FILE_EXT, manifest_filename_ext);
     }
 
     config_file->set_manifest_format(manifest->get_format());
@@ -281,9 +283,10 @@ int CmdInit::fetch_esysrepo_manifest(GitHelper &git_helper, const std::string &g
         info("Embedded kind.");
         config_file->set_manifest_kind(manifest::Kind::EMBEDDED);
         target = get_config_folder()->get_workspace_path();
-        int result = git_helper.move(source.string(), target.string(), true, log::Level::DEBUG);
-        if (result == -1) return result;
-        if (result == -2) warn("While moving folder " + rel_source.string() + " some files were left behind.");
+        Result result = git_helper.move(source.string(), target.string(), true, log::Level::DEBUG);
+        if (result == ResultCode::FAILED_TO_COPY) return ESYSREPO_RESULT(result);
+        if (result == ResultCode::FAILED_TO_REMOVE_ALL)
+            warn("While moving folder " + rel_source.string() + " some files were left behind.");
         target = "..";
         target /= manifest_filename;
         manifest_path = target.string();
@@ -302,33 +305,35 @@ int CmdInit::fetch_esysrepo_manifest(GitHelper &git_helper, const std::string &g
         if (!result_bool)
         {
             error("Couldn't create the folder : " + rel_target.string());
-            return -1;
+            return ESYSREPO_RESULT(ResultCode::FOLDER_CREATION_ERROR, target.string());
         }
         else
             debug(0, "Created folder : " + rel_target.string());
 
-        int result = git_helper.move(source.string(), target.string(), true, log::Level::DEBUG);
-        if (result == -1) return result;
-        if (result == -2) warn("While moving folder " + rel_source.string() + " some files were left behind.");
+        Result result = git_helper.move(source.string(), target.string(), true, log::Level::DEBUG);
+        if (result == ResultCode::FAILED_TO_COPY) return ESYSREPO_RESULT(result);
+        if (result == ResultCode::FAILED_TO_REMOVE_ALL)
+            warn("While moving folder " + rel_source.string() + " some files were left behind.");
         target = manifest::Base::get_folder_name();
         target /= manifest_filename;
         manifest_path = target.generic().string();
     }
     else
-        return -1;
+        return ESYSREPO_RESULT(ResultCode::MANIFEST_UNKNOWN_KIND);
 
     config_file->set_manifest_path(manifest_path);
-    return get_config_folder()->write_config_file();
+    Result result = get_config_folder()->write_config_file();
+    return ESYSREPO_RESULT(result);
 }
 
-int CmdInit::fetch_git_super_project()
+Result CmdInit::fetch_git_super_project()
 {
-    return -1;
+    return ESYSREPO_RESULT(ResultCode::NOT_IMPLEMENTED);
 }
 
-int CmdInit::fetch_unknown_manifest()
+Result CmdInit::fetch_unknown_manifest()
 {
-    if (get_git() == nullptr) return -1;
+    if (get_git() == nullptr) return ESYSREPO_RESULT(ResultCode::INTERNAL_ERROR);
 
     info("Detecting the manifest type ...");
 
@@ -338,7 +343,7 @@ int CmdInit::fetch_unknown_manifest()
     if (get_url().empty())
     {
         error("URL is empty");
-        return -1;
+        return ESYSREPO_RESULT(ResultCode::CMDINIT_NO_URL);
     }
 
     auto git_helper = new_git_helper();
@@ -346,28 +351,30 @@ int CmdInit::fetch_unknown_manifest()
     debug(1, "Test debug, before git_helper");
     git_helper->debug(1, "Test debug with git_helper");
 
-    int result = git_helper->clone(get_url(), path.normalize().make_preferred().string(), false, log::DEBUG);
-    if (result < 0)
+    Result result = git_helper->clone(get_url(), path.normalize().make_preferred().string(), false, log::DEBUG);
+    if (result.error())
     {
         error("Cloning failed.");
-        return -1;
+        return ESYSREPO_RESULT(result);
     }
 
     if (!get_branch().empty())
     {
         result = get_git()->checkout(get_branch() /*, get_force()*/);
-        if (result < 0)
+        if (result.error())
         {
-            error("Cloning failed : checkout branch failed.");
-            return -1;
+            std::string err_str = "Cloning failed : checkout branch failed.";
+            error(err_str);
+            return ESYSREPO_RESULT(result, err_str);
         }
     }
 
     result = git_helper->close(log::DEBUG);
-    if (result < 0)
+    if (result.error())
     {
-        error("Cloning failed : can't clod the git repo.");
-        return -1;
+        std::string err_str = "Cloning failed : can't clod the git repo.";
+        error(err_str);
+        return ESYSREPO_RESULT(result, err_str);
     }
 
     boost::filesystem::path file_path = path;
@@ -376,7 +383,7 @@ int CmdInit::fetch_unknown_manifest()
     if (boost::filesystem::exists(file_path))
     {
         result = fetch_esysrepo_manifest(*git_helper.get(), path.string(), ".esysrepo.manifest");
-        return result;
+        return ESYSREPO_RESULT(result);
     }
 
     file_path = path;
@@ -385,7 +392,7 @@ int CmdInit::fetch_unknown_manifest()
     if (boost::filesystem::exists(file_path))
     {
         result = fetch_esysrepo_manifest(*git_helper.get(), path.string(), ".esysrepo.manifest.xml");
-        return result;
+        return ESYSREPO_RESULT(result);
     }
 
     file_path = path;
@@ -394,7 +401,7 @@ int CmdInit::fetch_unknown_manifest()
     if (boost::filesystem::exists(file_path))
     {
         result = fetch_esysrepo_manifest(*git_helper.get(), path.string(), ".esysrepo.manifest.json");
-        return result;
+        return ESYSREPO_RESULT(result);
     }
     file_path = path;
     if (!get_manifest_name().empty())
@@ -420,15 +427,16 @@ int CmdInit::fetch_unknown_manifest()
         bool result_bool = boost::filesystem::create_directory(target);
         if (!result_bool)
         {
-            error("Couldn't create the folder : " + rel_target.string());
-            return -1;
+            std::string err_str = "Couldn't create the folder : " + rel_target.string();
+            error(err_str);
+            return ESYSREPO_RESULT(ResultCode::FOLDER_CREATION_ERROR, err_str);
         }
         else
             debug(0, "Created folder : " + rel_target.string());
 
         result = git_helper->move(source.string(), target.string(), true, log::Level::DEBUG);
-        if (result == -1) return result;
-        if (result == -2) warn("While moving folder " + rel_source.string() + " some files were left behind.");
+        if (result == ResultCode::FAILED_TO_COPY) return ESYSREPO_RESULT(result);
+        if (result == ResultCode::FAILED_TO_REMOVE_ALL) warn("While moving folder " + rel_source.string() + " some files were left behind.");
 
         std::string manifest_path = "grepo/";
         if (!get_manifest_name().empty())
@@ -454,14 +462,16 @@ int CmdInit::fetch_unknown_manifest()
         boost::filesystem::path target = get_config_folder()->get_workspace_path();
 
         result = git_helper->move(source.string(), target.string(), true, log::Level::DEBUG);
-        if (result < -1) return -1;
-        return 0;
+        if (result == ResultCode::FAILED_TO_COPY) return ESYSREPO_RESULT(result);
+        if (result == ResultCode::FAILED_TO_REMOVE_ALL)
+            warn("While moving folder " + source.string() + " some files were left behind.");
+        return ESYSREPO_RESULT(ResultCode::OK);
     }
 
-    return -1;
+    return ESYSREPO_RESULT(ResultCode::CMDINIT_FAILED_FETCH_UNKNOWN_MANIFEST);
 }
 
-int CmdInit::load_esysrepo_folder()
+Result CmdInit::load_esysrepo_folder()
 {
     debug(0, "[CmdInit::load_esysrepo_folder] begin ...");
 
@@ -472,12 +482,12 @@ int CmdInit::load_esysrepo_folder()
 
     debug(0, "[CmdInit::load_esysrepo_folder] parent_path = " + get_workspace_path());
 
-    int result = config_folder->open(get_workspace_path(), false);
+    Result result = config_folder->open(get_workspace_path(), false);
     debug(0, "[CmdInit::create_esysrepo_folder] end.");
-    return result;
+    return ESYSREPO_RESULT(result);
 }
 
-int CmdInit::create_esysrepo_folder()
+Result CmdInit::create_esysrepo_folder()
 {
     debug(0, "[CmdInit::create_esysrepo_folder] begin ...");
 
@@ -492,9 +502,9 @@ int CmdInit::create_esysrepo_folder()
 
     debug(0, "[CmdInit::create_esysrepo_folder] parent_path = " + get_workspace_path());
 
-    int result = config_folder->create(get_workspace_path());
+    Result result = config_folder->create(get_workspace_path(), true);
     debug(0, "[CmdInit::create_esysrepo_folder] end.");
-    return result;
+    return ESYSREPO_RESULT(result);
 }
 
 } // namespace esys::repo::exe

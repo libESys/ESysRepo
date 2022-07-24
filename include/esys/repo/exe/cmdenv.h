@@ -26,13 +26,7 @@
 #include <vector>
 #include <memory>
 
-namespace esys
-{
-
-namespace repo
-{
-
-namespace exe
+namespace esys::repo::exe
 {
 
 class ESYSREPO_API CmdEnv : public Cmd
@@ -43,14 +37,10 @@ public:
 
 protected:
     //!< \cond DOXY_IMPL
-    int impl_run() override;
+    Result impl_run() override;
 
 private:
     //!< \endcond
 };
 
-} // namespace exe
-
-} // namespace repo
-
-} // namespace esys
+} // namespace esys::repo::exe

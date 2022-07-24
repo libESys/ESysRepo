@@ -5,7 +5,7 @@
  * \cond
  * __legal_b__
  *
- * Copyright (c) 2020-2021 Michel Gillet
+ * Copyright (c) 2020-2022 Michel Gillet
  * Distributed under the wxWindows Library Licence, Version 3.1.
  * (See accompanying file LICENSE_3_1.txt or
  * copy at http://www.wxwidgets.org/about/licence)
@@ -24,16 +24,7 @@
 
 #include <iostream>
 
-namespace esys
-{
-
-namespace repo
-{
-
-namespace libgit2
-{
-
-namespace test
+namespace esys::repo::libgit2::test
 {
 
 /*! \class CloneRepo02LibGit2 esys/build/libgit2/test/clonerepo02_libgit2.cpp
@@ -71,19 +62,13 @@ ESYSTEST_AUTO_TEST_CASE(CloneRepo02LibGit2)
 
     Git git;
 
-    int result =
+    Result result =
         git.clone("ssh://git@gitlab.com/libesys/metacpp_manifest.git", file_path.normalize().make_preferred().string());
-    if (result != 0) std::cout << "ERROR " << result << std::endl;
-    ESYSTEST_REQUIRE_EQUAL(result, 0);
+    if (result.error()) std::cout << "ERROR " << result << std::endl;
+    ESYSTEST_REQUIRE_EQUAL(result.ok(), true);
 
     result = git.close();
-    ESYSTEST_REQUIRE_EQUAL(result, 0);
+    ESYSTEST_REQUIRE_EQUAL(result.ok(), true);
 }
 
 } // namespace test
-
-} // namespace libgit2
-
-} // namespace repo
-
-} // namespace esys

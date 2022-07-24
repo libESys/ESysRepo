@@ -19,6 +19,7 @@
 
 #include "esys/repo/esysrepo_defs.h"
 #include "esys/repo/manifest.h"
+#include "esys/repo/result.h"
 
 #include <memory>
 #include <string>
@@ -40,7 +41,7 @@ public:
     void set_folder_path(const std::string &folder_path);
     const std::string &get_folder_path() const;
 
-    int run(const std::string &folder_path = "");
+    Result run(const std::string &folder_path = "");
     std::shared_ptr<Manifest> get_manifest();
 
     std::string find_repo_path_by_url(const std::string &url);

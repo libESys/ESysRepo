@@ -39,8 +39,8 @@ ESYSTEST_AUTO_TEST_CASE(find_path_by_repo01GRepo)
 
     Manifest manifest;
 
-    int result = manifest.read(file_path.string());
-    ESYSTEST_REQUIRE_EQUAL(result, 0);
+    Result result = manifest.read(file_path.string());
+    ESYSTEST_REQUIRE_EQUAL(result.ok(), true);
 
     auto data = manifest.get_data();
     ESYSTEST_REQUIRE_EQUAL(data->get_locations().size(), 3);

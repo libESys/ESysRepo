@@ -19,6 +19,7 @@
 
 #include "esys/repo/esysrepo_defs.h"
 #include "esys/repo/configfile.h"
+#include "esys/repo/result.h"
 
 #include <nlohmann/json.hpp>
 
@@ -36,8 +37,8 @@ public:
     explicit ConfigFileImpl(ConfigFile *self);
     virtual ~ConfigFileImpl();
 
-    int open(const std::string &path = "");
-    int write(const std::string &path = "");
+    Result open(const std::string &path = "");
+    Result write(const std::string &path = "");
 
     ConfigFile *self();
     const ConfigFile *self() const;

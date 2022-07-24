@@ -5,7 +5,7 @@
  * \cond
  * __legal_b__
  *
- * Copyright (c) 2020-2021 Michel Gillet
+ * Copyright (c) 2020-2022 Michel Gillet
  * Distributed under the wxWindows Library Licence, Version 3.1.
  * (See accompanying file LICENSE_3_1.txt or
  * copy at http://www.wxwidgets.org/about/licence)
@@ -75,21 +75,21 @@ int CmdSync::sync_manifest()
     return sync.run();
 }
 
-int CmdSync::impl_run()
+Result CmdSync::impl_run()
 {
     if (get_force()) warn("Option --force-sync is not implemented yet");
 
     int result = default_handling_folder_workspace();
-    if (result < 0) return result;
+    if (result < 0) return generic_error(result);
 
     result = open_esysrepo_folder();
-    if (result < 0) return result;
+    if (result < 0) return generic_error(result);
 
     result = sync_manifest();
-    if (result < 0) return result;
+    if (result < 0) return generic_error(result);
 
     result = load_manifest();
-    if (result < 0) return result;
+    if (result < 0) return generic_error(result);
 
     manifest::SyncRepos sync_repos;
 
@@ -129,8 +129,7 @@ int CmdSync::impl_run()
     get_git()->detect_ssh_agent(true);
 
     result = sync_repos.run();
-    if (result < 0) return result;
-    return 0;
+    return generic_error(result);
 }
 
 } // namespace esys::repo::exe

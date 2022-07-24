@@ -142,7 +142,7 @@ void GitHelper::done(const std::string &msg, uint64_t elapsed_time)
     log::User::info(oss.str());
 }
 
-int GitHelper::open(const std::string &folder, log::Level log_level, int debug_level)
+Result GitHelper::open(const std::string &folder, log::Level log_level, int debug_level)
 {
     boost::filesystem::path rel_folder = boost::filesystem::relative(folder);
 
@@ -150,13 +150,13 @@ int GitHelper::open(const std::string &folder, log::Level log_level, int debug_l
 
     log(msg, log_level, debug_level);
 
-    int result = get_git()->open(rel_folder.string());
-    if (result < 0) error("Failed with error ", result);
-    return result;
+    Result result = get_git()->open(rel_folder.string());
+    if (result.error()) error("Failed with error ", result.get_result_code_int());
+    return ESYSREPO_RESULT(result);
 }
 
-int GitHelper::clone(const std::string &url, const std::string &path, bool do_close, log::Level log_level,
-                     int debug_level)
+Result GitHelper::clone(const std::string &url, const std::string &path, bool do_close, log::Level log_level,
+                        int debug_level)
 {
     /*boost::filesystem::path rel_path = boost::filesystem::relative(path);
 
@@ -171,11 +171,12 @@ int GitHelper::clone(const std::string &url, const std::string &path, bool do_cl
         done("Cloning", get_git()->get_last_cmd_elapsed_time());
     if (!do_close) return result;
     return close(log::Level::DEBUG);*/
-    return clone_branch(url, "", path, do_close, log_level, debug_level);
+    Result result = clone_branch(url, "", path, do_close, log_level, debug_level);
+    return ESYSREPO_RESULT(result);
 }
 
-int GitHelper::clone_branch(const std::string &url, const std::string &branch, const std::string &path, bool do_close,
-                            log::Level log_level, int debug_level)
+Result GitHelper::clone_branch(const std::string &url, const std::string &branch, const std::string &path,
+                               bool do_close, log::Level log_level, int debug_level)
 {
     boost::filesystem::path rel_path = boost::filesystem::relative(path);
 
@@ -185,12 +186,12 @@ int GitHelper::clone_branch(const std::string &url, const std::string &branch, c
 
     log(msg, log_level, debug_level);
 
-    int result = get_git()->clone(url, path);
-    if (result == 0) done("Cloning", get_git()->get_last_cmd_elapsed_time());
+    Result result = get_git()->clone(url, path);
+    if (result.ok()) done("Cloning", get_git()->get_last_cmd_elapsed_time());
     /*else
         error("Failed with error ", result); */
 
-    if (!do_close) return result;
+    if (!do_close) return ESYSREPO_RESULT(result);
     return close(log::Level::DEBUG);
 }
 
@@ -240,11 +241,11 @@ int GitHelper::clone(const std::string &url, const std::string &temp_path, const
         log(clone_msg, log::Level::DEBUG);
     }
 
-    int result = get_git()->clone(url, temp_path);
-    if (result < 0)
+    Result result = get_git()->clone(url, temp_path);
+    if (result.error())
     {
         error("Failed to clone");
-        return result;
+        return result.get_result_code_int();
     }
 
     if (do_close) close(log::Level::DEBUG);
@@ -256,12 +257,12 @@ int GitHelper::clone(const std::string &url, const std::string &temp_path, const
         init_oss(oss);
         oss << "Move:\n    src  : " << rel_temp_path.string() << "\n    dest : " << rel_path.string();
 
-        result = log_wrap(boost_no_all::move, log::Level::DEBUG)(oss.str(), temp_path, path, true);
+        int result = log_wrap(boost_no_all::move, log::Level::DEBUG)(oss.str(), temp_path, path, true);
         if (result < 0) return result;
     }
     else
     {
-        result = boost_no_all::move(temp_path, path, true);
+        int result = boost_no_all::move(temp_path, path, true);
         if (result == -1)
         {
             error("Failed to copy from temp_path to path : " + temp_path + " -> " + path);
@@ -277,19 +278,23 @@ int GitHelper::clone(const std::string &url, const std::string &temp_path, const
     return 0;
 }
 
-int GitHelper::close(log::Level log_level, int debug_level)
+Result GitHelper::close(log::Level log_level, int debug_level)
 {
-    if (!get_git()->is_open()) return 0;
+    if (!get_git()->is_open()) return ESYSREPO_RESULT(ResultCode::OK);
 
     log("Closing ...", log_level, debug_level);
 
-    int result = get_git()->close();
-    if (result < 0)
-        error("Close git repo failed with error ", result);
+    Result result = get_git()->close();
+    std::string err_str;
+    if (result.error())
+    {
+        err_str = "Close git repo failed with error ";
+        error("Close git repo failed with error ", result.get_result_code_int());
+    }
     else
         log("Closed.", log_level, debug_level);
 
-    return result;
+    return ESYSREPO_RESULT(result, err_str);
 }
 
 int GitHelper::fastforward(const git::CommitHash &commit, log::Level log_level, int debug_level)
@@ -411,12 +416,12 @@ int GitHelper::get_status(git::RepoStatus &status, log::Level log_level, int deb
 
 int GitHelper::checkout(const std::string &branch, bool force, log::Level log_level, int debug_level)
 {
-    int result = get_git()->checkout(branch, force);
-    if (result < 0)
+    Result result = get_git()->checkout(branch, force);
+    if (result.error())
         error("Failed to checkout");
     else
         log("Checkout succeeded", log_level, debug_level);
-    return result;
+    return result.get_result_code_int();
 }
 
 int GitHelper::merge_analysis(const std::vector<std::string> &refs, git::MergeAnalysisResult &merge_analysis_result,
@@ -430,8 +435,8 @@ int GitHelper::merge_analysis(const std::vector<std::string> &refs, git::MergeAn
     return result;
 }
 
-int GitHelper::move(const std::string &src, const std::string &dst, bool recursive, log::Level log_level,
-                    int debug_level)
+Result GitHelper::move(const std::string &src, const std::string &dst, bool recursive, log::Level log_level,
+                       int debug_level)
 {
     boost::filesystem::path rel_src = boost::filesystem::relative(src);
     boost::filesystem::path rel_dst = boost::filesystem::relative(dst);
@@ -441,7 +446,9 @@ int GitHelper::move(const std::string &src, const std::string &dst, bool recursi
     oss << "Move:\n    src  : " << rel_src.string() << "\n    dest : " << rel_dst.string();
 
     int result = log_wrap(boost_no_all::move, log_level)(oss.str(), rel_src.string(), rel_dst.string(), true);
-    return result;
+    if (result == -1) return ESYSREPO_RESULT(ResultCode::FAILED_TO_COPY);
+    if (result == -1) return ESYSREPO_RESULT(ResultCode::FAILED_TO_REMOVE_ALL);
+    return ESYSREPO_RESULT(ResultCode::OK);
 }
 
 void GitHelper::set_git(std::shared_ptr<GitBase> git)

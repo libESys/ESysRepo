@@ -39,8 +39,8 @@ ESYSTEST_AUTO_TEST_CASE(Detect01)
     Detect detect;
 
     detect.set_folder_path(folder_path.string());
-    int result = detect.detect();
-    ESYSTEST_REQUIRE_EQUAL(result, 0);
+    Result result = detect.detect();
+    ESYSTEST_REQUIRE_EQUAL(result.ok(), true);
 }
 
 } // namespace esys::repo::manifest::test
