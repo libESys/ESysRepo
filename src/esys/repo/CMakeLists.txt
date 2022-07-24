@@ -61,6 +61,7 @@ set(ESYSREPO_CXX_SOURCES
     configfileimpl.cpp
     configfolder.cpp
     errorinfo.cpp
+    errorstack.cpp
     esysrepo_prec.cpp
     filesystem.cpp
     gitbase.cpp

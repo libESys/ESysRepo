@@ -33,6 +33,7 @@ source = [
     "resultcode.h",
     "errorinfo.h",
     "result.h",
+    "errorstack.h",
     "git/branchtype.h",
     "git/branch.h",
     "git/branches.h",

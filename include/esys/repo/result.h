@@ -186,7 +186,7 @@ public:
 private:
     //!< \cond DOXY_IMPL
     ResultCode m_result_code = ResultCode::OK; //!< The result code
-    std::shared_ptr<ErrorInfo> m_error_info;        //!< The error information
+    std::shared_ptr<ErrorInfo> m_error_info;   //!< The error information
     //!< \endcond
 };
 
