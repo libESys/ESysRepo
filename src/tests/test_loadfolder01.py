@@ -21,7 +21,7 @@ class LoadFolder01(unittest.TestCase):
         folder = os.path.join(folder_base, "res/esysrepo_t/grepo/repo01")
         folder = os.path.normpath(folder)
         result = load_folder.run(folder)
-        self.assertEqual(result, 0)
+        self.assertEqual(result.ok(), True)
 
         manifest = load_folder.get_manifest()
         self.assertNotEqual(manifest, None)

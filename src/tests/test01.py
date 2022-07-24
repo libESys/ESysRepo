@@ -21,7 +21,7 @@ class TestSomething(unittest.TestCase):
     def test_something(self):
         repocfg = esysrepo.GRepoManifest()
         result = repocfg.read("src/esysrepo/res/esysrepo_t/grepo/default02.xml")
-        self.assertEqual(result, 0)
+        self.assertEqual(result.ok(), True)
         manifest = repocfg.get_data()
         path = manifest.find_repo_path_by_url("ssh://git@gitlab.com/libesys/esysos")
         self.assertEqual(path, "src/esysos")
