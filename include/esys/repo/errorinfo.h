@@ -67,6 +67,24 @@ public:
      */
     ResultCode get_result_code() const;
 
+    //! Get the result code as an integer
+    /*!
+     * \return the result code as an integer
+     */
+    int get_result_code_int() const;
+
+    //! Set the return code from an external library
+    /*!
+     * \param[in] raw_error the return code from an external library
+     */
+    void set_raw_error(int raw_error);
+
+    //! Get the return code from an external library
+    /*!
+     * \return the return code from an external library
+     */
+    int get_raw_error() const;
+
     //! Set the file path where the error occured
     /*!
      * \param[in] file the file path where the error occured
@@ -103,6 +121,18 @@ public:
      */
     const std::string &get_function() const;
 
+    //! Set some informative text about the error
+    /*!
+     * \param[in] text some informative text about the error
+     */
+    void set_text(const std::string &text);
+
+    //! Get some informative text about the error
+    /*!
+     * \return some informative text about the error
+     */
+    const std::string &get_text() const;
+
     //! Set the previous error information
     /*!
      * \param[in] prev the previous error information
@@ -115,14 +145,18 @@ public:
      */
     std::shared_ptr<ErrorInfo> get_prev();
 
+    virtual void print(std::ostream &os) const;
+
 private:
     //!< \cond DOXY_IMPL
-    int m_index = 0;                                //!< The index in the error call stack
-    ResultCode m_result_code = ResultCode::SUCCESS; //!< The result code
-    std::string m_file;                             //!< The file path where the error occured
-    int m_line_number = -1;                         //!< The line number where the error occured
-    std::string m_function;                         //!< The function where the error occured
-    std::shared_ptr<ErrorInfo> m_prev;              //!< The previous error information
+    int m_index = 0;                           //!< The index in the error call stack
+    ResultCode m_result_code = ResultCode::OK; //!< The result code
+    std::string m_file;                        //!< The file path where the error occured
+    int m_line_number = -1;                    //!< The line number where the error occured
+    std::string m_function;                    //!< The function where the error occured
+    std::string m_text;                        //!< Some informative text about the error
+    int m_raw_error = 0;                       //!< Return code from an external library
+    std::shared_ptr<ErrorInfo> m_prev;         //!< The previous error information
     //!< \endcond
 };
 
@@ -132,5 +166,4 @@ namespace std
 {
 
 ESYSREPO_API ostream &operator<<(ostream &os, const esys::repo::ErrorInfo &error_info); //<swig_out/>
-
 }
