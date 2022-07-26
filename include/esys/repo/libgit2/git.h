@@ -53,38 +53,38 @@ public:
     bool is_open() override;
 
     Result close() override;
-    int get_remotes(std::vector<git::Remote> &remotes) override;
-    int get_branches(git::Branches &branches, git::BranchType branch_type = git::BranchType::LOCAL) override;
+    Result get_remotes(std::vector<git::Remote> &remotes) override;
+    Result get_branches(git::Branches &branches, git::BranchType branch_type = git::BranchType::LOCAL) override;
 
     Result clone(const std::string &url, const std::string &path, const std::string &branch = "") override;
     Result checkout(const std::string &branch, bool force = false) override;
-    int reset(const git::CommitHash &commit, git::ResetType type = git::ResetType::SOFT) override;
-    int fastforward(const git::CommitHash &commit) override;
+    Result reset(const git::CommitHash &commit, git::ResetType type = git::ResetType::SOFT) override;
+    Result fastforward(const git::CommitHash &commit) override;
 
-    int get_last_commit(git::CommitHash &commit) override;
-    int get_parent_commit(const git::CommitHash &commit, git::CommitHash &parent, int nth_parent = 1) override;
+    Result get_last_commit(git::CommitHash &commit) override;
+    Result get_parent_commit(const git::CommitHash &commit, git::CommitHash &parent, int nth_parent = 1) override;
 
-    int is_dirty(bool &dirty) override;
-    int is_detached(bool &detached) override;
+    Result is_dirty(bool &dirty) override;
+    Result is_detached(bool &detached) override;
 
-    int get_status(git::RepoStatus &repo_status) override;
+    Result get_status(git::RepoStatus &repo_status) override;
 
     bool is_ssh_agent_running(bool log_once = true) override;
     void detect_ssh_agent(bool log_once = true) override;
 
-    int merge_analysis(const std::vector<std::string> &refs, git::MergeAnalysisResult &merge_analysis_result,
-                       std::vector<git::CommitHash> &commits) override;
+    Result merge_analysis(const std::vector<std::string> &refs, git::MergeAnalysisResult &merge_analysis_result,
+                          std::vector<git::CommitHash> &commits) override;
 
-    int fetch(const std::string &remote = "") override;
+    Result fetch(const std::string &remote = "") override;
 
     bool has_branch(const std::string &name, git::BranchType branch_type = git::BranchType::LOCAL) override;
 
     int get_hash(const std::string &revision, std::string &hash,
                  git::BranchType branch_type = git::BranchType::REMOTE) override;
 
-    int walk_commits(std::shared_ptr<git::WalkCommit> walk_commit) override;
+    Result walk_commits(std::shared_ptr<git::WalkCommit> walk_commit) override;
 
-    int diff(const git::CommitHash commit_hash, std::shared_ptr<git::Diff> diff) override;
+    Result diff(const git::CommitHash commit_hash, std::shared_ptr<git::Diff> diff) override;
 
     void set_url(const std::string &url);
     const std::string &get_url();

@@ -95,8 +95,8 @@ ESYSTEST_AUTO_TEST_CASE(GetStatus01LibGit2)
 
     git::RepoStatus repo_status;
 
-    int result_int = git.get_status(repo_status);
-    ESYSTEST_REQUIRE_EQUAL(result_int, 0);
+    result = git.get_status(repo_status);
+    ESYSTEST_REQUIRE_EQUAL(result.ok(), true);
 
     ESYSTEST_REQUIRE_EQUAL(repo_status.get_all().size(), 2);
     ESYSTEST_REQUIRE_EQUAL(repo_status.get_head_to_index().size(), 0);

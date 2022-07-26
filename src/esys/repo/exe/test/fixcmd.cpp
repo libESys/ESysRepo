@@ -128,8 +128,8 @@ void FixCmd::test_repo_head(const std::string &path, const std::string &head_nam
 
     git::Branches branches;
 
-    int result_int = git.get_branches(branches);
-    ESYSTEST_REQUIRE_EQUAL(result_int, 0);
+    result = git.get_branches(branches);
+    ESYSTEST_REQUIRE_EQUAL(result.ok(), true);
 
     ESYSTEST_REQUIRE_NE(branches.get_head(), nullptr);
     ESYSTEST_REQUIRE_EQUAL(branches.get_head()->get_name(), head_name);
@@ -140,19 +140,19 @@ void FixCmd::test_repo_head(const std::string &path, const std::string &head_nam
 
 void FixCmd::test_manifest_repo_head(const std::string &head_name)
 {
-    int result = open_git_manifest_repo();
-    ESYSTEST_REQUIRE_EQUAL(result, 0);
+    int result_int = open_git_manifest_repo();
+    ESYSTEST_REQUIRE_EQUAL(result_int, 0);
 
     git::Branches branches;
 
-    result = get_git()->get_branches(branches);
-    ESYSTEST_REQUIRE_EQUAL(result, 0);
+    Result result = get_git()->get_branches(branches);
+    ESYSTEST_REQUIRE_EQUAL(result.ok(), true);
 
     ESYSTEST_REQUIRE_NE(branches.get_head(), nullptr);
     ESYSTEST_REQUIRE_EQUAL(branches.get_head()->get_name(), head_name);
 
-    result = close_git();
-    ESYSTEST_REQUIRE_EQUAL(result, 0);
+    result_int = close_git();
+    ESYSTEST_REQUIRE_EQUAL(result_int, 0);
 }
 
 void FixCmd::test_basic_files()

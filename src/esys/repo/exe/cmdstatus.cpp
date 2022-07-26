@@ -114,15 +114,15 @@ int CmdStatus::open_repo(std::shared_ptr<manifest::Repository> repo)
 
     m_repo_status = std::make_shared<git::RepoStatus>();
 
-    int result = git_helper->get_status(*m_repo_status, log::Level::DEBUG);
-    if (result < 0) return result;
+    rresult = git_helper->get_status(*m_repo_status, log::Level::DEBUG);
+    if (rresult.error()) return rresult.get_result_code_int();
 
     m_repo_status->sort_file_status();
 
     m_branches.clear();
 
-    result = git_helper->get_branches(m_branches, git::BranchType::LOCAL, log::Level::DEBUG);
-    if (result < 0) return result;
+    rresult = git_helper->get_branches(m_branches, git::BranchType::LOCAL, log::Level::DEBUG);
+    if (rresult.error()) return rresult.get_result_code_int();
 
     m_branches.sort();
 

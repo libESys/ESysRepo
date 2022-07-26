@@ -69,17 +69,18 @@ public:
                  int debug_level = 0);
     Result clone_branch(const std::string &url, const std::string &branch, const std::string &path, bool do_close,
                         log::Level log_level, int debug_level = 0);
-    int clone(const std::string &url, const std::string &temp_path, const std::string &path, bool do_close,
-              log::Level log_level, int debug_level = 0);
+    Result clone(const std::string &url, const std::string &temp_path, const std::string &path, bool do_close,
+                 log::Level log_level, int debug_level = 0);
 
     Result close(log::Level log_level, int debug_level = 0);
 
-    int fastforward(const git::CommitHash &commit, log::Level log_level, int debug_level = 0);
+    Result fastforward(const git::CommitHash &commit, log::Level log_level, int debug_level = 0);
 
-    int fetch(const std::string &remote, log::Level log_level, int debug_level = 0);
-    int fetch(log::Level log_level, int debug_level = 0);
+    Result fetch(const std::string &remote, log::Level log_level, int debug_level = 0);
+    Result fetch(log::Level log_level, int debug_level = 0);
 
-    int get_branches(git::Branches &branches, git::BranchType branch_type, log::Level log_level, int debug_level = 0);
+    Result get_branches(git::Branches &branches, git::BranchType branch_type, log::Level log_level,
+                        int debug_level = 0);
 
     bool has_branch(const std::string &name, git::BranchType branch_type, log::Level log_level, int debug_level = 0);
 
@@ -87,14 +88,14 @@ public:
 
     int get_hash_local(const std::string &revision, std::string &hash, log::Level log_level, int debug_level = 0);
 
-    int is_dirty(bool &dirty, log::Level log_level, int debug_level = 0);
-    int is_detached(bool &detached, log::Level log_level, int debug_level = 0);
+    Result is_dirty(bool &dirty, log::Level log_level, int debug_level = 0);
+    Result is_detached(bool &detached, log::Level log_level, int debug_level = 0);
 
-    int get_status(git::RepoStatus &status, log::Level log_level, int debug_level = 0);
+    Result get_status(git::RepoStatus &status, log::Level log_level, int debug_level = 0);
 
-    int checkout(const std::string &branch, bool force, log::Level log_level, int debug_level = 0);
+    Result checkout(const std::string &branch, bool force, log::Level log_level, int debug_level = 0);
 
-    int merge_analysis(const std::vector<std::string> &refs, git::MergeAnalysisResult &merge_analysis_result,
+    Result merge_analysis(const std::vector<std::string> &refs, git::MergeAnalysisResult &merge_analysis_result,
                        std::vector<git::CommitHash> &commits, log::Level log_level, int debug_level = 0);
 
     Result move(const std::string &src, const std::string &dst, bool recursive, log::Level log_level,

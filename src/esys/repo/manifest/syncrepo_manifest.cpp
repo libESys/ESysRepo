@@ -52,8 +52,8 @@ int SyncRepo::process_repo()
 bool SyncRepo::has_branch(GitHelper &git_helper, const std::string &branch)
 {
     git::Branches branches;
-    int result = git_helper.get_branches(branches, git::BranchType::REMOTE, log::Level::DEBUG);
-    if (result < 0)
+    Result result = git_helper.get_branches(branches, git::BranchType::REMOTE, log::Level::DEBUG);
+    if (result.error())
     {
         git_helper.error("Couldn't get the list of local branches");
         return false;
@@ -110,11 +110,11 @@ int SyncRepo::clone()
 
         if (!get_branch().empty())
         {
-            result = git_helper->fetch(get_log_level());
-            if (result < 0)
+            Result result = git_helper->fetch(get_log_level());
+            if (result.error())
             {
                 git_helper->close(log::Level::DEBUG);
-                return result;
+                return result.get_result_code_int();
             }
         }
 
@@ -122,9 +122,9 @@ int SyncRepo::clone()
         git_helper->debug(0, "branch_to_checkout = " + branch_to_checkout);
         if (branch_to_checkout.empty()) return 0;
 
-        result = git_helper->checkout(branch_to_checkout, false, log::Level::INFO);
+        rresult = git_helper->checkout(branch_to_checkout, false, log::Level::INFO);
         git_helper->close(log::Level::DEBUG);
-        return result;
+        return rresult.get_result_code_int();
     }
 
     // Here since the folder where to clone is not empty so a temporary folder is used
@@ -133,14 +133,14 @@ int SyncRepo::clone()
     oss << "repo_temp" << get_repo_idx();
     temp_path /= oss.str();
 
-    result = git_helper->clone(url, temp_path.string(), path.string(), true, get_log_level());
-    if (result < 0)
+    Result rresult = git_helper->clone(url, temp_path.string(), path.string(), true, get_log_level());
+    if (rresult.error())
     {
         git_helper->close(log::Level::DEBUG);
-        return result;
+        return rresult.get_result_code_int();
     }
 
-    Result rresult = git_helper->open(path.string(), esys::log::INFO);
+    rresult = git_helper->open(path.string(), esys::log::INFO);
     if (rresult.error())
     {
         return rresult.get_result_code_int();
@@ -148,11 +148,11 @@ int SyncRepo::clone()
 
     if (!get_branch().empty())
     {
-        result = git_helper->fetch(get_log_level());
-        if (result < 0)
+        rresult = git_helper->fetch(get_log_level());
+        if (rresult.error())
         {
             git_helper->close(log::Level::DEBUG);
-            return result;
+            return rresult.get_result_code_int();
         }
     }
 
@@ -160,10 +160,10 @@ int SyncRepo::clone()
     git_helper->debug(0, "branch_to_checkout = " + branch_to_checkout);
     if (branch_to_checkout.empty()) return 0;
 
-    result = git_helper->checkout(branch_to_checkout, get_force(), log::Level::INFO);
+    rresult = git_helper->checkout(branch_to_checkout, get_force(), log::Level::INFO);
     git_helper->close(log::Level::DEBUG);
 
-    return result;
+    return rresult.get_result_code_int();
 }
 
 int SyncRepo::fetch_update()
@@ -178,8 +178,8 @@ int SyncRepo::fetch_update()
     if (rresult.error()) return rresult.get_result_code_int();
 
     bool dirty = false;
-    int result = git_helper->is_dirty(dirty, log::Level::DEBUG);
-    if (result < 0) return result;
+    rresult = git_helper->is_dirty(dirty, log::Level::DEBUG);
+    if (rresult.error()) return rresult.get_result_code_int();
 
     if (dirty)
     {
@@ -196,11 +196,11 @@ int SyncRepo::fetch_update()
 int SyncRepo::normal_sync(GitHelper &git_helper)
 {
     bool detached = false;
-    int result = git_helper.is_detached(detached, log::Level::DEBUG);
-    if (result < 0)
+    Result result = git_helper.is_detached(detached, log::Level::DEBUG);
+    if (result.error())
     {
         git_helper.error("Couldn't detect if the git repo is detached or not.");
-        return -1;
+        return result.get_result_code_int();
     }
 
     if (detached)
@@ -210,18 +210,18 @@ int SyncRepo::normal_sync(GitHelper &git_helper)
     }
 
     result = git_helper.fetch(log::Level::DEBUG);
-    if (result < 0)
+    if (result.error())
     {
         git_helper.error("Fetch failed on the git repo");
-        return -3;
+        return result.get_result_code_int();
     }
 
     git::Branches branches;
     result = git_helper.get_branches(branches, git::BranchType::LOCAL, log::Level::DEBUG);
-    if (result < 0)
+    if (result.error())
     {
         git_helper.error("Couldn't get the list of local branches");
-        return -3;
+        return result.get_result_code_int();
     }
 
     branches.sort();
@@ -239,7 +239,7 @@ int SyncRepo::normal_sync(GitHelper &git_helper)
     refs.push_back(branches.get_head()->get_remote_branch());
 
     result = git_helper.merge_analysis(refs, merge_analysis_result, commits, log::Level::DEBUG);
-    if (result < 0)
+    if (result.error())
     {
         git_helper.error("Merge analysis failed.");
         return -5;
@@ -266,7 +266,7 @@ int SyncRepo::normal_sync(GitHelper &git_helper)
     git_helper.info("Fast forwarding git repo ...");
 
     result = git_helper.fastforward(commits[0], log::Level::DEBUG);
-    if (result < 0)
+    if (result.error())
     {
         git_helper.error("Fast forward failed.");
         return -8;
@@ -279,12 +279,12 @@ int SyncRepo::branch_sync(GitHelper &git_helper)
 {
     if (!has_branch(git_helper, get_branch())) return normal_sync(git_helper);
 
-    int result = git_helper.checkout(get_branch(), get_force(), log::Level::DEBUG);
-    if (result == 0)
+    Result result = git_helper.checkout(get_branch(), get_force(), log::Level::DEBUG);
+    if (result.ok())
         info("Checkout branch " + get_branch() + ".");
     else
         error("Failed to checkout branch " + get_branch() + ".");
-    return result;
+    return result.get_result_code_int();
 }
 
 void SyncRepo::set_log_level(log::Level log_level)

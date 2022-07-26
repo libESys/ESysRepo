@@ -195,8 +195,8 @@ Result GitHelper::clone_branch(const std::string &url, const std::string &branch
     return close(log::Level::DEBUG);
 }
 
-int GitHelper::clone(const std::string &url, const std::string &temp_path, const std::string &path, bool do_close,
-                     log::Level log_level, int debug_level)
+Result GitHelper::clone(const std::string &url, const std::string &temp_path, const std::string &path, bool do_close,
+                        log::Level log_level, int debug_level)
 {
     auto start_time = std::chrono::steady_clock::now();
 
@@ -214,8 +214,9 @@ int GitHelper::clone(const std::string &url, const std::string &temp_path, const
             int result = log_wrap(boost_no_all::remove_all, log::Level::DEBUG)(oss.str(), temp_path);
             if (result < 0)
             {
-                error("Failed to remove all : " + rel_temp_path.string());
-                return result;
+                std::string err_str = "Failed to remove all : " + rel_temp_path.string();
+                error(err_str);
+                return ESYSREPO_RESULT(ResultCode::RAW_INT_ERROR, result, err_str);
             }
         }
         else
@@ -223,8 +224,9 @@ int GitHelper::clone(const std::string &url, const std::string &temp_path, const
             int result = boost_no_all::remove_all(temp_path);
             if (result < 0)
             {
-                error("Failed to delete path : " + temp_path);
-                return result;
+                std::string err_str = "Failed to delete path : " + temp_path;
+                error(err_str);
+                return ESYSREPO_RESULT(ResultCode::RAW_INT_ERROR, result, err_str);
             }
         }
     }
@@ -245,7 +247,7 @@ int GitHelper::clone(const std::string &url, const std::string &temp_path, const
     if (result.error())
     {
         error("Failed to clone");
-        return result.get_result_code_int();
+        return ESYSREPO_RESULT(result);
     }
 
     if (do_close) close(log::Level::DEBUG);
@@ -258,15 +260,16 @@ int GitHelper::clone(const std::string &url, const std::string &temp_path, const
         oss << "Move:\n    src  : " << rel_temp_path.string() << "\n    dest : " << rel_path.string();
 
         int result = log_wrap(boost_no_all::move, log::Level::DEBUG)(oss.str(), temp_path, path, true);
-        if (result < 0) return result;
+        if (result < 0) return ESYSREPO_RESULT(ResultCode::RAW_INT_ERROR, result);
     }
     else
     {
         int result = boost_no_all::move(temp_path, path, true);
         if (result == -1)
         {
-            error("Failed to copy from temp_path to path : " + temp_path + " -> " + path);
-            return result;
+            std::string err_str = "Failed to copy from temp_path to path : " + temp_path + " -> " + path;
+            error(err_str);
+            return ESYSREPO_RESULT(ResultCode::RAW_INT_ERROR, result, err_str);
         }
         else if (result == -2)
             warn("Failed to delete temp_path : " + temp_path);
@@ -275,7 +278,7 @@ int GitHelper::clone(const std::string &url, const std::string &temp_path, const
     auto d_milli = std::chrono::duration_cast<std::chrono::milliseconds>(stop_time - start_time).count();
 
     done("Cloning", static_cast<uint64_t>(d_milli));
-    return 0;
+    return ESYSREPO_RESULT(ResultCode::OK);
 }
 
 Result GitHelper::close(log::Level log_level, int debug_level)
@@ -297,47 +300,47 @@ Result GitHelper::close(log::Level log_level, int debug_level)
     return ESYSREPO_RESULT(result, err_str);
 }
 
-int GitHelper::fastforward(const git::CommitHash &commit, log::Level log_level, int debug_level)
+Result GitHelper::fastforward(const git::CommitHash &commit, log::Level log_level, int debug_level)
 {
     log("Fast forwarding ...", log_level, debug_level);
 
-    int result = get_git()->fastforward(commit);
-    if (result < 0)
-        error("Failed with error ", result);
+    Result result = get_git()->fastforward(commit);
+    if (result.error())
+        error("Failed with error ", result.get_result_code_int());
     else
         log("Fast forwarded successfully.", log_level, debug_level);
 
-    return result;
+    return ESYSREPO_RESULT(result);
 }
 
-int GitHelper::fetch(const std::string &remote, log::Level log_level, int debug_level)
+Result GitHelper::fetch(const std::string &remote, log::Level log_level, int debug_level)
 {
     log("Fetching ...", log_level, debug_level);
 
-    int result = get_git()->fetch(remote);
-    if (result < 0)
-        error("Failed with error ", result);
+    Result result = get_git()->fetch(remote);
+    if (result.error())
+        error("Failed with error ", result.get_result_code_int());
     else
         log("Fetched successfully.", log_level, debug_level);
 
-    return result;
+    return ESYSREPO_RESULT(result);
 }
 
-int GitHelper::fetch(log::Level log_level, int debug_level)
+Result GitHelper::fetch(log::Level log_level, int debug_level)
 {
     return fetch("", log_level, debug_level);
 }
 
-int GitHelper::get_branches(git::Branches &branches, git::BranchType branch_type, log::Level log_level, int debug_level)
+Result GitHelper::get_branches(git::Branches &branches, git::BranchType branch_type, log::Level log_level, int debug_level)
 {
     log("Getting branches ...", log::Level::DEBUG);
-    int result = get_git()->get_branches(branches, branch_type);
-    if (result < 0)
-        error("Failed with error ", result);
+    Result result = get_git()->get_branches(branches, branch_type);
+    if (result.error())
+        error("Failed with error ", result.get_result_code_int());
     else
         log("Got branches.", log::Level::DEBUG);
 
-    return result;
+    return ESYSREPO_RESULT(result);
 }
 
 bool GitHelper::has_branch(const std::string &name, git::BranchType branch_type, log::Level log_level, int debug_level)
@@ -373,10 +376,10 @@ int GitHelper::get_hash_local(const std::string &revision, std::string &hash, lo
     return result;
 }
 
-int GitHelper::is_dirty(bool &dirty, log::Level log_level, int debug_level)
+Result GitHelper::is_dirty(bool &dirty, log::Level log_level, int debug_level)
 {
-    int result = get_git()->is_dirty(dirty);
-    if (result < 0)
+    Result result = get_git()->is_dirty(dirty);
+    if (result.error())
         error("Failed to check there are changes in the git repo.");
     else
     {
@@ -385,13 +388,13 @@ int GitHelper::is_dirty(bool &dirty, log::Level log_level, int debug_level)
         else
             log("No changes in the git repo", log_level, debug_level);
     }
-    return result;
+    return ESYSREPO_RESULT(result);
 }
 
-int GitHelper::is_detached(bool &detached, log::Level log_level, int debug_level)
+Result GitHelper::is_detached(bool &detached, log::Level log_level, int debug_level)
 {
-    int result = get_git()->is_detached(detached);
-    if (result < 0)
+    Result result = get_git()->is_detached(detached);
+    if (result.error())
         error("Failed to check if the git repo is detached or not.");
     else
     {
@@ -400,39 +403,39 @@ int GitHelper::is_detached(bool &detached, log::Level log_level, int debug_level
         else
             log("Git repo is not detached", log_level, debug_level);
     }
-    return result;
+    return ESYSREPO_RESULT(result);
 }
 
-int GitHelper::get_status(git::RepoStatus &status, log::Level log_level, int debug_level)
+Result GitHelper::get_status(git::RepoStatus &status, log::Level log_level, int debug_level)
 {
-    int result = get_git()->get_status(status);
-    if (result < 0)
+    Result result = get_git()->get_status(status);
+    if (result.error())
         error("Failed to get the repo status");
     else
         log("Succeeded to get repo status", log_level, debug_level);
 
-    return result;
+    return ESYSREPO_RESULT(result);
 }
 
-int GitHelper::checkout(const std::string &branch, bool force, log::Level log_level, int debug_level)
+Result GitHelper::checkout(const std::string &branch, bool force, log::Level log_level, int debug_level)
 {
     Result result = get_git()->checkout(branch, force);
     if (result.error())
         error("Failed to checkout");
     else
         log("Checkout succeeded", log_level, debug_level);
-    return result.get_result_code_int();
+    return ESYSREPO_RESULT(result);
 }
 
-int GitHelper::merge_analysis(const std::vector<std::string> &refs, git::MergeAnalysisResult &merge_analysis_result,
+Result GitHelper::merge_analysis(const std::vector<std::string> &refs, git::MergeAnalysisResult &merge_analysis_result,
                               std::vector<git::CommitHash> &commits, log::Level log_level, int debug_level)
 {
-    int result = get_git()->merge_analysis(refs, merge_analysis_result, commits);
-    if (result < 0)
+    Result result = get_git()->merge_analysis(refs, merge_analysis_result, commits);
+    if (result.error())
         error("Merge analysis failed");
     else
         log("Merge analysis succeeded", log_level, debug_level);
-    return result;
+    return ESYSREPO_RESULT(result);
 }
 
 Result GitHelper::move(const std::string &src, const std::string &dst, bool recursive, log::Level log_level,

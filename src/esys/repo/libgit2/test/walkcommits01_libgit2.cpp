@@ -108,8 +108,8 @@ ESYSTEST_AUTO_TEST_CASE(WalkCommits01LibGit2)
 
     auto the_walk_commit = std::make_shared<TheWalkCommit>();
 
-    int result_int = git.walk_commits(the_walk_commit);
-    ESYSTEST_REQUIRE_EQUAL(result_int, 0);
+    result = git.walk_commits(the_walk_commit);
+    ESYSTEST_REQUIRE_EQUAL(result.ok(), true);
 
     result = git.close();
     ESYSTEST_REQUIRE_EQUAL(result.ok(), true);

@@ -116,16 +116,16 @@ int CmdInfo::open_repo(std::shared_ptr<manifest::Repository> repo)
     if (rresult.error()) return rresult.get_result_code_int();
 
     m_last_commit = std::make_shared<git::CommitHash>();
-    int result = get_git()->get_last_commit(*m_last_commit);
-    if (result < 0) m_last_commit.reset();
+    rresult = get_git()->get_last_commit(*m_last_commit);
+    if (rresult.error()) m_last_commit.reset();
 
     m_branches.clear();
 
-    result = git_helper->get_branches(m_branches, git::BranchType::LOCAL, log::Level::DEBUG);
-    if (result < 0)
+    rresult = git_helper->get_branches(m_branches, git::BranchType::LOCAL, log::Level::DEBUG);
+    if (rresult.error())
     {
         git_helper->close(log::Level::DEBUG);
-        return result;
+        return rresult.get_result_code_int();
     }
     return git_helper->close(log::Level::DEBUG).get_result_code_int();
 }

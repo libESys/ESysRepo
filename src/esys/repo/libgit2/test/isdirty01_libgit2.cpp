@@ -67,8 +67,8 @@ ESYSTEST_AUTO_TEST_CASE(IsDirty01LibGit2)
     ESYSTEST_REQUIRE_EQUAL(result.ok(), true);
 
     bool dirty = false;
-    int result_int = git.is_dirty(dirty);
-    ESYSTEST_REQUIRE_EQUAL(result_int, 0);
+    result = git.is_dirty(dirty);
+    ESYSTEST_REQUIRE_EQUAL(result.ok(), true);
     ESYSTEST_REQUIRE_EQUAL(dirty, false);
 
     boost::filesystem::path new_file_path = file_path;
@@ -78,8 +78,8 @@ ESYSTEST_AUTO_TEST_CASE(IsDirty01LibGit2)
     nf << "Noting special" << std::endl;
     nf.close();
 
-    result_int = git.is_dirty(dirty);
-    ESYSTEST_REQUIRE_EQUAL(result_int, 0);
+    result = git.is_dirty(dirty);
+    ESYSTEST_REQUIRE_EQUAL(result.ok(), true);
     ESYSTEST_REQUIRE_EQUAL(dirty, false);
 
     boost::filesystem::path old_file_path = file_path;
@@ -91,8 +91,8 @@ ESYSTEST_AUTO_TEST_CASE(IsDirty01LibGit2)
     f << "Append some silly text" << std::endl;
     f.close();
 
-    result_int = git.is_dirty(dirty);
-    ESYSTEST_REQUIRE_EQUAL(result_int, 0);
+    result = git.is_dirty(dirty);
+    ESYSTEST_REQUIRE_EQUAL(result.ok(), true);
     ESYSTEST_REQUIRE_EQUAL(dirty, true);
 
     result = git.close();

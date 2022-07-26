@@ -88,8 +88,8 @@ int Basic::new_commit(GitBase *git_base, std::shared_ptr<git::Commit> commit)
     data_period_author->inc_commit_count();
 
     std::shared_ptr<git::Diff> diff = std::make_shared<git::Diff>();
-    int result = git_base->diff(commit->get_hash(), diff);
-    if (result < 0) return -1;
+    Result result = git_base->diff(commit->get_hash(), diff);
+    if (result.error()) return result.get_result_code_int();
 
     data_period_author->inc_line_added(diff.get()->get_insertions());
     data_period_author->inc_line_removed(diff.get()->get_deletions());

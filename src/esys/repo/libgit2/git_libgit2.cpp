@@ -54,12 +54,12 @@ Result Git::close()
     return get_impl()->close();
 }
 
-int Git::get_remotes(std::vector<git::Remote> &remotes)
+Result Git::get_remotes(std::vector<git::Remote> &remotes)
 {
     return get_impl()->get_remotes(remotes);
 }
 
-int Git::get_branches(git::Branches &branches, git::BranchType branch_type)
+Result Git::get_branches(git::Branches &branches, git::BranchType branch_type)
 {
     return get_impl()->get_branches(branches, branch_type);
 }
@@ -75,37 +75,37 @@ Result Git::checkout(const std::string &branch, bool force)
     return get_impl()->checkout(branch, force);
 }
 
-int Git::reset(const git::CommitHash &commit, git::ResetType type)
+Result Git::reset(const git::CommitHash &commit, git::ResetType type)
 {
     return get_impl()->reset(commit, type);
 }
 
-int Git::fastforward(const git::CommitHash &commit)
+Result Git::fastforward(const git::CommitHash &commit)
 {
     return get_impl()->fastforward(commit);
 }
 
-int Git::get_last_commit(git::CommitHash &commit)
+Result Git::get_last_commit(git::CommitHash &commit)
 {
     return get_impl()->get_last_commit(commit);
 }
 
-int Git::get_parent_commit(const git::CommitHash &commit, git::CommitHash &parent, int nth_parent)
+Result Git::get_parent_commit(const git::CommitHash &commit, git::CommitHash &parent, int nth_parent)
 {
     return get_impl()->get_parent_commit(commit, parent, nth_parent);
 }
 
-int Git::is_dirty(bool &dirty)
+Result Git::is_dirty(bool &dirty)
 {
     return get_impl()->is_dirty(dirty);
 }
 
-int Git::is_detached(bool &detached)
+Result Git::is_detached(bool &detached)
 {
     return get_impl()->is_detached(detached);
 }
 
-int Git::get_status(git::RepoStatus &repo_status)
+Result Git::get_status(git::RepoStatus &repo_status)
 {
     return m_impl->get_status(repo_status);
 }
@@ -127,13 +127,13 @@ void Git::detect_ssh_agent(bool log_once)
     if (s_ssh_agent_running && log_once) info("SSH agent detected");
 }
 
-int Git::merge_analysis(const std::vector<std::string> &refs, git::MergeAnalysisResult &merge_analysis_result,
+Result Git::merge_analysis(const std::vector<std::string> &refs, git::MergeAnalysisResult &merge_analysis_result,
                         std::vector<git::CommitHash> &commits)
 {
     return m_impl->merge_analysis(refs, merge_analysis_result, commits);
 }
 
-int Git::fetch(const std::string &remote)
+Result Git::fetch(const std::string &remote)
 {
     return m_impl->fetch(remote);
 }
@@ -148,12 +148,12 @@ int Git::get_hash(const std::string &revision, std::string &hash, git::BranchTyp
     return m_impl->get_hash(revision, hash, branch_type);
 }
 
-int Git::walk_commits(std::shared_ptr<git::WalkCommit> walk_commit)
+Result Git::walk_commits(std::shared_ptr<git::WalkCommit> walk_commit)
 {
     return m_impl->walk_commits(walk_commit);
 }
 
-int Git::diff(const git::CommitHash commit_hash, std::shared_ptr<git::Diff> diff)
+Result Git::diff(const git::CommitHash commit_hash, std::shared_ptr<git::Diff> diff)
 {
     return m_impl->diff(commit_hash, diff);
 }

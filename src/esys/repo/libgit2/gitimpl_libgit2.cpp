@@ -83,26 +83,27 @@ Result GitImpl::close()
     return ESYSREPO_RESULT(ResultCode::OK);
 }
 
-int GitImpl::get_remotes(std::vector<git::Remote> &remotes)
+Result GitImpl::get_remotes(std::vector<git::Remote> &remotes)
 {
-    if (m_repo == nullptr) return -1;
+    if (m_repo == nullptr) return ESYSREPO_RESULT(ResultCode::INTERNAL_ERROR);
 
     self()->cmd_start();
 
     GuardS<git_strarray> data;
 
     int result = git_remote_list(data.get(), m_repo);
-    if (result < 0) return check_error(result);
+    if (result < 0) return check_error(ESYSREPO_RESULT(ResultCode::GIT_RAW_INT_ERROR, result));
 
     char **p = data.get()->strings;
 
-    if (data.get()->count == 0) return check_error(0);
-    if (p == nullptr) return check_error(-1, "Not data");
+    if (data.get()->count == 0) return check_error(ESYSREPO_RESULT(ResultCode::OK));
+
+    if (p == nullptr) return check_error(ESYSREPO_RESULT(ResultCode::GIT_GENERIC_ERROR, "No data"));
 
     for (auto idx = 0; idx < data.get()->count; ++idx)
     {
         char *name = *p;
-        if (name == nullptr) return check_error(-1, "Not name");
+        if (name == nullptr) return check_error(ESYSREPO_RESULT(ResultCode::GIT_GENERIC_ERROR, "No name"));
 
         git::Remote remote;
 
@@ -123,7 +124,7 @@ int GitImpl::get_remotes(std::vector<git::Remote> &remotes)
 
         // Find the remote by name
         result = git_remote_lookup(remote.get_p(), m_repo, remote_item.get_name().c_str());
-        if (result < 0) return check_error(result, "");
+        if (result < 0) return check_error(ESYSREPO_RESULT(ResultCode::GIT_RAW_INT_ERROR, result));
 
         const char *url = git_remote_url(remote.get());
         remote_item.set_url(url);
@@ -132,12 +133,12 @@ int GitImpl::get_remotes(std::vector<git::Remote> &remotes)
         if (result < 0) return check_error(result, ""); */
     }
 
-    return check_error(0);
+    return check_error(ESYSREPO_RESULT(ResultCode::OK));
 }
 
-int GitImpl::get_branches(git::Branches &branches, git::BranchType branch_type)
+Result GitImpl::get_branches(git::Branches &branches, git::BranchType branch_type)
 {
-    if (m_repo == nullptr) return -1;
+    if (m_repo == nullptr) return ESYSREPO_RESULT(ResultCode::INTERNAL_ERROR);
 
     self()->cmd_start();
 
@@ -147,7 +148,7 @@ int GitImpl::get_branches(git::Branches &branches, git::BranchType branch_type)
     convert(branch_type, list_flags);
 
     int result = git_branch_iterator_new(branch_it.get_p(), m_repo, list_flags);
-    if (result < 0) return check_error(result);
+    if (result < 0) return check_error(ESYSREPO_RESULT(ResultCode::GIT_RAW_INT_ERROR, result));
 
     while (true)
     {
@@ -155,13 +156,13 @@ int GitImpl::get_branches(git::Branches &branches, git::BranchType branch_type)
         git_branch_t git_branch_type = GIT_BRANCH_ALL;
 
         result = git_branch_next(ref.get_p(), &git_branch_type, branch_it.get());
-        if (result == GIT_ITEROVER) return check_error(0);
-        if (result < 0) return check_error(result);
+        if (result == GIT_ITEROVER) return check_error(ESYSREPO_RESULT(ResultCode::OK));
+        if (result < 0) check_error(ESYSREPO_RESULT(ResultCode::GIT_RAW_INT_ERROR, result));
 
         std::shared_ptr<git::Branch> branch = std::make_shared<git::Branch>();
         const char *branch_name = nullptr;
         result = git_branch_name(&branch_name, ref.get());
-        if (result < 0) return check_error(result);
+        if (result < 0) return check_error(ESYSREPO_RESULT(ResultCode::GIT_RAW_INT_ERROR, result));
 
         std::string ref_name = git_reference_name(ref.get());
 
@@ -203,7 +204,7 @@ int GitImpl::get_branches(git::Branches &branches, git::BranchType branch_type)
             check_error(result, "");
         branches.add(branch);
     }
-    return check_error(0);
+    return check_error(ESYSREPO_RESULT(ResultCode::OK));
 }
 
 bool GitImpl::has_branch(const std::string &name, git::BranchType branch_type)
@@ -254,32 +255,31 @@ int GitImpl::get_hash(const std::string &revision, std::string &hash, git::Branc
     return 0;
 }
 
-int GitImpl::treeish_to_tree(Guard<git_tree> &tree, git_repository *repo, const char *treeish)
+Result GitImpl::treeish_to_tree(Guard<git_tree> &tree, git_repository *repo, const char *treeish)
 {
     Guard<git_object> obj;
 
     int result = git_revparse_single(obj.get_p(), repo, treeish);
-    if (result < 0) return -1;
+    if (result < 0) return ESYSREPO_RESULT(ResultCode::GIT_RAW_INT_ERROR, result);
 
     result = git_object_peel((git_object **)tree.get_p(), obj.get(), GIT_OBJECT_TREE);
-
-    if (result < 0) return -1;
-    return 0;
+    if (result < 0) return ESYSREPO_RESULT(ResultCode::GIT_RAW_INT_ERROR, result);
+    return ESYSREPO_RESULT(ResultCode::OK);
 }
 
-int GitImpl::walk_commits(std::shared_ptr<git::WalkCommit> walk_commit)
+Result GitImpl::walk_commits(std::shared_ptr<git::WalkCommit> walk_commit)
 {
-    if (m_repo == nullptr) return -1;
-    if (walk_commit == nullptr) return -1;
+    if (m_repo == nullptr) return ESYSREPO_RESULT(ResultCode::INTERNAL_ERROR);
+    if (walk_commit == nullptr) return ESYSREPO_RESULT(ResultCode::INTERNAL_ERROR);
 
     git::CommitHash hash;
-    int result = get_last_commit(hash);
-    if (result < 0) return -1;
+    Result rresult = get_last_commit(hash);
+    if (rresult.error()) return ESYSREPO_RESULT(rresult);
 
     git_oid oid;
 
-    result = convert_hex_bin(hash.get_hash(), oid);
-    if (result < 0) return -1;
+    int result = convert_hex_bin(hash.get_hash(), oid);
+    if (result < 0) return ESYSREPO_RESULT(ResultCode::GIT_RAW_INT_ERROR, result);
 
     Guard<git_revwalk> walker;
     Guard<git_commit> commit;
@@ -294,9 +294,10 @@ int GitImpl::walk_commits(std::shared_ptr<git::WalkCommit> walk_commit)
 
     while (git_revwalk_next(&oid, walker.get()) == 0)
     {
-        if (git_commit_lookup(commit.get_p(), m_repo, &oid) != 0)
+        result = git_commit_lookup(commit.get_p(), m_repo, &oid);
+        if (result != 0)
         {
-            return -2;
+            return ESYSREPO_RESULT(ResultCode::GIT_RAW_INT_ERROR, result);
         }
 
         commit_message = git_commit_message(commit.get());
@@ -314,54 +315,53 @@ int GitImpl::walk_commits(std::shared_ptr<git::WalkCommit> walk_commit)
         commit_info->set_date_time(std::chrono::system_clock::from_time_t(commit_time_t));
 
         result = convert_bin_hex(oid, commit_info->get_hash().get_hash());
-        if (result < 0) return -2;
+        if (result < 0) return ESYSREPO_RESULT(ResultCode::GIT_RAW_INT_ERROR, result);
 
         walk_commit->new_commit(self(), commit_info);
         commit.reset();
     }
 
-    return 0;
-    // self()->cmd_start();
+    return ESYSREPO_RESULT(ResultCode::OK);
 }
 
-int GitImpl::diff(const git::CommitHash commit_hash, std::shared_ptr<git::Diff> diff)
+Result GitImpl::diff(const git::CommitHash commit_hash, std::shared_ptr<git::Diff> diff)
 {
     Guard<git_tree> commit_tree;
     Guard<git_tree> parent_tree;
     bool has_parent = true;
 
-    int result = treeish_to_tree(commit_tree, m_repo, commit_hash.get_hash().c_str());
-    if (result < 0) return -1;
+    Result result = treeish_to_tree(commit_tree, m_repo, commit_hash.get_hash().c_str());
+    if (result.error()) return ESYSREPO_RESULT(result);
 
     git::CommitHash parent_hash;
     result = get_parent_commit(commit_hash, parent_hash);
-    if (result < 0)
+    if (result.error())
         has_parent = false;
     else
     {
         result = treeish_to_tree(parent_tree, m_repo, parent_hash.get_hash().c_str());
-        if (result < 0) return -1;
+        if (result.error()) return ESYSREPO_RESULT(result);
     }
 
     Guard<git_diff> the_diff;
     git_diff_options diffopts;
 
-    result = git_diff_options_init(&diffopts, GIT_DIFF_OPTIONS_VERSION);
-    if (result < 0) return -1;
+    int result_int = git_diff_options_init(&diffopts, GIT_DIFF_OPTIONS_VERSION);
+    if (result_int < 0) return ESYSREPO_RESULT(ResultCode::GIT_RAW_INT_ERROR, result_int);
 
     // diffopts.id_abbrev = 40;
 
     if (has_parent)
-        result = git_diff_tree_to_tree(the_diff.get_p(), m_repo, parent_tree.get(), commit_tree.get(), &diffopts);
+        result_int = git_diff_tree_to_tree(the_diff.get_p(), m_repo, parent_tree.get(), commit_tree.get(), &diffopts);
     else
-        result = git_diff_tree_to_tree(the_diff.get_p(), m_repo, nullptr, commit_tree.get(), &diffopts);
+        result_int = git_diff_tree_to_tree(the_diff.get_p(), m_repo, nullptr, commit_tree.get(), &diffopts);
 
-    if (result < 0) return -1;
+    if (result_int < 0) return ESYSREPO_RESULT(ResultCode::GIT_RAW_INT_ERROR, result_int);
 
     Guard<git_diff_stats> diff_stats;
 
-    result = git_diff_get_stats(diff_stats.get_p(), the_diff.get());
-    if (result < 0) return -1;
+    result_int = git_diff_get_stats(diff_stats.get_p(), the_diff.get());
+    if (result_int < 0) return ESYSREPO_RESULT(ResultCode::GIT_RAW_INT_ERROR, result_int);
 
     /*diff_file_stats *filestats;
 
@@ -377,7 +377,7 @@ int GitImpl::diff(const git::CommitHash commit_hash, std::shared_ptr<git::Diff> 
     diff->set_insertions(static_cast<unsigned int>(git_diff_stats_insertions(diff_stats.get())));
     diff->set_deletions(static_cast<unsigned int>(git_diff_stats_deletions(diff_stats.get())));
     diff->set_renames(static_cast<unsigned int>(git_diff_stats_renames(diff_stats.get())));
-    return 0;
+    return ESYSREPO_RESULT(ResultCode::OK);
 }
 
 Result GitImpl::clone(const std::string &url, const std::string &path, const std::string &branch)
@@ -552,37 +552,39 @@ Result GitImpl::checkout(const std::string &branch, bool force)
     }
 }
 
-int GitImpl::reset(const git::CommitHash &commit, git::ResetType type)
+Result GitImpl::reset(const git::CommitHash &commit, git::ResetType type)
 {
-    if (m_repo == nullptr) return -1;
+    if (m_repo == nullptr) return ESYSREPO_RESULT(ResultCode::INTERNAL_ERROR);
 
     int result = 0;
     git_reset_t reset_type = GIT_RESET_SOFT;
 
     switch (type)
     {
-        case git::ResetType::NOT_SET: return -2;
+        case git::ResetType::NOT_SET: return ESYSREPO_RESULT(ResultCode::GIT_RESET_TYPE_NOT_SET);
         case git::ResetType::HARD: reset_type = GIT_RESET_HARD; break;
         case git::ResetType::MIXED: reset_type = GIT_RESET_MIXED; break;
         case git::ResetType::SOFT: reset_type = GIT_RESET_SOFT; break;
-        default: return -3;
+        default: return ESYSREPO_RESULT(ResultCode::GIT_RESET_TYPE_UNKNOWN);
     }
 
     Guard<git_commit> g_commit;
     git_oid oid_commit;
 
     result = convert_hex_bin(commit.get_hash(), oid_commit);
-    if (result < 0) return check_error(0);
+    if (result < 0) return check_error(ESYSREPO_RESULT(ResultCode::GIT_RAW_INT_ERROR, result));
 
     // get the actual commit structure
     result = git_commit_lookup(g_commit.get_p(), m_repo, &oid_commit);
-    if (result < 0) return check_error(result);
+    if (result < 0) return check_error(ESYSREPO_RESULT(ResultCode::GIT_RAW_INT_ERROR, result));
 
     auto t_commit = static_cast<git_object *>(static_cast<void *>(g_commit.get()));
-    return git_reset(m_repo, t_commit, reset_type, nullptr);
+    result = git_reset(m_repo, t_commit, reset_type, nullptr);
+    if (result == 0) return check_error(ESYSREPO_RESULT(ResultCode::OK));
+    return check_error(ESYSREPO_RESULT(ResultCode::GIT_RAW_INT_ERROR, result));
 }
 
-int GitImpl::fastforward(const git::CommitHash &commit)
+Result GitImpl::fastforward(const git::CommitHash &commit)
 {
     git_checkout_options ff_checkout_options = GIT_CHECKOUT_OPTIONS_INIT;
     Guard<git_reference> target_ref;
@@ -594,31 +596,36 @@ int GitImpl::fastforward(const git::CommitHash &commit)
     assert(m_repo != nullptr);
 
     result = convert_hex_bin(commit.get_hash(), target_oid);
-    if (result < 0) return check_error(result);
+    if (result < 0) return check_error(ESYSREPO_RESULT(ResultCode::GIT_RAW_INT_ERROR, result));
 
     // HEAD exists, just lookup and resolve
     result = git_repository_head(target_ref.get_p(), m_repo);
-    if (result != 0) return check_error(result, "failed to get HEAD reference");
+    if (result != 0)
+        return check_error(ESYSREPO_RESULT(ResultCode::GIT_RAW_INT_ERROR, result, "failed to get HEAD reference"));
 
     // Lookup the target object
     result = git_object_lookup(target.get_p(), m_repo, &target_oid, GIT_OBJECT_COMMIT);
-    if (result != 0) return check_error(result, "failed to lookup OID " + commit.get_hash());
+    if (result != 0)
+        return check_error(
+            ESYSREPO_RESULT(ResultCode::GIT_RAW_INT_ERROR, result, "failed to lookup OID " + commit.get_hash()));
 
     // Checkout the result so the workdir is in the expected state
     ff_checkout_options.checkout_strategy = GIT_CHECKOUT_SAFE;
     result = git_checkout_tree(m_repo, target.get(), &ff_checkout_options);
-    if (result != 0) return check_error(result, "failed to checkout HEAD reference");
+    if (result != 0)
+        return check_error(ESYSREPO_RESULT(ResultCode::GIT_RAW_INT_ERROR, result, "failed to checkout HEAD reference"));
 
     // Move the target reference to the target OID
     result = git_reference_set_target(new_target_ref.get_p(), target_ref.get(), &target_oid, nullptr);
-    if (result != 0) return check_error(result, "failed to move HEAD reference");
+    if (result != 0)
+        return check_error(ESYSREPO_RESULT(ResultCode::GIT_RAW_INT_ERROR, result, "failed to move HEAD reference"));
 
-    return 0;
+    return ESYSREPO_RESULT(ResultCode::OK);
 }
 
-int GitImpl::get_last_commit(git::CommitHash &commit)
+Result GitImpl::get_last_commit(git::CommitHash &commit)
 {
-    if (m_repo == nullptr) return -1;
+    if (m_repo == nullptr) return ESYSREPO_RESULT(ResultCode::INTERNAL_ERROR);
 
     int result = 0;
     Guard<git_commit> g_commit;
@@ -628,22 +635,26 @@ int GitImpl::get_last_commit(git::CommitHash &commit)
 
     // resolve HEAD into a SHA1
     result = git_reference_name_to_id(&oid_last_commit, m_repo, "HEAD");
-    if (result < 0) return check_error(result);
+    if (result < 0) return check_error(ESYSREPO_RESULT(ResultCode::GIT_RAW_INT_ERROR, result));
 
     // get the actual commit structure
     result = git_commit_lookup(g_commit.get_p(), m_repo, &oid_last_commit);
-    if (result < 0) return check_error(result);
+    if (result < 0) return check_error(ESYSREPO_RESULT(ResultCode::GIT_RAW_INT_ERROR, result));
 
     std::string hash;
     result = convert_bin_hex(oid_last_commit, hash);
-    if (result == 0) commit.set_hash(hash);
+    if (result == 0)
+    {
+        commit.set_hash(hash);
+        return check_error(ESYSREPO_RESULT(ResultCode::OK));
+    }
 
-    return check_error(result);
+    return check_error(ESYSREPO_RESULT(ResultCode::GIT_RAW_INT_ERROR, result));
 }
 
-int GitImpl::get_parent_commit(const git::CommitHash &commit, git::CommitHash &parent, int nth_parent)
+Result GitImpl::get_parent_commit(const git::CommitHash &commit, git::CommitHash &parent, int nth_parent)
 {
-    if (m_repo == nullptr) return -1;
+    if (m_repo == nullptr) return ESYSREPO_RESULT(ResultCode::INTERNAL_ERROR);
 
     Guard<git_commit> g_commit;
     Guard<git_commit> cur_commit;
@@ -655,26 +666,26 @@ int GitImpl::get_parent_commit(const git::CommitHash &commit, git::CommitHash &p
     if (nth_parent == 0)
     {
         parent = commit;
-        return check_error(0);
+        return check_error(ESYSREPO_RESULT(ResultCode::OK));
     }
 
     int result = convert_hex_bin(commit.get_hash(), oid_commit);
-    if (result < 0) return check_error(0);
+    if (result < 0) return check_error(ESYSREPO_RESULT(ResultCode::GIT_RAW_INT_ERROR, result));
 
     // get the actual commit structure
     result = git_commit_lookup(cur_commit.get_p(), m_repo, &oid_commit);
-    if (result < 0) return check_error(result);
+    if (result < 0) return check_error(ESYSREPO_RESULT(ResultCode::GIT_RAW_INT_ERROR, result));
 
     unsigned int count = 0;
 
     for (int idx = 0; idx < nth_parent; ++idx)
     {
         count = git_commit_parentcount(cur_commit.get());
-        if (count <= 0) return check_error(-2);
+        if (count <= 0) return check_error(ESYSREPO_RESULT(ResultCode::GIT_RAW_INT_ERROR, result));
 
         parent_commit.reset();
         result = git_commit_parent(parent_commit.get_p(), cur_commit.get(), 0);
-        if (result < 0) return check_error(result);
+        if (result < 0) return check_error(ESYSREPO_RESULT(ResultCode::GIT_RAW_INT_ERROR, result));
 
         cur_commit = parent_commit;
     }
@@ -684,14 +695,18 @@ int GitImpl::get_parent_commit(const git::CommitHash &commit, git::CommitHash &p
 
     std::string hash;
     result = convert_bin_hex(*parent_commit_id, hash);
-    if (result == 0) parent.set_hash(hash);
+    if (result == 0)
+    {
+        parent.set_hash(hash);
+        return ESYSREPO_RESULT(ResultCode::OK);
+    }
 
-    return check_error(result);
+    return check_error(ESYSREPO_RESULT(ResultCode::GIT_RAW_INT_ERROR, result));
 }
 
-int GitImpl::is_dirty(bool &dirty)
+Result GitImpl::is_dirty(bool &dirty)
 {
-    if (m_repo == nullptr) return -1;
+    if (m_repo == nullptr) return ESYSREPO_RESULT(ResultCode::INTERNAL_ERROR);
 
     Guard<git_status_list> status;
     git_status_options statusopt = GIT_STATUS_OPTIONS_INIT;
@@ -702,30 +717,30 @@ int GitImpl::is_dirty(bool &dirty)
     statusopt.flags = GIT_STATUS_OPT_RENAMES_HEAD_TO_INDEX | GIT_STATUS_OPT_SORT_CASE_SENSITIVELY;
 
     int result = git_status_list_new(status.get_p(), m_repo, &statusopt);
-    if (result < 0) return check_error(result);
+    if (result < 0) return check_error(ESYSREPO_RESULT(ResultCode::GIT_RAW_INT_ERROR, result));
 
     std::size_t count = git_status_list_entrycount(status.get());
     dirty = (count != 0);
-    return check_error(0);
+    return check_error(ESYSREPO_RESULT(ResultCode::OK));
 }
 
-int GitImpl::is_detached(bool &detached)
+Result GitImpl::is_detached(bool &detached)
 {
-    if (m_repo == nullptr) return -1;
+    if (m_repo == nullptr) return ESYSREPO_RESULT(ResultCode::INTERNAL_ERROR);
 
     int result = git_repository_head_detached(m_repo);
-    if (result < 0) return result;
+    if (result < 0) return ESYSREPO_RESULT(ResultCode::GIT_RAW_INT_ERROR, result);
 
     if (result == 1)
         detached = true;
     else
         detached = false;
-    return 0;
+    return ESYSREPO_RESULT(ResultCode::OK);
 }
 
-int GitImpl::get_status(git::RepoStatus &repo_status)
+Result GitImpl::get_status(git::RepoStatus &repo_status)
 {
-    if (m_repo == nullptr) return -1;
+    if (m_repo == nullptr) return ESYSREPO_RESULT(ResultCode::INTERNAL_ERROR);
 
     const git_status_entry *status_entry = nullptr;
     Guard<git_status_list> status_list;
@@ -738,7 +753,7 @@ int GitImpl::get_status(git::RepoStatus &repo_status)
         GIT_STATUS_OPT_INCLUDE_UNTRACKED | GIT_STATUS_OPT_RENAMES_HEAD_TO_INDEX | GIT_STATUS_OPT_SORT_CASE_SENSITIVELY;
 
     int result = git_status_list_new(status_list.get_p(), m_repo, &statusopt);
-    if (result < 0) return check_error(result);
+    if (result < 0) return check_error(ESYSREPO_RESULT(ResultCode::GIT_RAW_INT_ERROR, result));
 
     std::size_t count = git_status_list_entrycount(status_list.get());
 
@@ -748,7 +763,7 @@ int GitImpl::get_status(git::RepoStatus &repo_status)
 
         handle_status_entry(repo_status, status_entry);
     }
-    return check_error(0);
+    return check_error(ESYSREPO_RESULT(ResultCode::OK));
 }
 
 int GitImpl::handle_status_entry(git::RepoStatus &repo_status, const git_status_entry *status_entry)
@@ -1083,7 +1098,7 @@ bool GitImpl::is_ssh_agent_running()
     return present;
 }
 
-int GitImpl::merge_analysis(const std::vector<std::string> &refs, git::MergeAnalysisResult &merge_analysis_result,
+Result GitImpl::merge_analysis(const std::vector<std::string> &refs, git::MergeAnalysisResult &merge_analysis_result,
                             std::vector<git::CommitHash> &commits)
 {
     git_repository_state_t state = GIT_REPOSITORY_STATE_NONE;
@@ -1093,12 +1108,12 @@ int GitImpl::merge_analysis(const std::vector<std::string> &refs, git::MergeAnal
     git::CommitHash commit;
     int result = 0;
 
-    if (m_repo == nullptr) return -1;
+    if (m_repo == nullptr) return ESYSREPO_RESULT(ResultCode::INTERNAL_ERROR);
 
     state = static_cast<git_repository_state_t>(git_repository_state(m_repo));
     if (state != GIT_REPOSITORY_STATE_NONE)
     {
-        return -1;
+        return ESYSREPO_RESULT(ResultCode::INTERNAL_ERROR);
     }
 
     std::vector<git_annotated_commit *> annotated_vec;
@@ -1144,25 +1159,25 @@ int GitImpl::merge_analysis(const std::vector<std::string> &refs, git::MergeAnal
         merge_analysis_result = git::MergeAnalysisResult::UNBORN;
     else
         merge_analysis_result = git::MergeAnalysisResult::NONE;
-    return 0;
+    return ESYSREPO_RESULT(ResultCode::OK);
 }
 
-int GitImpl::fetch(const std::string &remote_str)
+Result GitImpl::fetch(const std::string &remote_str)
 {
-    if (m_repo == nullptr) return -1;
+    if (m_repo == nullptr) return ESYSREPO_RESULT(ResultCode::INTERNAL_ERROR);
 
     Guard<git_remote> remote;
     std::string remote_name;
-    int result = 0;
 
     if (!remote_str.empty())
     {
-        result = git_remote_lookup(remote.get_p(), m_repo, remote_str.c_str());
+        int result = git_remote_lookup(remote.get_p(), m_repo, remote_str.c_str());
         if (result < 0)
         {
+            std::string err_str = "The given remote is not known : " + remote_str;
             // The remote is not known
-            self()->error("The given remote is not known : " + remote_str);
-            return -1;
+            self()->error(err_str);
+            return ESYSREPO_RESULT(ResultCode::GIT_RAW_INT_ERROR, result, err_str);
         }
 
         remote_name = git_remote_name(remote.get());
@@ -1171,29 +1186,31 @@ int GitImpl::fetch(const std::string &remote_str)
     {
         git::Branches branches;
 
-        result = get_branches(branches);
-        if (result < 0)
+        Result result = get_branches(branches);
+        if (result.error())
         {
-            self()->error("Couldn't get the branches for this git repo");
-            return -1;
+            std::string err_str = "Couldn't get the branches for this git repo";
+            self()->error(err_str);
+            return ESYSREPO_RESULT(result, err_str);
         }
 
         if (branches.size() == 0)
         {
             self()->error("No branches found for this git repo");
-            return -1;
+            return ESYSREPO_RESULT(ResultCode::GIT_NO_BRANCH_FOUND);
         }
 
         branches.sort();
 
         remote_name = branches.get()[0]->get_remote_name();
 
-        result = git_remote_lookup(remote.get_p(), m_repo, remote_name.c_str());
-        if (result < 0)
+        int result_int = git_remote_lookup(remote.get_p(), m_repo, remote_name.c_str());
+        if (result_int < 0)
         {
+            std::string err_str = "The given remote is not known : " + remote_name;
             // The remote is not known
-            self()->error("The given remote is not known : " + remote_name);
-            return -1;
+            self()->error(err_str);
+            return ESYSREPO_RESULT(ResultCode::GIT_RAW_INT_ERROR, result_int, err_str);
         }
     }
 
@@ -1206,18 +1223,19 @@ int GitImpl::fetch(const std::string &remote_str)
     fetch_opts.callbacks.credentials = &GitImpl::libgit2_credentials_cb;
     fetch_opts.callbacks.payload = this;
 
-    result = git_remote_fetch(remote.get(), nullptr, &fetch_opts, "fetch");
-    if (result < 0)
+    int result_int = git_remote_fetch(remote.get(), nullptr, &fetch_opts, "fetch");
+    if (result_int < 0)
     {
-        self()->error("Fetch failed");
-        return -1;
+        std::string err_str = "Fetch failed";
+        self()->error(err_str);
+        return ESYSREPO_RESULT(ResultCode::GIT_RAW_INT_ERROR, result_int, err_str);
     }
 
     const git_indexer_progress *stats = git_remote_stats(remote.get());
 
     //! \TODO what to do with the stats;
 
-    return result;
+    return ESYSREPO_RESULT(ResultCode::OK);
 }
 
 int GitImpl::resolve_ref(git_reference **ref, const std::string &ref_str)
@@ -1300,8 +1318,10 @@ int GitImpl::find_ref(git_annotated_commit **commit, const std::string &ref, std
     std::vector<git::Remote> remotes;
     int found_remotes = 0;
 
-    int result = get_remotes(remotes);
-    if (result != GIT_OK) return result;
+    Result rresult = get_remotes(remotes);
+    if (rresult.error()) return rresult.get_result_code_int();
+
+    int result = 0;
 
     for (auto &remote : remotes)
     {
@@ -1324,9 +1344,10 @@ int GitImpl::find_ref(git_reference **ref, git_annotated_commit **commit, const 
     std::vector<git::Remote> remotes;
     int found_remotes = 0;
 
-    int result = get_remotes(remotes);
-    if (result != GIT_OK) return result;
+    Result rresult = get_remotes(remotes);
+    if (rresult.error()) return rresult.get_result_code_int();
 
+    int result = 0;
     for (auto &remote : remotes)
     {
         new_ref = "refs/remotes/" + remote.get_name() + "/" + ref_str;

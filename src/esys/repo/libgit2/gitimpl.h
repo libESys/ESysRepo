@@ -49,21 +49,21 @@ public:
     bool is_open();
 
     Result close();
-    int get_remotes(std::vector<git::Remote> &remotes);
-    int get_branches(git::Branches &branches, git::BranchType branch_type = git::BranchType::LOCAL);
+    Result get_remotes(std::vector<git::Remote> &remotes);
+    Result get_branches(git::Branches &branches, git::BranchType branch_type = git::BranchType::LOCAL);
 
     Result clone(const std::string &url, const std::string &path, const std::string &branch = "");
     Result checkout(const std::string &branch, bool force = false);
-    int reset(const git::CommitHash &commit, git::ResetType type = git::ResetType::SOFT);
-    int fastforward(const git::CommitHash &commit);
+    Result reset(const git::CommitHash &commit, git::ResetType type = git::ResetType::SOFT);
+    Result fastforward(const git::CommitHash &commit);
 
-    int get_last_commit(git::CommitHash &commit);
-    int get_parent_commit(const git::CommitHash &commit, git::CommitHash &parent, int nth_parent = 1);
+    Result get_last_commit(git::CommitHash &commit);
+    Result get_parent_commit(const git::CommitHash &commit, git::CommitHash &parent, int nth_parent = 1);
 
-    int is_dirty(bool &dirty);
-    int is_detached(bool &detached);
+    Result is_dirty(bool &dirty);
+    Result is_detached(bool &detached);
 
-    int get_status(git::RepoStatus &repo_status);
+    Result get_status(git::RepoStatus &repo_status);
     int handle_status_entry(git::RepoStatus &repo_status, const git_status_entry *status_entry);
     int handle_status_entry_current(git::RepoStatus &repo_status, std::shared_ptr<git::Status> status,
                                     const git_status_entry *status_entry);
@@ -96,18 +96,18 @@ public:
 
     bool is_ssh_agent_running();
 
-    int merge_analysis(const std::vector<std::string> &refs, git::MergeAnalysisResult &merge_analysis_result,
+    Result merge_analysis(const std::vector<std::string> &refs, git::MergeAnalysisResult &merge_analysis_result,
                        std::vector<git::CommitHash> &commits);
 
-    int fetch(const std::string &remote);
+    Result fetch(const std::string &remote);
 
     bool has_branch(const std::string &name, git::BranchType branch_type = git::BranchType::LOCAL);
     int get_hash(const std::string &revision, std::string &hash, git::BranchType branch_type = git::BranchType::REMOTE);
 
-    int walk_commits(std::shared_ptr<git::WalkCommit> walk_commit);
-    int diff(const git::CommitHash commit_hash, std::shared_ptr<git::Diff> diff);
+    Result walk_commits(std::shared_ptr<git::WalkCommit> walk_commit);
+    Result diff(const git::CommitHash commit_hash, std::shared_ptr<git::Diff> diff);
 
-    int treeish_to_tree(Guard<git_tree> &tree, git_repository *repo, const char *treeish);
+    Result treeish_to_tree(Guard<git_tree> &tree, git_repository *repo, const char *treeish);
 
     int resolve_ref(git_annotated_commit **commit, const std::string &ref);
     int resolve_ref(git_reference **ref, const std::string &ref_str);

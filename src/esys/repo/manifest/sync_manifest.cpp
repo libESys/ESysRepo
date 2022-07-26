@@ -53,14 +53,14 @@ int Sync::is_manifest_modified(bool &modified)
     bool dirty = false;
     modified = false;
 
-    if (get_git()->is_dirty(dirty) < 0) return GIT_IS_DIRTY_FAILED;
+    if (get_git()->is_dirty(dirty).error()) return GIT_IS_DIRTY_FAILED;
 
     if (!dirty) return 0;
 
     git::RepoStatus status;
 
-    int result = get_git()->get_status(status);
-    if (result < 0) return GIT_GET_STATUS_FAILED;
+    Result result = get_git()->get_status(status);
+    if (result.error()) return GIT_GET_STATUS_FAILED;
 
     if (get_config_folder() == nullptr) return CONFIG_FOLDER_IS_NULL;
     auto config = get_config_folder()->get_config();
@@ -89,7 +89,7 @@ int Sync::run()
         return GIT_OPEN_FAILED;
     }
     bool dirty = false;
-    if (get_git()->is_dirty(dirty) < 0) return GIT_IS_DIRTY_FAILED;
+    if (get_git()->is_dirty(dirty).error()) return GIT_IS_DIRTY_FAILED;
     if (dirty)
     {
         warn("Sync manifest aborted: found changes in the git repo.");
@@ -97,8 +97,8 @@ int Sync::run()
         return 0;
     }
 
-    int result_int = get_git()->fetch();
-    if (result_int < 0)
+    result = get_git()->fetch();
+    if (result.error())
     {
         error("Fetch failed on the manifest git repo");
         get_git()->close();
@@ -112,8 +112,8 @@ int Sync::run()
 int Sync::normal_sync()
 {
     bool detached = false;
-    int result = get_git()->is_detached(detached);
-    if (result < 0)
+    Result rresult = get_git()->is_detached(detached);
+    if (rresult.error())
     {
         error("Couldn't detect if the git repo is detached or not.");
         get_git()->close();
@@ -129,8 +129,8 @@ int Sync::normal_sync()
 
     git::Branches branches;
 
-    result = get_git()->get_branches(branches);
-    if (result < 0)
+    rresult = get_git()->get_branches(branches);
+    if (rresult.error())
     {
         get_git()->close();
         return GIT_GET_BRANCHES_FAILED;
@@ -149,8 +149,8 @@ int Sync::normal_sync()
 
     refs.push_back(branches.get_head()->get_remote_branch());
 
-    result = get_git()->merge_analysis(refs, merge_analysis_result, commits);
-    if (result < 0)
+    rresult = get_git()->merge_analysis(refs, merge_analysis_result, commits);
+    if (rresult.error())
     {
         error("Merge analysis failed.");
         get_git()->close();
@@ -180,8 +180,8 @@ int Sync::normal_sync()
 
     info("Fastforward manifest ...");
 
-    result = get_git()->fastforward(commits[0]);
-    if (result < 0)
+    rresult = get_git()->fastforward(commits[0]);
+    if (rresult.error())
     {
         error("Fastforward failed.");
         get_git()->close();
@@ -195,8 +195,8 @@ int Sync::normal_sync()
 
 int Sync::branch_sync()
 {
-    int result = get_git()->fetch();
-    if (result < 0)
+    Result result = get_git()->fetch();
+    if (result.error())
     {
         get_git()->close();
         return GIT_FETCH_FAILED;
@@ -206,13 +206,13 @@ int Sync::branch_sync()
 
     if (!has_branch) return normal_sync();
 
-    Result rresult = get_git()->checkout(get_branch(), get_force());
-    if (rresult.ok())
+    result = get_git()->checkout(get_branch(), get_force());
+    if (result.ok())
         info("Manifest: checkout branch " + get_branch() + ".");
     else
         error("Manifest: failed to checkout branch " + get_branch() + ".");
     get_git()->close();
-    return rresult.get_result_code_int();
+    return result.get_result_code_int();
 }
 
 int Sync::process_repo()

@@ -33,36 +33,36 @@ GitBase::GitBase()
 
 GitBase::~GitBase() = default;
 
-int GitBase::reset_to_parent(int nth_parent)
+Result GitBase::reset_to_parent(int nth_parent)
 {
     int result = is_open();
 
-    if (result < 0) return result;
+    if (result < 0) return ESYSREPO_RESULT(ResultCode::GIT_REPO_NOT_OPEN);
 
     git::CommitHash last_commit;
     git::CommitHash parent_commit;
 
     // Get the last commit in the manifest git repo
-    result = get_last_commit(last_commit);
-    if (result < 0) return result;
+    Result rresult = get_last_commit(last_commit);
+    if (rresult.error()) return ESYSREPO_RESULT(rresult);
 
     // Get the its parent commit
-    result = get_parent_commit(last_commit, parent_commit);
-    if (result < 0) return result;
+    rresult = get_parent_commit(last_commit, parent_commit);
+    if (rresult.error()) return ESYSREPO_RESULT(rresult);
 
     // Reset the manifest git repo to the parent commit
-    result = reset(parent_commit, git::ResetType::HARD);
-    if (result < 0) return result;
+    rresult = reset(parent_commit, git::ResetType::HARD);
+    if (rresult.error()) return ESYSREPO_RESULT(rresult);
 
     git::CommitHash new_last_commit;
 
     // Get the new last commit
-    result = get_last_commit(new_last_commit);
-    if (result < 0) return result;
+    rresult = get_last_commit(new_last_commit);
+    if (rresult.error()) return ESYSREPO_RESULT(rresult);
 
     // The new last commit should be the parent commit
-    if (parent_commit.get_hash() != new_last_commit.get_hash()) return -1;
-    return 0;
+    if (parent_commit.get_hash() != new_last_commit.get_hash()) return ESYSREPO_RESULT(ResultCode::INTERNAL_ERROR);
+    return ESYSREPO_RESULT(ResultCode::OK);
 }
 
 bool GitBase::is_repo(const std::string &path)

@@ -85,7 +85,7 @@ public:
      * \param[out] remotes vector with all the remotes of the open git repository
      * \return 0 if successful, < 0 otherwise
      */
-    virtual int get_remotes(std::vector<git::Remote> &remotes) = 0;
+    virtual Result get_remotes(std::vector<git::Remote> &remotes) = 0;
 
     //! Get all branches of an open git repository
     /*!
@@ -93,7 +93,7 @@ public:
      * \param[in] branch_type tells if the local or remote branches are requested
      * \return 0 if successful, < 0 otherwise
      */
-    virtual int get_branches(git::Branches &branches, git::BranchType branch_type = git::BranchType::LOCAL) = 0;
+    virtual Result get_branches(git::Branches &branches, git::BranchType branch_type = git::BranchType::LOCAL) = 0;
 
     //! Clone a remote git repository given it's address and path where to clone it
     /*!
@@ -117,21 +117,21 @@ public:
      * \param[in] type the type of reset to do
      * \return 0 if successful, < 0 otherwise
      */
-    virtual int reset(const git::CommitHash &commit, git::ResetType type = git::ResetType::SOFT) = 0;
+    virtual Result reset(const git::CommitHash &commit, git::ResetType type = git::ResetType::SOFT) = 0;
 
     //! Fast foward git repo to a given commit
     /*!
      * \param[in] commit the commit to reset the git repo to
      * \return 0 if successful, < 0 otherwise
      */
-    virtual int fastforward(const git::CommitHash &commit) = 0;
+    virtual Result fastforward(const git::CommitHash &commit) = 0;
 
     //! Get the last commit of the HEAD
     /*!
      * \param[out] commit the commit data
      * \return 0 if successful, < 0 otherwise
      */
-    virtual int get_last_commit(git::CommitHash &commit) = 0;
+    virtual Result get_last_commit(git::CommitHash &commit) = 0;
 
     //! Get the nth parent of a given commit
     /*!
@@ -146,28 +146,28 @@ public:
      * \param[in] nth_parent the nth parent starting
      * \return 0 if successful, < 0 otherwise
      */
-    virtual int get_parent_commit(const git::CommitHash &commit, git::CommitHash &parent, int nth_parent = 1) = 0;
+    virtual Result get_parent_commit(const git::CommitHash &commit, git::CommitHash &parent, int nth_parent = 1) = 0;
 
     //! Tells if there are changes in the git repo
     /*!
      * \param[out] dirty true if the git repo is dirty, there are modification; false otherwise
      * \return 0 if successful, < 0 otherwise
      */
-    virtual int is_dirty(bool &dirty) = 0;
+    virtual Result is_dirty(bool &dirty) = 0;
 
     //! Tells if git repo is detached or not
     /*!
      * \param[out] detached true if the git repo is detached; false otherwise
      * \return 0 if successful, < 0 otherwise
      */
-    virtual int is_detached(bool &detached) = 0;
+    virtual Result is_detached(bool &detached) = 0;
 
     //! Get the status of the repository
     /*!
      * \param[out] status the status of the repository
      * \return 0 if successful, < 0 otherwise
      */
-    virtual int get_status(git::RepoStatus &status) = 0;
+    virtual Result get_status(git::RepoStatus &status) = 0;
 
     //! Tells if a SSH agent is running or not
     /*!
@@ -189,7 +189,7 @@ public:
      * \param[out] commits the list of commits which would be merged
      * \return 0 if successful, < 0 otherwise
      */
-    virtual int merge_analysis(const std::vector<std::string> &refs, git::MergeAnalysisResult &merge_analysis_result,
+    virtual Result merge_analysis(const std::vector<std::string> &refs, git::MergeAnalysisResult &merge_analysis_result,
                                std::vector<git::CommitHash> &commits) = 0;
 
     //! Do a fetch on a git repo from the given remote
@@ -197,9 +197,9 @@ public:
      * \param[in] remote the remote to use, or uses the default one if not given
      * \return 0 if successful, < 0 otherwise
      */
-    virtual int fetch(const std::string &remote = "") = 0;
+    virtual Result fetch(const std::string &remote = "") = 0;
 
-    virtual int reset_to_parent(int nth_parent = 1);
+    virtual Result reset_to_parent(int nth_parent = 1);
 
     virtual bool has_branch(const std::string &name, git::BranchType branch_type = git::BranchType::LOCAL) = 0;
 
@@ -211,7 +211,7 @@ public:
      * \param[in] walk_commit the instance used to handle the commits
      * \return 0 if successful, < 0 otherwise
      */
-    virtual int walk_commits(std::shared_ptr<git::WalkCommit> walk_commit) = 0;
+    virtual Result walk_commits(std::shared_ptr<git::WalkCommit> walk_commit) = 0;
 
     //! Get the diff between a commit and its parent
     /*!
@@ -219,7 +219,7 @@ public:
      * \param[out] diff the diff with the parent if any
      * \return 0 if successful, < 0 otherwise
      */
-    virtual int diff(const git::CommitHash commit_hash, std::shared_ptr<git::Diff> diff) = 0;
+    virtual Result diff(const git::CommitHash commit_hash, std::shared_ptr<git::Diff> diff) = 0;
 
     //! Tells if a folder is a git repository
     /*!
