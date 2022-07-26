@@ -27,6 +27,8 @@
 
 //<swig_inc/>
 
+//<swig>%shared_ptr(esys::repo::exe::CmdInit);</swig>
+
 namespace esys::repo::exe
 {
 

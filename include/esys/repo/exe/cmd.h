@@ -33,6 +33,8 @@
 
 //<swig_inc/>
 
+//<swig>%shared_ptr(esys::repo::exe::Cmd);</swig>
+
 namespace esys::repo
 {
 

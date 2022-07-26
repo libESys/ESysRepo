@@ -24,6 +24,8 @@
 
 //<swig_inc/>
 
+//<swig>%shared_ptr(esys::repo::libgit2::Git);</swig>
+
 namespace esys::repo
 {
 

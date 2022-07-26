@@ -28,6 +28,8 @@
 
 //<swig_inc/>
 
+//<swig>%shared_ptr(esys::repo::exe::CmdSync);</swig>
+
 namespace esys::repo::exe
 {
 

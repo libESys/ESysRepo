@@ -41,10 +41,9 @@
 
 //<swig_inc/>
 
-namespace esys
-{
+//<swig>%shared_ptr(esys::repo::GitBase);</swig>
 
-namespace repo
+namespace esys::repo
 {
 
 /*! \class GitBase esys/repo/gitbase.h "esys/repo/gitbase.h"
@@ -305,6 +304,4 @@ private:
     //!< \endcond
 };
 
-} // namespace repo
-
-} // namespace esys
+} // namespace esys::repo
