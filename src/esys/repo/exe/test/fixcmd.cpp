@@ -113,6 +113,7 @@ void FixCmd::test_repo_exists(const std::string &path, bool exists)
     bool result = false;
 
     result = boost::filesystem::is_directory(file_path);
+    if (result != exists) std::cout << "[FixCmd::test_repo_exists] file path = " << file_path << std::endl;
     ESYSTEST_REQUIRE_EQUAL(result, exists);
 }
 
