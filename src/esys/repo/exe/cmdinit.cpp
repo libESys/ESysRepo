@@ -5,7 +5,7 @@
  * \cond
  * __legal_b__
  *
- * Copyright (c) 2020-2021 Michel Gillet
+ * Copyright (c) 2020-2022 Michel Gillet
  * Distributed under the wxWindows Library Licence, Version 3.1.
  * (See accompanying file LICENSE_3_1.txt or
  * copy at http://www.wxwidgets.org/about/licence)
@@ -18,6 +18,7 @@
 #include "esys/repo/esysrepo_prec.h"
 #include "esys/repo/exe/cmdinit.h"
 #include "esys/repo/filesystem.h"
+#include "esys/repo/git/url.h"
 #include "esys/repo/manifest/file.h"
 #include "esys/repo/manifest/xmlfile.h"
 #include "esys/repo/grepo/manifest.h"
@@ -125,7 +126,8 @@ Result CmdInit::load_esysrepo_folder_succeeded()
         return ESYSREPO_RESULT(ResultCode::INTERNAL_ERROR);
     }
 
-    if (get_url() != config->get_manifest_url())
+    git::URL url(get_url());
+    if (url != config->get_manifest_url())
     {
         std::stringstream oss;
 
@@ -436,7 +438,8 @@ Result CmdInit::fetch_unknown_manifest()
 
         result = git_helper->move(source.string(), target.string(), true, log::Level::DEBUG);
         if (result == ResultCode::FAILED_TO_COPY) return ESYSREPO_RESULT(result);
-        if (result == ResultCode::FAILED_TO_REMOVE_ALL) warn("While moving folder " + rel_source.string() + " some files were left behind.");
+        if (result == ResultCode::FAILED_TO_REMOVE_ALL)
+            warn("While moving folder " + rel_source.string() + " some files were left behind.");
 
         std::string manifest_path = "grepo/";
         if (!get_manifest_name().empty())

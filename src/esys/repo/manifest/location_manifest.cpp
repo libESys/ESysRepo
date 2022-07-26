@@ -16,10 +16,9 @@
  */
 
 #include "esys/repo/esysrepo_prec.h"
+#include "esys/repo/git/url.h"
 #include "esys/repo/manifest/location.h"
 #include "esys/repo/manifest/repository.h"
-
-#include <Poco/URI.h>
 
 #include <boost/filesystem.hpp>
 
@@ -135,24 +134,14 @@ std::string Location::find_repo_path_by_url(const std::string &url)
 
 std::shared_ptr<manifest::Repository> Location::find_repo_by_url(const std::string &url)
 {
-    std::string url_ = url;
-    remove_dot_git(url_);
-    Poco::URI uri_repo(url_);
-
-    std::string auth = uri_repo.getAuthority(); // "www.appinf.com:88"
-    std::string host = uri_repo.getHost();      // "www.appinf.com"
-    unsigned short port = uri_repo.getPort();   // 88
-    std::string path = uri_repo.getPath();      // "/sample"
+    git::URL url_repo(url);
 
     for (auto repo : get_repos())
     {
         std::string uri_txt = get_address();
         if (repo->get_name()[0] != '/') uri_txt += "/";
         uri_txt += repo->get_name();
-        remove_dot_git(uri_txt);
-        Poco::URI this_uri_repo(uri_txt);
-        if ((auth == this_uri_repo.getAuthority()) && (path == this_uri_repo.getPath())) return repo;
-        if ((host == this_uri_repo.getHost()) && (path == this_uri_repo.getPath())) return repo;
+        if (url_repo == uri_txt) return repo;
     }
 
     return nullptr;
