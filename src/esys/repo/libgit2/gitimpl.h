@@ -64,21 +64,21 @@ public:
     Result is_detached(bool &detached);
 
     Result get_status(git::RepoStatus &repo_status);
-    int handle_status_entry(git::RepoStatus &repo_status, const git_status_entry *status_entry);
-    int handle_status_entry_current(git::RepoStatus &repo_status, std::shared_ptr<git::Status> status,
-                                    const git_status_entry *status_entry);
-    int handle_status_entry_index(git::RepoStatus &repo_status, std::shared_ptr<git::Status> status,
-                                  const git_status_entry *status_entry);
-    int handle_status_entry_work_dir(git::RepoStatus &repo_status, std::shared_ptr<git::Status> status,
-                                     const git_status_entry *status_entry);
-    int handle_status_entry_conflicted(git::RepoStatus &repo_status, std::shared_ptr<git::Status> status,
+    Result handle_status_entry(git::RepoStatus &repo_status, const git_status_entry *status_entry);
+    Result handle_status_entry_current(git::RepoStatus &repo_status, std::shared_ptr<git::Status> status,
                                        const git_status_entry *status_entry);
-    int handle_status_entry_ignored(git::RepoStatus &repo_status, std::shared_ptr<git::Status> status,
-                                    const git_status_entry *status_entry);
+    Result handle_status_entry_index(git::RepoStatus &repo_status, std::shared_ptr<git::Status> status,
+                                     const git_status_entry *status_entry);
+    Result handle_status_entry_work_dir(git::RepoStatus &repo_status, std::shared_ptr<git::Status> status,
+                                        const git_status_entry *status_entry);
+    Result handle_status_entry_conflicted(git::RepoStatus &repo_status, std::shared_ptr<git::Status> status,
+                                          const git_status_entry *status_entry);
+    Result handle_status_entry_ignored(git::RepoStatus &repo_status, std::shared_ptr<git::Status> status,
+                                       const git_status_entry *status_entry);
 
-    int from_to(git_status_t status, std::shared_ptr<git::Status> status_ptr);
-    int from_to(const git_diff_delta *delta, git::DiffDelta &diff_delta);
-    int from_to(const git_diff_file &file, git::DiffFile &diff_file);
+    Result from_to(git_status_t status, std::shared_ptr<git::Status> status_ptr);
+    Result from_to(const git_diff_delta *delta, git::DiffDelta &diff_delta);
+    Result from_to(const git_diff_file &file, git::DiffFile &diff_file);
 
     int check_error(int result, const std::string &action = "", bool show_result = true);
     Result check_error(Result result, bool show_result = true);
@@ -97,27 +97,29 @@ public:
     bool is_ssh_agent_running();
 
     Result merge_analysis(const std::vector<std::string> &refs, git::MergeAnalysisResult &merge_analysis_result,
-                       std::vector<git::CommitHash> &commits);
+                          std::vector<git::CommitHash> &commits);
 
     Result fetch(const std::string &remote);
 
     bool has_branch(const std::string &name, git::BranchType branch_type = git::BranchType::LOCAL);
-    int get_hash(const std::string &revision, std::string &hash, git::BranchType branch_type = git::BranchType::REMOTE);
+    Result get_hash(const std::string &revision, std::string &hash,
+                    git::BranchType branch_type = git::BranchType::REMOTE);
 
     Result walk_commits(std::shared_ptr<git::WalkCommit> walk_commit);
     Result diff(const git::CommitHash commit_hash, std::shared_ptr<git::Diff> diff);
 
     Result treeish_to_tree(Guard<git_tree> &tree, git_repository *repo, const char *treeish);
 
-    int resolve_ref(git_annotated_commit **commit, const std::string &ref);
-    int resolve_ref(git_reference **ref, const std::string &ref_str);
-    int resolve_ref(git_reference **ref, git_annotated_commit **commit, const std::string &ref_str);
+    Result resolve_ref(git_annotated_commit **commit, const std::string &ref);
+    Result resolve_ref(git_reference **ref, const std::string &ref_str);
+    Result resolve_ref(git_reference **ref, git_annotated_commit **commit, const std::string &ref_str);
 
-    int find_ref(git_annotated_commit **commit, const std::string &ref, std::string &new_ref);
-    int find_ref(git_reference **ref, git_annotated_commit **commit, const std::string &ref_str, std::string &new_ref);
+    Result find_ref(git_annotated_commit **commit, const std::string &ref, std::string &new_ref);
+    Result find_ref(git_reference **ref, git_annotated_commit **commit, const std::string &ref_str,
+                    std::string &new_ref);
 
-    int convert_bin_hex(const git_oid &oid, std::string &hex_str);
-    int convert_hex_bin(const std::string &hex_str, git_oid &oid);
+    Result convert_bin_hex(const git_oid &oid, std::string &hex_str);
+    Result convert_hex_bin(const std::string &hex_str, git_oid &oid);
 
     static void convert(git::BranchType branch_type, git_branch_t &list_flags);
 

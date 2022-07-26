@@ -354,26 +354,26 @@ bool GitHelper::has_branch(const std::string &name, git::BranchType branch_type,
     return result;
 }
 
-int GitHelper::get_hash(const std::string &revision, std::string &hash, log::Level log_level, int debug_level)
+Result GitHelper::get_hash(const std::string &revision, std::string &hash, log::Level log_level, int debug_level)
 {
     log("Check remote hash for " + revision + " ...", log::Level::DEBUG);
-    int result = get_git()->get_hash(revision, hash, git::BranchType::REMOTE);
-    if (result == 0)
+    Result result = get_git()->get_hash(revision, hash, git::BranchType::REMOTE);
+    if (result.ok())
         log("Found it.", log::Level::DEBUG);
     else
         log("Not Found", log::Level::DEBUG);
-    return result;
+    return ESYSREPO_RESULT(result);
 }
 
-int GitHelper::get_hash_local(const std::string &revision, std::string &hash, log::Level log_level, int debug_level)
+Result GitHelper::get_hash_local(const std::string &revision, std::string &hash, log::Level log_level, int debug_level)
 {
     log("Check local hash for " + revision + " ...", log::Level::DEBUG);
-    int result = get_git()->get_hash(revision, hash, git::BranchType::LOCAL);
-    if (result)
+    Result result = get_git()->get_hash(revision, hash, git::BranchType::LOCAL);
+    if (result.ok())
         log("Found it.", log::Level::DEBUG);
     else
         log("Not Found", log::Level::DEBUG);
-    return result;
+    return ESYSREPO_RESULT(result);
 }
 
 Result GitHelper::is_dirty(bool &dirty, log::Level log_level, int debug_level)

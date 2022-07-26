@@ -84,9 +84,9 @@ public:
 
     bool has_branch(const std::string &name, git::BranchType branch_type, log::Level log_level, int debug_level = 0);
 
-    int get_hash(const std::string &revision, std::string &hash, log::Level log_level, int debug_level = 0);
+    Result get_hash(const std::string &revision, std::string &hash, log::Level log_level, int debug_level = 0);
 
-    int get_hash_local(const std::string &revision, std::string &hash, log::Level log_level, int debug_level = 0);
+    Result get_hash_local(const std::string &revision, std::string &hash, log::Level log_level, int debug_level = 0);
 
     Result is_dirty(bool &dirty, log::Level log_level, int debug_level = 0);
     Result is_detached(bool &detached, log::Level log_level, int debug_level = 0);

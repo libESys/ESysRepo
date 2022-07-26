@@ -89,11 +89,11 @@ Result CmdManifest::update_revision_as_head(std::shared_ptr<manifest::Repository
     if (rresult.error()) return ESYSREPO_RESULT(rresult);
 
     std::string hash;
-    int result_int = git_helper->get_hash(revision, hash, log::Level::DEBUG);
-    if (result_int < 0)
+    rresult = git_helper->get_hash(revision, hash, log::Level::DEBUG);
+    if (rresult.error())
     {
         git_helper->close(log::Level::DEBUG);
-        return generic_error(result_int);
+        return ESYSREPO_RESULT(rresult);
     }
     repo->set_revision(hash);
 

@@ -190,7 +190,7 @@ public:
      * \return 0 if successful, < 0 otherwise
      */
     virtual Result merge_analysis(const std::vector<std::string> &refs, git::MergeAnalysisResult &merge_analysis_result,
-                               std::vector<git::CommitHash> &commits) = 0;
+                                  std::vector<git::CommitHash> &commits) = 0;
 
     //! Do a fetch on a git repo from the given remote
     /*!
@@ -203,8 +203,8 @@ public:
 
     virtual bool has_branch(const std::string &name, git::BranchType branch_type = git::BranchType::LOCAL) = 0;
 
-    virtual int get_hash(const std::string &revision, std::string &hash,
-                         git::BranchType branch_type = git::BranchType::REMOTE) = 0;
+    virtual Result get_hash(const std::string &revision, std::string &hash,
+                            git::BranchType branch_type = git::BranchType::REMOTE) = 0;
 
     //! Walks through all the commits starting from the HEAD
     /*!
