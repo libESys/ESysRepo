@@ -31,6 +31,7 @@ set(ESYSREPO_T_CXX_SOURCES
     main.cpp
     queuemt01.cpp
     result01.cpp
+    resultcode01.cpp
     testcasectrl.cpp)
 
 set(ESYSREPO_T_CLI_CXX_SOURCES
