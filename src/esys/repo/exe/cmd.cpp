@@ -441,6 +441,41 @@ std::ostream *Cmd::get_console_os()
     return m_console_os;
 }
 
+std::shared_ptr<esys::log::Mngr> Cmd::get_logger_mngr()
+{
+    if (m_logger_mngr == nullptr) m_logger_mngr = esys::log::Mngr::get();
+    return m_logger_mngr;
+}
+
+const std::string &Cmd::get_logger_name() const
+{
+    return m_logger_name;
+}
+
+void Cmd::set_logger_name(const std::string &logger_name)
+{
+    m_logger_name = logger_name;
+}
+
+int Cmd::create_logger(const std::string &path)
+{
+    auto logger = get_logger_mngr()->new_logger(log::LoggerType::SPDLOG, get_logger_name());
+    if (logger == nullptr) return -1;
+
+    log::Level level = log::Level::DEBUG;
+
+    logger->add_console(level);
+    boost::filesystem::path log_path = path;
+    if (log_path.empty()) log_path = boost::filesystem::current_path();
+    log_path /= "log.txt";
+    logger->add_basic_file(log_path.string());
+    logger->set_log_level(level);
+    logger->set_debug_level(5);
+    logger->set_flush_log_level(level);
+    set_logger_if(logger);
+    return 0;
+}
+
 void Cmd::debug(int level, const std::string &msg)
 {
     clean_cout();

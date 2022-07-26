@@ -27,6 +27,7 @@
 #include "esys/repo/result.h"
 
 #include <esys/log/user.h>
+#include <esys/log/mngr.h>
 
 #include <chrono>
 #include <memory>
@@ -199,6 +200,13 @@ public:
     int default_handling_folder_workspace();
     Result only_one_folder_or_workspace();
 
+    int create_logger(const std::string &path = "");
+
+    std::shared_ptr<esys::log::Mngr> get_logger_mngr();
+
+    const std::string &get_logger_name() const;
+    void set_logger_name(const std::string &logger_name);
+
     void debug(int level, const std::string &msg) override;
     void info(const std::string &msg) override;
     void warn(const std::string &msg) override;
@@ -234,6 +242,7 @@ protected:
      */
     int load_manifest();
 
+
 private:
     std::string m_name;
     std::shared_ptr<Manifest> m_manifest;          //!< The manifest to use
@@ -254,6 +263,8 @@ private:
     cli::AppBase *m_app_base = nullptr;
     std::ostream *m_console_os = nullptr;
     bool m_print_cmd_name_by_base = true;
+    std::shared_ptr<esys::log::Mngr> m_logger_mngr;
+    std::string m_logger_name = "logger";
     //!< \endcond
 };
 

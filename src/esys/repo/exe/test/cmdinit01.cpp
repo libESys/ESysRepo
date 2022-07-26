@@ -41,15 +41,13 @@ ESYSTEST_AUTO_TEST_CASE(CmdInit01)
     file_path = ctrl.delete_create_temp_folder("cmdinit01");
     ESYSTEST_REQUIRE_EQUAL(file_path.string().empty(), false);
 
-    auto logger = ctrl.get_logger("logger", file_path.string());
-    ESYSTEST_REQUIRE_NE(logger, nullptr);
-
     CmdInit cmd_init;
+    cmd_init.create_logger(file_path.string());
+    ESYSTEST_REQUIRE_NE(cmd_init.get_logger_if(), nullptr);
 
     file_path /= "manifest";
     cmd_init.set_url("https://gitlab.com/libesys/esysmodbus/manifest.git");
     cmd_init.set_workspace_path(file_path.string());
-    cmd_init.set_logger_if(logger);
 
     Result result = cmd_init.run();
     ESYSTEST_REQUIRE_EQUAL(result.ok(), true);
