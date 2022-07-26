@@ -49,6 +49,7 @@ set(ESYSREPO_T_CLI_CXX_SOURCES
 
 set(ESYSREPO_T_EXE_CXX_SOURCES
     ../exe/test/cmdinit01.cpp
+    ../exe/test/cmdinit02.cpp
     ../exe/test/cmdmanifest01.cpp
     ../exe/test/cmdstatus01.cpp
     ../exe/test/cmdsync01.cpp
