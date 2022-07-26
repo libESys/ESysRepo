@@ -64,7 +64,8 @@ set(ESYSREPO_T_EXE_CXX_SOURCES
     ../exe/test/esysmodbuscmdsync02.cpp
     ../exe/test/fixcmd.cpp)
 
-set(ESYSREPO_T_GIT_CXX_SOURCES ../git/test/sortbranches01.cpp)
+set(ESYSREPO_T_GIT_CXX_SOURCES ../git/test/sortbranches01.cpp
+                               ../git/test/url01_git.cpp)
 
 set(ESYSREPO_T_GITSTATS_CXX_SOURCES ../gitstats/test/basic01.cpp)
 

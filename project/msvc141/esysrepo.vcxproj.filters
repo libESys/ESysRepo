@@ -408,6 +408,9 @@
     <ClCompile Include="..\..\src\esys\repo\errorstack.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\git\url_git.cpp">
+      <Filter>Source Files\git</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\esys\repo\esysrepo_defs.h">
@@ -781,6 +784,9 @@
     </ClInclude>
     <ClInclude Include="..\..\include\esys\repo\errorstack.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\esys\repo\git\url.h">
+      <Filter>Header Files\git</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

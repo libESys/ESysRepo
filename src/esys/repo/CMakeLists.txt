@@ -156,6 +156,7 @@ set(ESYSREPO_GIT_PUB_HEADERS
     git/statustype.h
     git/updatetip.h
     git/updatetiptype.h
+    git/url.h
     git/walkcommit.h)
 list(TRANSFORM ESYSREPO_GIT_PUB_HEADERS
      PREPEND ${CMAKE_CURRENT_SOURCE_DIR}/../../../include/esys/repo/)
@@ -174,6 +175,7 @@ set(ESYSREPO_GIT_CXX_SOURCES
     git/repostatus_git.cpp
     git/status_git.cpp
     git/updatetip_git.cpp
+    git/url_git.cpp
     git/walkcommit_git.cpp)
 
 set(ESYSREPO_GITCMDLINE_PUB_HEADERS gitcmdline/git.h)

@@ -225,6 +225,9 @@
     <ClCompile Include="..\..\src\esys\repo\test\resultcode01.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\esys\repo\git\test\url01_git.cpp">
+      <Filter>Source Files\git</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\esys\repo\test\esysrepo_t_prec.h">
