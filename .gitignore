@@ -482,3 +482,9 @@ MigrationBackup/
 
 *.bak
 doc/web/themes/hugo-theme-learn
+src/pyesysrepo/**/*.hh
+project/msvc141/temp/
+lib/
+include/pyesysrepo/esysrepo_py*_inc.h
+include/pyesysrepo/esysrepo-py*.h
+src/pyesysrepo/esysrepo_py*.*
