@@ -5,7 +5,7 @@
  * \cond
  * __legal_b__
  *
- * Copyright (c) 2020 Michel Gillet
+ * Copyright (c) 2020-2022 Michel Gillet
  * Distributed under the wxWindows Library Licence, Version 3.1.
  * (See accompanying file LICENSE_3_1.txt or
  * copy at http://www.wxwidgets.org/about/licence)
@@ -58,14 +58,14 @@ public:
      * \param[in] path the path of the XML ESysRepo manifest file to write
      * \return 0 if successful, < 0 otherwise
      */
-    int write(const std::string &path) override;
+    Result write(const std::string &path) override;
 
     //! Write a XML ESysRepo manifest to a stream
     /*!
      * \param[in] os the stream
      * \return 0 if successful, < 0 otherwise
      */
-    int write(std::ostream &os) override;
+    Result write(std::ostream &os) override;
 
     //! Get the PIMPL
     /*!

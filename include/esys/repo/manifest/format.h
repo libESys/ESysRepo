@@ -5,7 +5,7 @@
  * \cond
  * __legal_b__
  *
- * Copyright (c) 2021 Michel Gillet
+ * Copyright (c) 2021-2022 Michel Gillet
  * Distributed under the wxWindows Library Licence, Version 3.1.
  * (See accompanying file LICENSE_3_1.txt or
  * copy at http://www.wxwidgets.org/about/licence)
@@ -18,6 +18,7 @@
 #pragma once
 
 #include "esys/repo/esysrepo_defs.h"
+#include "esys/repo/result.h"
 
 #include <string>
 
@@ -34,8 +35,8 @@ enum class Format
     JSON
 };
 
-ESYSREPO_API int convert(Format format, std::string &text);        //<swig_out/>
-ESYSREPO_API int convert(const std::string &text, Format &format); //<swig_out/>
+ESYSREPO_API Result convert(Format format, std::string &text);        //<swig_out/>
+ESYSREPO_API Result convert(const std::string &text, Format &format); //<swig_out/>
 
 //<swig>%rename(convert_format_to_text) convert;</swig>
 ESYSREPO_API std::string convert(Format format);

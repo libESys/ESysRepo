@@ -51,21 +51,22 @@ Result CmdStatus::impl_run()
 {
     if (get_quiet()) warn("The option --quiet is not implemented yet");
 
-    int result = process_sub_args_to_find_parent_path();
-    if (result < 0)
+    Result result = process_sub_args_to_find_parent_path();
+    if (result.error())
     {
-        error("No ESysRepo folder found");
-        return generic_error(-1);
+        std::string err_str = "No ESysRepo folder found";
+        error(err_str);
+        return ESYSREPO_RESULT(result, ResultCode::CMD_NO_ESYSREPO_FOLDER_FOUND, err_str);
     }
 
     result = open_esysrepo_folder();
-    if (result < 0) return generic_error(result);
+    if (result.error()) return ESYSREPO_RESULT(result);
 
     result = load_manifest();
-    if (result < 0) return generic_error(result);
+    if (result.error()) return ESYSREPO_RESULT(result);
 
     result = process_sub_args_as_git_repo_paths();
-    if (result < 0) return generic_error(result);
+    if (result.error()) return ESYSREPO_RESULT(result);
 
     std::map<std::string, int> map_input_repo_paths;
 
@@ -78,6 +79,8 @@ Result CmdStatus::impl_run()
         }
     }
 
+    Result rresult;
+
     for (auto location : get_manifest()->get_locations())
     {
         for (auto repo : location->get_repos())
@@ -87,15 +90,19 @@ Result CmdStatus::impl_run()
                 if (map_input_repo_paths.find(repo->get_path()) == map_input_repo_paths.end()) continue;
             }
             result = open_repo(repo);
-            if (result < 0) continue;
+            if (result.error())
+            {
+                rresult.add(ESYSREPO_RESULT(result));
+                continue;
+            }
             print_repo(repo);
         }
     }
 
-    return generic_error(result);
+    return ESYSREPO_RESULT(rresult);
 }
 
-int CmdStatus::open_repo(std::shared_ptr<manifest::Repository> repo)
+Result CmdStatus::open_repo(std::shared_ptr<manifest::Repository> repo)
 {
     auto git_helper = new_git_helper();
     git_helper->set_auto_close();
@@ -109,24 +116,24 @@ int CmdStatus::open_repo(std::shared_ptr<manifest::Repository> repo)
     m_rel_repo_path = rel_repo_path.string();
     m_repo_path = repo_path.string();
 
-    Result rresult = git_helper->open(repo_path.string(), log::Level::DEBUG);
-    if (rresult.error() < 0) return rresult.get_result_code_int();
+    Result result = git_helper->open(repo_path.string(), log::Level::DEBUG);
+    if (result.error()) return ESYSREPO_RESULT(result);
 
     m_repo_status = std::make_shared<git::RepoStatus>();
 
-    rresult = git_helper->get_status(*m_repo_status, log::Level::DEBUG);
-    if (rresult.error()) return rresult.get_result_code_int();
+    result = git_helper->get_status(*m_repo_status, log::Level::DEBUG);
+    if (result.error()) return ESYSREPO_RESULT(result);
 
     m_repo_status->sort_file_status();
 
     m_branches.clear();
 
-    rresult = git_helper->get_branches(m_branches, git::BranchType::LOCAL, log::Level::DEBUG);
-    if (rresult.error()) return rresult.get_result_code_int();
+    result = git_helper->get_branches(m_branches, git::BranchType::LOCAL, log::Level::DEBUG);
+    if (result.error()) return ESYSREPO_RESULT(result);
 
     m_branches.sort();
 
-    return git_helper->close(log::Level::DEBUG).get_result_code_int();
+    return ESYSREPO_RESULT(git_helper->close(log::Level::DEBUG));
 }
 
 void CmdStatus::print_repo(std::shared_ptr<manifest::Repository> repo)
@@ -243,12 +250,12 @@ bool CmdStatus::get_show_file_permission() const
     return m_show_file_permission;
 }
 
-int CmdStatus::process_sub_args_to_find_parent_path()
+Result CmdStatus::process_sub_args_to_find_parent_path()
 {
-    if (!get_workspace_path().empty()) return 0;
+    if (!get_workspace_path().empty()) return ESYSREPO_RESULT(ResultCode::OK);
 
     if ((get_sub_args().size() == 0) || (!get_folder().empty()) || (!get_workspace_path().empty()))
-        return default_handling_folder_workspace();
+        return ESYSREPO_RESULT(default_handling_folder_workspace());
 
     std::string parent_path;
 
@@ -259,15 +266,15 @@ int CmdStatus::process_sub_args_to_find_parent_path()
         if (!parent_path.empty())
         {
             set_workspace_path(parent_path);
-            return 0;
+            return ESYSREPO_RESULT(ResultCode::OK);
         }
     }
 
     parent_path = Cmd::find_workspace_path();
-    if (parent_path.empty()) return -1;
+    if (parent_path.empty()) return ESYSREPO_RESULT(ResultCode::CMD_WORKSPACE_PATH_IS_EMPTY);
 
     set_workspace_path(parent_path);
-    return 0;
+    return ESYSREPO_RESULT(ResultCode::OK);
 }
 
 } // namespace esys::repo::exe

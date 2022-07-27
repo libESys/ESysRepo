@@ -109,13 +109,11 @@ bool SyncRepos::check_if_ssh_auth_needed_and_ok()
     return true;
 }
 
-int SyncRepos::run()
+Result SyncRepos::run()
 {
-    if (get_manifest() == nullptr) return -1;
-    if (get_config_folder() == nullptr) return -1;
-    if (get_git() == nullptr) return -1;
-
-    int result = 0;
+    if (get_manifest() == nullptr) return ESYSREPO_RESULT(ResultCode::MANIFEST_IS_NULLPTR);
+    if (get_config_folder() == nullptr) return ESYSREPO_RESULT(ResultCode::CONFIG_FOLDER_IS_NULLPTR);
+    if (get_git() == nullptr) return ESYSREPO_RESULT(ResultCode::GIT_IS_NULLPTR);
 
     if (!check_if_ssh_auth_needed_and_ok() && !get_git()->is_ssh_agent_running())
         warn("SSH authentication is only supported with a SSH agent. Git repos with SSH access won't be synced.");
@@ -149,7 +147,8 @@ int SyncRepos::run()
             ++get_repo_idx();
         }
     }
-    return get_run_tasks().run();
+    Result result = get_run_tasks().run();
+    return ESYSREPO_RESULT(result);
 }
 
 void SyncRepos::set_log_level(log::Level log_level)

@@ -23,19 +23,19 @@
 namespace esys::repo::manifest
 {
 
-int convert(Type type, std::string &text)
+Result convert(Type type, std::string &text)
 {
     switch (type)
     {
         case Type::ESYSREPO_MANIFEST: text = "esysrepo"; break;
         case Type::GIT_SUPER_PROJECT: text = "git_super_project"; break;
         case Type::GOOGLE_MANIFEST: text = "grepo"; break;
-        default: return -1;
+        default: return ESYSREPO_RESULT(ResultCode::MANIFEST_TYPE_UNKNOWN);
     }
-    return 0;
+    return ESYSREPO_RESULT(ResultCode::OK);
 }
 
-int convert(const std::string &text, Type &type)
+Result convert(const std::string &text, Type &type)
 {
     if (text == manifest::Base::get_folder_name())
         type = Type::ESYSREPO_MANIFEST;
@@ -46,9 +46,9 @@ int convert(const std::string &text, Type &type)
     else
     {
         type = Type::UNKNOWN;
-        return -1;
+        return ESYSREPO_RESULT(ResultCode::MANIFEST_TYPE_UNKNOWN);
     }
-    return 0;
+    return ESYSREPO_RESULT(ResultCode::OK);
 }
 
 } // namespace esys::repo::manifest

@@ -56,9 +56,9 @@ Result ManifestImpl::read(const std::string &filename)
     return read(m_file->get_data());
 }
 
-int ManifestImpl::write_xml()
+Result ManifestImpl::write_xml()
 {
-    if (self()->get_data() == nullptr) return -1;
+    if (self()->get_data() == nullptr) return ESYSREPO_RESULT(ResultCode::MANIFEST_XML_DATA_NULLPTR);
 
     m_xml_data = std::make_shared<esysfile::xml::Data>();
 
@@ -66,29 +66,37 @@ int ManifestImpl::write_xml()
 
     write_remotes();
     write_default(m_xml_data, self()->get_data());
-    write_projects();
-    return 0;
+    Result result = write_projects();
+    return ESYSREPO_RESULT(result);
 }
 
-int ManifestImpl::write(const std::string &filename)
+Result ManifestImpl::write(const std::string &filename)
 {
-    if (write_xml() < 0) return -1;
+    Result result = write_xml();
+    if (result.error()) return ESYSREPO_RESULT(result);
 
     esysfile::xml::Writer writer;
 
     writer.set_data(m_xml_data);
-    return writer.write(filename);
+
+    int result_int = writer.write(filename);
+    if (result_int < 0) return ESYSREPO_RESULT(ResultCode::RAW_INT_ERROR, result_int);
+    return ESYSREPO_RESULT(ResultCode::OK);
 }
 
-int ManifestImpl::write(std::ostream &os)
+Result ManifestImpl::write(std::ostream &os)
 {
-    if (write_xml() < 0) return -1;
+    Result result = write_xml();
+    if (write_xml().error()) return ESYSREPO_RESULT(result);
 
     esysfile::xml::Writer writer;
 
     writer.set_indent(4);
     writer.set_data(m_xml_data);
-    return writer.write(os);
+
+    int result_int = writer.write(os);
+    if (result_int < 0) return ESYSREPO_RESULT(ResultCode::RAW_INT_ERROR, result_int);
+    return ESYSREPO_RESULT(ResultCode::OK);
 }
 
 void ManifestImpl::write_remotes()
@@ -128,21 +136,21 @@ void ManifestImpl::write_default(std::shared_ptr<esysfile::xml::Element> parent,
     parent->add_element(default_el);
 }
 
-int ManifestImpl::write_projects()
+Result ManifestImpl::write_projects()
 {
     for (auto &remote : self()->get_data()->get_locations())
     {
         for (auto &project : remote->get_repos())
         {
-            int result = write_project(m_xml_data, project);
-            if (result < 0) return result;
+            Result result = write_project(m_xml_data, project);
+            if (result.error()) return ESYSREPO_RESULT(result);
         }
     }
-    return 0;
+    return ESYSREPO_RESULT(ResultCode::OK);
 }
 
-int ManifestImpl::write_project(std::shared_ptr<esysfile::xml::Element> parent,
-                                std::shared_ptr<manifest::Repository> repository)
+Result ManifestImpl::write_project(std::shared_ptr<esysfile::xml::Element> parent,
+                                   std::shared_ptr<manifest::Repository> repository)
 {
     std::shared_ptr<esysfile::xml::Element> project_el;
 
@@ -150,10 +158,10 @@ int ManifestImpl::write_project(std::shared_ptr<esysfile::xml::Element> parent,
 
     project_el->set_name("project");
 
-    if (repository->get_path().empty()) return -1;
+    if (repository->get_path().empty()) return ESYSREPO_RESULT(ResultCode::MANIFEST_REPOSITORY_WITHOUT_PATH);
     project_el->add_attr("path", repository->get_path());
 
-    if (repository->get_location() == nullptr) return -1;
+    if (repository->get_location() == nullptr) return ESYSREPO_RESULT(ResultCode::MANIFEST_REPOSITORY_WITHOUT_LOCATION);
 
     bool add_location = true;
 
@@ -164,7 +172,7 @@ int ManifestImpl::write_project(std::shared_ptr<esysfile::xml::Element> parent,
     }
     if (add_location) project_el->add_attr("remote", repository->get_location()->get_name());
 
-    if (repository->get_name().empty()) return -1;
+    if (repository->get_name().empty()) return ESYSREPO_RESULT(ResultCode::MANIFEST_REPOSITORY_WITHOUT_NAME);
     project_el->add_attr("name", repository->get_name());
 
     if (!repository->get_revision().empty()) project_el->add_attr("revision", repository->get_revision());
@@ -185,7 +193,7 @@ int ManifestImpl::write_project(std::shared_ptr<esysfile::xml::Element> parent,
     }
 
     parent->add_element(project_el);
-    return 0;
+    return ESYSREPO_RESULT(ResultCode::OK);
 }
 
 Result ManifestImpl::read(std::shared_ptr<esysfile::xml::Data> data)
@@ -228,7 +236,7 @@ Result ManifestImpl::read(std::shared_ptr<esysfile::xml::Element> el)
         result = read_include(el);
     else if (el->get_name() != "#comment")
     {
-        return ESYSREPO_RESULT(ResultCode::MANIFEST_UNKNOWN_ELEMENT, el->get_name());
+        return ESYSREPO_RESULT(ResultCode::MANIFEST_ELEMENT_UNKNOWN, el->get_name());
     }
     return ESYSREPO_RESULT(result);
 }
@@ -245,7 +253,7 @@ Result ManifestImpl::read_remote(std::shared_ptr<esysfile::xml::Element> el)
             location->set_address(attr->get_value());
         else
         {
-            return ESYSREPO_RESULT(ResultCode::MANIFEST_UNKNOWN_ATTRIBUTE, el->get_name() + ": " + attr->get_name());
+            return ESYSREPO_RESULT(ResultCode::MANIFEST_ATTRIBUTE_UNKNOWN, el->get_name() + ": " + attr->get_name());
         }
     }
 
@@ -273,7 +281,7 @@ Result ManifestImpl::read_default(std::shared_ptr<esysfile::xml::Element> el)
         }
         else
         {
-            return ESYSREPO_RESULT(ResultCode::MANIFEST_UNKNOWN_ATTRIBUTE, el->get_name() + ": " + attr->get_name());
+            return ESYSREPO_RESULT(ResultCode::MANIFEST_ATTRIBUTE_UNKNOWN, el->get_name() + ": " + attr->get_name());
         }
     }
     return ESYSREPO_RESULT(ResultCode::OK);
@@ -326,7 +334,7 @@ Result ManifestImpl::read_project(std::shared_ptr<esysfile::xml::Element> el)
         }
         else
         {
-            return ESYSREPO_RESULT(ResultCode::MANIFEST_UNKNOWN_ATTRIBUTE, el->get_name() + ": " + attr->get_name());
+            return ESYSREPO_RESULT(ResultCode::MANIFEST_ATTRIBUTE_UNKNOWN, el->get_name() + ": " + attr->get_name());
         }
     }
 

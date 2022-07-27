@@ -61,11 +61,11 @@ bool CmdSync::get_alt_address() const
     return m_alt_address;
 }
 
-int CmdSync::sync_manifest()
+Result CmdSync::sync_manifest()
 {
     manifest::Sync sync;
 
-    if (get_config_folder() == nullptr) return -1;
+    if (get_config_folder() == nullptr) return ESYSREPO_RESULT(ResultCode::CMD_CONFIG_FOLDER_NULLPTR);
 
     sync.set_config_folder(get_config_folder());
     sync.set_git(get_git());
@@ -79,17 +79,17 @@ Result CmdSync::impl_run()
 {
     if (get_force()) warn("Option --force-sync is not implemented yet");
 
-    int result = default_handling_folder_workspace();
-    if (result < 0) return generic_error(result);
+    Result result = default_handling_folder_workspace();
+    if (result.error()) return ESYSREPO_RESULT(result);
 
     result = open_esysrepo_folder();
-    if (result < 0) return generic_error(result);
+    if (result.error()) return ESYSREPO_RESULT(result);
 
     result = sync_manifest();
-    if (result < 0) return generic_error(result);
+    if (result.error()) return ESYSREPO_RESULT(result);
 
     result = load_manifest();
-    if (result < 0) return generic_error(result);
+    if (result.error()) return ESYSREPO_RESULT(result);
 
     manifest::SyncRepos sync_repos;
 
@@ -129,7 +129,7 @@ Result CmdSync::impl_run()
     get_git()->detect_ssh_agent(true);
 
     result = sync_repos.run();
-    return generic_error(result);
+    return ESYSREPO_RESULT(result);
 }
 
 } // namespace esys::repo::exe

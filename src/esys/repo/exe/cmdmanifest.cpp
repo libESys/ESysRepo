@@ -102,23 +102,23 @@ Result CmdManifest::update_revision_as_head(std::shared_ptr<manifest::Repository
 
 Result CmdManifest::impl_run()
 {
-    Result rresult = only_one_folder_or_workspace();
-    if (rresult.error()) return ESYSREPO_RESULT(rresult);
+    Result result = only_one_folder_or_workspace();
+    if (result.error()) return ESYSREPO_RESULT(result);
 
-    int result = open_esysrepo_folder();
-    if (result < 0) return generic_error(result);
+    result = open_esysrepo_folder();
+    if (result.error()) return ESYSREPO_RESULT(result);
 
     result = load_manifest();
-    if (result < 0) return generic_error(result);
+    if (result.error()) return ESYSREPO_RESULT(result);
 
     if (get_revision_as_head())
     {
-        rresult = update_revision_as_head();
-        if (rresult.error())
+        result = update_revision_as_head();
+        if (result.error())
         {
             std::string err_str = "Failed to get the revision as HEAD";
             error(err_str);
-            return ESYSREPO_RESULT(rresult, err_str);
+            return ESYSREPO_RESULT(result, err_str);
         }
     }
 
@@ -146,7 +146,7 @@ Result CmdManifest::impl_run()
     result = file->write(*os);
 
     if (fos != nullptr) fos->close();
-    return generic_error(result);
+    return ESYSREPO_RESULT(result);
 }
 
 } // namespace esys::repo::exe

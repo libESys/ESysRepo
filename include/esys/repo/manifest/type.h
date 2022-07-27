@@ -18,6 +18,7 @@
 #pragma once
 
 #include "esys/repo/esysrepo_defs.h"
+#include "esys/repo/result.h"
 
 #include <string>
 
@@ -36,7 +37,7 @@ enum class Type
     RAW_GOOGLE_MANIFEST //!< Google repo manifest in Google repo tool folder
 };
 
-ESYSREPO_API int convert(Type type, std::string &text);
-ESYSREPO_API int convert(const std::string &text, Type &type);
+ESYSREPO_API Result convert(Type type, std::string &text);
+ESYSREPO_API Result convert(const std::string &text, Type &type);
 
 } // namespace esys::repo::manifest

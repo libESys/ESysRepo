@@ -35,12 +35,12 @@ Result XMLFile::read(const std::string &path)
     return get_impl()->read(path);
 }
 
-int XMLFile::write(const std::string &path)
+Result XMLFile::write(const std::string &path)
 {
     return get_impl()->write(path);
 }
 
-int XMLFile::write(std::ostream &os)
+Result XMLFile::write(std::ostream &os)
 {
     return get_impl()->write(os);
 }

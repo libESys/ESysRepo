@@ -32,30 +32,19 @@ Result::Result(const Result &result)
 Result::Result(ResultCode result_code, const std::string &file, int line_number, const std::string &function)
     : m_result_code(result_code)
 {
-    if (result_code != ResultCode::OK)
-    {
-        auto error_info = std::make_shared<ErrorInfo>();
-        error_info->set_file(file);
-        error_info->set_line_number(line_number);
-        error_info->set_function(function);
-        error_info->set_result_code(result_code);
-        set_error_info(error_info);
-    }
+    handle_result_code(result_code, file, line_number, function);
 }
 
 Result::Result(ResultCode result_code, const std::string &file, int line_number, const std::string &function,
                const std::string &text)
     : m_result_code(result_code)
 {
-    if (result_code != ResultCode::OK)
+    handle_result_code(result_code, file, line_number, function);
+
+    if (get_error_info() != nullptr)
     {
-        auto error_info = std::make_shared<ErrorInfo>();
-        error_info->set_file(file);
-        error_info->set_line_number(line_number);
-        error_info->set_function(function);
-        error_info->set_result_code(result_code);
+        auto error_info = get_error_info();
         error_info->set_text(text);
-        set_error_info(error_info);
     }
 }
 
@@ -63,51 +52,43 @@ Result::Result(ResultCode result_code, const std::string &file, int line_number,
                int raw_error, const std::string &text)
     : m_result_code(result_code)
 {
-    if (result_code != ResultCode::OK)
+    handle_result_code(result_code, file, line_number, function);
+
+    if (get_error_info() != nullptr)
     {
-        auto error_info = std::make_shared<ErrorInfo>();
-        error_info->set_file(file);
-        error_info->set_line_number(line_number);
-        error_info->set_function(function);
-        error_info->set_result_code(result_code);
+        auto error_info = get_error_info();
         error_info->set_raw_error(raw_error);
         error_info->set_text(text);
-        set_error_info(error_info);
     }
 }
 
 Result::Result(const Result &result, const std::string &file, int line_number, const std::string &function)
 {
-    set_result_code(result.get_result_code());
-
-    if (get_result_code() != ResultCode::OK)
-    {
-        auto error_info = std::make_shared<ErrorInfo>();
-        error_info->set_file(file);
-        error_info->set_result_code(get_result_code());
-        error_info->set_line_number(line_number);
-        error_info->set_function(function);
-        error_info->set_prev(result.get_error_info());
-        error_info->set_index(result.get_error_info()->get_index() + 1);
-        set_error_info(error_info);
-    }
+    handle_result(result, file, line_number, function);
 }
 
 Result::Result(const Result &result, const std::string &file, int line_number, const std::string &function,
                const std::string &text)
 {
-    set_result_code(result.get_result_code());
+    handle_result(result, file, line_number, function);
 
-    if (get_result_code() != ResultCode::OK)
+    if (get_error_info() != nullptr)
     {
-        auto error_info = std::make_shared<ErrorInfo>();
-        error_info->set_file(file);
-        error_info->set_line_number(line_number);
-        error_info->set_function(function);
-        error_info->set_prev(result.get_error_info());
-        error_info->set_index(result.get_error_info()->get_index() + 1);
-        error_info->set_text(text);
-        set_error_info(error_info);
+        get_error_info()->set_text(text);
+    }
+}
+
+Result::Result(const Result &result, ResultCode result_code, const std::string &file, int line_number,
+               const std::string &function, const std::string &text)
+{
+    handle_result(result, file, line_number, function);
+
+    set_result_code(result_code);
+
+    if (get_error_info() != nullptr)
+    {
+        get_error_info()->set_result_code(result_code);
+        get_error_info()->set_text(text);
     }
 }
 
@@ -116,6 +97,34 @@ Result::~Result() = default;
 void Result::set_result_code(ResultCode result_code)
 {
     m_result_code = result_code;
+}
+
+void Result::handle_result_code(ResultCode result_code, const std::string &file, int line_number,
+                                const std::string &function)
+{
+    if (result_code != ResultCode::OK)
+    {
+        auto error_info = std::make_shared<ErrorInfo>();
+        error_info->set_file(file);
+        error_info->set_line_number(line_number);
+        error_info->set_function(function);
+        error_info->set_result_code(result_code);
+        set_error_info(error_info);
+    }
+}
+
+void Result::handle_result(const Result &result, const std::string &file, int line_number, const std::string &function)
+{
+    set_result_code(result.get_result_code());
+
+    handle_result_code(result.get_result_code(), file, line_number, function);
+
+    if (get_error_info() != nullptr)
+    {
+        auto error_info = get_error_info();
+        error_info->set_prev(result.get_error_info());
+        error_info->set_index(result.get_error_info()->get_index() + 1);
+    }
 }
 
 ResultCode Result::get_result_code() const
@@ -136,6 +145,20 @@ void Result::set_error_info(std::shared_ptr<ErrorInfo> error_info)
 std::shared_ptr<ErrorInfo> Result::get_error_info()
 {
     return m_error_info;
+}
+
+void Result::add(const Result &result)
+{
+    if (result.ok()) return;
+
+    if (get_error_info() == nullptr)
+    {
+        auto error_info = std::make_shared<ErrorInfo>();
+        error_info->set_result_code(ResultCode::ERROR_VECTOR);
+        set_error_info(error_info);
+    }
+
+    get_error_info()->add_prev(result.get_error_info());
 }
 
 const std::shared_ptr<ErrorInfo> Result::get_error_info() const

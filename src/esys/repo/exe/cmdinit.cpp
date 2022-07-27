@@ -273,7 +273,7 @@ Result CmdInit::fetch_esysrepo_manifest(GitHelper &git_helper, const std::string
     }
     else
     {
-        return ESYSREPO_RESULT(ResultCode::MANIFEST_UNKNOWN_FILE_EXT, manifest_filename_ext);
+        return ESYSREPO_RESULT(ResultCode::MANIFEST_FILE_EXT_UNKNOWN, manifest_filename_ext);
     }
 
     config_file->set_manifest_format(manifest->get_format());
@@ -321,7 +321,7 @@ Result CmdInit::fetch_esysrepo_manifest(GitHelper &git_helper, const std::string
         manifest_path = target.generic().string();
     }
     else
-        return ESYSREPO_RESULT(ResultCode::MANIFEST_UNKNOWN_KIND);
+        return ESYSREPO_RESULT(ResultCode::MANIFEST_KIND_UNKNOWN);
 
     config_file->set_manifest_path(manifest_path);
     Result result = get_config_folder()->write_config_file();

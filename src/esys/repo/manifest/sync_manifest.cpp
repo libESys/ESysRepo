@@ -77,70 +77,74 @@ int Sync::is_manifest_modified(bool &modified)
     return 0;
 }
 
-int Sync::run()
+Result Sync::run()
 {
-    if (get_git() == nullptr) return GIT_IS_NULL;
-    if (get_git()->is_open()) return GIT_IS_NOT_OPENED;
+    if (get_git() == nullptr) return ESYSREPO_RESULT(ResultCode::CMD_GIT_IS_NULLPTR);
+    if (get_git()->is_open()) return ESYSREPO_RESULT(ResultCode::CMD_GIT_IS_NOT_OPENED);
 
     Result result = get_git()->open(get_config_folder()->get_manifest_repo_path());
     if (result.error())
     {
-        error("Couldn't open the manifest git repo");
-        return GIT_OPEN_FAILED;
+        std::string err_str = "Couldn't open the manifest git repo";
+        error(err_str);
+        return ESYSREPO_RESULT(ResultCode::CMD_GIT_OPEN_FAILED, err_str);
     }
     bool dirty = false;
-    if (get_git()->is_dirty(dirty).error()) return GIT_IS_DIRTY_FAILED;
+    if (get_git()->is_dirty(dirty).error()) return ESYSREPO_RESULT(ResultCode::CMD_GIT_IS_DIRTY_FAILED);
     if (dirty)
     {
-        warn("Sync manifest aborted: found changes in the git repo.");
+        std::string err_str = "Sync manifest aborted: found changes in the git repo.";
+        warn(err_str);
         get_git()->close();
-        return 0;
+        return ESYSREPO_RESULT(ResultCode::CMDSYNC_ABORTED_FOUND_CHANGES, err_str);
     }
 
     result = get_git()->fetch();
     if (result.error())
     {
-        error("Fetch failed on the manifest git repo");
+        std::string err_str = "Fetch failed on the manifest git repo";
+        error(err_str);
         get_git()->close();
-        return GIT_FETCH_FAILED;
+        return ESYSREPO_RESULT(ResultCode::CMD_GIT_FETCH_FAILED, err_str);
     }
 
     if (get_branch().empty()) return normal_sync();
     return branch_sync();
 }
 
-int Sync::normal_sync()
+Result Sync::normal_sync()
 {
     bool detached = false;
-    Result rresult = get_git()->is_detached(detached);
-    if (rresult.error())
+    Result result = get_git()->is_detached(detached);
+    if (result.error())
     {
         error("Couldn't detect if the git repo is detached or not.");
         get_git()->close();
-        return 0;
+        return ESYSREPO_RESULT(ResultCode::OK);
     }
 
     if (detached)
     {
         warn("Sync manifest aborted: the git repo is detached.");
         get_git()->close();
-        return 0;
+        return ESYSREPO_RESULT(ResultCode::OK);
     }
 
     git::Branches branches;
 
-    rresult = get_git()->get_branches(branches);
-    if (rresult.error())
+    result = get_git()->get_branches(branches);
+    if (result.error())
     {
         get_git()->close();
-        return GIT_GET_BRANCHES_FAILED;
+        return ESYSREPO_RESULT(result);
     }
 
     if (branches.get_head() == nullptr)
     {
-        error("Couldn't get the HEAD.");
+        std::string err_str = "Couldn't get the HEAD.";
+        error(err_str);
         get_git()->close();
-        return GIT_GET_HEAD_FAILED;
+        return ESYSREPO_RESULT(ResultCode::CMD_GIT_GET_HEAD_FAILED, err_str);
     }
 
     std::vector<std::string> refs;
@@ -149,57 +153,61 @@ int Sync::normal_sync()
 
     refs.push_back(branches.get_head()->get_remote_branch());
 
-    rresult = get_git()->merge_analysis(refs, merge_analysis_result, commits);
-    if (rresult.error())
+    result = get_git()->merge_analysis(refs, merge_analysis_result, commits);
+    if (result.error())
     {
-        error("Merge analysis failed.");
+        std::string err_str = "Merge analysis failed.";
+        error(err_str);
         get_git()->close();
-        return GIT_MERGE_ANALYSIS_FAILED;
+        return ESYSREPO_RESULT(result, err_str);
     }
 
     if (merge_analysis_result == git::MergeAnalysisResult::UP_TO_DATE)
     {
         info("Manifest up to date.");
         get_git()->close();
-        return 0;
+        return ESYSREPO_RESULT(ResultCode::OK);
     }
     if (merge_analysis_result != git::MergeAnalysisResult::FASTFORWARD)
     {
-        warn("Sync manifest aborted: can't be fastforwarded.");
+        std::string err_str = "Sync manifest aborted: can't be fastforwarded.";
+        warn(err_str);
         get_git()->close();
-        return GIT_CAN_NOT_BE_FAST_FORWARDED;
+        return ESYSREPO_RESULT(ResultCode::CMDSYNC_GIT_CAN_NOT_BE_FAST_FORWARDED, err_str);
     }
 
     // For a fastforward, there should be only one commit
     if (commits.size() != 1)
     {
-        error("fastforward failed.");
+        std::string err_str = "fastforward failed.";
+        error(err_str);
         get_git()->close();
-        return GIT_MORE_THAN_ONE_COMMIT;
+        return ESYSREPO_RESULT(ResultCode::CMD_GIT_MORE_THAN_ONE_COMMIT, err_str);
     }
 
     info("Fastforward manifest ...");
 
-    rresult = get_git()->fastforward(commits[0]);
-    if (rresult.error())
+    result = get_git()->fastforward(commits[0]);
+    if (result.error())
     {
-        error("Fastforward failed.");
+        std::string err_str = "Fastforward failed.";
+        error(err_str);
         get_git()->close();
-        return GIT_FAST_FORWARD_FAILED;
+        return ESYSREPO_RESULT(result, err_str);
     }
     info("Fastforward manifest completed.");
     get_git()->close();
 
-    return 0;
+    return ESYSREPO_RESULT(ResultCode::OK);
 }
 
-int Sync::branch_sync()
+Result Sync::branch_sync()
 {
     Result result = get_git()->fetch();
     if (result.error())
     {
         get_git()->close();
-        return GIT_FETCH_FAILED;
+        return ESYSREPO_RESULT(result);
     }
 
     bool has_branch = get_git()->has_branch(get_branch());
@@ -212,7 +220,7 @@ int Sync::branch_sync()
     else
         error("Manifest: failed to checkout branch " + get_branch() + ".");
     get_git()->close();
-    return result.get_result_code_int();
+    return ESYSREPO_RESULT(result);
 }
 
 int Sync::process_repo()

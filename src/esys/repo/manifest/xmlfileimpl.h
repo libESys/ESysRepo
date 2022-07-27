@@ -42,8 +42,8 @@ public:
     virtual ~XMLFileImpl();
 
     Result read(const std::string &path);
-    int write(const std::string &path);
-    int write(std::ostream &os);
+    Result write(const std::string &path);
+    Result write(std::ostream &os);
 
     Result read(std::shared_ptr<esysfile::xml::Data> data);
     Result read_root_attributes(std::shared_ptr<esysfile::xml::Element> root_el);
@@ -55,15 +55,15 @@ public:
     Result read_group(std::shared_ptr<esysfile::xml::Element> el);
     Result read_group_repo(std::shared_ptr<esysfile::xml::Element> el, std::shared_ptr<Group> group);
 
-    static int write(std::shared_ptr<esysfile::xml::Element> parent_el, std::shared_ptr<Location> location);
-    static int write(std::shared_ptr<esysfile::xml::Element> parent_el, std::shared_ptr<Repository> repository);
-    static int write(std::shared_ptr<esysfile::xml::Element> parent_el, std::shared_ptr<Group> group);
+    static Result write(std::shared_ptr<esysfile::xml::Element> parent_el, std::shared_ptr<Location> location);
+    static Result write(std::shared_ptr<esysfile::xml::Element> parent_el, std::shared_ptr<Repository> repository);
+    static Result write(std::shared_ptr<esysfile::xml::Element> parent_el, std::shared_ptr<Group> group);
 
     XMLFile *self();
     const XMLFile *self() const;
 
 protected:
-    int write_xml();
+    Result write_xml();
 
 private:
     XMLFile *m_self = nullptr;

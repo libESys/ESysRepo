@@ -74,7 +74,7 @@ public:
     /*!
      * \return 0 if successful, < 0 otherwise
      */
-    int run();
+    Result run();
 
     std::size_t get_worker_thread_count();
 

@@ -18,6 +18,7 @@
 #pragma once
 
 #include "esys/repo/esysrepo_defs.h"
+#include "esys/repo/result.h"
 
 #include <string>
 
@@ -38,8 +39,8 @@ enum class Kind
     EMBEDDED  //!< Manifest is embedded in a git repo with source code
 };
 
-int convert(Kind type, std::string &text);
-int convert(const std::string &text, Kind &kind);
+Result convert(Kind type, std::string &text);
+Result convert(const std::string &text, Kind &kind);
 
 } // namespace manifest
 

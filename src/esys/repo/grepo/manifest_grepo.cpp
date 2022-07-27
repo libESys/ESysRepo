@@ -44,14 +44,14 @@ Result Manifest::read(const std::string &filename)
     return m_impl->read(filename);
 }
 
-int Manifest::write(const std::string &filename)
+Result Manifest::write(const std::string &filename)
 {
     set_filename(filename);
 
     return m_impl->write(filename);
 }
 
-int Manifest::write(std::ostream &os)
+Result Manifest::write(std::ostream &os)
 {
     return m_impl->write(os);
 }

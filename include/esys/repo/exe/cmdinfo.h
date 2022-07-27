@@ -52,7 +52,7 @@ public:
     void set_local_only(bool local_only);
     bool get_local_only() const;
 
-    int open_repo(std::shared_ptr<manifest::Repository> repo);
+    Result open_repo(std::shared_ptr<manifest::Repository> repo);
     void print_repo(std::shared_ptr<manifest::Repository> repo);
 
 protected:

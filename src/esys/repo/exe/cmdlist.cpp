@@ -67,11 +67,11 @@ Result CmdList::impl_run()
     if (get_name_only()) warn("Option --name-only is not implemented yet.");
     if (get_path_only()) warn("Option --path-only is not implemtented yet.");
 
-    int result = default_handling_folder_workspace();
-    if (result < 0) return generic_error(result);
+    Result result = default_handling_folder_workspace();
+    if (result.error()) return ESYSREPO_RESULT(result);
 
     result = open_esysrepo_folder();
-    if (result < 0) return generic_error(result);
+    if (result.error()) return ESYSREPO_RESULT(result);
 
     result = load_manifest();
 
@@ -89,7 +89,7 @@ Result CmdList::impl_run()
 
     info(oss.str());
 
-    return generic_error(result);
+    return ESYSREPO_RESULT(result);
 }
 
 void CmdList::print_info(std::ostream &os, std::shared_ptr<manifest::Repository> repo)

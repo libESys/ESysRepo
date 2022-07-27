@@ -21,6 +21,7 @@
 #include "esys/repo/exe/cmd.h"
 #include "esys/repo/git/repostatus.h"
 #include "esys/repo/git/branches.h"
+#include "esys/repo/result.h"
 
 #include <memory>
 #include <vector>
@@ -43,7 +44,7 @@ public:
     void set_quiet(bool quiet);
     bool get_quiet() const;
 
-    int open_repo(std::shared_ptr<manifest::Repository> repo);
+    Result open_repo(std::shared_ptr<manifest::Repository> repo);
     void print_repo(std::shared_ptr<manifest::Repository> repo);
 
     void set_start_print_branch(std::size_t start_print_branch);
@@ -53,7 +54,7 @@ public:
 
     std::string get_file_status_header(std::shared_ptr<git::FileStatus> file_status);
 
-    int process_sub_args_to_find_parent_path();
+    Result process_sub_args_to_find_parent_path();
 
     void set_show_file_permission(bool show_file_permission);
     bool get_show_file_permission() const;

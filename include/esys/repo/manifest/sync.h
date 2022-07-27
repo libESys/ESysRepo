@@ -71,10 +71,10 @@ public:
     void set_force(bool force = true);
     bool get_force() const;
 
-    int run();
+    Result run();
 
-    int normal_sync();
-    int branch_sync();
+    Result normal_sync();
+    Result branch_sync();
 
     int is_manifest_modified(bool &modified);
 

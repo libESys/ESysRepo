@@ -101,8 +101,8 @@ ESYSTEST_AUTO_TEST_CASE(ReadManifest03GRepo)
 
     temp_path /= "default03.xml";
 
-    int result_int = manifest.write(temp_path.string());
-    ESYSTEST_REQUIRE_EQUAL(result_int, 0);
+    result = manifest.write(temp_path.string());
+    ESYSTEST_REQUIRE_EQUAL(result.ok(), true);
 
     Manifest new_manifest;
 

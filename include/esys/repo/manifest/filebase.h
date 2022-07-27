@@ -66,13 +66,13 @@ public:
      * \param[in] path the path of the ESysRepo manifest
      * \return 0 if successful, < 0 otherwise
      */
-    virtual int write(const std::string &path) = 0;
+    virtual Result write(const std::string &path) = 0;
 
     //! Write the manifest to a stream
     /*!
      * \param[in] os the stream
      */
-    virtual int write(std::ostream &os) = 0;
+    virtual Result write(std::ostream &os) = 0;
 
     std::vector<std::shared_ptr<FileError>> &get_errors();
     const std::vector<std::shared_ptr<FileError>> &get_errors() const; //<swig_out/>

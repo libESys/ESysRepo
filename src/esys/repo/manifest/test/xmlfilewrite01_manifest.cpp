@@ -178,8 +178,8 @@ ESYSTEST_AUTO_TEST_CASE(XMLFileWrite01Manifest)
 
     path /= ".esysrepo.manifest.xml";
 
-    int result = xml_file.write(path.make_preferred().string());
-    ESYSTEST_REQUIRE_EQUAL(result, 0);
+    Result result = xml_file.write(path.make_preferred().string());
+    ESYSTEST_REQUIRE_EQUAL(result.ok(), true);
 }
 
 } // namespace test

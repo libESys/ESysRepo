@@ -21,18 +21,18 @@
 namespace esys::repo::manifest
 {
 
-int convert(Format format, std::string &text)
+Result convert(Format format, std::string &text)
 {
     switch (format)
     {
         case Format::XML: text = "xml"; break;
         case Format::JSON: text = "json"; break;
-        default: return -1;
+        default: return ESYSREPO_RESULT(ResultCode::MANIFEST_FORMAT_UNKNOWN);
     }
-    return 0;
+    return ESYSREPO_RESULT(ResultCode::OK);
 }
 
-int convert(const std::string &text, Format &format)
+Result convert(const std::string &text, Format &format)
 {
     if (text == "xml")
         format = Format::XML;
@@ -41,24 +41,24 @@ int convert(const std::string &text, Format &format)
     else
     {
         format = Format::UNKNOWN;
-        return -1;
+        return ESYSREPO_RESULT(ResultCode::MANIFEST_FORMAT_UNKNOWN);
     }
-    return 0;
+    return ESYSREPO_RESULT(ResultCode::OK);
 }
 
 ESYSREPO_API std::string convert(Format format)
 {
     std::string text;
-    int result = convert(format, text);
-    if (result < 0) return "";
+    auto result = convert(format, text);
+    if (result.error()) return "";
     return text;
 }
 
 ESYSREPO_API Format convert(const std::string &text)
 {
     Format format;
-    int result = convert(text, format);
-    if (result < 0) return Format::NOT_SET;
+    Result result = convert(text, format);
+    if (result.error()) return Format::NOT_SET;
     return format;
 }
 

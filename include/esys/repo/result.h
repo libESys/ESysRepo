@@ -23,6 +23,7 @@
 
 #include <memory>
 #include <ostream>
+#include <vector>
 
 #ifdef __has_include
 #if __has_include(<version>)
@@ -108,6 +109,18 @@ public:
     Result(const Result &result, const std::string &file, int line_number, const std::string &function,
            const std::string &text);
 
+    //! Constructor
+    /*!
+     * \param[in] result the parent Result
+     * \param[in] result_code the result code
+     * \param[in] file the file where the Result was created
+     * \param[in] line_number the line number when the Result was created
+     * \param[in] function the name of the function where the Result was created
+     * \param[in] text some informative text in case of error
+     */
+    Result(const Result &result, ResultCode result_code, const std::string &file, int line_number,
+           const std::string &function, const std::string &text = "");
+
     //! Destructor
     ~Result();
 
@@ -147,6 +160,12 @@ public:
      */
     const std::shared_ptr<ErrorInfo> get_error_info() const; //<swig_out/>
 
+    //! Add a Result
+    /*!
+     * \param[in] result the Result to be add
+     */
+    void add(const Result &result);
+
     //! Returns if the Result is successful, meaning no error occured
     /*!
      * \return true if not errors, false otherwise
@@ -185,6 +204,10 @@ public:
 
 private:
     //!< \cond DOXY_IMPL
+    void handle_result(const Result &result, const std::string &file, int line_number, const std::string &function);
+    void handle_result_code(ResultCode result_code, const std::string &file, int line_number,
+                            const std::string &function);
+
     ResultCode m_result_code = ResultCode::OK; //!< The result code
     std::shared_ptr<ErrorInfo> m_error_info;   //!< The error information
     //!< \endcond

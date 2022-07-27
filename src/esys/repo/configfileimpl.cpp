@@ -56,8 +56,8 @@ Result ConfigFileImpl::open(const std::string &path)
     manifest::Type type = manifest::Type::NOT_SET;
 
     std::string value = obj["manifest_type"];
-    int result = manifest::convert(value, type);
-    if (result < 0) return ESYSREPO_RESULT(ResultCode::CFGFILE_UNKNOWN_MANIFEST_TYPE, value);
+    Result result = manifest::convert(value, type);
+    if (result.error()) return ESYSREPO_RESULT(result, ResultCode::CFGFILE_UNKNOWN_MANIFEST_TYPE, value);
 
     self()->get_config()->set_manifest_type(type);
 
@@ -74,8 +74,8 @@ Result ConfigFileImpl::open(const std::string &path)
         manifest::Kind kind;
 
         std::string value = obj["manifest_kind"];
-        result = convert(value, kind);
-        if (result < 0) return ESYSREPO_RESULT(ResultCode::CFGFILE_UNKNOWN_MANIFEST_KIND, value);
+        auto result = convert(value, kind);
+        if (result.error()) return ESYSREPO_RESULT(result, ResultCode::CFGFILE_UNKNOWN_MANIFEST_KIND, value);
 
         self()->get_config()->set_manifest_kind(kind);
     }
@@ -85,8 +85,8 @@ Result ConfigFileImpl::open(const std::string &path)
         manifest::Format format;
 
         std::string value = obj["manifest_format"];
-        result = convert(value, format);
-        if (result < 0) return ESYSREPO_RESULT(ResultCode::CFGFILE_UNKNOWN_MANIFEST_FORMAT, value);
+        auto result = convert(value, format);
+        if (result.error()) return ESYSREPO_RESULT(result, ResultCode::CFGFILE_UNKNOWN_MANIFEST_FORMAT, value);
 
         self()->get_config()->set_manifest_format(format);
     }
@@ -103,8 +103,8 @@ Result ConfigFileImpl::write(const std::string &path)
 
     json cfg_json;
     std::string text;
-    int result = manifest::convert(cfg->get_manifest_type(), text);
-    if (result < 0) return ESYSREPO_RESULT(ResultCode::INTERNAL_ERROR);
+    Result result = manifest::convert(cfg->get_manifest_type(), text);
+    if (result.error()) return ESYSREPO_RESULT(result);
 
     cfg_json["manifest_type"] = text;
     if (!cfg->get_manifest_path().empty()) cfg_json["manifest_path"] = cfg->get_manifest_path();
@@ -112,12 +112,12 @@ Result ConfigFileImpl::write(const std::string &path)
 
     std::string kind;
     result = convert(cfg->get_manifest_kind(), kind);
-    if (result < 0) return ESYSREPO_RESULT(ResultCode::INTERNAL_ERROR);
+    if (result.error()) return ESYSREPO_RESULT(result);
     cfg_json["manifest_kind"] = kind;
 
     std::string format;
     result = convert(cfg->get_manifest_format(), format);
-    if (result < 0) return ESYSREPO_RESULT(ResultCode::INTERNAL_ERROR);
+    if (result.error()) return ESYSREPO_RESULT(result);
     cfg_json["manifest_format"] = format;
 
     std::ofstream ofs;

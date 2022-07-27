@@ -77,29 +77,35 @@ bool CmdInfo::get_local_only() const
 
 Result CmdInfo::impl_run()
 {
-    int result = default_handling_folder_workspace();
-    if (result < 0) return generic_error(result);
+    Result result = default_handling_folder_workspace();
+    if (result.error()) return ESYSREPO_RESULT(result);
 
     result = open_esysrepo_folder();
-    if (result < 0) return generic_error(result);
+    if (result.error()) return ESYSREPO_RESULT(result);
 
     result = load_manifest();
-    if (result < 0) return generic_error(result);
+    if (result.error()) return ESYSREPO_RESULT(result);
+
+    Result rresult;
 
     for (auto location : get_manifest()->get_locations())
     {
         for (auto repo : location->get_repos())
         {
             result = open_repo(repo);
-            if (result < 0) continue;
+            if (result.error())
+            {
+                rresult.add(ESYSREPO_RESULT(result));
+                continue;
+            }
             print_repo(repo);
         }
     }
 
-    return generic_error(result);
+    return ESYSREPO_RESULT(rresult);
 }
 
-int CmdInfo::open_repo(std::shared_ptr<manifest::Repository> repo)
+Result CmdInfo::open_repo(std::shared_ptr<manifest::Repository> repo)
 {
     auto git_helper = new_git_helper();
 
@@ -112,22 +118,23 @@ int CmdInfo::open_repo(std::shared_ptr<manifest::Repository> repo)
     m_rel_repo_path = rel_repo_path.string();
     m_repo_path = repo_path.string();
 
-    Result rresult = git_helper->open(repo_path.string(), log::Level::DEBUG);
-    if (rresult.error()) return rresult.get_result_code_int();
+    Result result = git_helper->open(repo_path.string(), log::Level::DEBUG);
+    if (result.error()) return ESYSREPO_RESULT(result);
 
     m_last_commit = std::make_shared<git::CommitHash>();
-    rresult = get_git()->get_last_commit(*m_last_commit);
-    if (rresult.error()) m_last_commit.reset();
+    result = get_git()->get_last_commit(*m_last_commit);
+    if (result.error()) m_last_commit.reset();
 
     m_branches.clear();
 
-    rresult = git_helper->get_branches(m_branches, git::BranchType::LOCAL, log::Level::DEBUG);
-    if (rresult.error())
+    result = git_helper->get_branches(m_branches, git::BranchType::LOCAL, log::Level::DEBUG);
+    if (result.error())
     {
         git_helper->close(log::Level::DEBUG);
-        return rresult.get_result_code_int();
+        return ESYSREPO_RESULT(result);
     }
-    return git_helper->close(log::Level::DEBUG).get_result_code_int();
+    result = git_helper->close(log::Level::DEBUG);
+    return ESYSREPO_RESULT(result);
 }
 
 void CmdInfo::print_repo(std::shared_ptr<manifest::Repository> repo)

@@ -145,18 +145,37 @@ public:
      */
     std::shared_ptr<ErrorInfo> get_prev();
 
-    virtual void print(std::ostream &os) const;
+    //! Add a previous error information
+    /*!
+     * \param[in] prev the previous error information to add
+     */
+    void add_prev(std::shared_ptr<ErrorInfo> prev);
+
+    //! Get the vector of error information
+    /*!
+     * \return the vector of error information
+     */
+    std::vector<std::shared_ptr<ErrorInfo>> &get_prevs();
+
+    //! Get the vector of error information
+    /*!
+     * \return the vector of error information
+     */
+    const std::vector<std::shared_ptr<ErrorInfo>> &get_prevs() const; //<swig_out/>
+
+    virtual void print(std::ostream &os, int depth = 0) const;
 
 private:
     //!< \cond DOXY_IMPL
-    int m_index = 0;                           //!< The index in the error call stack
-    ResultCode m_result_code = ResultCode::OK; //!< The result code
-    std::string m_file;                        //!< The file path where the error occured
-    int m_line_number = -1;                    //!< The line number where the error occured
-    std::string m_function;                    //!< The function where the error occured
-    std::string m_text;                        //!< Some informative text about the error
-    int m_raw_error = 0;                       //!< Return code from an external library
-    std::shared_ptr<ErrorInfo> m_prev;         //!< The previous error information
+    int m_index = 0;                                 //!< The index in the error call stack
+    ResultCode m_result_code = ResultCode::OK;       //!< The result code
+    std::string m_file;                              //!< The file path where the error occured
+    int m_line_number = -1;                          //!< The line number where the error occured
+    std::string m_function;                          //!< The function where the error occured
+    std::string m_text;                              //!< Some informative text about the error
+    int m_raw_error = 0;                             //!< Return code from an external library
+    std::shared_ptr<ErrorInfo> m_prev;               //!< The previous error information
+    std::vector<std::shared_ptr<ErrorInfo>> m_prevs; //!< Vector of previous error information
     //!< \endcond
 };
 

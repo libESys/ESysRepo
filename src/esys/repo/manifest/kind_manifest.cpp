@@ -5,7 +5,7 @@
  * \cond
  * __legal_b__
  *
- * Copyright (c) 2021 Michel Gillet
+ * Copyright (c) 2021-2022 Michel Gillet
  * Distributed under the wxWindows Library Licence, Version 3.1.
  * (See accompanying file LICENSE_3_1.txt or
  * copy at http://www.wxwidgets.org/about/licence)
@@ -21,18 +21,18 @@
 namespace esys::repo::manifest
 {
 
-int convert(Kind type, std::string &text)
+Result convert(Kind type, std::string &text)
 {
     switch (type)
     {
         case Kind::ISOLATED: text = "isolated"; break;
         case Kind::EMBEDDED: text = "embedded"; break;
-        default: return -1;
+        default: return ESYSREPO_RESULT(ResultCode::MANIFEST_KIND_UNKNOWN);
     }
-    return 0;
+    return ESYSREPO_RESULT(ResultCode::OK);
 }
 
-int convert(const std::string &text, Kind &kind)
+Result convert(const std::string &text, Kind &kind)
 {
     if (text == "isolated")
         kind = Kind::ISOLATED;
@@ -41,9 +41,9 @@ int convert(const std::string &text, Kind &kind)
     else
     {
         kind = Kind::UNKNOWN;
-        return -1;
+        return ESYSREPO_RESULT(ResultCode::MANIFEST_KIND_UNKNOWN);
     }
-    return 0;
+    return ESYSREPO_RESULT(ResultCode::OK);
 }
 
 } // namespace esys::repo::manifest

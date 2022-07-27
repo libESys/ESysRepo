@@ -58,12 +58,12 @@ ESYSTEST_AUTO_TEST_CASE(WriteManifest01GRepo)
 
     repo = location->add_repo("esysfile", "src/esysfile");
 
-    int result = data->add_location(location, true);
-    ESYSTEST_REQUIRE_EQUAL(result, 0);
+    int result_int = data->add_location(location, true);
+    ESYSTEST_REQUIRE_EQUAL(result_int, 0);
 
     manifest.set_data(data);
-    result = manifest.write(file_path.string());
-    ESYSTEST_REQUIRE_EQUAL(result, 0);
+    Result result = manifest.write(file_path.string());
+    ESYSTEST_REQUIRE_EQUAL(result.ok(), true);
 }
 
 } // namespace test

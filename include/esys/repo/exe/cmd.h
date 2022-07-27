@@ -189,7 +189,7 @@ public:
     cli::AppBase *get_app_base();
 
     int process_sub_args_as_git_repo_path(const std::string &input_path);
-    int process_sub_args_as_git_repo_paths();
+    Result process_sub_args_as_git_repo_paths();
     const std::vector<std::string> &get_input_git_repo_paths() const;
 
     virtual std::string get_extra_start_msg();
@@ -197,7 +197,7 @@ public:
     void set_console_os(std::ostream *console_os);
     std::ostream *get_console_os();
 
-    int default_handling_folder_workspace();
+    Result default_handling_folder_workspace();
     Result only_one_folder_or_workspace();
 
     int create_logger(const std::string &path = "");
@@ -234,13 +234,13 @@ protected:
     /*!
      * \return 0 if successful, < 0 otherwise
      */
-    int open_esysrepo_folder();
+    Result open_esysrepo_folder();
 
     //! Helper function to load the manifest
     /*!
      * \return 0 if successful, < 0 otherwise
      */
-    int load_manifest();
+    Result load_manifest();
 
 
 private:

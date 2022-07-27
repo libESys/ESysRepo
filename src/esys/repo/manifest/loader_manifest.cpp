@@ -53,7 +53,7 @@ Result Loader::run()
         case manifest::Type::GIT_SUPER_PROJECT: set_loader(std::make_shared<LoaderGitSuper>()); break;
         case manifest::Type::GOOGLE_MANIFEST:
         case manifest::Type::RAW_GOOGLE_MANIFEST: set_loader(std::make_shared<LoaderGRepo>()); break;
-        default: return ESYSREPO_RESULT(ResultCode::MANIFEST_UNKNOWN_TYPE);
+        default: return ESYSREPO_RESULT(ResultCode::MANIFEST_TYPE_UNKNOWN);
     }
 
     get_loader()->set_config(config);

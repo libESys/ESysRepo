@@ -45,8 +45,8 @@ public:
     ~Manifest() override;
 
     Result read(const std::string &filename) override;
-    int write(const std::string &filename) override;
-    int write(std::ostream &os) override;
+    Result write(const std::string &filename) override;
+    Result write(std::ostream &os) override;
 
     //! Equal to comparison operator
     bool operator==(const Manifest &other) const;

@@ -116,7 +116,7 @@ public:
     /*!
      * \return 0 if successful, < 0 otherwise
      */
-    virtual int run();
+    virtual Result run();
 
     //! Set the log level
     /*!

@@ -56,14 +56,14 @@ public:
      * \param[in] path the path of the ESysRepo manifest file to write
      * \return 0 if successful, < 0 otherwise
      */
-    int write(const std::string &path) override;
+    Result write(const std::string &path) override;
 
     //! Write a ESysRepo manifest to a stream
     /*!
      * \param[in] os the stream
      * \return 0 if successful, < 0 otherwise
      */
-    int write(std::ostream &os) override;
+    Result write(std::ostream &os) override;
 
     //! Get the PIMPL
     /*!

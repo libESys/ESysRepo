@@ -63,10 +63,10 @@ std::size_t RunTasks::get_worker_thread_count()
     return m_worker_thread_count;
 }
 
-int RunTasks::run()
+Result RunTasks::run()
 {
-    if (m_tasks.size() == 0) return -1;
-    if (static_cast<int>(get_job_count()) < 0) return -2;
+    if (m_tasks.size() == 0) return ESYSREPO_RESULT(ResultCode::RUNTASKS_NO_TASK);
+    if (static_cast<int>(get_job_count()) < 0) return ESYSREPO_RESULT(ResultCode::JOB_COUNT_NEGATIVE);
 
     for (int idx = 0; idx < get_worker_thread_count(); ++idx)
     {
@@ -88,7 +88,7 @@ int RunTasks::run()
 
     if (m_cout_thread.joinable()) m_cout_thread.join();
 
-    return 0;
+    return ESYSREPO_RESULT(ResultCode::OK);
 }
 
 void RunTasks::worker_thread(std::shared_ptr<WorkerThread> thread)

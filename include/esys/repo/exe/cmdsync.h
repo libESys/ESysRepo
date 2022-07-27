@@ -52,7 +52,7 @@ public:
     void set_alt_address(bool alt_address);
     bool get_alt_address() const;
 
-    int sync_manifest();
+    Result sync_manifest();
 
 protected:
     //!< \cond DOXY_IMPL

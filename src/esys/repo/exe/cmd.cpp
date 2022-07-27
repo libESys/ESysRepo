@@ -294,9 +294,9 @@ int Cmd::process_sub_args_as_git_repo_path(const std::string &input_path)
     return 0;
 }
 
-int Cmd::process_sub_args_as_git_repo_paths()
+Result Cmd::process_sub_args_as_git_repo_paths()
 {
-    if (get_manifest() == nullptr) return -1;
+    if (get_manifest() == nullptr) return ESYSREPO_RESULT(ResultCode::MANIFEST_IS_NULLPTR);
 
     int result = 0;
 
@@ -305,7 +305,10 @@ int Cmd::process_sub_args_as_git_repo_paths()
         int local_result = process_sub_args_as_git_repo_path(input_path);
         if (local_result < 0) --result;
     }
-    return result;
+    if (result < 0)
+        return ESYSREPO_RESULT(ResultCode::CMD_GENERIC_RAW_ERROR, result);
+    else
+        return ESYSREPO_RESULT(ResultCode::OK);
 }
 
 const std::vector<std::string> &Cmd::get_input_git_repo_paths() const
@@ -333,7 +336,7 @@ std::shared_ptr<manifest::Loader> Cmd::get_loader()
     return m_loader;
 }
 
-int Cmd::open_esysrepo_folder()
+Result Cmd::open_esysrepo_folder()
 {
     auto config_folder = std::make_shared<ConfigFolder>();
 
@@ -346,12 +349,12 @@ int Cmd::open_esysrepo_folder()
     else
         debug(0, "Opened esysrepo folder : " + rel_parent_path.string());
 
-    return result.get_result_code_int();
+    return ESYSREPO_RESULT(result);
 }
 
-int Cmd::load_manifest()
+Result Cmd::load_manifest()
 {
-    if (get_config_folder() == nullptr) return -1;
+    if (get_config_folder() == nullptr) return ESYSREPO_RESULT(ResultCode::CMD_CONFIG_FOLDER_NULLPTR);
 
     if (get_loader() == nullptr) set_loader(std::make_shared<manifest::Loader>());
     if (get_manifest() == nullptr) set_manifest(std::make_shared<Manifest>());
@@ -362,18 +365,19 @@ int Cmd::load_manifest()
 
     get_loader()->set_logger_if(get_logger_if());
     Result result = get_loader()->run();
-    return result.get_result_code_int();
+    return ESYSREPO_RESULT(result);
 }
 
-int Cmd::default_handling_folder_workspace()
+Result Cmd::default_handling_folder_workspace()
 {
     if (!get_folder().empty() && get_workspace_path().empty())
     {
         boost::filesystem::path path = exe::Cmd::find_workspace_path(get_folder());
         if (path.empty())
         {
-            error("Couldn't find a folder with ESysRepo from : " + get_folder());
-            return -1;
+            std::string err_str = "Couldn't find a folder with ESysRepo from : " + get_folder();
+            error(err_str);
+            return ESYSREPO_RESULT(ResultCode::CMD_NO_ESYSREPO_FOLDER_FOUND, err_str);
         }
         path = boost::filesystem::absolute(path).normalize().make_preferred();
         set_workspace_path(path.string());
@@ -383,8 +387,9 @@ int Cmd::default_handling_folder_workspace()
         boost::filesystem::path path = exe::Cmd::find_workspace_path(get_workspace_path());
         if (path.empty())
         {
-            error("Couldn't find a folder with ESysRepo from : " + get_workspace_path());
-            return -1;
+            std::string err_str = "Couldn't find a folder with ESysRepo from : " + get_workspace_path();
+            error(err_str);
+            return ESYSREPO_RESULT(ResultCode::CMD_NO_ESYSREPO_FOLDER_FOUND, err_str);
         }
         path = boost::filesystem::absolute(path).normalize().make_preferred();
         set_workspace_path(path.string());
@@ -394,13 +399,15 @@ int Cmd::default_handling_folder_workspace()
         boost::filesystem::path path = exe::Cmd::find_workspace_path();
         if (path.empty())
         {
-            error("Couldn't find a folder with ESysRepo from : " + boost::filesystem::current_path().string());
-            return -1;
+            std::string err_str =
+                "Couldn't find a folder with ESysRepo from : " + boost::filesystem::current_path().string();
+            error(err_str);
+            return ESYSREPO_RESULT(ResultCode::CMD_NO_ESYSREPO_FOLDER_FOUND, err_str);
         }
         path = boost::filesystem::absolute(path).normalize().make_preferred();
         set_workspace_path(path.string());
     }
-    return 0;
+    return ESYSREPO_RESULT(ResultCode::OK);
 }
 
 Result Cmd::only_one_folder_or_workspace()

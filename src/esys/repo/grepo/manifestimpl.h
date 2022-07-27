@@ -42,15 +42,15 @@ public:
     virtual ~ManifestImpl();
 
     Result read(const std::string &filename);
-    int write(const std::string &filename);
-    int write(std::ostream &os);
+    Result write(const std::string &filename);
+    Result write(std::ostream &os);
 
     void write_remotes();
     static void write_remote(std::shared_ptr<esysfile::xml::Element> parent,
                              std::shared_ptr<manifest::Location> location);
     static void write_default(std::shared_ptr<esysfile::xml::Element> parent, std::shared_ptr<repo::Manifest> manifest);
-    int write_projects();
-    int write_project(std::shared_ptr<esysfile::xml::Element> parent, std::shared_ptr<manifest::Repository> repository);
+    [[nodiscard]] Result write_projects();
+    Result write_project(std::shared_ptr<esysfile::xml::Element> parent, std::shared_ptr<manifest::Repository> repository);
 
     Result read(std::shared_ptr<esysfile::xml::Data> data);
     Result read(std::shared_ptr<esysfile::xml::Element> el);
@@ -63,7 +63,7 @@ public:
     Manifest *self() const;
 
 protected:
-    int write_xml();
+    Result write_xml();
 
 private:
     Manifest *m_self = nullptr;

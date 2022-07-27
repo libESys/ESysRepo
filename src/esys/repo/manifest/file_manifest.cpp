@@ -60,23 +60,24 @@ Result File::read(const std::string &path)
     }
 }
 
-int File::write(const std::string &path)
+Result File::write(const std::string &path)
 {
     set_filename(path);
 
     std::ofstream ofs(path);
 
-    if (!ofs.is_open()) return -1;
+    if (!ofs.is_open()) return ESYSREPO_RESULT(ResultCode::ERROR_OPENING_FILE);
 
     return write(ofs);
 }
 
-int File::write(std::ostream &os)
+Result File::write(std::ostream &os)
 {
-    if (get_data() == nullptr) return -1;
-    if (get_data()->get_format() == manifest::Format::NOT_SET) return -2;
-    if (get_data()->get_format() == manifest::Format::UNKNOWN) return -3;
-
+    if (get_data() == nullptr) return ESYSREPO_RESULT(ResultCode::MANIFEST_XML_DATA_NULLPTR);
+    if (get_data()->get_format() == manifest::Format::NOT_SET)
+        return ESYSREPO_RESULT(ResultCode::MANIFEST_FORMAT_NOT_SET);
+    if (get_data()->get_format() == manifest::Format::UNKNOWN)
+        return ESYSREPO_RESULT(ResultCode::MANIFEST_FORMAT_UNKNOWN);
     if (get_data()->get_format() == manifest::Format::XML)
     {
         manifest::XMLFile xml_file;
@@ -89,9 +90,9 @@ int File::write(std::ostream &os)
     if (get_data()->get_format() == manifest::Format::JSON)
     {
         //! \TODO
-        return -4;
+        return ESYSREPO_RESULT(ResultCode::NOT_IMPLEMENTED);
     }
-    return -5;
+    return ESYSREPO_RESULT(ResultCode::MANIFEST_FORMAT_UNKNOWN);
 }
 
 FileBase *File::get_impl()
