@@ -40,7 +40,7 @@ if [ ! $? -eq 0 ]; then
 fi
 echo "    ${TXT_S}Build esysrepo_doc done.${TXT_CLEAR}"
 
-mkdir ../../../public/cpp_api
+mkdir -p ../../../public/cpp_api
 cp -R src/esysrepo/doc/html ../../../public/cpp_api
 
 echo "pwd = "`pwd`

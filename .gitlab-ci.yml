@@ -1,8 +1,10 @@
 variables:
-    TXT_E: "\e[31m"
-    TXT_S: "\e[35m"
-    TXT_W: "\e[33m"
-    TXT_CLEAR: "\e[0m"
+  TXT_E: "\e[31m"
+  TXT_S: "\e[35m"
+  TXT_W: "\e[33m"
+  TXT_CLEAR: "\e[0m"
+  SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar" # Defines the location of the analysis task cache
+  GIT_DEPTH: "0" # Tells git to fetch all the branches of the project, required by the analysis task
 
 .unit_test: &unit_test
   script:
@@ -13,6 +15,8 @@ variables:
   rules:
     - if: $CI_COMMIT_MESSAGE =~ /WIP$/
       when: never
+    - if: $CI_COMMIT_BRANCH == "master"
+      when: never
   artifacts:
     paths:
       - public
@@ -21,12 +25,16 @@ variables:
         - build_dev/*_junit.txt
         - public/logs/*_junit.txt
 
-.merge_request: &merge_request
+.unit_test_sonar: &unit_test_sonar
   tags:
     - ubuntu20.04
   script:
+    - scripts/install_sonarcloud.sh
     - scripts/bootstrap.sh
     - scripts/build_ci_merge.sh
+    - cd build_dev/src/esysrepo
+    - if [ -z "${SKIP_SONAR_CLOUD}" ]; then ../../../sonar-scanner/bin/sonar-scanner -Dsonar.host.url="${SONAR_HOST_URL}" -Dsonar.token="${SONAR_TOKEN}" -Dsonar.cfamily.compile-commands=../../build/cmake/compile_commands.json -X; fi
+    - cd ../../..
     - scripts/valgrind_unittests.sh
     - if [ -z "${SKIP_CODE_COVERAGE}" ]; then scripts/run_code_coverage.sh; else scripts/run_unittests.sh; fi
     - if [ -z "${SKIP_CLANG_TIDY}" ]; then scripts/run_clang_tidy.sh; fi
@@ -96,10 +104,11 @@ unit_tests:rasppi4:
 #   rules:
 #     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
 
-merge_request:
-  <<: *merge_request
-  rules:
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+unit_test_sonar:
+  <<: *unit_test_sonar
+  only:
+    - merge_requests
+    - master
 
 .webpage: &webpage
   tags:
@@ -109,7 +118,7 @@ merge_request:
     - scripts/build_webpage.sh
   artifacts:
     paths:
-    - public
+      - public
 
 test_webpage:
   <<: *webpage
@@ -122,7 +131,9 @@ webpage:
     - master
 
 pages:
-  <<: *merge_request
+  <<: *unit_test_sonar
+  variables:
+    SKIP_SONAR_CLOUD: "yes"
   stage: deploy
   needs: ["webpage"]
   only:
